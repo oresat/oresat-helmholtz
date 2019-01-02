@@ -26,7 +26,7 @@
 **Do not operate the Helmholtz Cage if the vacuum chamber is on!**
 
 ---
-## Prepping the Cage
+## Prepping the Cage:
 
 1. It is safe to put electronic devices inside and around the cage. However, they may disrupt the magnetic field and cause discrepancies in testing data. Be mindful of this and be aware of the testing space surroundings.
 2. Verify that the vacuum chamber is NOT on.
@@ -36,24 +36,24 @@
 6. Turn the keyboard and the mouse on. There are spare batteries in the tote just in case.
 
 ---
-## Operating the Cage Program
+## Operating the Cage Program:
 
 TBD
 
 ---
-## Testing & Analyzing Data
+## Testing & Analyzing Data:
 
 TBD
 
 ---
-## While the Helmholtz Cage is Running
+## While the Helmholtz Cage is Running:
 
 * Do not leave the cage unattended. You must monitor it constantly in case of a fire, to maintain safe temperatures for components, and to ensure accurate data collection.
 * When the cage is running, do not touch or hold the red coils! They get hot and can cause injury/burns.
 * Turn off the surge protector to turn the cage of for any reason.
 
 ---
-## Finishing Up
+## Finishing Up:
 
 1. Once testing is completed, turn off the raspberry pi using the desktop menu.
 2. Wait for the raspberry pi to shutdown completely.
