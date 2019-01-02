@@ -6,7 +6,7 @@
 
 * Operate the cage with 4.92 max amps and 15.20 max volts to output the largest magnetic field vector.
 * Theoretical magnetic field vector equation:
-![alt text]((https://user-images.githubusercontent.com/33878769/50576984-cde2d900-0dd2-11e9-8117-1c2e21f85c7d.png)
+![alt text](https://user-images.githubusercontent.com/33878769/50580148-2381aa80-0e00-11e9-8fdd-0a406a66f1ba.png)
   * Bz is the total field produced by both square coils as a function of the axial distance z from the center of the coils
   * u0 is the permeability of free space: 4*10^-7 WB A^-1 m^-1
   * n is the number of turns of wire: 58 turns
