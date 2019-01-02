@@ -60,5 +60,5 @@ TBD
 2. Wait for the raspberry pi to shutdown completely.
 3. Turn off the keyboard and mouse!! Don’t waste the batteries!
 4. Flip off the surge protector to power down the power supplies, monitor, and cage.
-5. If you adjusted the coil placement, wait until the red wire is cool to the touch before returning the coils to their original labelled terminals.
+5. If you adjusted the coil placement, wait until the red wire is cool to the touch before returning the coils to their originally labelled terminals.
 6. Clean up after yourself and keep the workstation organized!
