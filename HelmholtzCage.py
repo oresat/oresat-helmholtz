@@ -8,14 +8,14 @@ import smbus
 
 # Streamline data conversion processes for magnetometer and temperature
 def checksize(measurement, maxval, offset):
-	if measurement > maxval :
-		return measurement - offset
-	else:
-		return measurement
+    if measurement > maxval :
+        return measurement - offset
+    else:
+        return measurement
 
 # Convert from beautiful Celsius to terrible Fahrenheit
 def fahr(cels):
-	return cels * 1.8 + 32
+    return cels * 1.8 + 32
 
 def magnotometer():
     # Get I2C bus
@@ -23,7 +23,7 @@ def magnotometer():
             
     # MAG3110 address, 0x0E(14)
     # Select Control register, 0x10(16)
-    #		0x01(01)	Normal mode operation, Active mode
+    #        0x01(01)    Normal mode operation, Active mode
     bus.write_byte_data(0x0E, 0x10, 0x01)
             
     time.sleep(0.5)
@@ -62,12 +62,12 @@ def temperature():
 
     # MCP9808 address, 0x18(24)
     # Select configuration register, 0x01(1)
-    #		0x0000(00)	Continuous conversion mode, Power-up default
+    #        0x0000(00)    Continuous conversion mode, Power-up default
     config = [0x00, 0x00]
     bus.write_i2c_block_data(0x18, 0x01, config)
     # MCP9808 address, 0x18(24)
     # Select resolution rgister, 0x08(8)
-    #		0x03(03)	Resolution = +0.0625 / C
+    #        0x03(03)    Resolution = +0.0625 / C
     bus.write_byte_data(0x18, 0x08, 0x03)
 
     time.sleep(0.5)
@@ -141,13 +141,13 @@ def turnAllOnOrOff(switch):
 # i'm pretty sure this will work just fine and cut down redundancy
 # but not positive so I'd test it out - Cory
 def serialInit(initport):
-	return serial.Serial(
-		port=initport,
-		baudrate=9600,
-		parity=serial.PARITY_NONE,
-		stopbits=serial.STOPBITS_ONE,
-		bytesize=serial.EIGHTBITS,
-		timeout=1)
+    return serial.Serial(
+        port=initport,
+        baudrate=9600,
+        parity=serial.PARITY_NONE,
+        stopbits=serial.STOPBITS_ONE,
+        bytesize=serial.EIGHTBITS,
+        timeout=1)
 
 #Initialize serial ports
 ser1 = serialInit('/dev/ttyUSB0')
@@ -198,20 +198,20 @@ while (control != 0):
                         print("Checking temperatures...")
                         ctemp1, ctemp2 = temperature()
                         # Output data to screen
-						print "Sensor 1"
-						print "Temperature in Celsius is    : %.2f C" % ctemp1
-						print "Temperature in Fahrenheit is : %.2f F" % fahr(ctemp1)
-						print "Sensor 2"
-						print "Temperature in Celsius is    : %.2f C" % ctemp2
-						print "Temperature in Fahrenheit is : %.2f F" % fahr(ctemp2)
+                        print "Sensor 1"
+                        print "Temperature in Celsius is    : %.2f C" % ctemp1
+                        print "Temperature in Fahrenheit is : %.2f F" % fahr(ctemp1)
+                        print "Sensor 2"
+                        print "Temperature in Celsius is    : %.2f C" % ctemp2
+                        print "Temperature in Fahrenheit is : %.2f F" % fahr(ctemp2)
 
                 elif control == 6:
                         print("Checking magnotometer")
                         xMag, yMag, zMag = magnotometer()
                         # Output data to screen
-						print "Magnetic field in X-Axis : %d" % xMag
-						print "Magnetic field in Y-Axis : %d" % yMag
-						print "Magnetic field in Z-Axis : %d" % zMag
+                        print "Magnetic field in X-Axis : %d" % xMag
+                        print "Magnetic field in Y-Axis : %d" % yMag
+                        print "Magnetic field in Z-Axis : %d" % zMag
 
         except ValueError:
                 print("\n***Invalid Entry***")
