@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-# note to self, might need to divide magnetic field by 10 to get microteslas
-# figure out what units of measurement are for magnetometer
 
 # Power Supply imports
 import serial
@@ -109,13 +107,14 @@ def magnotometer():
     zMag = data[4] * 256 + data[5]
     zMag = checksize(zMag, 32767, 65536)
 
-    return xMag, yMag, zMag
+    # divide by 10 to convert bit counts to microteslas
+    return xMag/10, yMag/10, zMag/10
     
 # function to get (and check) temperatures from sensors
 # Sensors located at i2c addresses 0x18 and 0x1c
 # Please update if changed
 def temperature():
-
+    # 1st sensor for wire temp
     # Distributed with a free-will license.
     # Use it any way you want, profit or free, provided it fits in the licenses of its associated works.
     # MCP9808
@@ -147,7 +146,7 @@ def temperature():
     ctemp1 = checksize(ctemp1, 4095, 8192)
     ctemp1 = ctemp1 * 0.0625
 
-    # 2nd sensor
+    # 2nd sensor for PSU temp
     #------------------------------------
     bus.write_i2c_block_data(0x1c, 0x01, config)
     bus.write_byte_data(0x1c, 0x08, 0x03)
@@ -160,11 +159,12 @@ def temperature():
     ctemp2 = checksize(ctemp2, 4095, 8192)
     ctemp2 = ctemp2 * 0.0625
 
-    # I don't know which sensor is which, but 35-40 is PS and 100-120 is wire
-    safetycheck(ctemp1, 35, 40)
-    safetycheck(ctemp2, 100, 120)
+    # wire: 100 warn-120 danger, psu: 35 warn-40 danger
+    safetycheck(ctemp1, 100, 120)
+    safetycheck(ctemp2, 35, 40)
     return ctemp1, ctemp2
 
+# function for controlling subfunctions, given their index
 def controller(control):
     if control == 0:
         print("\nExiting...")
@@ -195,7 +195,7 @@ def controller(control):
         print "Temperature in Celsius is    : %.2f C" % ctemp2
         print "Temperature in Fahrenheit is : %.2f F" % fahr(ctemp2)
     elif control == 6:
-        print("Checking magnotometer")
+        print("Checking magnotometer, units in microTeslas")
         xMag, yMag, zMag = magnotometer()
         # Output data to screen
         print "Magnetic field in X-Axis : %d" % xMag
@@ -211,6 +211,7 @@ def controller(control):
         print("\nAmperage set to %s on PSU %d." % (ps2, 2))
         print("\nAmperage set to %s on PSU %d." % (ps3, 3))
 
+# function for interacting with the user
 def interface():
     control = 1
     while (control != 0):
@@ -238,4 +239,5 @@ print ser3.name
 # initial magnetic field from environment
 x0, y0, z0 = magnotometer()
 
+# launch the text interface
 interface()
