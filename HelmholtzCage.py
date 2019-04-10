@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 # Power Supply imports
 import serial
 import time
@@ -90,7 +91,7 @@ def magnotometer():
     #        0x01(01)    Normal mode operation, Active mode
     bus.write_byte_data(0x0E, 0x10, 0x01)
             
-    time.sleep(0.5)
+    time.sleep(0.01)
             
     # MAG3110 address, 0x0E(14)
     # Read data back from 0x01(1), 6 bytes
@@ -134,7 +135,7 @@ def temperature():
     #        0x03(03)    Resolution = +0.0625 / C
     bus.write_byte_data(0x18, 0x08, 0x03)
 
-    time.sleep(0.5)
+    time.sleep(0.01)
 
     # MCP9808 address, 0x18(24)
     # Read data back from 0x05(5), 2 bytes
@@ -151,7 +152,7 @@ def temperature():
     bus.write_i2c_block_data(0x1c, 0x01, config)
     bus.write_byte_data(0x1c, 0x08, 0x03)
 
-    time.sleep(0.5)
+    time.sleep(0.01)
 
     data = bus.read_i2c_block_data(0x1c, 0x05, 2)
 
@@ -163,6 +164,24 @@ def temperature():
     safetycheck(ctemp1, 100, 120)
     safetycheck(ctemp2, 35, 40)
     return ctemp1, ctemp2
+
+def poll_data(duration = 10.0, dt = 1.0):
+    time_step = [0.0]
+    temp_array = [temperature()]
+    mag_array = [magnotometer()]
+    while time_step[-1] < duration:
+        time.sleep(dt)
+        time_step.append(time_step[-1] + dt)
+        temp_array.append(temperature())
+        mag_array.append(magnotometer())
+    return time_step, temp_array, mag_array
+
+def print_data():
+    time, temp, mag = poll_data(20, 1)
+    i = 0
+    for t in time:
+        print(time[i], temp[i], mag[i])
+        i += 1
 
 # function for controlling subfunctions, given their index
 def controller(control):
@@ -210,6 +229,8 @@ def controller(control):
         print("\nAmperage set to %s on PSU %d." % (ps1, 1))
         print("\nAmperage set to %s on PSU %d." % (ps2, 2))
         print("\nAmperage set to %s on PSU %d." % (ps3, 3))
+    elif control == 8:
+        print_data()
 
 # function for interacting with the user
 def interface():
@@ -219,7 +240,7 @@ def interface():
         print("0 to Exit program \n1 to set Voltage \n2 to set Amperage")
         print("3 to turn On PSU's \n4 to turn Off PSU's")
         print("5 to check temperature sensors \n6 to check magnetic fields\n")
-        print("7 to set a uniform magnetic field\n")
+        print("7 to set a uniform magnetic field\n8 to print some data\n")
         try:
             control = int(raw_input('Option selected: '))
             controller(control)
