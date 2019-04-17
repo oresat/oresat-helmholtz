@@ -28,7 +28,7 @@ def setVolts(voltage, psu):
 def setAmps(amps, psu):
     if amps < 0:
         amps = 0 - amps
-        print "You need to change the polarity of PS" + str(psu)
+        print("You need to change the polarity of PS" + str(psu))
     setting = "Asi" + str(amps * 1000) + "\n"
     time.sleep(.1)
     if(psu == 1):
@@ -79,9 +79,9 @@ def checksize(measurement, maxval, offset):
 # function to safety check temperatures
 def safetycheck(temp, warning, shutoff):
     if temp > warning:
-        print "Warning: It's getting hot in here!"
+        print("Warning: It's getting hot in here!")
         if temp > shutoff:
-            print "It's way too hot! I'm turning off the power supplies!"
+            print("It's way too hot! I'm turning off the power supplies!")
             turnAllOnOrOff(0)
     return
 
@@ -95,7 +95,7 @@ def magnotometer():
     #        0x01(01)    Normal mode operation, Active mode
     bus.write_byte_data(0x0E, 0x10, 0x01)
             
-    time.sleep(0.05)
+    time.sleep(0.2)
             
     # MAG3110 address, 0x0E(14)
     # Read data back from 0x01(1), 6 bytes
@@ -139,7 +139,7 @@ def temperature():
     #        0x03(03)    Resolution = +0.0625 / C
     bus.write_byte_data(0x18, 0x08, 0x03)
 
-    time.sleep(0.05)
+    time.sleep(0.2)
 
     # MCP9808 address, 0x18(24)
     # Read data back from 0x05(5), 2 bytes
@@ -156,7 +156,7 @@ def temperature():
     bus.write_i2c_block_data(0x1c, 0x01, config)
     bus.write_byte_data(0x1c, 0x08, 0x03)
 
-    time.sleep(0.05)
+    time.sleep(0.2)
 
     data = bus.read_i2c_block_data(0x1c, 0x05, 2)
 
@@ -171,20 +171,20 @@ def temperature():
 
 def poll_data(duration = 10.0, dt = 1.0):
     time_step = [0.0]
-    temp_array = [temperature()]
+#    temp_array = [temperature()]
     mag_array = [magnotometer()]
     while time_step[-1] < duration:
         time.sleep(dt)
         time_step.append(time_step[-1] + dt)
-        temp_array.append(temperature())
+#        temp_array.append(temperature())
         mag_array.append(magnotometer())
-    return time_step, temp_array, mag_array
+    return time_step, mag_array #temp_array, mag_array
 
 def print_data():
-    time, temp, mag = poll_data(20, 1)
+    time, mag = poll_data(20, 1)
     i = 0
     for t in time:
-        print(time[i], temp[i], mag[i])
+        print(time[i], mag[i])
         i += 1
 
 def plot_graph(dt = 1.0):
@@ -204,9 +204,9 @@ def plot_graph(dt = 1.0):
     while True:
         t.append(t[-1] + dt)
         x_var, y_var, z_var = magnotometer() # mag
-        x.append([x_var])
-        y.append([y_var])
-        z.append([z_var])
+        x.append(x_var)
+        y.append(y_var)
+        z.append(z_var)
         
         xline.set_xdata(t)
         yline.set_xdata(t)
@@ -246,22 +246,22 @@ def controller(control):
         print("Checking temperatures...")
         ctemp1, ctemp2 = temperature()
         # Output data to screen
-        print "Sensor 1"
-        print "Temperature in Celsius is    : %.2f C" % ctemp1
-        print "Temperature in Fahrenheit is : %.2f F" % fahr(ctemp1)
-        print "Sensor 2"
-        print "Temperature in Celsius is    : %.2f C" % ctemp2
-        print "Temperature in Fahrenheit is : %.2f F" % fahr(ctemp2)
+        print("Sensor 1")
+        print("Temperature in Celsius is    : %.2f C") % ctemp1
+        print("Temperature in Fahrenheit is : %.2f F") % fahr(ctemp1)
+        print("Sensor 2")
+        print("Temperature in Celsius is    : %.2f C") % ctemp2
+        print("Temperature in Fahrenheit is : %.2f F") % fahr(ctemp2)
     elif control == 6:
         print("Checking magnotometer, units in microTeslas")
         xMag, yMag, zMag = magnotometer()
         # Output data to screen
-        print "Magnetic field in X-Axis : %d" % xMag
-        print "Magnetic field in Y-Axis : %d" % yMag
-        print "Magnetic field in Z-Axis : %d" % zMag
+        print("Magnetic field in X-Axis : %d") % xMag
+        print("Magnetic field in Y-Axis : %d") % yMag
+        print("Magnetic field in Z-Axis : %d") % zMag
     elif control == 7:
         #ps3=x, ps2=y, ps1=z
-        ps3, ps2, ps1 = mfeq.fieldToCurrent(x0, y0, z0)
+        ps2, ps1, ps3 = mfeq.fieldToCurrent(x0, y0, z0)
         setAmps(ps1, 1)
         setAmps(ps2, 2)
         setAmps(ps3, 3)
@@ -280,8 +280,8 @@ def interface():
         print("\nPlease enter a command.")
         print("0 to Exit program \n1 to set Voltage \n2 to set Amperage")
         print("3 to turn On PSU's \n4 to turn Off PSU's")
-        print("5 to check temperature sensors \n6 to check magnetic fields\n")
-        print("7 to set a uniform magnetic field\n8 to print some data\n")
+        print("5 to check temperature sensors \n6 to check magnetic fields")
+        print("7 to set a uniform magnetic field\n8 to print some data")
         print("9 to plot a graph\n")
         try:
             control = int(raw_input('Option selected: '))
@@ -293,11 +293,11 @@ def interface():
 
 # Initialize serial ports
 ser1 = serialInit('/dev/ttyUSB0')
-print ser1.name
+print(ser1.name)
 ser2 = serialInit('/dev/ttyUSB1')
-print ser2.name
+print(ser2.name)
 ser3 = serialInit('/dev/ttyUSB2')
-print ser3.name
+print(ser3.name)
 
 # initial magnetic field from environment
 x0, y0, z0 = magnotometer()
