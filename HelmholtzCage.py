@@ -9,6 +9,10 @@ import smbus
 # Magnetic field equation import
 import MagneticFieldCurrentRelation as mfeq
 
+#this import is to plot/save graphs and will probably be unnecessary when Demetri finishes GUI
+import numpy as np
+import matplotlib.pyplot as plt
+
 # function to set voltage. 1st parameter is voltage, 2nd is PSU #
 def setVolts(voltage, psu):
     setting = "Asu" + str(voltage * 100) + "\n"
@@ -91,7 +95,7 @@ def magnotometer():
     #        0x01(01)    Normal mode operation, Active mode
     bus.write_byte_data(0x0E, 0x10, 0x01)
             
-    time.sleep(0.01)
+    time.sleep(0.05)
             
     # MAG3110 address, 0x0E(14)
     # Read data back from 0x01(1), 6 bytes
@@ -135,7 +139,7 @@ def temperature():
     #        0x03(03)    Resolution = +0.0625 / C
     bus.write_byte_data(0x18, 0x08, 0x03)
 
-    time.sleep(0.01)
+    time.sleep(0.05)
 
     # MCP9808 address, 0x18(24)
     # Read data back from 0x05(5), 2 bytes
@@ -152,7 +156,7 @@ def temperature():
     bus.write_i2c_block_data(0x1c, 0x01, config)
     bus.write_byte_data(0x1c, 0x08, 0x03)
 
-    time.sleep(0.01)
+    time.sleep(0.05)
 
     data = bus.read_i2c_block_data(0x1c, 0x05, 2)
 
@@ -182,6 +186,41 @@ def print_data():
     for t in time:
         print(time[i], temp[i], mag[i])
         i += 1
+
+def plot_graph(dt = 1.0):
+    t = [0.0] # time
+    x_var, y_var, z_var = magnotometer() # mag
+    x = [x_var]
+    y = [y_var]
+    z = [z_var]
+    
+    plt.ion()
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    xline, = ax.plot(t, x, 'r-')
+    yline, = ax.plot(t, y, 'g-')
+    zline, = ax.plot(t, z, 'b-')
+    
+    while True:
+        t.append(t[-1] + dt)
+        x_var, y_var, z_var = magnotometer() # mag
+        x.append([x_var])
+        y.append([y_var])
+        z.append([z_var])
+        
+        xline.set_xdata(t)
+        yline.set_xdata(t)
+        zline.set_xdata(t)
+        
+        xline.set_ydata(x)
+        yline.set_ydata(y)
+        zline.set_ydata(z)
+        
+        plt.gca().relim()
+        plt.gca().autoscale_view()
+        fig.canvas.draw()
+        time.sleep(dt)
+        fig.canvas.flush_events()
 
 # function for controlling subfunctions, given their index
 def controller(control):
@@ -231,6 +270,8 @@ def controller(control):
         print("\nAmperage set to %s on PSU %d." % (ps3, 3))
     elif control == 8:
         print_data()
+    elif control == 9:
+        plot_graph()
 
 # function for interacting with the user
 def interface():
@@ -241,6 +282,7 @@ def interface():
         print("3 to turn On PSU's \n4 to turn Off PSU's")
         print("5 to check temperature sensors \n6 to check magnetic fields\n")
         print("7 to set a uniform magnetic field\n8 to print some data\n")
+        print("9 to plot a graph\n")
         try:
             control = int(raw_input('Option selected: '))
             controller(control)
