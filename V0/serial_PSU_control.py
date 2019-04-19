@@ -1,3 +1,4 @@
+#Credit to Oliver Rew
 #function to set voltage. 1st parameter is voltage, 2nd is PSU #
 def setVolts(voltage, psu):
 	

@@ -13,11 +13,12 @@ def main():
     ser3 = '10'
 
     # Initialize serial ports
-    cc.initialize_all_bus()
-    cc.toggle_all_power_supply(0)
+    # cc.initialize_all_bus()
+    # cc.toggle_all_power_supply(0)
 
-    # Main controler
+    # Main controlerf_to_c
     utils.log(0, 'Begining main runtime!')
+    utils.log(0, 'Temp: ' + str(cc.c_to_f(32)) + 'F')
 
     # cc.interface() # Synchronous CLI Environmnet
     w.interface() # Asynchronous GUI Environmnet

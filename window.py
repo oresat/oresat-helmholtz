@@ -13,7 +13,7 @@ class Ui_window(object):
         font.setPointSize(11)
         window.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("./img/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         window.setWindowIcon(icon)
         window.setToolTipDuration(2)
         window.setAutoFillBackground(True)
@@ -56,7 +56,7 @@ class Ui_window(object):
         self.psu_3_voltage_input.setObjectName("psu_3_voltage_input")
         self.psu_3_label = QtWidgets.QLabel(self.widget)
         self.psu_3_label.setGeometry(QtCore.QRect(10, 105, 45, 20))
-        self.psu_3_label.setObjectName("psu_3_label")import sys
+        self.psu_3_label.setObjectName("psu_3_label")
         self.graph = QtWidgets.QMdiArea(self.widget)
         self.graph.setGeometry(QtCore.QRect(270, 30, 200, 160))
         self.graph.setObjectName("graph")

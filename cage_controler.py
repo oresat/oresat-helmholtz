@@ -70,9 +70,9 @@ def initialize_all_bus():
         initialize_single_bus('/dev/' + i)
 
 # Initializes specified serialized sensor bus
-def initialize_single_bus(initport):
+def initialize_single_bus(port):
     return serial.Serial(
-        port=initport,
+        port=port,
         baudrate=9600,
         parity=serial.PARITY_NONE,
         stopbits=serial.STOPBITS_ONE,
@@ -80,7 +80,7 @@ def initialize_single_bus(initport):
         timeout=1)
 
 # Converts from beautiful Celsius to terrible Fahrenheit
-def f_to_c(temp_in_c):
+def c_to_f(temp_in_c):
     return temp_in_c * 1.8 + 32
 
 # data conversion processes for magnetometer and temperature
@@ -260,10 +260,10 @@ def controller(control):
         # Output data to screen
         print("Sensor 1")
         print("Temperature in Celsius is    : %.2f C") % ctemp1
-        print("Temperature in Fahrenheit is : %.2f F") % f_to_c(ctemp1)
+        print("Temperature in Fahrenheit is : %.2f F") % c_to_f(ctemp1)
         print("Sensor 2")
         print("Temperature in Celsius is    : %.2f C") % ctemp2
-        print("Temperature in Fahrenheit is : %.2f F") % f_to_c(ctemp2)
+        print("Temperature in Fahrenheit is : %.2f F") % c_to_f(ctemp2)
     elif control == 6:
         print("Checking magnotometer, units in microTeslas")
         xMag, yMag, zMag = magnotometer()
