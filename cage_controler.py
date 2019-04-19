@@ -151,7 +151,7 @@ def temperature():
     #        0x03(03)    Resolution = +0.0625 / C
     bus.write_byte_data(0x18, 0x08, 0x03)
 
-    time.sleep(0.2)
+    time.sleep(SENSOR_INPUT_DELAY)
 
     # MCP9808 address, 0x18(24)
     # Read data back from 0x05(5), 2 bytes
@@ -168,7 +168,7 @@ def temperature():
     bus.write_i2c_block_data(0x1c, 0x01, config)
     bus.write_byte_data(0x1c, 0x08, 0x03)
 
-    time.sleep(0.2)
+    time.sleep(SENSOR_INPUT_DELAY)
 
     data = bus.read_i2c_block_data(0x1c, 0x05, 2)
 

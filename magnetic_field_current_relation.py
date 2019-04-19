@@ -20,7 +20,8 @@ def paramMultiplier(d): # parameter is distance from origin, we usually only car
     return (dropOffFromSide(d) + dropOffFromSide(-d)) * constmultiplier * 10**(6) # microT/A
 
 def getNeededCurrent(desiredfield): #get microteslas return amps
-    return desiredfield / paramMultiplier(0)
+    return (desiredfield / paramMultiplier(0)) * 2 # to be honest, i don't know why i multiply by 2, but it makes the code work.
+#after i've rederived this equation from the biot-savart equation, i'll have a better idea of why this works
 
 def axialMagField(current, d): #get amps return microteslas
     #need to get actual current for axis from program or PSU somehow
