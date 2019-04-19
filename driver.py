@@ -7,7 +7,7 @@ def main():
     # Initialize serial ports
     utils.log(0, "Initializing power supply busses...")
     cc.initialize_all_bus()
-    cc.toggle_all_power_supply(0)
+    cc.toggle_all_power_supply(1)
 
     # Main controlerf_to_c
     utils.log(0, 'Begining main runtime!')

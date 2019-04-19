@@ -6,8 +6,9 @@ import magnetic_field_current_relation as mfeq # Magnetic field equation import
 import utilities as utils
 
 DEBUG = False
+sensors = []
 SENSOR_INPUT_DELAY = 0.2
-SENSORS = [ 'ttyUSB0', 'ttyUSB1', 'ttyUSB2' ]
+SENSOR_ADDRS = [ 'ttyUSB0', 'ttyUSB1', 'ttyUSB2' ]
 
 WIRE_WARN_TEMP = 100 # Min cage wire temperatures in F for warning
 WIRE_HCF_TEMP = 120 # Max cage wire temperatures in F for forced halting
@@ -18,22 +19,10 @@ PSU_HCF_TEMP = 40 # Max cage wire temperatures in F for forced halting
 # import numpy as np
 # import matplotlib.pyplot as plt
 
-def i_to_psu(number):
-    try:
-        power_supply = {
-            1: ser1,
-            2: ser2,
-            3: ser3
-        }
-
-        return power_supply[number]
-    except:
-        return None
-
 # Sets voltage in volts of specified power supply unit
 def set_volts(voltage, psu_num):
     time.sleep(SENSOR_INPUT_DELAY)
-    i_to_psu(psu_num).write("Asu" + str(voltage * 100) + "\n")
+    sensors[i].write("Asu" + str(voltage * 100) + "\n")
 
 # Sets current in amps of specified power supply unit
 def set_amps(amps, psu_num):
@@ -42,7 +31,7 @@ def set_amps(amps, psu_num):
         utils.log(1, "Implicitly inverting the polarity of power supply " + str(psu_num) + ' to fit the input!')
 
     time.sleep(.1)
-    i_to_psu(psu_num).write("Asi" + str(amps * 1000) + "\n")
+    sensors[psu_num].write("Asi" + str(amps * 1000) + "\n")
 
 # Toggles all power supply units to specified mode
 def toggle_all_power_supply(mode):
@@ -56,18 +45,14 @@ def toggle_all_power_supply(mode):
 #   psu_num: power supply unit number [1, 2, 3]
 def toggle_single_power_supply(mode, psu_num):
     time.sleep(.1)
-    power_supply = {
-        1: ser1,
-        2: ser2,
-        3: ser3
-    }
+    power_supply = i_to_psu(psu_num)
     if(DEBUG): utils.log(2, 'Toggling bus: ' + str(power_supply[psu_num]) + ' to mode: ' + str(mode))
     power_supply[psu_num].write("Aso" + str(mode) + "\n")
 
 # Initializes all serialized sensor busses [Will assume '/dev/' for System IO location]
 def initialize_all_bus():
-    for i in SENSORS:
-        initialize_single_bus('/dev/' + i)
+    for i in SENSOR_ADDRS:
+        sensors[i] = initialize_single_bus('/dev/' + i)
 
 # Initializes specified serialized sensor bus
 def initialize_single_bus(port):
@@ -151,7 +136,7 @@ def temperature():
     #        0x03(03)    Resolution = +0.0625 / C
     bus.write_byte_data(0x18, 0x08, 0x03)
 
-    time.sleep(SENSOR_INPUT_DELAY)
+    time.sleep(0.2)
 
     # MCP9808 address, 0x18(24)
     # Read data back from 0x05(5), 2 bytes
@@ -168,7 +153,7 @@ def temperature():
     bus.write_i2c_block_data(0x1c, 0x01, config)
     bus.write_byte_data(0x1c, 0x08, 0x03)
 
-    time.sleep(SENSOR_INPUT_DELAY)
+    time.sleep(0.2)
 
     data = bus.read_i2c_block_data(0x1c, 0x05, 2)
 
