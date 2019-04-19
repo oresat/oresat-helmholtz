@@ -1,10 +1,12 @@
 import sys
+import cage_controler as cc
+import utilities as utils
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_window(object):
     def setupUi(self, window):
-        window.setObjectName("window")
+        window.setObjectName("Helmholtz Cage Controller")
         window.resize(481, 240)
         window.setMinimumSize(QtCore.QSize(275, 240))
         window.setMaximumSize(QtCore.QSize(1080, 240))
@@ -13,14 +15,14 @@ class Ui_window(object):
         font.setPointSize(11)
         window.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./img/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         window.setWindowIcon(icon)
         window.setToolTipDuration(2)
         window.setAutoFillBackground(True)
         window.setWindowFilePath("")
         window.setAnimated(False)
         self.widget = QtWidgets.QWidget(window)
-        self.widget.setObjectName("widget")
+        self.widget.setObjectName("window")
         self.psu_1_voltage_input = QtWidgets.QLineEdit(self.widget)
         self.psu_1_voltage_input.setGeometry(QtCore.QRect(40, 30, 100, 30))
         self.psu_1_voltage_input.setObjectName("psu_1_voltage_input")
@@ -77,6 +79,8 @@ class Ui_window(object):
         self.retranslateUi(window)
         QtCore.QMetaObject.connectSlotsByName(window)
 
+        self.apply_button.clicked.connect(self.applyPowerSupplySettings)
+
     def retranslateUi(self, window):
         _translate = QtCore.QCoreApplication.translate
         window.setWindowTitle(_translate("window", "Helmholtz Cage Controller"))
@@ -96,7 +100,14 @@ class Ui_window(object):
         self.menuMain.setTitle(_translate("window", "Main"))
         self.actionExport_Graph_Data.setText(_translate("window", "Export Graph Data"))
 
+    def applyPowerSupplySettings(self):
+        voltages = [ float(self.psu_1_voltage_input.text()), float(self.psu_2_voltage_input.text()), float(self.psu_3_voltage_input.text()) ]
+        currents = [ float(self.psu_1_current_input.text()), float(self.psu_2_current_input.text()), float(self.psu_3_current_input.text()) ]
+        utils.log(0, 'Applying volts:\t' + str(voltages) + '\nApplying currents:\t' + str(currents))
 
+        for i in range(0,3):
+            cc.set_volts(voltages[i], (i + 1))
+            cc.set_amps(currents[i], (i + 1))
 
 
 def interface():
