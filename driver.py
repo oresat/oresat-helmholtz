@@ -5,9 +5,9 @@ import window as w
 
 def main():
     # Initialize serial ports
-    # utils.log(0, "Initialize sensor serial ports...")
-    # cc.initialize_all_bus()
-    # cc.toggle_all_power_supply(0)
+    utils.log(0, "Initializing power supply busses...")
+    cc.initialize_all_bus()
+    cc.toggle_all_power_supply(0)
 
     # Main controlerf_to_c
     utils.log(0, 'Begining main runtime!')
