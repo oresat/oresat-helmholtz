@@ -1,8 +1,10 @@
-pi = 3.14159 # approximation of a mysterious number, sig figs?
+#!/usr/bin/env python
+from math import pi
+
 mu = 4 * pi * 10**(-7) # magnetic field constant Tm/A
 halfofsidelength = 0.3302 # meters, physical parameter, check this
-distbetweensides = 0.4572 # meters, physical parameter, check this
-wireturns = 58 # physical parameter, doc says 56, not sure what actual
+distbetweensides = 0.34 #0.4572 # meters, physical parameter, check this
+wireturns = 56 #58 # physical parameter, doc says 56, not sure what actual
 
 constmultiplier = wireturns * mu / pi # pulling constants into a single variable
 

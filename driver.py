@@ -8,9 +8,9 @@ def main():
     utils.log(0, "Initialize sensor serial ports...")
 
     # Dummy serial adresses of the sensors
-    ser1 = '0e'
-    ser2 = '0f'
-    ser3 = '10'
+    # ser1 = '0e'
+    # ser2 = '0f'
+    # ser3 = '10'
 
     # Initialize serial ports
     # cc.initialize_all_bus()
