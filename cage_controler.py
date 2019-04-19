@@ -2,56 +2,75 @@ import os
 import serial # Power Supply imports
 import time
 import smbus # Temperature & Magnotometer sensor imports
-import MagneticFieldCurrentRelation as mfeq # Magnetic field equation import
+import magnetic_field_current_relation as mfeq # Magnetic field equation import
+import utilities as utils
 
-#this import is to plot/save graphs and will probably be unnecessary when Demetri finishes GUI
-import numpy as np
-import matplotlib.pyplot as plt
+DEBUG = False
+SENSOR_INPUT_DELAY = 0.2
+SENSORS = [ 'ttyUSB0', 'ttyUSB1', 'ttyUSB2' ]
 
-# function to set voltage. 1st parameter is voltage, 2nd is PSU #
-def setVolts(voltage, psu):
-    setting = "Asu" + str(voltage * 100) + "\n"
-    time.sleep(.1)
-    if(psu == 1):
-        ser1.write(setting)
-    elif(psu == 2):
-        ser2.write(setting)
-    elif(psu == 3):
-        ser3.write(setting)
+WIRE_WARN_TEMP = 100 # Min cage wire temperatures in F for warning
+WIRE_HCF_TEMP = 120 # Max cage wire temperatures in F for forced halting
+PSU_WARN_TEMP = 35 # Min cage wire temperatures in F for warning
+PSU_HCF_TEMP = 40 # Max cage wire temperatures in F for forced halting
 
-# function to set amps. 1st parameter is amps, 2nd is PSU #
-def setAmps(amps, psu):
-    if amps < 0:
+# This import is to plot/save graphs and will probably be unnecessary when Demetri finishes GUI
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+def i_to_psu(number):
+    try:
+        power_supply = {
+            1: ser1,
+            2: ser2,
+            3: ser3
+        }
+
+        return power_supply[number]
+    except:
+        return None
+
+# Sets voltage in volts of specified power supply unit
+def set_volts(voltage, psu_num):
+    time.sleep(SENSOR_INPUT_DELAY)
+    i_to_psu(psu_num).write("Asu" + str(voltage * 100) + "\n")
+
+# Sets current in amps of specified power supply unit
+def set_amps(amps, psu_num):
+    if(amps < 0):
         amps = 0 - amps
-        print("You need to change the polarity of PS" + str(psu))
-    setting = "Asi" + str(amps * 1000) + "\n"
+        utils.log(1, "Implicitly inverting the polarity of power supply " + str(psu_num) + ' to fit the input!')
+
     time.sleep(.1)
-    if(psu == 1):
-        ser1.write(setting)
-    elif(psu == 2):
-        ser2.write(setting)
-    elif(psu == 3):
-        ser3.write(setting)
+    i_to_psu(psu_num).write("Asi" + str(amps * 1000) + "\n")
 
-# function to turn on/off PSU. 1st param: 1 = on, 0 = off, 2nd param: PSU #
-def setOutput(onoff, psu):
-    setting = "Aso" + str(onoff) + "\n"
+# Toggles all power supply units to specified mode
+def toggle_all_power_supply(mode):
+    for i in range(1, 4):
+        toggle_single_power_supply(mode, i)
+
+# Toggles specified power supply unit
+#   mode:
+#       0: off
+#       1: on
+#   psu_num: power supply unit number [1, 2, 3]
+def toggle_single_power_supply(mode, psu_num):
     time.sleep(.1)
-    if(psu == 1):
-        ser1.write(setting)
-    elif(psu == 2):
-        ser2.write(setting)
-    elif(psu == 3):
-        ser3.write(setting)
+    power_supply = {
+        1: ser1,
+        2: ser2,
+        3: ser3
+    }
+    if(DEBUG): utils.log(2, 'Toggling bus: ' + str(power_supply[psu_num]) + ' to mode: ' + str(mode))
+    power_supply[psu_num].write("Aso" + str(mode) + "\n")
 
-# function to switch all PSUs on or off
-def turnAllOnOrOff(switch):
-    setOutput(switch, 1)
-    setOutput(switch, 2)
-    setOutput(switch, 3)
+# Initializes all serialized sensor busses [Will assume '/dev/' for System IO location]
+def initialize_all_bus():
+    for i in SENSORS:
+        initialize_single_bus('/dev/' + i)
 
-# function to initialize serial port
-def serialInit(initport):
+# Initializes specified serialized sensor bus
+def initialize_single_bus(initport):
     return serial.Serial(
         port=initport,
         baudrate=9600,
@@ -60,9 +79,9 @@ def serialInit(initport):
         bytesize=serial.EIGHTBITS,
         timeout=1)
 
-# Convert from beautiful Celsius to terrible Fahrenheit
-def fahr(cels):
-    return cels * 1.8 + 32
+# Converts from beautiful Celsius to terrible Fahrenheit
+def f_to_c(temp_in_c):
+    return temp_in_c * 1.8 + 32
 
 # data conversion processes for magnetometer and temperature
 def checksize(measurement, maxval, offset):
@@ -72,32 +91,24 @@ def checksize(measurement, maxval, offset):
         return measurement
 
 # function to safety check temperatures
-def safetycheck(temp, warning, shutoff):
+def temperature_check_bounds(temp, warning, shutoff):
     if temp > warning:
-        print("Warning: It's getting hot in here!")
+        utils.log(1, "Reached minimum warning temperature! Try turning off the cage to let it cool off?")
         if temp > shutoff:
-            print("It's way too hot! I'm turning off the power supplies!")
-            turnAllOnOrOff(0)
-    return
+            utils.log(1, "Reached maximum warning temperature! Auto-powering down the cage!")
+            toggle_all_power_supply(0)
 
 # function to get magnetic field components from sensors
 def magnotometer():
     # Get I2C bus
     bus = smbus.SMBus(1)
+    time.sleep(SENSOR_INPUT_DELAY)
 
     # MAG3110 address, 0x0E(14)
     # Select Control register, 0x10(16)
     #        0x01(01)    Normal mode operation, Active mode
     bus.write_byte_data(0x0E, 0x10, 0x01)
-<<<<<<< HEAD
-
-    time.sleep(0.5)
-
-=======
-
-    time.sleep(0.2)
-
->>>>>>> a2ef39856c66c4ce6058a0a1643f96d8e4fc711f
+    time.sleep(SENSOR_INPUT_DELAY)
     # MAG3110 address, 0x0E(14)
     # Read data back from 0x01(1), 6 bytes
     # X-Axis MSB, X-Axis LSB, Y-Axis MSB, Y-Axis LSB, Z-Axis MSB, Z-Axis LSB
@@ -166,8 +177,8 @@ def temperature():
     ctemp2 = ctemp2 * 0.0625
 
     # wire: 100 warn-120 danger, psu: 35 warn-40 danger
-    safetycheck(ctemp1, 100, 120)
-    safetycheck(ctemp2, 35, 40)
+    temperature_check_bounds(ctemp1, WIRE_WARN_TEMP, WIRE_HCF_TEMP)
+    temperature_check_bounds(ctemp2, PSU_WARN_TEMP, PSU_HCF_TEMP)
     return ctemp1, ctemp2
 
 def poll_data(duration = 10.0, dt = 1.0):
@@ -228,31 +239,31 @@ def controller(control):
     if control == 0:
         print("\nExiting...")
     elif control == 1:
-        v1 = float(raw_input('Enter desired Voltage: '))
-        p1 = int(raw_input('Select the power supply: '))
-        setVolts(v1, p1)
-        print("\nVoltage set to %s on PSU %d." % (v1, p1))
+        v1 = float(input('Enter desired Voltage: '))
+        p1 = int(input('Select the power supply: '))
+        set_volts(v1, p1)
+        log(0, "\nVoltage set to %s on PSU %d." % (v1, p1))
     elif control == 2:
-        a1 = float(raw_input('Enter desired Amperage: '))
-        p1 = int(raw_input('Select the power supply: '))
-        setAmps(a1, p1)
-        print("\nAmperage set to %s on PSU %d." % (a1, p1))
+        a1 = float(input('Enter desired Amperage: '))
+        p1 = int(input('Select the power supply: '))
+        set_amps(a1, p1)
+        log(0, "\nAmperage set to %s on PSU %d." % (a1, p1))
     elif control == 3:
-        turnAllOnOrOff(1)
-        print("Powering On...")
+        toggle_all_power_supply(1)
+        log(0, "Powering On...")
     elif control == 4:
-        turnAllOnOrOff(0)
-        print("Powering Off...")
+        toggle_all_power_supply(0)
+        log(0, "Powering Off...")
     elif control == 5:
-        print("Checking temperatures...")
+        log(0, "Checking temperatures...")
         ctemp1, ctemp2 = temperature()
         # Output data to screen
         print("Sensor 1")
         print("Temperature in Celsius is    : %.2f C") % ctemp1
-        print("Temperature in Fahrenheit is : %.2f F") % fahr(ctemp1)
+        print("Temperature in Fahrenheit is : %.2f F") % f_to_c(ctemp1)
         print("Sensor 2")
         print("Temperature in Celsius is    : %.2f C") % ctemp2
-        print("Temperature in Fahrenheit is : %.2f F") % fahr(ctemp2)
+        print("Temperature in Fahrenheit is : %.2f F") % f_to_c(ctemp2)
     elif control == 6:
         print("Checking magnotometer, units in microTeslas")
         xMag, yMag, zMag = magnotometer()
@@ -263,9 +274,9 @@ def controller(control):
     elif control == 7:
         #ps3=x, ps2=y, ps1=z
         ps2, ps1, ps3 = mfeq.fieldToCurrent(x0, y0, z0)
-        setAmps(ps1, 1)
-        setAmps(ps2, 2)
-        setAmps(ps3, 3)
+        set_amps(ps1, 1)
+        set_amps(ps2, 2)
+        set_amps(ps3, 3)
         print("\nAmperage set to %s on PSU %d." % (ps1, 1))
         print("\nAmperage set to %s on PSU %d." % (ps2, 2))
         print("\nAmperage set to %s on PSU %d." % (ps3, 3))
@@ -284,24 +295,9 @@ def interface():
         print("5 to check temperature sensors \n6 to check magnetic fields")
         print("7 to set a uniform magnetic field\n8 to print some data")
         print("9 to plot a graph\n")
+
         try:
-            control = int(raw_input('Option selected: '))
+            control = int(input('Option selected: '))
             controller(control)
         except ValueError:
             print("\n***Invalid Entry***")
-
-# Main program begins now. Should this go in a main function?
-
-# Initialize serial ports
-ser1 = serialInit('/dev/ttyUSB0')
-print(ser1.name)
-ser2 = serialInit('/dev/ttyUSB1')
-print(ser2.name)
-ser3 = serialInit('/dev/ttyUSB2')
-print(ser3.name)
-
-# initial magnetic field from environment
-x0, y0, z0 = magnotometer()
-
-# launch the text interface
-interface()
