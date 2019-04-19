@@ -1,11 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'window.ui'
-#
-# Created by: PyQt5 UI code generator 5.12.1
-#
-# WARNING! All changes made in this file will be lost!
-
+import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
@@ -63,7 +56,7 @@ class Ui_window(object):
         self.psu_3_voltage_input.setObjectName("psu_3_voltage_input")
         self.psu_3_label = QtWidgets.QLabel(self.widget)
         self.psu_3_label.setGeometry(QtCore.QRect(10, 105, 45, 20))
-        self.psu_3_label.setObjectName("psu_3_label")
+        self.psu_3_label.setObjectName("psu_3_label")import sys
         self.graph = QtWidgets.QMdiArea(self.widget)
         self.graph.setGeometry(QtCore.QRect(270, 30, 200, 160))
         self.graph.setObjectName("graph")
@@ -106,8 +99,7 @@ class Ui_window(object):
 
 
 
-if __name__ == "__main__":
-    import sys
+def interface():
     app = QtWidgets.QApplication(sys.argv)
     window = QtWidgets.QMainWindow()
     ui = Ui_window()
