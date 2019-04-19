@@ -1,12 +1,7 @@
-#!/usr/bin/env python
-
-# Power Supply imports
-import serial
+import serial # Power Supply imports
 import time
-# Temperature & Magnotometer sensor imports
-import smbus
-# Magnetic field equation import
-import MagneticFieldCurrentRelation as mfeq
+import smbus # Temperature & Magnotometer sensor imports
+import MagneticFieldCurrentRelation as mfeq # Magnetic field equation import
 
 # function to set voltage. 1st parameter is voltage, 2nd is PSU #
 def setVolts(voltage, psu):
@@ -16,7 +11,7 @@ def setVolts(voltage, psu):
         ser1.write(setting)
     elif(psu == 2):
         ser2.write(setting)
-    elif(psu == 3): 
+    elif(psu == 3):
         ser3.write(setting)
 
 # function to set amps. 1st parameter is amps, 2nd is PSU #
@@ -30,7 +25,7 @@ def setAmps(amps, psu):
         ser1.write(setting)
     elif(psu == 2):
         ser2.write(setting)
-    elif(psu == 3): 
+    elif(psu == 3):
         ser3.write(setting)
 
 # function to turn on/off PSU. 1st param: 1 = on, 0 = off, 2nd param: PSU #
@@ -41,10 +36,10 @@ def setOutput(onoff, psu):
         ser1.write(setting)
     elif(psu == 2):
         ser2.write(setting)
-    elif(psu == 3): 
+    elif(psu == 3):
         ser3.write(setting)
-        
-# function to switch all PSUs on or off        
+
+# function to switch all PSUs on or off
 def turnAllOnOrOff(switch):
     setOutput(switch, 1)
     setOutput(switch, 2)
@@ -84,23 +79,23 @@ def safetycheck(temp, warning, shutoff):
 def magnotometer():
     # Get I2C bus
     bus = smbus.SMBus(1)
-            
+
     # MAG3110 address, 0x0E(14)
     # Select Control register, 0x10(16)
     #        0x01(01)    Normal mode operation, Active mode
     bus.write_byte_data(0x0E, 0x10, 0x01)
-            
+
     time.sleep(0.5)
-            
+
     # MAG3110 address, 0x0E(14)
     # Read data back from 0x01(1), 6 bytes
     # X-Axis MSB, X-Axis LSB, Y-Axis MSB, Y-Axis LSB, Z-Axis MSB, Z-Axis LSB
     data = bus.read_i2c_block_data(0x0E, 0x01, 6)
-            
+
     # Convert the data
     xMag = data[0] * 256 + data[1]
     xMag = checksize(xMag, 32767, 65536)
-            
+
     yMag = data[2] * 256 + data[3]
     yMag = checksize(yMag, 32767, 65536)
 
@@ -109,7 +104,7 @@ def magnotometer():
 
     # divide by 10 to convert bit counts to microteslas
     return xMag/10, yMag/10, zMag/10
-    
+
 # function to get (and check) temperatures from sensors
 # Sensors located at i2c addresses 0x18 and 0x1c
 # Please update if changed
