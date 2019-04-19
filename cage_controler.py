@@ -1,5 +1,5 @@
 import os
-import serial # Power Supply imports
+from serial import Serial # Power Supply imports
 import time
 import smbus # Temperature & Magnotometer sensor imports
 import magnetic_field_current_relation as mfeq # Magnetic field equation import
@@ -62,7 +62,11 @@ def initialize_single_bus(port):
         parity=serial.PARITY_NONE,
         stopbits=serial.STOPBITS_ONE,
         bytesize=serial.EIGHTBITS,
-        timeout=1)
+        timeout=None)
+
+def close_all_bus():
+    for i in sensors:
+        i.close()
 
 # Converts from beautiful Celsius to terrible Fahrenheit
 def c_to_f(temp_in_c):
