@@ -25,8 +25,5 @@ def main():
         utils.log(3, 'No option specified for controller!\n\tusage: python3 driver.py [cli/gui]')
         exit(1)
 
-    # initial magnetic field from environment
-    # x0, y0, z0 = cc.magnotometer()
-
 if __name__ == "__main__":
     main()
