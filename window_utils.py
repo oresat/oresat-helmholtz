@@ -116,9 +116,6 @@ class Ui_window(object):
         self.save_graph_menu.setText(_translate("window", "Save Graph"))
         self.shut_down_menu.setText(_translate("window", "Shut Down Cage"))
 
-    def resizeEvent(self, event):
-        utils.log(0, 'Window was resized: ' + str(event))
-
 def interface():
     import sys
     app = QtWidgets.QApplication(sys.argv)

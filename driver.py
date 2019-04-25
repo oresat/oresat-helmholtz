@@ -5,13 +5,13 @@ import window as w
 
 def main():
     # Initialize serial ports
-    utils.log(0, "Initializing power supply busses...")
-    cc.initialize_all_bus()
-    cc.toggle_all_power_supply(1)
+    # utils.log(0, "Initializing power supply busses...")
+    # cc.initialize_all_bus()
+    # cc.toggle_all_power_supply(1)
 
     # Main controlerf_to_c
     utils.log(0, 'Begining main runtime!')
-    utils.log(0, 'Temp: ' + str(cc.c_to_f(24)) + 'F')
+    utils.log(0, 'Temp: ' + str(cc.c_to_f(-10)) + 'F')
 
     if(len(sys.argv) >= 2):
         if(sys.argv[1] == 'cli'):

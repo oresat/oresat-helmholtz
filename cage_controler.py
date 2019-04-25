@@ -1,9 +1,9 @@
 import os
-from serial import Serial # Power Supply imports
-import time
-import smbus # Temperature & Magnotometer sensor imports
-import magnetic_field_current_relation as mfeq # Magnetic field equation import
-import utilities as utils
+import serial # Stuff for controlling the power supplies
+import time # Stuff for regulated delays
+import smbus # Stuff for controlling temperature and magnetic sensors
+import magnetic_field_current_relation as mfeq # Stuff for calculating the magnetic field
+import utilities as utils # Stuff for debugging and/or general info
 
 DEBUG = False
 sensors = []
@@ -14,10 +14,6 @@ WIRE_WARN_TEMP = 100 # Min cage wire temperatures in F for warning
 WIRE_HCF_TEMP = 120 # Max cage wire temperatures in F for forced halting
 PSU_WARN_TEMP = 35 # Min cage wire temperatures in F for warning
 PSU_HCF_TEMP = 40 # Max cage wire temperatures in F for forced halting
-
-# This import is to plot/save graphs and will probably be unnecessary when Demetri finishes GUI
-# import numpy as np
-# import matplotlib.pyplot as plt
 
 # Sets voltage in volts of specified power supply unit
 def set_volts(voltage, psu_num):
@@ -172,12 +168,12 @@ def temperature():
 
 def poll_data(duration = 10.0, dt = 1.0):
     time_step = [0.0]
-#    temp_array = [temperature()]
+    # temp_array = [temperature()]
     mag_array = [magnotometer()]
     while time_step[-1] < duration:
         time.sleep(dt)
         time_step.append(time_step[-1] + dt)
-#        temp_array.append(temperature())
+        # temp_array.append(temperature())
         mag_array.append(magnotometer())
     return time_step, mag_array #temp_array, mag_array
 
