@@ -14,15 +14,15 @@ class PowerSupply(serial.Serial):
         self.warn_temp = 35 # Min cage wire temperatures in F for warning
         self.halt_temp = 40 # Max cage wire temperatures in F for forced halting
 
-    def toggle_supply(mode):
+    def toggle_supply(self, mode):
         utils.log(0, 'Setting ' + self.name + ' active to: ' + str(mode))
         self.write("Aso" + str(mode) + "\n")
 
-    def set_voltage(voltage):
+    def set_voltage(self, voltage):
         utils.log(0, 'Setting ' + self.name + ' voltage to: ' + str(voltage) + ' volts.')
         self.write("Asu" + str(voltage * 100) + "\n")
 
-    def set_current(amperage):
+    def set_current(self, amperage):
         utils.log(0, 'Setting ' + self.name + ' current to: ' + str(amperage) + ' amps.')
         self.write("Asi" + str(amps * 1000) + "\n")
 
