@@ -17,7 +17,7 @@ PSU_HCF_TEMP = 40 # Max cage wire temperatures in F for forced halting
 # Sets voltage in volts of specified power supply unit
 def set_volts(voltage, psu_num):
     time.sleep(SENSOR_INPUT_DELAY)
-    sensors[i].write("Asu" + str(voltage * 100) + "\n")
+    sensors[psu_num].write("Asu" + str(voltage * 100) + "\n")
 
 # Sets current in amps of specified power supply unit
 def set_amps(amps, psu_num):

@@ -1,11 +1,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import graph as g
+import utilities as utils
+import cage_controler as cc
 
 class Ui_window(object):
     def setupUi(self, window):
         window.setObjectName("window")
-        window.resize(495, 215)
-        window.setMinimumSize(QtCore.QSize(495, 215))
+        window.resize(640, 320)
+        window.setMinimumSize(QtCore.QSize(660, 450))
         window.setMaximumSize(QtCore.QSize(1920, 1080))
         window.setSizeIncrement(QtCore.QSize(1, 1))
         font = QtGui.QFont()
@@ -30,6 +32,7 @@ class Ui_window(object):
         self.apply_button = QtWidgets.QPushButton(self.widget)
         self.apply_button.setGeometry(QtCore.QRect(190, 135, 100, 30))
         self.apply_button.setObjectName("apply_button")
+        self.apply_button.clicked.connect(self.update_power_supplies)
         self.psu_1_current_input = QtWidgets.QLineEdit(self.widget)
         self.psu_1_current_input.setGeometry(QtCore.QRect(190, 30, 100, 30))
         self.psu_1_current_input.setObjectName("psu_1_current_input")
@@ -58,10 +61,10 @@ class Ui_window(object):
         self.psu_3_label.setGeometry(QtCore.QRect(10, 105, 45, 20))
         self.psu_3_label.setObjectName("psu_3_label")
         self.graph = g.Graph(self.widget)
-        self.graph.add_line(g.Line(color='r', data=g.generate_fib_sequence(1)))
-        self.graph.add_line(g.Line(color='g', data=g.generate_pow_2_x_sequence(1)))
+        self.graph.add_line(g.Line(color='r', data=g.generate_sin_sequence(1)))
+        self.graph.add_line(g.Line(color='g', data=g.generate_cos_sequence(1)))
         self.graph.add_line(g.Line(color='b', data=g.generate_y_x_sequence(1)))
-        self.graph.setGeometry(QtCore.QRect(300, 30, 190, 135))
+        self.graph.setGeometry(QtCore.QRect(300, 30, 320, 320))
         self.graph.setAutoFillBackground(True)
         self.graph.setObjectName("graph")
         window.setCentralWidget(self.widget)
@@ -78,6 +81,7 @@ class Ui_window(object):
         self.actionExport_Graph_Data.setObjectName("actionExport_Graph_Data")
         self.save_graph_menu = QtWidgets.QAction(window)
         self.save_graph_menu.setObjectName("save_graph_menu")
+        # self.save_graph_menu.clicked.connect(self.save_data)
         self.shut_down_menu = QtWidgets.QAction(window)
         self.shut_down_menu.setObjectName("shut_down_menu")
         self.menuMain.addAction(self.save_graph_menu)
@@ -107,6 +111,19 @@ class Ui_window(object):
         self.actionExport_Graph_Data.setText(_translate("window", "Export Graph Data"))
         self.save_graph_menu.setText(_translate("window", "Save Graph"))
         self.shut_down_menu.setText(_translate("window", "Shut Down Cage"))
+
+    def save_data(self):
+        for i in range(0, 3):
+            utils.log(0, str(self.graph.lines[i]))
+
+    def update_power_supplies(self):
+        voltages = [ float(self.psu_1_voltage_input.text()), float(self.psu_2_voltage_input.text()), float(self.psu_3_voltage_input.text()) ]
+        currents = [ float(self.psu_1_current_input.text()), float(self.psu_2_current_input.text()), float(self.psu_3_current_input.text()) ]
+        utils.log(0, 'Applying volts:\t' + str(voltages) + '\nApplying currents:\t' + str(currents))
+
+        for i in range(0,3):
+            cc.set_volts(voltages[i], (i + 1))
+            cc.set_amps(currents[i], (i + 1))
 
     def resizeEvent(self, event):
         utils.log(0, 'Window was resized: ' + str(event))

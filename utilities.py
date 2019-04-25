@@ -1,4 +1,6 @@
 DEBUG = False
+TICK_TIME = 15
+GRAPH_RANGE = 30
 
 def log(mode, message):
     try:
