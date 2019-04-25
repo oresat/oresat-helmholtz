@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import graph as g
 import utilities as utils
-import cage_controler as cc
+import cage_controller as cc
 
 class Ui_window(object):
     def setupUi(self, window):
