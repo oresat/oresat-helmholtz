@@ -15,7 +15,7 @@ class Ui_window(object):
         font.setPointSize(11)
         window.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("img/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         window.setWindowIcon(icon)
         window.setToolTipDuration(2)
         window.setAutoFillBackground(True)
@@ -71,22 +71,19 @@ class Ui_window(object):
         self.menubar = QtWidgets.QMenuBar(window)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 495, 26))
         self.menubar.setObjectName("menubar")
-        self.menuMain = QtWidgets.QMenu(self.menubar)
-        self.menuMain.setObjectName("menuMain")
+        self.menu_main = QtWidgets.QMenu(self.menubar)
+        self.menu_main.setObjectName("menuMain")
         window.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(window)
         self.statusbar.setObjectName("statusbar")
         window.setStatusBar(self.statusbar)
-        self.actionExport_Graph_Data = QtWidgets.QAction(window)
-        self.actionExport_Graph_Data.setObjectName("actionExport_Graph_Data")
         self.save_graph_menu = QtWidgets.QAction(window)
         self.save_graph_menu.setObjectName("save_graph_menu")
-        # self.save_graph_menu.clicked.connect(self.save_data)
         self.shut_down_menu = QtWidgets.QAction(window)
         self.shut_down_menu.setObjectName("shut_down_menu")
-        self.menuMain.addAction(self.save_graph_menu)
-        self.menuMain.addAction(self.shut_down_menu)
-        self.menubar.addAction(self.menuMain.menuAction())
+        self.menu_main.addAction(self.save_graph_menu)
+        self.menu_main.addAction(self.shut_down_menu)
+        self.menubar.addAction(self.menu_main.menuAction())
 
         self.retranslateUi(window)
         QtCore.QMetaObject.connectSlotsByName(window)
@@ -107,8 +104,7 @@ class Ui_window(object):
         self.psu_3_current_input.setText(_translate("window", "1.5"))
         self.psu_3_voltage_input.setText(_translate("window", "12"))
         self.psu_3_label.setText(_translate("window", "PSU 3"))
-        self.menuMain.setTitle(_translate("window", "Main"))
-        self.actionExport_Graph_Data.setText(_translate("window", "Export Graph Data"))
+        self.menu_main.setTitle(_translate("window", "Main"))
         self.save_graph_menu.setText(_translate("window", "Save Graph"))
         self.shut_down_menu.setText(_translate("window", "Shut Down Cage"))
 
@@ -119,14 +115,15 @@ class Ui_window(object):
     def update_power_supplies(self):
         voltages = [ float(self.psu_1_voltage_input.text()), float(self.psu_2_voltage_input.text()), float(self.psu_3_voltage_input.text()) ]
         currents = [ float(self.psu_1_current_input.text()), float(self.psu_2_current_input.text()), float(self.psu_3_current_input.text()) ]
-        utils.log(0, 'Applying volts:\t' + str(voltages) + '\nApplying currents:\t' + str(currents))
+        utils.log(0, 'Applying volts:\t\t' + str(voltages) + '\n\tApplying currents:\t' + str(currents))
 
-        for i in range(0,3):
-            cc.set_volts(voltages[i], (i + 1))
-            cc.set_amps(currents[i], (i + 1))
-
-    def resizeEvent(self, event):
-        utils.log(0, 'Window was resized: ' + str(event))
+        if(utils.supply_available()):
+            for i in range(0, 3):
+                print(str(i + 1))
+                utils.POWER_SUPPLIES[i + 1].set_voltage(voltages[i])
+                utils.POWER_SUPPLIES[i + 1].set_current(currents[i])
+        else:
+            utils.log(3, 'No supplies are available for updating!\n\tThrowing away button press event.')
 
 def interface():
     import sys

@@ -1,7 +1,8 @@
 DEBUG = False
-TICK_TIME = 15
-GRAPH_RANGE = 30
+TICK_TIME = 4
+GRAPH_RANGE = 10
 INPUT_DELAY = 0.2
+POWER_SUPPLIES = []
 PSU_ADDRS = [ 'ttyUSB0', 'ttyUSB1', 'ttyUSB2' ]
 
 # Converts from beautiful Celsius to terrible Fahrenheit
@@ -28,3 +29,6 @@ def log(mode, message):
         return True
     except:
         return False
+
+def supply_available():
+    return (len(POWER_SUPPLIES) > 0)
