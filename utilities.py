@@ -1,3 +1,5 @@
+DEBUG = False
+
 def log(mode, message):
     try:
         level = {

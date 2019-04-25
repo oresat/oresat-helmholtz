@@ -5,12 +5,6 @@ import math
 import utilities as utils
 from PyQt5 import QtGui, QtCore
 
-#
-# Globals
-#
-DEBUG = False
-DELAY = 1
-
 # Generate array of y = x numbers up to max
 def generate_y_x_sequence(max):
     y = []
@@ -40,7 +34,7 @@ def fibbonacci(i, j=0, a=0, b=1):
     elif(i == 1): sum = 1
     else: sum = a + b
 
-    if(DEBUG): utils.log(2, ("i: " + str(i) + "\tj: " + str(j), "\ta: " + str(a) + "\tb: " + str(b) + "\tsum: " + str(sum)))
+    if(utils.DEBUG): utils.log(2, ("i: " + str(i) + "\tj: " + str(j), "\ta: " + str(a) + "\tb: " + str(b) + "\tsum: " + str(sum)))
 
     if(j < i):
         sum = fibbonacci(i, (j + 1), a=b, b=sum)

@@ -5,7 +5,6 @@ import smbus # Stuff for controlling temperature and magnetic sensors
 import magnetic_field_current_relation as mfeq # Stuff for calculating the magnetic field
 import utilities as utils # Stuff for debugging and/or general info
 
-DEBUG = False
 sensors = []
 SENSOR_INPUT_DELAY = 0.2
 SENSOR_ADDRS = [ 'ttyUSB0', 'ttyUSB1', 'ttyUSB2' ]
@@ -42,7 +41,7 @@ def toggle_all_power_supply(mode):
 def toggle_single_power_supply(mode, psu_num):
     time.sleep(.1)
     power_supply = i_to_psu(psu_num)
-    if(DEBUG): utils.log(2, 'Toggling bus: ' + str(power_supply[psu_num]) + ' to mode: ' + str(mode))
+    if(utils.DEBUG): utils.log(2, 'Toggling bus: ' + str(power_supply[psu_num]) + ' to mode: ' + str(mode))
     power_supply[psu_num].write("Aso" + str(mode) + "\n")
 
 # Initializes all serialized sensor busses [Will assume '/dev/' for System IO location]
