@@ -41,14 +41,14 @@ def toggle_all_power_supply(mode):
 def toggle_single_power_supply(mode, psu_num):
     time.sleep(.1)
     if(utils.DEBUG): utils.log(2, 'Toggling bus: ' + str(sensors[psu_num]) + ' to mode: ' + str(mode))
-    sensors[psu_num].write("Aso" + str(mode) + "\n")
+    sensors[psu_num].write(bytes("Aso" + str(mode) + "\n"), 'UTF-8')
 
 # Initializes all serialized sensor busses [Will assume '/dev/' for System IO location]
 def initialize_all_bus():
     for i in range(0,len(SENSOR_ADDRS)):
         if(utils.DEBUG): utils.log(2, 'Initializing Power Sully #' + i)
         sensors.append(initialize_single_bus('/dev/' + SENSOR_ADDRS[i]))
-        print('\t'+ str(sensors[i]))
+        if(utils.DEBUG): print('\t'+ str(sensors[i]))
 
 
 # Initializes specified serialized sensor bus
