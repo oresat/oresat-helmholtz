@@ -47,8 +47,9 @@ def toggle_single_power_supply(mode, psu_num):
 # Initializes all serialized sensor busses [Will assume '/dev/' for System IO location]
 def initialize_all_bus():
     for i in range(0,len(SENSOR_ADDRS)):
+        if(utils.DEBUG): utils.log(2, 'Initializing Power Sully #' + i)
         sensors[i] = initialize_single_bus('/dev/' + SENSOR_ADDRS[i])
-        if(utils.DEBUG): utils.log(2, 'Initializing Power Sully #' + i + '\t' + str(sensors[i]))
+        print('\t'+ str(sensors[i]))
 
 
 # Initializes specified serialized sensor bus
