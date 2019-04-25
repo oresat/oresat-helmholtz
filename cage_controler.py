@@ -48,7 +48,7 @@ def toggle_single_power_supply(mode, psu_num):
 def initialize_all_bus():
     for i in range(0,len(SENSOR_ADDRS)):
         if(utils.DEBUG): utils.log(2, 'Initializing Power Sully #' + i)
-        sensors[i] = initialize_single_bus('/dev/' + SENSOR_ADDRS[i])
+        sensors.append(initialize_single_bus('/dev/' + SENSOR_ADDRS[i]))
         print('\t'+ str(sensors[i]))
 
 
