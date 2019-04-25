@@ -1,9 +1,11 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+import sys
 import graph as g
 import utilities as utils
 import cage_controller as cc
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QTimer
 
-class Ui_window(object):
+class ControllerWindow(object):
     def setupUi(self, window):
         window.setObjectName("window")
         window.resize(640, 320)
@@ -61,9 +63,9 @@ class Ui_window(object):
         self.psu_3_label.setGeometry(QtCore.QRect(10, 105, 45, 20))
         self.psu_3_label.setObjectName("psu_3_label")
         self.graph = g.Graph(self.widget)
-        self.graph.add_line(g.Line(color='r', data=g.generate_sin_sequence(1)))
-        self.graph.add_line(g.Line(color='g', data=g.generate_cos_sequence(1)))
-        self.graph.add_line(g.Line(color='b', data=g.generate_y_x_sequence(1)))
+        self.graph.add_line(g.Line(color='r'))
+        self.graph.add_line(g.Line(color='g'))
+        self.graph.add_line(g.Line(color='b'))
         self.graph.setGeometry(QtCore.QRect(300, 30, 320, 320))
         self.graph.setAutoFillBackground(True)
         self.graph.setObjectName("graph")
@@ -88,6 +90,10 @@ class Ui_window(object):
         self.retranslateUi(window)
         QtCore.QMetaObject.connectSlotsByName(window)
 
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.tick)
+        self.timer.start(utils.TICK_TIME)
+
     def retranslateUi(self, window):
         _translate = QtCore.QCoreApplication.translate
         window.setWindowTitle(_translate("window", "Helmholtz Cage Controller"))
@@ -108,6 +114,9 @@ class Ui_window(object):
         self.save_graph_menu.setText(_translate("window", "Save Graph"))
         self.shut_down_menu.setText(_translate("window", "Shut Down Cage"))
 
+    def tick(self):
+        self.graph.update_graph()
+
     def save_data(self):
         for i in range(0, 3):
             utils.log(0, str(self.graph.lines[i]))
@@ -126,10 +135,9 @@ class Ui_window(object):
             utils.log(3, 'No supplies are available for updating!\n\tThrowing away button press event.')
 
 def interface():
-    import sys
     app = QtWidgets.QApplication(sys.argv)
     window = QtWidgets.QMainWindow()
-    ui = Ui_window()
+    ui = ControllerWindow()
     ui.setupUi(window)
     window.show()
     sys.exit(app.exec_())
