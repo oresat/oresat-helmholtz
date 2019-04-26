@@ -14,6 +14,14 @@ class PowerSupply(serial.Serial):
         self.warn_temp = 35 # Min cage wire temperatures in F for warning
         self.halt_temp = 40 # Max cage wire temperatures in F for forced halting
 
+        utils.log(0, 'Initialized Power supply with the following:\n\tPort: ' + str(port_device)
+                                                               + '\n\tInput Delay: ' + str(input_delay)
+                                                               + '\n\tBaud Rate: ' + str(baudrate)
+                                                               + '\n\tParity:' + str(parity)
+                                                               + '\n\tStop Bits: ' + str(stopbits)
+                                                               + '\n\tByte Size: ' + str(bytesize)
+                                                               + '\n\tTimeout: ' + str(timeout))
+
     def toggle_supply(self, mode):
         utils.log(0, 'Setting ' + self.name + ' active to: ' + str(mode))
         self.write("Aso" + str(mode) + "\n")
