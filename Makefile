@@ -8,12 +8,13 @@ all: gw i
 
 e: execute
 execute:
-	python3 $(DRIVER)
+	python3 $(DRIVER) gui
 
 gw: generate-window
 generate-window:
 	rm -rf $(GSRC)
 	pyuic5 -x $(GUIS) -o $(GSRC)
+	uperm -c -y -s -r # Uncomment this only if uperm is installed
 	python3 $(GSRC)
 
 i: install
