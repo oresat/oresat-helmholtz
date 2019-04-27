@@ -8,12 +8,18 @@ WIRE_WARN_TEMP = 100 # Min cage wire temperatures in F for warning
 WIRE_HCF_TEMP = 120 # Max cage wire temperatures in F for forced halting
 
 class PowerSupply(serial.Serial):
-    def __init__(self, port_device, input_delay=utils.INPUT_DELAY, baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, timeout=1):
-        serial.Serial.__init__(self, port=str('/dev/' + port_device), baudrate=baudrate, parity=parity, stopbits=stopbits, bytesize=bytesize, timeout=timeout)
+    def __init__(self, i_port_device, i_input_delay=utils.INPUT_DELAY, i_baudrate=9600, i_parity=serial.PARITY_NONE, i_stopbits=serial.STOPBITS_ONE, i_bytesize=serial.EIGHTBITS, i_timeout=1):
+        serial.Serial.__init__(self, port=str('/dev/' + i_port_device), baudrate=i_baudrate, parity=i_parity, stopbits=i_stopbits, bytesize=i_bytesize, timeout=i_timeout)
         self.warn_temp = 35 # Min cage wire temperatures in F for warning
         self.halt_temp = 40 # Max cage wire temperatures in F for forced halting
 
-        input_delay = input_delay
+        port_device = i_port_device
+        input_delay = i_input_delay
+        baudrate = i_baudrate
+        parity = i_parity
+        stopbits = i_stopbits
+        bytesize = i_bytesize
+        timeout = i_timeout
         warn_temp = self.warn_temp
         halt_temp = self.halt_temp
 
@@ -26,19 +32,19 @@ class PowerSupply(serial.Serial):
                                                                + '\n\tTimeout: ' + str(timeout))
 
     def toggle_supply(mode):
-        utils.log(0, 'Setting ' + self.name + ' active to: ' + str(mode))
+        utils.log(0, 'Setting ' + port_device + ' active to: ' + str(mode))
         self.write("Aso" + str(mode) + "\n")
 
     def set_voltage(voltage):
-        utils.log(0, 'Setting ' + self.name + ' voltage to: ' + str(voltage) + ' volts.')
+        utils.log(0, 'Setting ' + port_device + ' voltage to: ' + str(voltage) + ' volts.')
         self.write("Asu" + str(voltage * 100) + "\n")
 
     def set_current(amperage):
-        utils.log(0, 'Setting ' + self.name + ' current to: ' + str(amperage) + ' amps.')
+        utils.log(0, 'Setting ' + port_device + ' current to: ' + str(amperage) + ' amps.')
         self.write("Asi" + str(amps * 1000) + "\n")
 
     def check_temperatures():
-        utils.log(0, 'Checking ' + self.name + ' temperatures...')
+        utils.log(0, 'Checking ' + port_device + ' temperatures...')
 
 # data conversion processes for magnetometer and temperature
 def checksize(measurement, maxval, offset):
