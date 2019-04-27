@@ -31,15 +31,15 @@ class PowerSupply(serial.Serial):
                                                                + '\n\tByte Size: ' + str(bytesize)
                                                                + '\n\tTimeout: ' + str(timeout))
 
-    def toggle_supply(mode):
+    def toggle_supply(self, mode):
         utils.log(0, 'Setting ' + port_device + ' active to: ' + str(mode))
         self.write("Aso" + str(mode) + "\n")
 
-    def set_voltage(voltage):
+    def set_voltage(self, voltage):
         utils.log(0, 'Setting ' + port_device + ' voltage to: ' + str(voltage) + ' volts.')
         self.write("Asu" + str(voltage * 100) + "\n")
 
-    def set_current(amperage):
+    def set_current(self, amperage):
         utils.log(0, 'Setting ' + port_device + ' current to: ' + str(amperage) + ' amps.')
         self.write("Asi" + str(amps * 1000) + "\n")
 
