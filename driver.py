@@ -13,8 +13,9 @@ def main():
         utils.log(0, "Attemting to initialize power supplies...")
         try:
             for i in utils.PSU_ADDRS:
-                utils.POWER_SUPPLIES.append(cc.PowerSupply(i))
-                utils.POWER_SUPPLIES[-1].toggle_supply(1)
+                supply = cc.PowerSupply(i)
+                utils.POWER_SUPPLIES.append(supply)
+                supply.toggle_supply(1)
         except serial.serialutil.SerialException as e:
             utils.log(3, 'Could not initialize power supply:\n\t' + str(e))
             # exit(1)

@@ -1,8 +1,8 @@
 import math
 
 DEBUG = False
-TICK_TIME = 4
-GRAPH_RANGE = 100
+TICK_TIME = 1
+GRAPH_RANGE = 50
 INPUT_DELAY = 0.2
 POWER_SUPPLIES = []
 PSU_ADDRS = [ 'ttyUSB0', 'ttyUSB1', 'ttyUSB2' ]
