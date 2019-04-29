@@ -1,28 +1,41 @@
-import sys
+import os, sys, serial
 import utilities as utils
-import cage_controler as cc
+import cage_controller as cc
 import window as w
 
+def usage(message):
+    utils.log(3, message + '\n\tusage: python3 driver.py [cli/gui]')
+
 def main():
-    # Initialize serial ports
-    # utils.log(0, "Initializing power supply busses...")
-    # cc.initialize_all_bus()
-    # cc.toggle_all_power_supply(1)
+    if(len(sys.argv) == 2):
+        # Guarentee that the folder for cage data exists
+        if(not os.path.isdir(utils.data_file_path())):
+            utils.log(1, 'Path: ' + utils.data_file_path() + ' does not exist, creating it now.')
+            os.mkdir(utils.data_file_path())
 
-    # Main controlerf_to_c
-    utils.log(0, 'Begining main runtime!')
-    utils.log(0, 'Temp: ' + str(cc.c_to_f(-10)) + 'F')
+        # Initialize serial ports
+        utils.log(0, "Attemting to initialize power supplies...")
+        try:
+            for i in utils.PSU_ADDRS:
+                supply = cc.PowerSupply(i)
+                utils.POWER_SUPPLIES.append(supply)
+                supply.toggle_supply(1)
+        except serial.serialutil.SerialException as e:
+            utils.log(3, 'Could not initialize power supply:\n\t' + str(e))
+            # exit(1)
 
-    if(len(sys.argv) >= 2):
+        # Main controler
+        utils.log(0, 'Begining main runtime!')
+
         if(sys.argv[1] == 'cli'):
             cc.interface() # Synchronous CLI Environmnet
         elif(sys.argv[1] == 'gui'):
             w.interface() # Asynchronous GUI Environmnet
         else:
-            utils.log(3, 'Invalid option: ' + sys.argv[1] + '!\n\tusage: python3 driver.py [cli/gui]')
+            usage('Invalid option: ' + sys.argv[1] + '!')
             exit(1)
     else:
-        utils.log(3, 'No option specified for controller!\n\tusage: python3 driver.py [cli/gui]')
+        usage('Invalid number of options specified for the controller!')
         exit(1)
 
 if __name__ == "__main__":

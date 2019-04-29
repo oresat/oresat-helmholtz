@@ -1,71 +1,47 @@
-import os
 import serial # Stuff for controlling the power supplies
-import time # Stuff for regulated delays
+import time # Stuff for regulated sensor delays
 import smbus # Stuff for controlling temperature and magnetic sensors
 import magnetic_field_current_relation as mfeq # Stuff for calculating the magnetic field
 import utilities as utils # Stuff for debugging and/or general info
 
-sensors = []
-SENSOR_INPUT_DELAY = 0.2
-SENSOR_ADDRS = [ 'ttyUSB0', 'ttyUSB1', 'ttyUSB2' ]
-
 WIRE_WARN_TEMP = 100 # Min cage wire temperatures in F for warning
 WIRE_HCF_TEMP = 120 # Max cage wire temperatures in F for forced halting
-PSU_WARN_TEMP = 35 # Min cage wire temperatures in F for warning
-PSU_HCF_TEMP = 40 # Max cage wire temperatures in F for forced halting
 
-# Sets voltage in volts of specified power supply unit
-def set_volts(voltage, psu_num):
-    time.sleep(SENSOR_INPUT_DELAY)
-    sensors[i].write("Asu" + str(voltage * 100) + "\n")
+class PowerSupply(serial.Serial):
+    def __init__(self, port_device, input_delay=utils.INPUT_DELAY, baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, timeout=1):
+        serial.Serial.__init__(self, port=str('/dev/' + port_device), baudrate=baudrate, parity=parity, stopbits=stopbits, bytesize=bytesize, timeout=timeout)
+        self.port_device = port_device
+        self.input_delay = input_delay
+        self.baudrate = baudrate
+        self.parity = parity
+        self.stopbits = stopbits
+        self.bytesize = bytesize
+        self.timeout = timeout
+        self.warn_temp = 35 # Min cage wire temperatures in F for warning
+        self.halt_temp = 40 # Max cage wire temperatures in F for forced halting
 
-# Sets current in amps of specified power supply unit
-def set_amps(amps, psu_num):
-    if(amps < 0):
-        amps = 0 - amps
-        utils.log(1, "Implicitly inverting the polarity of power supply " + str(psu_num) + ' to fit the input!')
+        utils.log(0, 'Initialized Power supply with the following:\n\tPort: ' + str(port_device)
+                                                               + '\n\tInput Delay: ' + str(input_delay)
+                                                               + '\n\tBaud Rate: ' + str(baudrate)
+                                                               + '\n\tParity:' + str(parity)
+                                                               + '\n\tStop Bits: ' + str(stopbits)
+                                                               + '\n\tByte Size: ' + str(bytesize)
+                                                               + '\n\tTimeout: ' + str(timeout))
 
-    time.sleep(.1)
-    sensors[psu_num].write("Asi" + str(amps * 1000) + "\n")
+    def toggle_supply(self, mode):
+        utils.log(0, 'Setting ' + self.name + ' to: ' + str(mode))
+        self.write(str("Aso" + str(mode) + "\n").encode())
 
-# Toggles all power supply units to specified mode
-def toggle_all_power_supply(mode):
-    for i in range(1, 4):
-        toggle_single_power_supply(mode, i)
+    def set_voltage(self, voltage):
+        utils.log(0, 'Setting ' + self.name + ' voltage to: ' + str(voltage) + ' volts.')
+        self.write(str("Asu" + str(voltage * 100) + "\n").encode())
 
-# Toggles specified power supply unit
-#   mode:
-#       0: off
-#       1: on
-#   psu_num: power supply unit number [1, 2, 3]
-def toggle_single_power_supply(mode, psu_num):
-    time.sleep(.1)
-    power_supply = i_to_psu(psu_num)
-    if(utils.DEBUG): utils.log(2, 'Toggling bus: ' + str(power_supply[psu_num]) + ' to mode: ' + str(mode))
-    power_supply[psu_num].write("Aso" + str(mode) + "\n")
+    def set_current(self, amperage):
+        utils.log(0, 'Setting ' + self.name + ' current to: ' + str(amperage) + ' amps.')
+        self.write(str("Asi" + str(amps * 1000) + "\n").encode())
 
-# Initializes all serialized sensor busses [Will assume '/dev/' for System IO location]
-def initialize_all_bus():
-    for i in SENSOR_ADDRS:
-        sensors[i] = initialize_single_bus('/dev/' + i)
-
-# Initializes specified serialized sensor bus
-def initialize_single_bus(port):
-    return serial.Serial(
-        port=port,
-        baudrate=9600,
-        parity=serial.PARITY_NONE,
-        stopbits=serial.STOPBITS_ONE,
-        bytesize=serial.EIGHTBITS,
-        timeout=None)
-
-def close_all_bus():
-    for i in sensors:
-        i.close()
-
-# Converts from beautiful Celsius to terrible Fahrenheit
-def c_to_f(temp_in_c):
-    return temp_in_c * 1.8 + 32
+    def check_temperatures():
+        utils.log(0, 'Checking ' + self.name + ' temperatures...')
 
 # data conversion processes for magnetometer and temperature
 def checksize(measurement, maxval, offset):
@@ -86,13 +62,13 @@ def temperature_check_bounds(temp, warning, shutoff):
 def magnotometer():
     # Get I2C bus
     bus = smbus.SMBus(1)
-    time.sleep(SENSOR_INPUT_DELAY)
+    time.sleep(utils.INPUT_DELAY)
 
     # MAG3110 address, 0x0E(14)
     # Select Control register, 0x10(16)
     #        0x01(01)    Normal mode operation, Active mode
     bus.write_byte_data(0x0E, 0x10, 0x01)
-    time.sleep(SENSOR_INPUT_DELAY)
+    time.sleep(utils.INPUT_DELAY)
     # MAG3110 address, 0x0E(14)
     # Read data back from 0x01(1), 6 bytes
     # X-Axis MSB, X-Axis LSB, Y-Axis MSB, Y-Axis LSB, Z-Axis MSB, Z-Axis LSB
@@ -183,43 +159,11 @@ def print_data():
         print(time[i], mag[i])
         i += 1
 
-def plot_graph(dt = 1.0):
-    t = [0.0] # time
-    x_var, y_var, z_var = magnotometer() # mag
-    x = [x_var]
-    y = [y_var]
-    z = [z_var]
-
-    plt.ion()
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    xline, = ax.plot(t, x, 'r-')
-    yline, = ax.plot(t, y, 'g-')
-    zline, = ax.plot(t, z, 'b-')
-
-    while True:
-        t.append(t[-1] + dt)
-        x_var, y_var, z_var = magnotometer() # mag
-        x.append(x_var)
-        y.append(y_var)
-        z.append(z_var)
-
-        xline.set_xdata(t)
-        yline.set_xdata(t)
-        zline.set_xdata(t)
-
-        xline.set_ydata(x)
-        yline.set_ydata(y)
-        zline.set_ydata(z)
-
-        plt.gca().relim()
-        plt.gca().autoscale_view()
-        fig.canvas.draw()
-        time.sleep(dt)
-        fig.canvas.flush_events()
-
-# function for controlling subfunctions, given their index
-def controller(control):
+#
+# Legacy cage controller interface
+#   (Can be used by specifying `cli` in the driver)
+#
+def cli_menu(control):
     if control == 0:
         print("\nExiting...")
     elif control == 1:
@@ -244,10 +188,10 @@ def controller(control):
         # Output data to screen
         print("Sensor 1")
         print("Temperature in Celsius is    : %.2f C") % ctemp1
-        print("Temperature in Fahrenheit is : %.2f F") % c_to_f(ctemp1)
+        print("Temperature in Fahrenheit is : %.2f F") % utils.c_to_f(ctemp1)
         print("Sensor 2")
         print("Temperature in Celsius is    : %.2f C") % ctemp2
-        print("Temperature in Fahrenheit is : %.2f F") % c_to_f(ctemp2)
+        print("Temperature in Fahrenheit is : %.2f F") % utils.c_to_f(ctemp2)
     elif control == 6:
         print("Checking magnotometer, units in microTeslas")
         xMag, yMag, zMag = magnotometer()
@@ -282,6 +226,6 @@ def interface():
 
         try:
             control = int(input('Option selected: '))
-            controller(control)
+            cli_menu(control)
         except ValueError:
             print("\n***Invalid Entry***")

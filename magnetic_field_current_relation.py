@@ -3,7 +3,7 @@ from math import pi
 
 mu = 4 * pi * 10**(-7) # magnetic field constant Tm/A
 halfofsidelength = 0.3302 # meters, physical parameter, check this
-distbetweensides = 0.34 #0.4572 # meters, physical parameter, check this
+distbetweensides = 0.49 #0.4572 # meters, physical parameter, check this
 wireturns = 56 #58 # physical parameter, doc says 56, not sure what actual
 
 constmultiplier = wireturns * mu / pi # pulling constants into a single variable
@@ -20,12 +20,11 @@ def paramMultiplier(d): # parameter is distance from origin, we usually only car
     return (dropOffFromSide(d) + dropOffFromSide(-d)) * constmultiplier * 10**(6) # microT/A
 
 def getNeededCurrent(desiredfield): #get microteslas return amps
-    return (desiredfield / paramMultiplier(0)) * 2 # to be honest, i don't know why i multiply by 2, but it makes the code work.
-#after i've rederived this equation from the biot-savart equation, i'll have a better idea of why this works
+    return (desiredfield / paramMultiplier(0)) * 2
 
-def axialMagField(current, d): #get amps return microteslas
-    #need to get actual current for axis from program or PSU somehow
-    return current * paramMultiplier(d)
+# def axialMagField(current, d): #get amps return microteslas
+#     #need to get actual current for axis from program or PSU somehow
+#     return current * paramMultiplier(d)
 
 def fieldToCurrent(efx, efy, efz):
     desiredfield = float(raw_input("What is the ideal strength of the uniform magnetic field? (microTeslas)\n"))
