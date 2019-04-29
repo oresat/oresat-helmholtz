@@ -1,5 +1,4 @@
-import sys
-import serial
+import os, sys, serial
 import utilities as utils
 import cage_controller as cc
 import window as w
@@ -9,6 +8,11 @@ def usage(message):
 
 def main():
     if(len(sys.argv) == 2):
+        # Guarentee that the folder for cage data exists
+        if(not os.path.isdir(utils.data_file_path())):
+            utils.log(1, 'Path: ' + utils.data_file_path() + ' does not exist, creating it now.')
+            os.mkdir(utils.data_file_path())
+
         # Initialize serial ports
         utils.log(0, "Attemting to initialize power supplies...")
         try:

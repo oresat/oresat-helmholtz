@@ -29,16 +29,16 @@ class PowerSupply(serial.Serial):
                                                                + '\n\tTimeout: ' + str(timeout))
 
     def toggle_supply(self, mode):
-        utils.log(0, 'Setting ' + self.name + ' active to: ' + str(mode))
-        self.write("Aso" + str(mode) + "\n")
+        utils.log(0, 'Setting ' + self.name + ' to: ' + str(mode))
+        self.write(str("Aso" + str(mode) + "\n").encode())
 
     def set_voltage(self, voltage):
         utils.log(0, 'Setting ' + self.name + ' voltage to: ' + str(voltage) + ' volts.')
-        self.write("Asu" + str(voltage * 100) + "\n")
+        self.write(str("Asu" + str(voltage * 100) + "\n").encode())
 
     def set_current(self, amperage):
         utils.log(0, 'Setting ' + self.name + ' current to: ' + str(amperage) + ' amps.')
-        self.write("Asi" + str(amps * 1000) + "\n")
+        self.write(str("Asi" + str(amps * 1000) + "\n").encode())
 
     def check_temperatures():
         utils.log(0, 'Checking ' + self.name + ' temperatures...')

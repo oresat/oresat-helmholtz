@@ -1,11 +1,25 @@
-import math
+import os, math, random, time
 
 DEBUG = False
-TICK_TIME = 1
-GRAPH_RANGE = 50
+TICK_TIME = 500
+GRAPH_RANGE = 35
 INPUT_DELAY = 0.2
+DATA_ACCURACY = 4
 POWER_SUPPLIES = []
 PSU_ADDRS = [ 'ttyUSB0', 'ttyUSB1', 'ttyUSB2' ]
+CAGE_DATA_PATH = '/cage_data/'
+
+def data_file_path(filename=''):
+    return (str(os.getenv("HOME") + CAGE_DATA_PATH + filename))
+
+# Gets time since the begining of the unix epoch
+def unique_time():
+    return int(time.time())
+
+# Gets a human readable version of the time since the unix epoch
+def unique_time_pretty():
+    year, month, day, hour, min, sec, _, _, _ = time.localtime()
+    return (str(hour) + ':' + str(min) + ':' + str(sec) + '-' + str(day) + '-' + str(month) + '-' + str(year))
 
 # Converts from beautiful Celsius to terrible Fahrenheit
 def c_to_f(temp_in_c):
@@ -36,6 +50,15 @@ def log(mode, message):
 #   Used for safe checking and some error handling
 def supply_available():
     return (len(POWER_SUPPLIES) > 0)
+
+# Random offset of last value for testing the graph
+def generate_static(sequence):
+    switch_direction = random.randint(0, 1)
+    offset = random.randint(0, 2)
+    average = 0
+    if(len(sequence) > 0): average = sum(sequence) / len(sequence)
+    if(switch_direction == 1): offset = -1 * offset
+    return (average + offset)
 
 #
 # Math things
