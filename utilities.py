@@ -1,4 +1,4 @@
-import os, math, random, time
+import os, random, time
 
 DEBUG = False
 TICK_TIME = 500
@@ -7,6 +7,7 @@ INPUT_DELAY = 0.2
 DATA_ACCURACY = 4
 POWER_SUPPLIES = []
 PSU_ADDRS = [ 'ttyUSB0', 'ttyUSB1', 'ttyUSB2' ]
+ICON_IMG_PATH='./img/icon.png'
 CAGE_DATA_PATH = '/cage_data/'
 
 def data_file_path(filename=''):

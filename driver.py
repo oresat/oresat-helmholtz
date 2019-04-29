@@ -24,7 +24,7 @@ def main():
             utils.log(3, 'Could not initialize power supply:\n\t' + str(e))
             # exit(1)
 
-        # Main controlerf_to_c
+        # Main controler
         utils.log(0, 'Begining main runtime!')
 
         if(sys.argv[1] == 'cli'):
