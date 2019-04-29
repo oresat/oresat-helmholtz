@@ -119,6 +119,7 @@ class ControllerWindow(object):
         self.accuracy_input.setKeyboardTracking(False)
         self.accuracy_input.setProperty("value", 4)
         self.accuracy_input.setObjectName("accuracy_input")
+        self.accuracy_input.setDisabled(True)
         self.accuracy_input.valueChanged.connect(self.update_data_accuracy)
 
         #
@@ -177,6 +178,7 @@ class ControllerWindow(object):
         self.apply_button.setText(_translate("window", "PSU_BUTTON_UPDATE"))
 
         self.accuracy_input.setSuffix(_translate("window", " decimals"))
+        self.accuracy_input.setValue(utils.DATA_ACCURACY)
         self.accuracy_label.setText(_translate("window", "Data Accuracy:"))
 
         self.psu_control_mode.setItemText(0, _translate("window", "Voltage"))
