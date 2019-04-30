@@ -17,9 +17,9 @@ class ControllerWindow(object):
         self.icon.addPixmap(QtGui.QPixmap(utils.ICON_IMG_PATH), QtGui.QIcon.Normal, QtGui.QIcon.Off)
 
         self.window.setObjectName("window")
-        self.window.resize(1280, 720)
-        self.window.setMinimumSize(QtCore.QSize(720, 630))
-        self.window.setMaximumSize(QtCore.QSize(1280, 720))
+        self.window.resize(720, 480)
+        self.window.setMinimumSize(QtCore.QSize(720, 480))
+        self.window.setMaximumSize(QtCore.QSize(1920, 1080))
         self.window.setSizeIncrement(QtCore.QSize(1, 1))
         self.window.setWindowIcon(self.icon)
         self.window.setToolTipDuration(2)
