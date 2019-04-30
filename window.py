@@ -259,14 +259,13 @@ class ControllerWindow(object):
 
     def tick(self):
         # Generates dummy data just for testing the graph
-        # TODO: Replace these with actual magnetometer values
-        x = utils.generate_static(self.graph.lines[0].y)
-        y = utils.generate_static(self.graph.lines[1].y)
-        z = utils.generate_static(self.graph.lines[2].y)
+        # x = utils.generate_static(self.graph.lines[0].y)
+        # y = utils.generate_static(self.graph.lines[1].y)
+        # z = utils.generate_static(self.graph.lines[2].y)
 
         self.width = self.window.width()
         self.height = self.window.height()
-        self.graph.update_graph([x, y, z])
+        self.graph.update_graph(cc.magnetometer())
         self.toggle_control_mode()
         self.update_layouts(10, self.height / 2)
 
@@ -321,7 +320,7 @@ class ControllerWindow(object):
 
     # Writes graph data to a file specified by the user
     def save_data_as(self, filename):
-        self.save_data()
+        self.save_data() # TODO: change this to open a window asking the user for a new path to save to
 
     # Ensures all physical equiptment is in its cloesd safe state then exits
     def shutdown_cage(self):
