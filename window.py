@@ -259,13 +259,13 @@ class ControllerWindow(object):
 
     def tick(self):
         # Generates dummy data just for testing the graph
-        # x = utils.generate_static(self.graph.lines[0].y)
-        # y = utils.generate_static(self.graph.lines[1].y)
-        # z = utils.generate_static(self.graph.lines[2].y)
+        x = utils.generate_static(self.graph.lines[0].y)
+        y = utils.generate_static(self.graph.lines[1].y)
+        z = utils.generate_static(self.graph.lines[2].y)
 
         self.width = self.window.width()
         self.height = self.window.height()
-        self.graph.update_graph(cc.magnetometer())
+        self.graph.update_graph([x, y, z])
         self.toggle_control_mode()
         self.update_layouts(10, self.height / 2)
 

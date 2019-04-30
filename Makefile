@@ -19,3 +19,7 @@ generate-window:
 i: install
 install:
 	$(PY) $(SRC)
+
+s: setup
+setup:
+	python3 setup.py
