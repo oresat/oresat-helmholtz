@@ -29,21 +29,33 @@ def menu(control):
     if control == 0:
         utils.log(0, 'Exiting...')
     elif control == 1:
-        voltage = float(input('New voltage [Volts]: '))
-        supply_index= int(input('Power Supply [1-3]: '))
-        utils.POWER_SUPPLIES[supply_index].set_voltage(voltage)
-        utils.log(0, 'Voltage set to ' + str(voltage) + ' Volts on Supply #' + str(supply_index))
+        if(utils.supply_available()):
+            voltage = float(input('New voltage [Volts]: '))
+            supply_index= int(input('Power Supply [1-3]: '))
+            utils.POWER_SUPPLIES[supply_index].set_voltage(voltage)
+            utils.log(0, 'Voltage set to ' + str(voltage) + ' Volts on Supply #' + str(supply_index))
+        else:
+            utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
     elif control == 2:
-        current = float(input('New current [Amps]: '))
-        supply_index= int(input('Power Supply [1-3]: '))
-        utils.POWER_SUPPLIES[supply_index].set_current(current)
-        utils.log(0, 'Amperage set to ' + str(current) + ' Amps on Supply #' + str(supply_index))
+        if(utils.supply_available()):
+            current = float(input('New current [Amps]: '))
+            supply_index= int(input('Power Supply [1-3]: '))
+            utils.POWER_SUPPLIES[supply_index].set_current(current)
+            utils.log(0, 'Amperage set to ' + str(current) + ' Amps on Supply #' + str(supply_index))
+        else:
+            utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
     elif control == 3:
-        cc.toggle_all_power_supply(1)
-        utils.log(0, 'Powering On...')
+        if(utils.supply_available()):
+            cc.toggle_all_power_supply(1)
+            utils.log(0, 'Powering On...')
+        else:
+            utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
     elif control == 4:
-        cc.toggle_all_power_supply(0)
-        utils.log(0, 'Powering Off...')
+        if(utils.supply_available()):
+            cc.toggle_all_power_supply(0)
+            utils.log(0, 'Powering Off...')
+        else:
+            utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
     elif control == 5:
         utils.log(0, 'Checking temperatures...')
         cage_temp_1, cage_temp_2 = cc.temperature()
@@ -54,13 +66,16 @@ def menu(control):
         xMag, yMag, zMag = cc.magnotometer()
         utils.log(0, 'Manetic field Components:\n\tX: ' + str(xMag) + '\n\tY: ' + str(yMag) + '\n\tZ: ' + str(zMag))
     elif control == 7:
-        currents = mfcr.fieldToCurrent(x0, y0, z0)
-
         if(utils.supply_available()):
+            # TODO: Add back the current get to power supply
+            currents = mfcr.fieldToCurrent(x0, y0, z0)
+
             utils.log(0, 'Power Supply Current Updates:')
             for i in range(0, len(currents)):
                 utils.POWER_SUPPLIES.set_current(currents[i])
                 print('\tSupply #' + str(i) + ': ' + str(currents[i]))
+        else:
+            utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
     elif control == 8:
         print_data()
     elif control == 9:
