@@ -1,6 +1,7 @@
 import os, random, time
 
 DEBUG = False
+CRASH_ON_EMPTY = True
 TICK_TIME = 500
 GRAPH_RANGE = 35
 INPUT_DELAY = 0.2

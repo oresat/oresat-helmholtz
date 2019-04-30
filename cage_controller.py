@@ -1,7 +1,6 @@
 import serial # Stuff for controlling the power supplies
 import time # Stuff for regulated sensor delays
 import smbus # Stuff for controlling temperature and magnetic sensors
-import magnetic_field_current_relation as mfeq # Stuff for calculating the magnetic field
 import utilities as utils # Stuff for debugging and/or general info
 
 WIRE_WARN_TEMP = 100 # Min cage wire temperatures in F for warning
@@ -151,10 +150,3 @@ def poll_data(duration = 10.0, dt = 1.0):
         # temp_array.append(temperature())
         mag_array.append(magnotometer())
     return time_step, mag_array #temp_array, mag_array
-
-def print_data():
-    time, mag = poll_data(20, 1)
-    i = 0
-    for t in time:
-        print(time[i], mag[i])
-        i += 1

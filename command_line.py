@@ -1,4 +1,4 @@
-import cage_controller as cc
+from cage_controller import *
 import utilities as utils
 import magnetic_field_current_relation as mfcr
 
@@ -20,6 +20,14 @@ def display_menu():
     utils.log(0, 'Helmholtz Cage Controller:')
     for num, description in COMMAND_MAP.items():
         print('\t' + str(num) + ': ' + description)
+
+# Prints data?
+def print_data():
+    time, mag = cage_controller.poll_data(20, 1)
+    i = 0
+    for t in time:
+        print(time[i], mag[i])
+        i += 1
 
 #
 # Legacy cage controller interface
@@ -46,24 +54,24 @@ def menu(control):
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
     elif control == 3:
         if(utils.supply_available()):
-            cc.toggle_all_power_supply(1)
+            cage_controller.toggle_all_power_supply(1)
             utils.log(0, 'Powering On...')
         else:
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
     elif control == 4:
         if(utils.supply_available()):
-            cc.toggle_all_power_supply(0)
+            cage_controller.toggle_all_power_supply(0)
             utils.log(0, 'Powering Off...')
         else:
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
     elif control == 5:
         utils.log(0, 'Checking temperatures...')
-        cage_temp_1, cage_temp_2 = cc.temperature()
+        cage_temp_1, cage_temp_2 = cage_controller.temperature()
         utils.log(0, 'Sensor 1:\t' + str(cage_temp_1) + '°C\t' + str(utils.c_to_f(cage_temp_1) + '°F'))
         utils.log(0, 'Sensor 2:\t' + str(cage_temp_2) + '°C\t' + str(utils.c_to_f(cage_temp_2) + '°F'))
     elif control == 6:
         utils.log(0, 'Checking magnotometer, units in microTeslas')
-        xMag, yMag, zMag = cc.magnotometer()
+        xMag, yMag, zMag = cage_controller.magnotometer()
         utils.log(0, 'Manetic field Components:\n\tX: ' + str(xMag) + '\n\tY: ' + str(yMag) + '\n\tZ: ' + str(zMag))
     elif control == 7:
         if(utils.supply_available()):
