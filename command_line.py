@@ -1,4 +1,4 @@
-from cage_controller import *
+import cage_controller
 import utilities as utils
 import magnetic_field_current_relation as mfcr
 
@@ -54,14 +54,16 @@ def menu(control):
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
     elif control == 3:
         if(utils.supply_available()):
-            cage_controller.toggle_all_power_supply(1)
             utils.log(0, 'Powering On...')
+            for i in utils.POWER_SUPPLIES:
+                i.toggle_supply(1)
         else:
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
     elif control == 4:
         if(utils.supply_available()):
-            cage_controller.toggle_all_power_supply(0)
             utils.log(0, 'Powering Off...')
+            for i in utils.POWER_SUPPLIES:
+                i.toggle_supply(0)
         else:
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
     elif control == 5:
