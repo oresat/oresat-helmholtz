@@ -1,7 +1,7 @@
 import pip
 import utilities as utils
 
-DEPENDENCES = ['serial', 'smbus', 'pyqt5', 'pyqtgraph']
+DEPENDENCES = ['serial', 'smbus', 'python-qt5', 'pyqtgraph', 'i2c']
 
 def install(package):
     if(hasattr(pip, 'main')):
