@@ -363,7 +363,7 @@ class ControllerWindow(object):
         file.close()
 
         response_box = QMessageBox()
-        response_box.setIcon(QMessageBox.Warning)
+        response_box.setIcon(QMessageBox.Information)
         response_box.setText("Magnetometer Data was saved!")
         response_box.setInformativeText('Data was saved to file: ' + filepath)
         response_box.setStandardButtons(QMessageBox.Ok)
