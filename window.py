@@ -362,6 +362,13 @@ class ControllerWindow(object):
             index += 1
         file.close()
 
+        response_box = QMessageBox()
+        response_box.setIcon(QMessageBox.Warning)
+        response_box.setText("Magnetometer Data was saved!")
+        response_box.setInformativeText('Data was saved to file: ' + filepath)
+        response_box.setStandardButtons(QMessageBox.Ok)
+        response = response_box.exec_()
+
     # Writes graph data to a file specified by the user
     def save_data_as(self, filename):
         self.save_data() # TODO: change this to open a window asking the user for a new path to save to
