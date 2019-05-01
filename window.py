@@ -295,6 +295,7 @@ class ControllerWindow(object):
             response_box.setInformativeText('Please try the following:\n1.) Turn off all PSU\'s\n2.) Check the cable connections\n3.) Rescan for PSU\'s')
             response_box.setStandardButtons(QMessageBox.Ok)
             response = response_box.exec_()
+        else: self.toggle_gui_features(True)
 
     def toggle_scanning(self):
         if(self.toggle_scan.isChecked()): self.toggle_gui_features(True)
