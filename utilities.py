@@ -1,7 +1,6 @@
 import os, random, time
 
 DEBUG = False
-CRASH_ON_EMPTY = False
 TICK_TIME = 500
 GRAPH_RANGE = 35
 INPUT_DELAY = 0.2
@@ -56,7 +55,7 @@ def supply_available():
 # Random offset of last value for testing the graph
 def generate_static(sequence):
     switch_direction = random.randint(0, 1)
-    offset = random.random()
+    offset = random.random() * 10 + 300
     average = 0
     if(len(sequence) > 0): average = sequence[-1]
     if(switch_direction == 1): offset = -1 * offset

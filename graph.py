@@ -52,7 +52,7 @@ class Graph(QtGui.QWidget):
         self.plot.setClipToView(True)
         self.plot.showGrid(x=True, y=True)
         self.plot.setLabel('left', 'Magnetic Field', units='mT')
-        self.plot.setLabel('bottom', 'Time', units='ms')
+        self.plot.setLabel('bottom', 'Time', units='s/2')
 
         #
         # Graph Legend
@@ -62,8 +62,8 @@ class Graph(QtGui.QWidget):
         self.plot.plot([], pen='g', symbolBrush=0.2, name='MagSensor-Y')
         self.plot.plot([], pen='b', symbolBrush=0.2, name='MagSensor-Z')
 
-        self.pause_button = QtWidgets.QPushButton('Start Graph', self)
-        self.pause_button.clicked.connect(self.toggle_graph)
+        self.toggle_button = QtWidgets.QPushButton('Start Graph', self)
+        self.toggle_button.clicked.connect(self.toggle_graph)
 
         self.dump_button = QtWidgets.QPushButton('Dump Data', self)
         self.dump_button.clicked.connect(self.dump_data_to_console)
@@ -74,7 +74,7 @@ class Graph(QtGui.QWidget):
         self.layout = QtGui.QGridLayout()
         self.setLayout(self.layout)
         self.layout.addWidget(self.plot, 0, 0)
-        self.layout.addWidget(self.pause_button, 2, 0)
+        self.layout.addWidget(self.toggle_button, 2, 0)
         self.layout.addWidget(self.dump_button, 3, 0)
 
     # Adds a whole new line to the graph, which automatically gets plotted on the tick loop
@@ -86,10 +86,10 @@ class Graph(QtGui.QWidget):
     def toggle_graph(self):
         if(self.graph_active):
             self.graph_active = False
-            self.pause_button.setText('Start Graph')
+            self.toggle_button.setText('Start Graph')
         else:
             self.graph_active = True
-            self.pause_button.setText('Pause Graph')
+            self.toggle_button.setText('Pause Graph')
 
     # Adds a point to each line endpoint and redraws the graph
     #   number: Takes an array of y-values from line 0 to n (x, y, ... z) to update at each endpoint
@@ -111,6 +111,12 @@ class Graph(QtGui.QWidget):
             # Update the lines
             for i in self.lines:
                 self.plot.plot(i.y, pen=i.color)
+
+    def get_data(self):
+        results = []
+        for i in range(0, self.data_size - 1):
+            results.append([self.lines[0].x[0], round(self.lines[0].y[i], utils.DATA_ACCURACY), round(self.lines[1].y[i], utils.DATA_ACCURACY), round(self.lines[2].y[i], utils.DATA_ACCURACY)])
+        return results
 
     def dump_data(self):
         results = []

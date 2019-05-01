@@ -25,9 +25,7 @@ def main():
                 utils.log(3, 'Could not initialize power supply:\n\t' + str(e))
                 # exit(1)
 
-        if((not utils.supply_available()) and utils.CRASH_ON_EMPTY):
-            utils.log(3, 'No power supplies were found, and cage initialization cannot continue.\n\tGracefully exiting.')
-            exit(1)
+        if((not utils.supply_available())): utils.log(3, 'No power supplies were found, and cage initialization cannot continue.\n\tGracefully exiting.')
 
         # Main controler
         utils.log(0, 'Begining main runtime!')

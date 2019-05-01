@@ -3,7 +3,8 @@ import graph as g
 import utilities as utils
 import cage_controller as cc
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QTimer
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 
 class ControllerWindow(object):
     def __init__(self, window):
@@ -27,6 +28,8 @@ class ControllerWindow(object):
         self.window.setAnimated(False)
         self.window.setFont(self.font)
 
+        self.window.setWindowFlags(self.window.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
+
         self.width = self.window.width()
         self.height = self.window.height()
 
@@ -43,6 +46,15 @@ class ControllerWindow(object):
         self.menubar.resize(495, 26)
         self.menubar.setObjectName("menubar")
 
+        self.scan_supplies = QtWidgets.QAction(self.window)
+        self.scan_supplies.setObjectName("scan_supplies")
+        self.scan_supplies.triggered.connect(self.affirm_power_supplies)
+
+        self.toggle_scan = QtWidgets.QAction(self.window)
+        self.toggle_scan.setCheckable(True)
+        self.toggle_scan.setObjectName("toggle_scan")
+        self.toggle_scan.changed.connect(self.toggle_scanning)
+
         self.save_mi = QtWidgets.QAction(self.window)
         self.save_mi.setObjectName("save_mi")
         self.save_mi.triggered.connect(self.save_data)
@@ -53,10 +65,13 @@ class ControllerWindow(object):
 
         self.shutdown_mi = QtWidgets.QAction(self.window)
         self.shutdown_mi.setObjectName("shutdown_mi")
-        self.shutdown_mi.triggered.connect(self.shutdown_cage)
+        self.shutdown_mi.triggered.connect(self.confirm_shutdown)
 
         self.menu_main = QtWidgets.QMenu(self.menubar)
         self.menu_main.setObjectName("menu_main")
+        self.menu_main.addAction(self.scan_supplies)
+        self.menu_main.addAction(self.toggle_scan)
+        self.menu_main.addSeparator()
         self.menu_main.addAction(self.save_mi)
         self.menu_main.addAction(self.save_as_mi)
         self.menu_main.addSeparator()
@@ -158,6 +173,8 @@ class ControllerWindow(object):
         self.window.setToolTip(_translate("window", "Helmholtz Cage Controller"))
 
         self.menu_main.setTitle(_translate("window", "File"))
+        self.scan_supplies.setText(_translate("window", "Scan for PSU's"))
+        self.toggle_scan.setText(_translate("window", "Ignore PSU check"))
         self.save_mi.setText(_translate("window", "Save"))
         self.save_as_mi.setText(_translate("window", "Save As"))
         self.shutdown_mi.setText(_translate("window", "Quit"))
@@ -185,7 +202,7 @@ class ControllerWindow(object):
         self.psu_control_mode.setItemText(1, _translate("window", "Current"))
 
         self.toggle_control_mode()
-
+        self.affirm_power_supplies()
 
     def update_layouts(self, x_off, y_off, spacing=10, lw=80, lh=45, iw=100, ih=45):
         #
@@ -258,7 +275,30 @@ class ControllerWindow(object):
 
         self.window.setCentralWidget(self.widget)
 
-        # self.widget.setLayout(self.master_layout)
+    def toggle_gui_features(self, mode):
+        features = [self.psu_control_mode, self.psu1_input, self.psu2_input, self.psu3_input, self.apply_button, self.graph.dump_button, self.graph.toggle_button]
+        if(mode):
+            for i in features:
+                utils.log(2, 'Enabling: ' + str(i))
+                i.setDisabled(False)
+        else:
+            for i in features:
+                utils.log(2, 'Disabling: ' + str(i))
+                i.setDisabled(True)
+
+    def affirm_power_supplies(self):
+        if(not utils.supply_available()):
+            self.toggle_gui_features(False)
+            response_box = QMessageBox()
+            response_box.setIcon(QMessageBox.Warning)
+            response_box.setText("No Power supplies were found.")
+            response_box.setInformativeText('Please try the following:\n1.) Turn off all PSU\'s\n2.) Check the cable connections\n3.) Rescan for PSU\'s')
+            response_box.setStandardButtons(QMessageBox.Ok)
+            response = response_box.exec_()
+
+    def toggle_scanning(self):
+        if(self.toggle_scan.isChecked()): self.toggle_gui_features(True)
+        else: self.toggle_gui_features(False)
 
     def tick(self):
         # Generates dummy data just for testing the graph
@@ -311,18 +351,35 @@ class ControllerWindow(object):
         filename = str(utils.unique_time()) + '_magnetometer_data.csv'
         filepath = utils.data_file_path(filename=filename)
         utils.log(0, 'Saving graph data to file: ' + filepath)
-        data = self.graph.dump_data()
 
         file = open(filepath, mode='w')
         file.write('SAVE_TIME:,' + utils.unique_time_pretty() + '\n')
         file.write('INDEX,TIME(ms),X,Y,Z\n')
-        for i in self.graph.dump_data():
-            file.write(str(i[0]) + ',' + str(i[0] * utils.TICK_TIME / 1000)  + ',' + str(i[1]) + ',' + str(i[2]) + ',' + str(i[3]) + '\n')
+        index = 1
+        for i in self.graph.get_data():
+            file.write(str(index) + ',' + str(index * utils.TICK_TIME)  + ',' + str(i[1]) + ',' + str(i[2]) + ',' + str(i[3]) + '\n')
+            index += 1
         file.close()
 
     # Writes graph data to a file specified by the user
     def save_data_as(self, filename):
         self.save_data() # TODO: change this to open a window asking the user for a new path to save to
+
+    def keyPress(self, e):
+        utils.log(0, str(e))
+
+    def confirm_shutdown(self, event):
+        response_box = QMessageBox()
+        response_box.setIcon(QMessageBox.Question)
+        response_box.setText("Would you like to shut down the cage?")
+        response_box.setInformativeText('You will lose any unsaved data.')
+        response_box.setStandardButtons(QMessageBox.Yes| QMessageBox.No)
+        response_box.setDefaultButton(QMessageBox.No)
+        response = response_box.exec_()
+
+        if(response == QtWidgets.QMessageBox.Yes):
+            self.shutdown_cage()
+            exit(0)
 
     # Ensures all physical equiptment is in its cloesd safe state then exits
     def shutdown_cage(self):
@@ -332,8 +389,6 @@ class ControllerWindow(object):
                 i.toggle_supply(0)
         else:
             utils.log(0, 'Power supplies were not available, there is nothing to do.')
-
-        exit(0)
 
 # Function called by the driver to launch the GUI
 def interface():
