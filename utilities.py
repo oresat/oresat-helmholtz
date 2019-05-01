@@ -1,10 +1,10 @@
 import os, random, time
 
 DEBUG = False
-TICK_TIME = 500
-GRAPH_RANGE = 35
+TICK_TIME = 800
+GRAPH_RANGE = 25
 INPUT_DELAY = 0.2
-DATA_ACCURACY = 69
+DATA_ACCURACY = 2
 POWER_SUPPLIES = []
 PSU_ADDRS = [ 'ttyUSB0', 'ttyUSB1', 'ttyUSB2' ]
 ICON_IMG_PATH='./img/icon.png'
