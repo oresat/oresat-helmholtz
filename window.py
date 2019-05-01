@@ -177,32 +177,35 @@ class ControllerWindow(object):
 
         self.apply_button.setText(_translate("window", "PSU_BUTTON_UPDATE"))
 
-        self.accuracy_input.setSuffix(_translate("window", " decimals"))
-        self.accuracy_input.setValue(utils.DATA_ACCURACY)
         self.accuracy_label.setText(_translate("window", "Data Accuracy:"))
+        self.accuracy_input.setSuffix(_translate("window", " decimals"))
+        # self.accuracy_input.setValue(utils.DATA_ACCURACY)
 
         self.psu_control_mode.setItemText(0, _translate("window", "Voltage"))
         self.psu_control_mode.setItemText(1, _translate("window", "Current"))
+
+        self.toggle_control_mode()
 
 
     def update_layouts(self, x_off, y_off, spacing=10, lw=80, lh=45, iw=100, ih=45):
         #
         # Geometries
         #
-        self.psu_control_mode_label.setGeometry(QtCore.QRect(   x_off,                  y_off, iw, ih))
-        self.psu_control_mode.setGeometry(QtCore.QRect(         x_off + lw + spacing,   y_off, iw, ih))
+        self.psu_control_mode_label.setGeometry(QtCore.QRect(   x_off + self.width - 200 - spacing, y_off, iw, ih))
+        self.psu_control_mode.setGeometry(QtCore.QRect(         x_off + self.width - 120 - spacing, y_off, iw, ih))
 
-        self.active_control_mode_label.setGeometry(QtCore.QRect(x_off,                   y_off + lh * 1, lw * 3, ih))
-        self.psu1_label.setGeometry(QtCore.QRect(               x_off,                   y_off + lh * 2, iw, ih))
-        self.psu1_input.setGeometry(QtCore.QRect(               x_off + lw + spacing,    y_off + lh * 2, iw, ih))
-        self.psu2_label.setGeometry(QtCore.QRect(               x_off,                   y_off + lh * 3, iw, ih))
-        self.psu2_input.setGeometry(QtCore.QRect(               x_off + lw + spacing,    y_off + lh * 3, iw, ih))
-        self.psu3_label.setGeometry(QtCore.QRect(               x_off,                   y_off + lh * 4, iw, ih))
-        self.psu3_input.setGeometry(QtCore.QRect(               x_off + lw + spacing,    y_off + lh * 4, iw, ih))
-        self.apply_button.setGeometry(QtCore.QRect(             x_off + lw + spacing,    y_off + lh * 5, iw, ih))
+        self.active_control_mode_label.setGeometry(QtCore.QRect(x_off, y_off, lw * 3, ih))
+        self.psu1_label.setGeometry(QtCore.QRect(x_off + iw * 0, y_off + lh, iw, ih))
+        self.psu1_input.setGeometry(QtCore.QRect(x_off + iw * 0, y_off + ih * 2, iw, ih))
+        self.psu2_label.setGeometry(QtCore.QRect(x_off + iw * 1, y_off + lh, iw, ih))
+        self.psu2_input.setGeometry(QtCore.QRect(x_off + iw * 1, y_off + ih * 2, iw, ih))
+        self.psu3_label.setGeometry(QtCore.QRect(x_off + iw * 2, y_off + lh, iw, ih))
+        self.psu3_input.setGeometry(QtCore.QRect(x_off + iw * 2, y_off + ih * 2, iw, ih))
 
-        self.accuracy_label.setGeometry(QtCore.QRect(x_off + self.width - 200 - spacing, y_off + 0, iw, ih))
-        self.accuracy_input.setGeometry(QtCore.QRect(x_off + self.width - 120 - spacing, y_off + 0, iw, ih))
+        self.apply_button.setGeometry(QtCore.QRect(x_off + iw * 2, y_off + lh * 3, iw, ih))
+
+        self.accuracy_label.setGeometry(QtCore.QRect(x_off + self.width - 200 - spacing, y_off + ih + spacing, iw, ih))
+        self.accuracy_input.setGeometry(QtCore.QRect(x_off + self.width - 120 - spacing, y_off + ih + spacing + 0, iw, ih))
         self.graph.setGeometry(QtCore.QRect(0, 0, self.width, self.height / 2))
 
         #
@@ -266,7 +269,6 @@ class ControllerWindow(object):
         self.width = self.window.width()
         self.height = self.window.height()
         self.graph.update_graph([x, y, z])
-        self.toggle_control_mode()
         self.update_layouts(10, self.height / 2)
 
     # Changes all the input fields to indicate controlling for either:
@@ -312,10 +314,10 @@ class ControllerWindow(object):
         data = self.graph.dump_data()
 
         file = open(filepath, mode='w')
-        file.write('SAVE_TIME' + utils.unique_time_pretty() + '\n')
-        file.write('INDEX,X,Y,Z\n')
+        file.write('SAVE_TIME:,' + utils.unique_time_pretty() + '\n')
+        file.write('INDEX,TIME(ms),X,Y,Z\n')
         for i in self.graph.dump_data():
-            file.write(str(i[0]) + ',' + str(i[1]) + ',' + str(i[2]) + ',' + str(i[3]) + '\n')
+            file.write(str(i[0]) + ',' + str(i[0] * utils.TICK_TIME / 1000)  + ',' + str(i[1]) + ',' + str(i[2]) + ',' + str(i[3]) + '\n')
         file.close()
 
     # Writes graph data to a file specified by the user
