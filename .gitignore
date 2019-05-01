@@ -1,7 +1,6 @@
 # Custom things
 *.ui
-# deprecated/ # This will eventually be removed
-# core_code/ # This will eventually be removed
+#new_window.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
