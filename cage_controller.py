@@ -37,7 +37,7 @@ class PowerSupply(serial.Serial):
 
     def set_current(self, amperage):
         utils.log(0, 'Setting ' + self.name + ' current to: ' + str(amperage) + ' amps.')
-        self.write(str("Asi" + str(amps * 1000) + "\n").encode())
+        self.write(str("Asi" + str(amperage * 1000) + "\n").encode())
 
     def check_temperatures():
         utils.log(0, 'Checking ' + self.name + ' temperatures...')
