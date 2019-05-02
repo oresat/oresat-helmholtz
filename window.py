@@ -191,13 +191,13 @@ class ControllerWindow(object):
         self.active_control_mode_label.setText(_translate("window", "PSU_MODE_CONTROL"))
 
         self.psu1_label.setText(_translate("window", "Power Supply #1:"))
-        self.psu1_input.setText(_translate("window", "12"))
+        self.psu1_input.setText(_translate("window", "4"))
 
         self.psu2_label.setText(_translate("window", "Power Supply #2:"))
-        self.psu2_input.setText(_translate("window", "12"))
+        self.psu2_input.setText(_translate("window", "4"))
 
         self.psu3_label.setText(_translate("window", "Power Supply #3:"))
-        self.psu3_input.setText(_translate("window", "12"))
+        self.psu3_input.setText(_translate("window", "4"))
 
         self.apply_button.setText(_translate("window", "PSU_BUTTON_UPDATE"))
 
@@ -213,7 +213,7 @@ class ControllerWindow(object):
         self.toggle_control_mode()
         self.affirm_power_supplies()
 
-    def update_layouts(self, x_off, y_off, spacing=10, lw=100, lh=60, iw=120, ih=50):
+    def update_layouts(self, x_off, y_off, spacing=10, lw=160, lh=60, iw=180, ih=50):
         #
         # Geometries
         #
