@@ -10,7 +10,7 @@ def install(package):
         utils.log(0, 'No main class was found when trying to install ' + str(package) + 'switching to internal main.')
         pip.__internal.main(['install', package])
 
-    utils.log(0, str(package) + ' package guarenteed installed.')
+    utils.log(0, str(package) + ' package guaranteed installed.')
 
 def main():
     for i in DEPENDENCES:

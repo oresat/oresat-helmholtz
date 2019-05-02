@@ -7,7 +7,7 @@ INPUT_DELAY = 0.2
 DATA_ACCURACY = 2
 POWER_SUPPLIES = []
 PSU_ADDRS = [ 'ttyUSB0', 'ttyUSB1', 'ttyUSB2' ]
-ICON_IMG_PATH='./img/icon.png'
+ICON_IMG_PATH = './img/icon.png'
 CAGE_DATA_PATH = '/cage_data/'
 
 def data_file_path(filename=''):

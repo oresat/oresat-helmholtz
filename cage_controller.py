@@ -3,8 +3,10 @@ import time # Stuff for regulated sensor delays
 import smbus # Stuff for controlling temperature and magnetic sensors
 import utilities as utils # Stuff for debugging and/or general info
 
-WIRE_WARN_TEMP = 100 # Min cage wire temperatures in F for warning
-WIRE_HCF_TEMP = 120 # Max cage wire temperatures in F for forced halting
+WIRE_WARN_TEMP = 100 # Min cage wire temperatures in C for warning
+WIRE_HCF_TEMP = 120 # Max cage wire temperatures in C for forced halting
+PSU_WARN_TEMP = 35 # Min cage wire temperatures in C for warning
+PSU_HCF_TEMP = 40 # Max cage wire temperatures in C for forced halting
 
 class PowerSupply(serial.Serial):
     def __init__(self, port_device, input_delay=utils.INPUT_DELAY, baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, timeout=1):
@@ -16,8 +18,8 @@ class PowerSupply(serial.Serial):
         self.stopbits = stopbits
         self.bytesize = bytesize
         self.timeout = timeout
-        self.warn_temp = 35 # Min cage wire temperatures in F for warning
-        self.halt_temp = 40 # Max cage wire temperatures in F for forced halting
+        self.warn_temp = 35 # Min cage wire temperatures in C for warning
+        self.halt_temp = 40 # Max cage wire temperatures in C for forced halting
 
         utils.log(0, 'Initialized Power supply with the following:\n\tPort: ' + str(port_device)
                                                                + '\n\tInput Delay: ' + str(input_delay)
@@ -110,7 +112,7 @@ def temperature():
     #        0x03(03)    Resolution = +0.0625 / C
     bus.write_byte_data(0x18, 0x08, 0x03)
 
-    time.sleep(0.2)
+    time.sleep(utils.INPUT_DELAY)
 
     # MCP9808 address, 0x18(24)
     # Read data back from 0x05(5), 2 bytes
@@ -127,7 +129,7 @@ def temperature():
     bus.write_i2c_block_data(0x1c, 0x01, config)
     bus.write_byte_data(0x1c, 0x08, 0x03)
 
-    time.sleep(0.2)
+    time.sleep(utils.INPUT_DELAY)
 
     data = bus.read_i2c_block_data(0x1c, 0x05, 2)
 
@@ -139,14 +141,3 @@ def temperature():
     temperature_check_bounds(ctemp1, WIRE_WARN_TEMP, WIRE_HCF_TEMP)
     temperature_check_bounds(ctemp2, PSU_WARN_TEMP, PSU_HCF_TEMP)
     return ctemp1, ctemp2
-
-def poll_data(duration = 10.0, dt = 1.0):
-    time_step = [0.0]
-    # temp_array = [temperature()]
-    mag_array = [magnotometer()]
-    while time_step[-1] < duration:
-        time.sleep(dt)
-        time_step.append(time_step[-1] + dt)
-        # temp_array.append(temperature())
-        mag_array.append(magnotometer())
-    return time_step, mag_array #temp_array, mag_array
