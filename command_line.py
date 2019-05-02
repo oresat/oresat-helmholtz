@@ -48,7 +48,7 @@ def menu(control):
         if(utils.supply_available()):
             current = float(input('New current [Amps]: '))
             supply_index= int(input('Power Supply [1-3]: '))
-            utils.POWER_SUPPLIES[supply_index].set_current(current)
+            utils.POWER_SUPPLIES[supply_index - 1].set_current(current)
             utils.log(0, 'Amperage set to ' + str(current) + ' Amps on Supply #' + str(supply_index))
         else:
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
