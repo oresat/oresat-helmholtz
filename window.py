@@ -148,8 +148,8 @@ class ControllerWindow(object):
         # Graph
         #
         self.graph = g.Graph(self.widget)
-        self.graph.add_line('Magnetometer X', 'r')
-        self.graph.add_line('Magnetometer Y', 'g')
+        self.graph.add_line('Magnetometer X', 'g')
+        self.graph.add_line('Magnetometer Y', 'r')
         self.graph.add_line('Magnetometer Z', 'b')
         self.graph.setGeometry(QtCore.QRect(0, 700, self.width, self.height / 3))
         self.graph.setAutoFillBackground(True)
