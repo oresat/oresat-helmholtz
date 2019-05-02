@@ -350,10 +350,10 @@ class ControllerWindow(object):
         if(utils.supply_available()):
             if(self.control_mode == 0):
                 for i in range(0, len(utils.POWER_SUPPLIES)):
-                    utils.POWER_SUPPLIES[i + 1].set_voltage(values[i])
+                    utils.POWER_SUPPLIES[i].set_voltage(values[i])
             elif(self.control_mode == 0):
                 for i in range(0, len(utils.POWER_SUPPLIES)):
-                    utils.POWER_SUPPLIES[i + 1].set_current(values[i])
+                    utils.POWER_SUPPLIES[i].set_current(values[i])
             else:
                 utils.log(3, 'An invalid control mode was specified: ' + str(self.control_mode) + '!\n\tThis input will be ignored and the power supplies cannot be modified until this is resolved.')
         else:

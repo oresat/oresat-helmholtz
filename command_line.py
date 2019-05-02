@@ -40,7 +40,7 @@ def menu(control):
         if(utils.supply_available()):
             voltage = float(input('New voltage [Volts]: '))
             supply_index= int(input('Power Supply [1-3]: '))
-            utils.POWER_SUPPLIES[supply_index].set_voltage(voltage)
+            utils.POWER_SUPPLIES[supply_index - 1].set_voltage(voltage)
             utils.log(0, 'Voltage set to ' + str(voltage) + ' Volts on Supply #' + str(supply_index))
         else:
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
