@@ -351,7 +351,7 @@ class ControllerWindow(object):
             if(self.control_mode == 0):
                 for i in range(0, len(utils.POWER_SUPPLIES)):
                     utils.POWER_SUPPLIES[i].set_voltage(values[i])
-            elif(self.control_mode == 0):
+            elif(self.control_mode == 1):
                 for i in range(0, len(utils.POWER_SUPPLIES)):
                     utils.POWER_SUPPLIES[i].set_current(values[i])
             else:
