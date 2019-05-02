@@ -213,7 +213,7 @@ class ControllerWindow(object):
         self.toggle_control_mode()
         self.affirm_power_supplies()
 
-    def update_layouts(self, x_off, y_off, spacing=10, lw=80, lh=60, iw=100, ih=50):
+    def update_layouts(self, x_off, y_off, spacing=10, lw=100, lh=60, iw=120, ih=50):
         #
         # Geometries
         #
