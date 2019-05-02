@@ -264,8 +264,8 @@ class ControllerWindow(object):
         self.dai = QtWidgets.QHBoxLayout(self.widget)
         self.dai.setObjectName('dai')
         self.dai.setContentsMargins(0, 0, 0, 0)
-        self.dai.addWidget(self.accuracy_label)
-        self.dai.addWidget(self.accuracy_input)
+        # self.dai.addWidget(self.accuracy_label)
+        # self.dai.addWidget(self.accuracy_input)
 
         self.psu_cmt = QtWidgets.QGridLayout(self.widget)
         self.psu_cmt.setObjectName('psu_cmt')
