@@ -138,6 +138,13 @@ class ControllerWindow(object):
         self.accuracy_input.valueChanged.connect(self.update_data_accuracy)
 
         #
+        # Misc
+        #
+        self.quit_button = QtWidgets.QPushButton(self.widget)
+        self.quit_button.setObjectName("quit_button")
+        self.quit_button.clicked.connect(self.confirm_shutdown)
+
+        #
         # Graph
         #
         self.graph = g.Graph(self.widget)
@@ -198,6 +205,8 @@ class ControllerWindow(object):
         self.accuracy_input.setSuffix(_translate("window", " decimals"))
         # self.accuracy_input.setValue(utils.DATA_ACCURACY)
 
+        self.quit_button.setText(_translate("window", "Shutdown Cage"))
+
         self.psu_control_mode.setItemText(0, _translate("window", "Voltage"))
         self.psu_control_mode.setItemText(1, _translate("window", "Current"))
 
@@ -222,6 +231,7 @@ class ControllerWindow(object):
 
         self.accuracy_label.setGeometry(QtCore.QRect(x_off + self.width - 200 - spacing, y_off + ih + spacing, iw, ih))
         self.accuracy_input.setGeometry(QtCore.QRect(x_off + self.width - 120 - spacing, y_off + ih + spacing + 0, iw, ih))
+        self.quit_button.setGeometry(QtCore.QRect(self.width - 110 - spacing, self.height - 130, iw, ih))
         self.graph.setGeometry(QtCore.QRect(0, 0, self.width, self.height / 2))
 
         #

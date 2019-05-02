@@ -130,6 +130,9 @@ class Graph(QtGui.QWidget):
         self.y = []
         self.data_size = 0
 
+        # Clear the graph
+        self.plot.clear()
+
         return results
 
     def dump_data_to_console(self):
