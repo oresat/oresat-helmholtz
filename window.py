@@ -227,11 +227,11 @@ class ControllerWindow(object):
         self.psu2_input.setGeometry(QtCore.QRect(x_off + iw * 1,    y_off + 2 * ih / 3,    iw, ih))
         self.psu3_label.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off,         lw, ih))
         self.psu3_input.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off + 2 * ih / 3,    iw, ih))
-        self.apply_button.setGeometry(QtCore.QRect(x_off + iw * 2,  y_off + 5 * lh / 3, 3 * iw / 2 , ih))
+        self.apply_button.setGeometry(QtCore.QRect(x_off + iw * 2,  y_off + 5 * lh / 3, iw, ih))
 
         self.accuracy_label.setGeometry(QtCore.QRect(x_off + self.width - 200 - spacing, y_off + ih + spacing, iw, ih))
         self.accuracy_input.setGeometry(QtCore.QRect(x_off + self.width - 120 - spacing, y_off + ih + spacing + 0, iw, ih))
-        self.quit_button.setGeometry(QtCore.QRect(self.width - 150 - spacing, self.height - 130, 3 * iw / 2, ih))
+        self.quit_button.setGeometry(QtCore.QRect(self.width - 3 * iw / 2 - spacing, self.height - ih, 3 * iw / 2, ih))
         self.graph.setGeometry(QtCore.QRect(0, 0, self.width, self.height / 2))
 
         #
