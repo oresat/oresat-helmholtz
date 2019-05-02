@@ -201,8 +201,8 @@ class ControllerWindow(object):
 
         self.apply_button.setText(_translate("window", "PSU_BUTTON_UPDATE"))
 
-        self.accuracy_label.setText(_translate("window", "Data Accuracy:"))
-        self.accuracy_input.setSuffix(_translate("window", " decimals"))
+        # self.accuracy_label.setText(_translate("window", "Data Accuracy:"))
+        # self.accuracy_input.setSuffix(_translate("window", " decimals"))
         # self.accuracy_input.setValue(utils.DATA_ACCURACY)
 
         self.quit_button.setText(_translate("window", "Shutdown Cage"))
