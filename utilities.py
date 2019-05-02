@@ -1,8 +1,8 @@
 import os, random, time
 
 DEBUG = False
-TICK_TIME = 1
-GRAPH_RANGE = 100
+TICK_TIME = 500
+GRAPH_RANGE = 35
 INPUT_DELAY = 0.2
 DATA_ACCURACY = 4
 POWER_SUPPLIES = []
