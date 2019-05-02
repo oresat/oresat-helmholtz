@@ -124,18 +124,18 @@ class ControllerWindow(object):
         #
         # Data Accuracy Input
         #
-        self.accuracy_label = QtWidgets.QLabel(self.widget)
-        self.accuracy_label.setObjectName("accuracy_label")
-
-        self.accuracy_input = QtWidgets.QSpinBox(self.widget)
-        self.accuracy_input.setReadOnly(False)
-        self.accuracy_input.setButtonSymbols(QtWidgets.QAbstractSpinBox.UpDownArrows)
-        self.accuracy_input.setCorrectionMode(QtWidgets.QAbstractSpinBox.CorrectToNearestValue)
-        self.accuracy_input.setKeyboardTracking(False)
-        self.accuracy_input.setProperty("value", 4)
-        self.accuracy_input.setObjectName("accuracy_input")
-        self.accuracy_input.setDisabled(True)
-        self.accuracy_input.valueChanged.connect(self.update_data_accuracy)
+        # self.accuracy_label = QtWidgets.QLabel(self.widget)
+        # self.accuracy_label.setObjectName("accuracy_label")
+        #
+        # self.accuracy_input = QtWidgets.QSpinBox(self.widget)
+        # self.accuracy_input.setReadOnly(False)
+        # self.accuracy_input.setButtonSymbols(QtWidgets.QAbstractSpinBox.UpDownArrows)
+        # self.accuracy_input.setCorrectionMode(QtWidgets.QAbstractSpinBox.CorrectToNearestValue)
+        # self.accuracy_input.setKeyboardTracking(False)
+        # self.accuracy_input.setProperty("value", 4)
+        # self.accuracy_input.setObjectName("accuracy_input")
+        # self.accuracy_input.setDisabled(True)
+        # self.accuracy_input.valueChanged.connect(self.update_data_accuracy)
 
         #
         # Misc
@@ -229,8 +229,8 @@ class ControllerWindow(object):
         self.psu3_input.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off + 2 * ih / 3,    iw, ih))
         self.apply_button.setGeometry(QtCore.QRect(x_off + iw * 2,  y_off + 5 * lh / 3, iw, ih))
 
-        self.accuracy_label.setGeometry(QtCore.QRect(x_off + self.width - 200 - spacing, y_off + ih + spacing, iw, ih))
-        self.accuracy_input.setGeometry(QtCore.QRect(x_off + self.width - 120 - spacing, y_off + ih + spacing + 0, iw, ih))
+        # self.accuracy_label.setGeometry(QtCore.QRect(x_off + self.width - 200 - spacing, y_off + ih + spacing, iw, ih))
+        # self.accuracy_input.setGeometry(QtCore.QRect(x_off + self.width - 120 - spacing, y_off + ih + spacing + 0, iw, ih))
         self.quit_button.setGeometry(QtCore.QRect(self.width - 3 * iw / 2 - spacing, self.height - 100 - ih, 3 * iw / 2, ih))
         self.graph.setGeometry(QtCore.QRect(0, 0, self.width, self.height / 2))
 
