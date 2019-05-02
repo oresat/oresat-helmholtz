@@ -73,7 +73,7 @@ def menu(control):
         utils.log(0, 'Sensor 2:\t' + str(cage_temp_2) + '°C\t' + str(utils.c_to_f(cage_temp_2) + '°F'))
     elif control == 6:
         utils.log(0, 'Checking magnotometer, units in microTeslas')
-        xMag, yMag, zMag = cage_controller.magnotometer()
+        xMag, yMag, zMag = cage_controller.magnetometer()
         utils.log(0, 'Manetic field Components:\n\tX: ' + str(xMag) + '\n\tY: ' + str(yMag) + '\n\tZ: ' + str(zMag))
     elif control == 7:
         if(utils.supply_available()):

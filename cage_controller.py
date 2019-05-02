@@ -85,7 +85,7 @@ def temperature_check_bounds(temp, warning, shutoff):
             toggle_all_power_supply(0)
 
 # function to get magnetic field components from sensors
-def magnotometer():
+def magnetometer():
     # Get I2C bus
     bus = smbus.SMBus(1)
     time.sleep(utils.INPUT_DELAY)
