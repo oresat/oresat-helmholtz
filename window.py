@@ -211,15 +211,14 @@ class ControllerWindow(object):
         self.psu_control_mode_label.setGeometry(QtCore.QRect(   x_off + self.width - 200 - spacing, y_off, iw, ih))
         self.psu_control_mode.setGeometry(QtCore.QRect(         x_off + self.width - 120 - spacing, y_off, iw, ih))
 
-        self.active_control_mode_label.setGeometry(QtCore.QRect(x_off, y_off, lw * 3, ih))
-        self.psu1_label.setGeometry(QtCore.QRect(x_off + iw * 0, y_off + lh, iw, ih))
-        self.psu1_input.setGeometry(QtCore.QRect(x_off + iw * 0, y_off + ih * 2, iw, ih))
-        self.psu2_label.setGeometry(QtCore.QRect(x_off + iw * 1, y_off + lh, iw, ih))
-        self.psu2_input.setGeometry(QtCore.QRect(x_off + iw * 1, y_off + ih * 2, iw, ih))
-        self.psu3_label.setGeometry(QtCore.QRect(x_off + iw * 2, y_off + lh, iw, ih))
-        self.psu3_input.setGeometry(QtCore.QRect(x_off + iw * 2, y_off + ih * 2, iw, ih))
-
-        self.apply_button.setGeometry(QtCore.QRect(x_off + iw * 2, y_off + lh * 3, iw, ih))
+        self.active_control_mode_label.setGeometry(QtCore.QRect(x_off, y_off - lh / 4, lw * 3, ih))
+        self.psu1_label.setGeometry(QtCore.QRect(x_off + iw * 0,    y_off,         iw, ih))
+        self.psu1_input.setGeometry(QtCore.QRect(x_off + iw * 0,    y_off + 2 * ih / 3,    iw, ih))
+        self.psu2_label.setGeometry(QtCore.QRect(x_off + iw * 1,    y_off,         iw, ih))
+        self.psu2_input.setGeometry(QtCore.QRect(x_off + iw * 1,    y_off + 2 * ih / 3,    iw, ih))
+        self.psu3_label.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off,         iw, ih))
+        self.psu3_input.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off + 2 * ih / 3,    iw, ih))
+        self.apply_button.setGeometry(QtCore.QRect(x_off + iw * 2,  y_off + 5 * lh / 3, iw, ih))
 
         self.accuracy_label.setGeometry(QtCore.QRect(x_off + self.width - 200 - spacing, y_off + ih + spacing, iw, ih))
         self.accuracy_input.setGeometry(QtCore.QRect(x_off + self.width - 120 - spacing, y_off + ih + spacing + 0, iw, ih))
@@ -299,7 +298,7 @@ class ControllerWindow(object):
 
     def toggle_scanning(self):
         if(self.toggle_scan.isChecked()): self.toggle_gui_features(True)
-        else: self.toggle_gui_features(False)
+        else: self.affirm_power_supplies()
 
     def tick(self):
         # Generates dummy data just for testing the graph
@@ -354,7 +353,7 @@ class ControllerWindow(object):
         utils.log(0, 'Saving graph data to file: ' + filepath)
 
         file = open(filepath, mode='w')
-        file.write('SAVE_TIME:,' + utils.unique_time_pretty() + '\n')
+        file.write(',,,,,SAVE_TIME:,' + utils.unique_time_pretty() + '\n')
         file.write('INDEX,TIME(ms),X,Y,Z\n')
         index = 1
         for i in self.graph.get_data():

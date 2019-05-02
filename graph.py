@@ -52,7 +52,7 @@ class Graph(QtGui.QWidget):
         self.plot.setClipToView(True)
         self.plot.showGrid(x=True, y=True)
         self.plot.setLabel('left', 'Magnetic Field', units='mT')
-        self.plot.setLabel('bottom', 'Time', units='s/2')
+        self.plot.setLabel('bottom', 'Ticks', units=str(utils.TICK_TIME))
 
         #
         # Graph Legend
