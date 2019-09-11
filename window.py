@@ -2,12 +2,16 @@ import sys
 import graph as g
 import utilities as utils
 import cage_controller as cc
+import magnetic_field_current_relation as mfcr
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
 class ControllerWindow(object):
     def __init__(self, window):
+        # Actual ambient magnetometer data
+        self.x_0, self.y_0, self.z_0 = cc.magnetometer()
+        
         self.control_mode = 0
         self.window = window
         self.font = QtGui.QFont()
@@ -106,7 +110,7 @@ class ControllerWindow(object):
         self.psu1_input.setObjectName("psu1_input")
 
         self.psu2_label = QtWidgets.QLabel(self.widget)
-        self.psu2_label.setObjectName("psu2_input")
+        self.psu2_label.setObjectName("psu2_label")
 
         self.psu2_input = QtWidgets.QLineEdit(self.widget)
         self.psu2_input.setObjectName("psu2_input")
@@ -121,6 +125,31 @@ class ControllerWindow(object):
         self.apply_button.setObjectName("apply_button")
         self.apply_button.clicked.connect(self.apply_psu_changes)
 
+        #
+        # Magnetic field control input
+        #
+        self.x_label = QtWidgets.QLabel(self.widget)
+        self.x_label.setObjectName("x_label")
+
+        self.x_input = QtWidgets.QLineEdit(self.widget)
+        self.x_input.setObjectName("x_input")
+
+        self.y_label = QtWidgets.QLabel(self.widget)
+        self.y_label.setObjectName("y_label")
+
+        self.y_input = QtWidgets.QLineEdit(self.widget)
+        self.y_input.setObjectName("y_input")
+
+        self.z_label = QtWidgets.QLabel(self.widget)
+        self.z_label.setObjectName("z_label")
+
+        self.z_input = QtWidgets.QLineEdit(self.widget)
+        self.z_input.setObjectName("z_input")
+
+        self.apply_mag_button = QtWidgets.QPushButton(self.widget)
+        self.apply_mag_button.setObjectName("apply_mag_button")
+        self.apply_mag_button.clicked.connect(self.set_currents_automatically)
+        
         #
         # Data Accuracy Input
         #
@@ -200,7 +229,18 @@ class ControllerWindow(object):
         self.psu3_input.setText(_translate("window", "4"))
 
         self.apply_button.setText(_translate("window", "PSU_BUTTON_UPDATE"))
+        
+        self.x_label.setText(_translate("window", "Ideal Magfield X:"))
+        self.x_input.setText(_translate("window", "4")) #???
 
+        self.y_label.setText(_translate("window", "Ideal Magfield Y:"))
+        self.y_input.setText(_translate("window", "4")) #???
+
+        self.z_label.setText(_translate("window", "Ideal Magfield Z:"))
+        self.z_input.setText(_translate("window", "4")) #???
+
+        self.apply_mag_button.setText(_translate("window", "MAG_BUTTON_UPDATE"))
+        
         # self.accuracy_label.setText(_translate("window", "Data Accuracy:"))
         # self.accuracy_input.setSuffix(_translate("window", " decimals"))
         # self.accuracy_input.setValue(utils.DATA_ACCURACY)
@@ -228,6 +268,14 @@ class ControllerWindow(object):
         self.psu3_label.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off,         lw, ih))
         self.psu3_input.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off + 2 * ih / 3,    iw, ih))
         self.apply_button.setGeometry(QtCore.QRect(x_off + iw * 2,  y_off + 5 * lh / 3, iw, ih))
+        
+        self.x_label.setGeometry(QtCore.QRect(x_off + iw * 0,    y_off,         lw, ih))
+        self.x_input.setGeometry(QtCore.QRect(x_off + iw * 0,    y_off + 2 * ih / 3,    iw, ih))
+        self.y_label.setGeometry(QtCore.QRect(x_off + iw * 1,    y_off,         lw, ih))
+        self.y_input.setGeometry(QtCore.QRect(x_off + iw * 1,    y_off + 2 * ih / 3,    iw, ih))
+        self.z_label.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off,         lw, ih))
+        self.z_input.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off + 2 * ih / 3,    iw, ih))
+        self.apply_mag_button.setGeometry(QtCore.QRect(x_off + iw * 2,  y_off + 5 * lh / 3, iw, ih))
 
         # self.accuracy_label.setGeometry(QtCore.QRect(x_off + self.width - 200 - spacing, y_off + ih + spacing, iw, ih))
         # self.accuracy_input.setGeometry(QtCore.QRect(x_off + self.width - 120 - spacing, y_off + ih + spacing + 0, iw, ih))
@@ -356,6 +404,46 @@ class ControllerWindow(object):
                     utils.POWER_SUPPLIES[i].set_current(values[i])
             else:
                 utils.log(3, 'An invalid control mode was specified: ' + str(self.control_mode) + '!\n\tThis input will be ignored and the power supplies cannot be modified until this is resolved.')
+        else:
+            utils.log(3, 'No supplies are available for updating!\n\tThrowing away button press event.')
+    
+    def close_the_loop(self, target):
+        k = 55 # estimate microtesla per amp
+        epsilon = 10 # convergence criteria
+        steps = 10 # how many times to iterate
+        for i in range(steps):
+            x, y, z = cc.magnetometer() # takes 0.2 sec
+            currents = [ float(self.psu1_input.text()), float(self.psu2_input.text()), float(self.psu3_input.text()) ]
+        
+            delta_x = target[0] - x
+            delta_y = target[1] - y
+            delta_z = target[2] - z
+            if(sqrt(delta_x**2 + delta_y**2 + delta_z**2) < epsilon): break
+            
+            new_x = delta_x / k + currents[0]
+            new_y = delta_y / k + currents[1]
+            new_z = delta_z / k + currents[2]
+            
+            self.psu1_input.setText(str(new_x))
+            self.psu2_input.setText(str(new_y))
+            self.psu3_input.setText(str(new_z))
+            self.apply_psu_changes()
+            
+    # Automatically sets current based on desired magnetic field
+    def set_currents_automatically(self):
+        values = [ float(self.x_input.text()), float(self.y_input.text()), float(self.z_input.text()) ]
+        utils.log(0, 'Applying values automatically:\t\t' + str(values))
+
+        if(utils.supply_available()):
+            new_currents = mfcr.automatic([self.x_0, self.y_0, self.z_0],
+                                          values)
+            self.control_mode = 1
+            self.psu1_input.setText(str(new_currents[0]))
+            self.psu2_input.setText(str(new_currents[1]))
+            self.psu3_input.setText(str(new_currents[2]))
+            self.apply_psu_changes()
+            if(utils.CLOSED_LOOP):
+                self.close_the_loop(values)
         else:
             utils.log(3, 'No supplies are available for updating!\n\tThrowing away button press event.')
 
