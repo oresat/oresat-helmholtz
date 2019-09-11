@@ -124,25 +124,32 @@ class ControllerWindow(object):
         #
         # Data Accuracy Input
         #
-        self.accuracy_label = QtWidgets.QLabel(self.widget)
-        self.accuracy_label.setObjectName("accuracy_label")
+        # self.accuracy_label = QtWidgets.QLabel(self.widget)
+        # self.accuracy_label.setObjectName("accuracy_label")
+        #
+        # self.accuracy_input = QtWidgets.QSpinBox(self.widget)
+        # self.accuracy_input.setReadOnly(False)
+        # self.accuracy_input.setButtonSymbols(QtWidgets.QAbstractSpinBox.UpDownArrows)
+        # self.accuracy_input.setCorrectionMode(QtWidgets.QAbstractSpinBox.CorrectToNearestValue)
+        # self.accuracy_input.setKeyboardTracking(False)
+        # self.accuracy_input.setProperty("value", 4)
+        # self.accuracy_input.setObjectName("accuracy_input")
+        # self.accuracy_input.setDisabled(True)
+        # self.accuracy_input.valueChanged.connect(self.update_data_accuracy)
 
-        self.accuracy_input = QtWidgets.QSpinBox(self.widget)
-        self.accuracy_input.setReadOnly(False)
-        self.accuracy_input.setButtonSymbols(QtWidgets.QAbstractSpinBox.UpDownArrows)
-        self.accuracy_input.setCorrectionMode(QtWidgets.QAbstractSpinBox.CorrectToNearestValue)
-        self.accuracy_input.setKeyboardTracking(False)
-        self.accuracy_input.setProperty("value", 4)
-        self.accuracy_input.setObjectName("accuracy_input")
-        self.accuracy_input.setDisabled(True)
-        self.accuracy_input.valueChanged.connect(self.update_data_accuracy)
+        #
+        # Misc
+        #
+        self.quit_button = QtWidgets.QPushButton(self.widget)
+        self.quit_button.setObjectName("quit_button")
+        self.quit_button.clicked.connect(self.confirm_shutdown)
 
         #
         # Graph
         #
         self.graph = g.Graph(self.widget)
-        self.graph.add_line('Magnetometer X', 'r')
-        self.graph.add_line('Magnetometer Y', 'g')
+        self.graph.add_line('Magnetometer X', 'g')
+        self.graph.add_line('Magnetometer Y', 'r')
         self.graph.add_line('Magnetometer Z', 'b')
         self.graph.setGeometry(QtCore.QRect(0, 700, self.width, self.height / 3))
         self.graph.setAutoFillBackground(True)
@@ -184,19 +191,21 @@ class ControllerWindow(object):
         self.active_control_mode_label.setText(_translate("window", "PSU_MODE_CONTROL"))
 
         self.psu1_label.setText(_translate("window", "Power Supply #1:"))
-        self.psu1_input.setText(_translate("window", "12"))
+        self.psu1_input.setText(_translate("window", "4"))
 
         self.psu2_label.setText(_translate("window", "Power Supply #2:"))
-        self.psu2_input.setText(_translate("window", "12"))
+        self.psu2_input.setText(_translate("window", "4"))
 
         self.psu3_label.setText(_translate("window", "Power Supply #3:"))
-        self.psu3_input.setText(_translate("window", "12"))
+        self.psu3_input.setText(_translate("window", "4"))
 
         self.apply_button.setText(_translate("window", "PSU_BUTTON_UPDATE"))
 
-        self.accuracy_label.setText(_translate("window", "Data Accuracy:"))
-        self.accuracy_input.setSuffix(_translate("window", " decimals"))
+        # self.accuracy_label.setText(_translate("window", "Data Accuracy:"))
+        # self.accuracy_input.setSuffix(_translate("window", " decimals"))
         # self.accuracy_input.setValue(utils.DATA_ACCURACY)
+
+        self.quit_button.setText(_translate("window", "Shutdown Cage"))
 
         self.psu_control_mode.setItemText(0, _translate("window", "Voltage"))
         self.psu_control_mode.setItemText(1, _translate("window", "Current"))
@@ -204,25 +213,25 @@ class ControllerWindow(object):
         self.toggle_control_mode()
         self.affirm_power_supplies()
 
-    def update_layouts(self, x_off, y_off, spacing=10, lw=80, lh=45, iw=100, ih=45):
+    def update_layouts(self, x_off, y_off, spacing=10, lw=150, lh=60, iw=150, ih=50):
         #
         # Geometries
         #
         self.psu_control_mode_label.setGeometry(QtCore.QRect(   x_off + self.width - 200 - spacing, y_off, iw, ih))
         self.psu_control_mode.setGeometry(QtCore.QRect(         x_off + self.width - 120 - spacing, y_off, iw, ih))
 
-        self.active_control_mode_label.setGeometry(QtCore.QRect(x_off, y_off, lw * 3, ih))
-        self.psu1_label.setGeometry(QtCore.QRect(x_off + iw * 0, y_off + lh, iw, ih))
-        self.psu1_input.setGeometry(QtCore.QRect(x_off + iw * 0, y_off + ih * 2, iw, ih))
-        self.psu2_label.setGeometry(QtCore.QRect(x_off + iw * 1, y_off + lh, iw, ih))
-        self.psu2_input.setGeometry(QtCore.QRect(x_off + iw * 1, y_off + ih * 2, iw, ih))
-        self.psu3_label.setGeometry(QtCore.QRect(x_off + iw * 2, y_off + lh, iw, ih))
-        self.psu3_input.setGeometry(QtCore.QRect(x_off + iw * 2, y_off + ih * 2, iw, ih))
+        self.active_control_mode_label.setGeometry(QtCore.QRect(x_off, y_off - lh / 4, lw * 5, ih))
+        self.psu1_label.setGeometry(QtCore.QRect(x_off + iw * 0,    y_off,         lw, ih))
+        self.psu1_input.setGeometry(QtCore.QRect(x_off + iw * 0,    y_off + 2 * ih / 3,    iw, ih))
+        self.psu2_label.setGeometry(QtCore.QRect(x_off + iw * 1,    y_off,         lw, ih))
+        self.psu2_input.setGeometry(QtCore.QRect(x_off + iw * 1,    y_off + 2 * ih / 3,    iw, ih))
+        self.psu3_label.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off,         lw, ih))
+        self.psu3_input.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off + 2 * ih / 3,    iw, ih))
+        self.apply_button.setGeometry(QtCore.QRect(x_off + iw * 2,  y_off + 5 * lh / 3, iw, ih))
 
-        self.apply_button.setGeometry(QtCore.QRect(x_off + iw * 2, y_off + lh * 3, iw, ih))
-
-        self.accuracy_label.setGeometry(QtCore.QRect(x_off + self.width - 200 - spacing, y_off + ih + spacing, iw, ih))
-        self.accuracy_input.setGeometry(QtCore.QRect(x_off + self.width - 120 - spacing, y_off + ih + spacing + 0, iw, ih))
+        # self.accuracy_label.setGeometry(QtCore.QRect(x_off + self.width - 200 - spacing, y_off + ih + spacing, iw, ih))
+        # self.accuracy_input.setGeometry(QtCore.QRect(x_off + self.width - 120 - spacing, y_off + ih + spacing + 0, iw, ih))
+        self.quit_button.setGeometry(QtCore.QRect(self.width - 3 * iw / 2 - spacing, self.height - 100 - ih, 3 * iw / 2, ih))
         self.graph.setGeometry(QtCore.QRect(0, 0, self.width, self.height / 2))
 
         #
@@ -255,8 +264,8 @@ class ControllerWindow(object):
         self.dai = QtWidgets.QHBoxLayout(self.widget)
         self.dai.setObjectName('dai')
         self.dai.setContentsMargins(0, 0, 0, 0)
-        self.dai.addWidget(self.accuracy_label)
-        self.dai.addWidget(self.accuracy_input)
+        # self.dai.addWidget(self.accuracy_label)
+        # self.dai.addWidget(self.accuracy_input)
 
         self.psu_cmt = QtWidgets.QGridLayout(self.widget)
         self.psu_cmt.setObjectName('psu_cmt')
@@ -299,13 +308,16 @@ class ControllerWindow(object):
 
     def toggle_scanning(self):
         if(self.toggle_scan.isChecked()): self.toggle_gui_features(True)
-        else: self.toggle_gui_features(False)
+        else: self.affirm_power_supplies()
 
     def tick(self):
         # Generates dummy data just for testing the graph
-        x = utils.generate_static(self.graph.lines[0].y)
-        y = utils.generate_static(self.graph.lines[1].y)
-        z = utils.generate_static(self.graph.lines[2].y)
+        # x = utils.generate_static(self.graph.lines[0].y)
+        # y = utils.generate_static(self.graph.lines[1].y)
+        # z = utils.generate_static(self.graph.lines[2].y)
+
+        # Actual magnetometer data
+        x, y, z = cc.magnetometer()
 
         self.width = self.window.width()
         self.height = self.window.height()
@@ -338,10 +350,10 @@ class ControllerWindow(object):
         if(utils.supply_available()):
             if(self.control_mode == 0):
                 for i in range(0, len(utils.POWER_SUPPLIES)):
-                    utils.POWER_SUPPLIES[i + 1].set_voltage(values[i])
-            elif(self.control_mode == 0):
+                    utils.POWER_SUPPLIES[i].set_voltage(values[i])
+            elif(self.control_mode == 1):
                 for i in range(0, len(utils.POWER_SUPPLIES)):
-                    utils.POWER_SUPPLIES[i + 1].set_current(values[i])
+                    utils.POWER_SUPPLIES[i].set_current(values[i])
             else:
                 utils.log(3, 'An invalid control mode was specified: ' + str(self.control_mode) + '!\n\tThis input will be ignored and the power supplies cannot be modified until this is resolved.')
         else:
@@ -354,7 +366,7 @@ class ControllerWindow(object):
         utils.log(0, 'Saving graph data to file: ' + filepath)
 
         file = open(filepath, mode='w')
-        file.write('SAVE_TIME:,' + utils.unique_time_pretty() + '\n')
+        file.write(',,,,,SAVE_TIME:,' + utils.unique_time_pretty() + '\n')
         file.write('INDEX,TIME(ms),X,Y,Z\n')
         index = 1
         for i in self.graph.get_data():

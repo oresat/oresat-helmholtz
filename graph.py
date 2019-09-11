@@ -52,14 +52,14 @@ class Graph(QtGui.QWidget):
         self.plot.setClipToView(True)
         self.plot.showGrid(x=True, y=True)
         self.plot.setLabel('left', 'Magnetic Field', units='mT')
-        self.plot.setLabel('bottom', 'Time', units='s/2')
+        self.plot.setLabel('bottom', 'Ticks', units=str(utils.TICK_TIME))
 
         #
         # Graph Legend
         #
         self.plot.addLegend()
-        self.plot.plot([], pen='r', symbolBrush=0.2, name='MagSensor-X')
-        self.plot.plot([], pen='g', symbolBrush=0.2, name='MagSensor-Y')
+        self.plot.plot([], pen='g', symbolBrush=0.2, name='MagSensor-X')
+        self.plot.plot([], pen='r', symbolBrush=0.2, name='MagSensor-Y')
         self.plot.plot([], pen='b', symbolBrush=0.2, name='MagSensor-Z')
 
         self.toggle_button = QtWidgets.QPushButton('Start Graph', self)
@@ -129,6 +129,9 @@ class Graph(QtGui.QWidget):
         self.x = []
         self.y = []
         self.data_size = 0
+
+        # Clear the graph
+        self.plot.clear()
 
         return results
 

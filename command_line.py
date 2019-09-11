@@ -34,7 +34,7 @@ def menu(control):
         if(utils.supply_available()):
             voltage = float(input('New voltage [Volts]: '))
             supply_index= int(input('Power Supply [1-3]: '))
-            utils.POWER_SUPPLIES[supply_index].set_voltage(voltage)
+            utils.POWER_SUPPLIES[supply_index - 1].set_voltage(voltage)
             utils.log(0, 'Voltage set to ' + str(voltage) + ' Volts on Supply #' + str(supply_index))
         else:
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
@@ -42,7 +42,7 @@ def menu(control):
         if(utils.supply_available()):
             current = float(input('New current [Amps]: '))
             supply_index= int(input('Power Supply [1-3]: '))
-            utils.POWER_SUPPLIES[supply_index].set_current(current)
+            utils.POWER_SUPPLIES[supply_index - 1].set_current(current)
             utils.log(0, 'Amperage set to ' + str(current) + ' Amps on Supply #' + str(supply_index))
         else:
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
@@ -66,8 +66,8 @@ def menu(control):
         utils.log(0, 'Sensor 1:\t' + str(cage_temp_1) + '°C\t' + str(utils.c_to_f(cage_temp_1) + '°F'))
         utils.log(0, 'Sensor 2:\t' + str(cage_temp_2) + '°C\t' + str(utils.c_to_f(cage_temp_2) + '°F'))
     elif control == 6:
-        utils.log(0, 'Checking magnotometer, units in microTeslas')
-        xMag, yMag, zMag = cage_controller.magnotometer()
+        utils.log(0, 'Checking magnetometer, units in microTeslas')
+        xMag, yMag, zMag = cage_controller.magnetometer()
         utils.log(0, 'Magnetic field Components:\n\tX: ' + str(xMag) + '\n\tY: ' + str(yMag) + '\n\tZ: ' + str(zMag))
     elif control == 7:
         if(utils.supply_available()):

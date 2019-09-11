@@ -39,10 +39,37 @@ class PowerSupply(serial.Serial):
 
     def set_current(self, amperage):
         utils.log(0, 'Setting ' + self.name + ' current to: ' + str(amperage) + ' amps.')
-        self.write(str("Asi" + str(amps * 1000) + "\n").encode())
+        self.write(str("Asi" + str(amperage * 1000) + "\n").encode())
 
     def check_temperatures():
         utils.log(0, 'Checking ' + self.name + ' temperatures...')
+
+class TemperatureSensor():
+    def __init__(self, address, delay=utils.INPUT_DELAY, raw_offset=8192, max_raw=4095,byte_size=2, cont_conv=0x18, power_up=0x01, config=[0x00, 0x00]):
+        TemperatureSensor.bus = smbus.SMBus(1)
+        TemperatureSensor.is_closed = False
+        self.address = address
+        self.delay = delay
+        self.raw_offset = raw_offset
+        self.max_raw = max_raw
+        self.byte_size = byte_size
+        self.cont_conv = cont_conv
+        self.power_up = power_up
+        self.config = config
+
+    def __del__(self):
+        if(TemperatureSensor.is_closed):
+            TemperatureSensor.bus.close()
+            TemperatureSensor.is_closed = True
+
+
+    def read(self):
+        time.sleep(self.delay)
+        raw_data = TemperatureSensor.bus.read_i2c_block_data(cont_conv, 0x05, self.byte_size)
+        temperature = ((raw_data[0] & 0x1F) * 256) + raw_data[1]
+        if(temperature > max_raw): temperature -= offset
+        return temperature * 0.0625
+
 
 # data conversion processes for magnetometer and temperature
 def checksize(measurement, maxval, offset):
@@ -60,7 +87,7 @@ def temperature_check_bounds(temp, warning, shutoff):
             toggle_all_power_supply(0)
 
 # function to get magnetic field components from sensors
-def magnotometer():
+def magnetometer():
     # Get I2C bus
     bus = smbus.SMBus(1)
     time.sleep(utils.INPUT_DELAY)
