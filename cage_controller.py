@@ -57,6 +57,7 @@ class PowerSupply(serial.Serial):
     def set_current(self, amperage):
         utils.log(0, 'Setting ' + self.name + ' current to: ' + str(amperage) + ' amps.')
         self.write(str("Asi" + str(abs(amperage) * 1000) + "\n").encode())
+        self.amperage = amperage
         if(amperage < 0): #???
             self.coil.negative()
         else:
