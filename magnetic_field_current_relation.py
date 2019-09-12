@@ -27,7 +27,7 @@ def getNeededCurrent(desiredfield): #get microteslas return amps
 #     return current * paramMultiplier(d)
 
 def fieldToCurrent(efx, efy, efz):
-    desiredfield = float(raw_input("What is the ideal strength of the uniform magnetic field? (microTeslas)\n"))
+    desiredfield = float(input("What is the ideal strength of the uniform magnetic field? (microTeslas)\n"))
     #print "What is the initial strength of Earth's magnetic field? (microTeslas) (x, y, z)"
     # in the future these initial values should come from magnotometer
     #efx = float(raw_input("x: "))

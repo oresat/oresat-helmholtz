@@ -71,15 +71,15 @@ def menu(control):
         utils.log(0, 'Magnetic field Components:\n\tX: ' + str(xMag) + '\n\tY: ' + str(yMag) + '\n\tZ: ' + str(zMag))
     elif control == 7:
         if(utils.supply_available()):
-            x0, y0, z0 = cage_controller.magnotometer()
-            desired_x = float(raw_input("What is the ideal strength of the x component? (microTeslas)\n"))
-            desired_y = float(raw_input("What is the ideal strength of the y component? (microTeslas)\n"))
-            desired_z = float(raw_input("What is the ideal strength of the z component? (microTeslas)\n"))
-            currents = mfcr.fieldToCurrent([x0, y0, z0], [desired_x, desired_y, desired_z])
+            x0, y0, z0 = cage_controller.magnetometer()
+            desired_x = float(input("What is the ideal strength of the x component? (microTeslas)\n"))
+            desired_y = float(input("What is the ideal strength of the y component? (microTeslas)\n"))
+            desired_z = float(input("What is the ideal strength of the z component? (microTeslas)\n"))
+            currents = mfcr.automatic([x0, y0, z0], [desired_x, desired_y, desired_z])
 
             utils.log(0, 'Power Supply Current Updates:')
             for i in range(0, len(currents)):
-                utils.POWER_SUPPLIES[i+1].set_current(currents[i])
+                utils.POWER_SUPPLIES[i].set_current(currents[i])
                 print('\tSupply #' + str(i+1) + ': ' + str(currents[i]))
         else:
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
