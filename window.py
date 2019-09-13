@@ -10,6 +10,7 @@ from PyQt5.QtCore import *
 class ControllerWindow(object):
     def __init__(self, window):
         # Actual ambient magnetometer data
+        cc.reset_magnetometer()
         self.x_0, self.y_0, self.z_0 = cc.magnetometer()
         
         self.control_mode = 0

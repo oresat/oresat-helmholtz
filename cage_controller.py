@@ -137,6 +137,20 @@ def magnetometer():
     # divide by 10 to convert bit counts to microteslas
     return xMag/10, yMag/10, zMag/10
 
+# see page 21 of https://www.nxp.com/docs/en/data-sheet/MAG3110.pdf
+# "When asserted, initiates a magnetic sensor reset cycle that will restore
+# correct operation after exposure to an excessive magnetic field" 
+# Value goes back to 0 after completion
+def reset_magnetometer():
+    # Get I2C bus
+    bus = smbus.SMBus(1)
+    time.sleep(utils.INPUT_DELAY)
+    # MAG3110 address, 0x0E(14)
+    # Select Control register2, 0x11(17)
+    #        0x01(01)    Normal mode operation, Active mode
+    bus.write_byte_data(0x0E, 0x11, 0b00010000)
+    time.sleep(utils.INPUT_DELAY)
+
 # function to get (and check) temperatures from sensors
 # Sensors located at i2c addresses 0x18 and 0x1c
 # Please update if changed
