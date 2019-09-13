@@ -8,7 +8,7 @@ WIRE_WARN_TEMP = 100 # Min cage wire temperatures in F for warning
 WIRE_HCF_TEMP = 120 # Max cage wire temperatures in F for forced halting
 pin = 'BOARD'
 
-class Coil(): #???
+class Coil(): # controls for motor drivers
     def __init__(self, psu_index):
         self.in_a = LED(pin + utils.COIL_ADDRS[psu_index][0])
         self.in_b = LED(pin + utils.COIL_ADDRS[psu_index][1])
@@ -44,7 +44,7 @@ class PowerSupply(serial.Serial):
                                                                + '\n\tByte Size: ' + str(bytesize)
                                                                + '\n\tTimeout: ' + str(timeout))
     def index(self):
-        return int(self.port_device[-1]) #???
+        return int(self.port_device[-1]) # uses last character of device name for index
 
     def toggle_supply(self, mode):
         utils.log(0, 'Setting ' + self.name + ' to: ' + str(mode))
@@ -52,13 +52,13 @@ class PowerSupply(serial.Serial):
 
     def set_voltage(self, voltage):
         utils.log(0, 'Setting ' + self.name + ' voltage to: ' + str(voltage) + ' volts.')
-        self.write(str("Asu" + str(voltage * 100) + "\n").encode())
+        self.write(str("Asu" + str(abs(voltage) * 100) + "\n").encode())
 
     def set_current(self, amperage):
         utils.log(0, 'Setting ' + self.name + ' current to: ' + str(amperage) + ' amps.')
         self.write(str("Asi" + str(abs(amperage) * 1000) + "\n").encode())
         self.amperage = amperage
-        if(amperage < 0): #???
+        if(amperage < 0):
             self.coil.negative()
         else:
             self.coil.positive()
