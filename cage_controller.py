@@ -8,7 +8,7 @@ WIRE_WARN_TEMP = 100 # Min cage wire temperatures in F for warning
 WIRE_HCF_TEMP = 120 # Max cage wire temperatures in F for forced halting
 pin = 'BOARD'
 
-class Coil(): #???
+class Coil(): # controls for motor drivers
     def __init__(self, psu_index):
         self.in_a = LED(pin + utils.COIL_ADDRS[psu_index][0])
         self.in_b = LED(pin + utils.COIL_ADDRS[psu_index][1])
@@ -44,7 +44,7 @@ class PowerSupply(serial.Serial):
                                                                + '\n\tByte Size: ' + str(bytesize)
                                                                + '\n\tTimeout: ' + str(timeout))
     def index(self):
-        return int(self.port_device[-1]) #???
+        return int(self.port_device[-1]) # uses last character of device name for index
 
     def toggle_supply(self, mode):
         utils.log(0, 'Setting ' + self.name + ' to: ' + str(mode))
@@ -52,13 +52,13 @@ class PowerSupply(serial.Serial):
 
     def set_voltage(self, voltage):
         utils.log(0, 'Setting ' + self.name + ' voltage to: ' + str(voltage) + ' volts.')
-        self.write(str("Asu" + str(voltage * 100) + "\n").encode())
+        self.write(str("Asu" + str(abs(voltage) * 100) + "\n").encode())
 
     def set_current(self, amperage):
         utils.log(0, 'Setting ' + self.name + ' current to: ' + str(amperage) + ' amps.')
         self.write(str("Asi" + str(abs(amperage) * 1000) + "\n").encode())
         self.amperage = amperage
-        if(amperage < 0): #???
+        if(amperage < 0):
             self.coil.negative()
         else:
             self.coil.positive()
@@ -137,14 +137,16 @@ def magnetometer():
     # divide by 10 to convert bit counts to microteslas
     return xMag/10, yMag/10, zMag/10
 
-def mag_reset():
+# see page 21 of https://www.nxp.com/docs/en/data-sheet/MAG3110.pdf
+# "When asserted, initiates a magnetic sensor reset cycle that will restore
+# correct operation after exposure to an excessive magnetic field" 
+# Value goes back to 0 after completion
+def reset_magnetometer():
     # Get I2C bus
     bus = smbus.SMBus(1)
     time.sleep(utils.INPUT_DELAY)
-
     # MAG3110 address, 0x0E(14)
-    # Select Control register, 0x10(16)
-    #        0x01(01)    Normal mode operation, Active mode
+    # Select Control register2, 0x11(17)
     bus.write_byte_data(0x0E, 0x11, 0b00010000)
     time.sleep(utils.INPUT_DELAY)
 

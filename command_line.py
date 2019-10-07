@@ -78,8 +78,8 @@ def menu(control):
             currents = mfcr.automatic([x0, y0, z0], [desired_x, desired_y, desired_z])
 
             utils.log(0, 'Power Supply Current Updates:')
-            for i in range(0, len(currents)):
-                utils.POWER_SUPPLIES[i].set_current(currents[i])
+            for i, PS in enumerate(utils.POWER_SUPPLIES):
+                PS.set_current(currents[i])
                 print('\tSupply #' + str(i+1) + ': ' + str(currents[i]))
         else:
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
