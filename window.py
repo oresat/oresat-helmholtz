@@ -6,10 +6,12 @@ import magnetic_field_current_relation as mfcr
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from math import sqrt
 
 class ControllerWindow(object):
     def __init__(self, window):
         # Actual ambient magnetometer data
+        cc.mag_reset()
         self.x_0, self.y_0, self.z_0 = cc.magnetometer()
         
         self.control_mode = 0
@@ -178,8 +180,8 @@ class ControllerWindow(object):
         # Graph
         #
         self.graph = g.Graph(self.widget)
-        self.graph.add_line('Magnetometer X', 'g')
-        self.graph.add_line('Magnetometer Y', 'r')
+        self.graph.add_line('Magnetometer X', 'r')
+        self.graph.add_line('Magnetometer Y', 'g')
         self.graph.add_line('Magnetometer Z', 'b')
         self.graph.setGeometry(QtCore.QRect(0, 700, self.width, self.height / 3))
         self.graph.setAutoFillBackground(True)
@@ -393,13 +395,15 @@ class ControllerWindow(object):
         utils.DATA_ACCURACY = self.accuracy_input.value
     
     def close_the_loop(self, target):
-        k = 55 # estimate microtesla per amp
-        epsilon = 10 # convergence criteria
-        steps = 10 # how many times to iterate
+        k = 4*55 # estimate microtesla per amp
+        epsilon = 1.0 # convergence criteria
+        steps = 5*5 # how many times to iterate
+        #while True: # obviously this is dangerously stupid
         for i in range(steps):
             measurement = cc.magnetometer() # takes 0.2 sec
             error = [target[i] - measurement[i] for i in range(3)]
-            if(sqrt(sum([error[i]**2 for i in range(3)])) < epsilon): break
+            norm = sqrt(sum([error[i]**2 for i in range(3)]))
+            if(norm < epsilon): break
             
             for i, PS in enumerate(utils.POWER_SUPPLIES):
                     PS.set_current(PS.amperage + error[i] / k)

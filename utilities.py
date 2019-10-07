@@ -1,7 +1,7 @@
 import os, random, time
 
 DEBUG = False
-CLOSED_LOOP = False
+CLOSED_LOOP = True
 TICK_TIME = 500
 GRAPH_RANGE = 35
 INPUT_DELAY = 0.2
@@ -9,7 +9,7 @@ DATA_ACCURACY = 4
 POWER_SUPPLIES = []
 TEMPERATURE_SENSORS = []
 PSU_ADDRS = [ 'ttyUSB0', 'ttyUSB1', 'ttyUSB2' ]
-COIL_ADDRS = [ ['31','32'], ['35','36'], ['37','38'] ] #???
+COIL_ADDRS = [ ['31','32'], ['35','36'], ['37','38'] ]
 ICON_IMG_PATH='./img/icon.png'
 CAGE_DATA_PATH = '/cage_data/'
 
