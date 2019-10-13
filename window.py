@@ -11,8 +11,8 @@ from math import sqrt
 class ControllerWindow(object):
     def __init__(self, window):
         # Actual ambient magnetometer data
-        cc.reset_magnetometer()
-        self.x_0, self.y_0, self.z_0 = cc.magnetometer()
+        self.mag_bus = cc.init_magnetometer()
+        self.x_0, self.y_0, self.z_0 = cc.magnetometer(self.mag_bus)
         
         self.control_mode = 0
         self.window = window
@@ -325,7 +325,7 @@ class ControllerWindow(object):
         # z = utils.generate_static(self.graph.lines[2].y)
 
         # Actual magnetometer data
-        x, y, z = cc.magnetometer()
+        x, y, z = cc.magnetometer(self.mag_bus)
 
         self.width = self.window.width()
         self.height = self.window.height()
@@ -351,18 +351,20 @@ class ControllerWindow(object):
         utils.DATA_ACCURACY = self.accuracy_input.value
     
     def close_the_loop(self, target):
-        k = 4*55 # estimate microtesla per amp
+        k_p = 1/200 # control proportional gain, microtesla per amp
+        k_i = 0 # control integral gain
         epsilon = 1.0 # convergence criteria
         steps = 5*5 # how many times to iterate
-        #while True: # obviously this is dangerously stupid
+        ei = [[0, 0, 0]]
         for i in range(steps):
-            measurement = cc.magnetometer() # takes 0.2 sec
+            measurement = cc.magnetometer(self.mag_bus) # takes 0.2 sec
             error = [target[i] - measurement[i] for i in range(3)]
+            ei.append([ei[-1][i] + utils.INPUT_DELAY*error[i] for i in range(3)])
             norm = sqrt(sum([error[i]**2 for i in range(3)]))
             if(norm < epsilon): break
             
             for i, PS in enumerate(utils.POWER_SUPPLIES):
-                    PS.set_current(PS.amperage + error[i] / k)
+                    PS.set_current(PS.amperage + k_p * error[i] + k_i * ei[-1][i])
 
     # Applies changes to the power supply
     def apply_psu_changes(self):
@@ -429,7 +431,7 @@ class ControllerWindow(object):
             self.shutdown_cage()
             exit(0)
 
-    # Ensures all physical equiptment is in its cloesd safe state then exits
+    # Ensures all physical equiptment is in its closed safe state then exits
     def shutdown_cage(self):
         utils.log(0, 'Shutting cage down gracefully...')
         if(utils.supply_available()):

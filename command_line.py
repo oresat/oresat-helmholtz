@@ -1,3 +1,4 @@
+# this script is deprecated af, plz don't use
 import cage_controller
 import utilities as utils
 import magnetic_field_current_relation as mfcr
@@ -98,3 +99,16 @@ def interface():
             menu(control)
         except ValueError:
             utils.log(3, 'There was a problem with your input: ' + str(control))
+
+
+def poll_data(duration = 10.0, dt = 1.0):
+    time_step = [0.0]
+    # temp_array = [temperature()]
+    mag_array = [magnotometer()]
+    while time_step[-1] < duration:
+        time.sleep(dt)
+        time_step.append(time_step[-1] + dt)
+        # temp_array.append(temperature())
+        mag_array.append(magnotometer())
+    return time_step, mag_array #temp_array, mag_array
+

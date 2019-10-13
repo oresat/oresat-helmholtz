@@ -22,9 +22,9 @@ def paramMultiplier(d): # parameter is distance from origin, we usually only car
 def getNeededCurrent(desiredfield): #get microteslas return amps
     return (desiredfield / paramMultiplier(0)) * 2
 
-# def axialMagField(current, d): #get amps return microteslas
-#     #need to get actual current for axis from program or PSU somehow
-#     return current * paramMultiplier(d)
+def axialMagField(current, d): #get amps return microteslas
+    #need to get actual current for axis from program or PSU somehow
+    return current * paramMultiplier(d)
 
 # given the environmental and desired fields, what currents must we pull?
 def automatic(env_field, ideal_field):

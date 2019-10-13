@@ -20,7 +20,7 @@ def main():
             try:
                 supply = cc.PowerSupply(i)
                 utils.POWER_SUPPLIES.append(supply)
-                supply.toggle_supply(1)
+                supply.toggle_supply(0)
             except serial.serialutil.SerialException as e:
                 utils.log(3, 'Could not initialize power supply:\n\t' + str(e))
                 # exit(1)

@@ -108,16 +108,29 @@ def temperature_check_bounds(temp, warning, shutoff):
             utils.log(1, "Reached maximum warning temperature! Auto-powering down the cage!")
             toggle_all_power_supply(0)
 
-# function to get magnetic field components from sensors
-def magnetometer():
+# see page 21 of https://www.nxp.com/docs/en/data-sheet/MAG3110.pdf
+# "When asserted, initiates a magnetic sensor reset cycle that will restore
+# correct operation after exposure to an excessive magnetic field" 
+# Value goes back to 0 after completion
+def init_magnetometer():
     # Get I2C bus
     bus = smbus.SMBus(1)
     time.sleep(utils.INPUT_DELAY)
-
+    
     # MAG3110 address, 0x0E(14)
     # Select Control register, 0x10(16)
     #        0x01(01)    Normal mode operation, Active mode
     bus.write_byte_data(0x0E, 0x10, 0x01)
+    time.sleep(utils.INPUT_DELAY)
+    
+    # MAG3110 address, 0x0E(14)
+    # Select Control register2, 0x11(17)
+    bus.write_byte_data(0x0E, 0x11, 0b00010000)
+    time.sleep(utils.INPUT_DELAY)
+    return bus
+
+# function to get magnetic field components from sensors
+def magnetometer(bus):
     time.sleep(utils.INPUT_DELAY)
     # MAG3110 address, 0x0E(14)
     # Read data back from 0x01(1), 6 bytes
@@ -136,19 +149,6 @@ def magnetometer():
 
     # divide by 10 to convert bit counts to microteslas
     return xMag/10, yMag/10, zMag/10
-
-# see page 21 of https://www.nxp.com/docs/en/data-sheet/MAG3110.pdf
-# "When asserted, initiates a magnetic sensor reset cycle that will restore
-# correct operation after exposure to an excessive magnetic field" 
-# Value goes back to 0 after completion
-def reset_magnetometer():
-    # Get I2C bus
-    bus = smbus.SMBus(1)
-    time.sleep(utils.INPUT_DELAY)
-    # MAG3110 address, 0x0E(14)
-    # Select Control register2, 0x11(17)
-    bus.write_byte_data(0x0E, 0x11, 0b00010000)
-    time.sleep(utils.INPUT_DELAY)
 
 # function to get (and check) temperatures from sensors
 # Sensors located at i2c addresses 0x18 and 0x1c
@@ -174,7 +174,7 @@ def temperature():
     #        0x03(03)    Resolution = +0.0625 / C
     bus.write_byte_data(0x18, 0x08, 0x03)
 
-    time.sleep(0.2)
+    time.sleep(utils.INPUT_DELAY)
 
     # MCP9808 address, 0x18(24)
     # Read data back from 0x05(5), 2 bytes
@@ -191,7 +191,7 @@ def temperature():
     bus.write_i2c_block_data(0x1c, 0x01, config)
     bus.write_byte_data(0x1c, 0x08, 0x03)
 
-    time.sleep(0.2)
+    time.sleep(utils.INPUT_DELAY)
 
     data = bus.read_i2c_block_data(0x1c, 0x05, 2)
 
@@ -203,14 +203,3 @@ def temperature():
     temperature_check_bounds(ctemp1, WIRE_WARN_TEMP, WIRE_HCF_TEMP)
     temperature_check_bounds(ctemp2, PSU_WARN_TEMP, PSU_HCF_TEMP)
     return ctemp1, ctemp2
-
-def poll_data(duration = 10.0, dt = 1.0):
-    time_step = [0.0]
-    # temp_array = [temperature()]
-    mag_array = [magnotometer()]
-    while time_step[-1] < duration:
-        time.sleep(dt)
-        time_step.append(time_step[-1] + dt)
-        # temp_array.append(temperature())
-        mag_array.append(magnotometer())
-    return time_step, mag_array #temp_array, mag_array
