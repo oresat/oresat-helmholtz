@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="2" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="16" fill="1" visible="no" active="no"/>
@@ -162,56 +162,58 @@
 <packages>
 <package name="VNH5019">
 <description>Footprint for VNH5019 for Helmholtz Cage</description>
-<wire x1="0" y1="0" x2="0" y2="27.94" width="0.127" layer="21"/>
-<wire x1="0" y1="27.94" x2="38.1" y2="27.94" width="0.127" layer="21"/>
-<wire x1="38.1" y1="27.94" x2="38.1" y2="0" width="0.127" layer="21"/>
-<wire x1="38.1" y1="0" x2="0" y2="0" width="0.127" layer="21"/>
-<pad name="GND@2" x="36.83" y="25.4" drill="0.65" diameter="1.27"/>
-<pad name="VOUT" x="36.83" y="22.86" drill="0.65" diameter="1.27"/>
-<pad name="GND@1" x="36.83" y="20.32" drill="0.65" diameter="1.27"/>
-<pad name="VDD" x="36.83" y="17.78" drill="0.65" diameter="1.27"/>
-<pad name="INB" x="36.83" y="15.24" drill="0.65" diameter="1.27"/>
-<pad name="EBN/DIAGB" x="36.83" y="12.7" drill="0.65" diameter="1.27"/>
-<pad name="CS" x="36.83" y="10.16" drill="0.65" diameter="1.27"/>
-<pad name="PWM" x="36.83" y="7.62" drill="0.65" diameter="1.27"/>
-<pad name="ENA/DIAGA" x="36.83" y="5.08" drill="0.65" diameter="1.27"/>
-<pad name="INA" x="36.83" y="2.54" drill="0.65" diameter="1.27"/>
-<text x="35.56" y="25.4" size="1.016" layer="25" align="center-right">GND</text>
-<text x="35.56" y="20.32" size="1.016" layer="25" align="center-right">GND</text>
-<text x="35.56" y="22.86" size="1.016" layer="25" align="center-right">VOUT</text>
-<text x="35.56" y="17.78" size="1.016" layer="25" align="center-right">VDD</text>
-<text x="35.56" y="15.24" size="1.016" layer="25" align="center-right">INB</text>
-<text x="35.56" y="12.7" size="1.016" layer="25" align="center-right">ENB/DIAGB</text>
-<text x="35.56" y="10.16" size="1.016" layer="25" align="center-right">CS</text>
-<text x="35.56" y="7.62" size="1.016" layer="25" align="center-right">PWM</text>
-<text x="35.56" y="5.08" size="1.016" layer="25" align="center-right">ENA/DIAGA</text>
-<text x="35.56" y="2.54" size="1.016" layer="25" align="center-right">INA</text>
-<text x="13.97" y="12.7" size="1.4224" layer="25">VNH5019</text>
-<text x="2.54" y="19.05" size="1.016" layer="25">VIN</text>
-<text x="2.54" y="13.97" size="1.016" layer="25">GND</text>
-<text x="2.54" y="8.89" size="1.016" layer="25">OUTB</text>
-<text x="2.54" y="3.81" size="1.016" layer="25">OUTA</text>
+<wire x1="-19.05" y1="13.97" x2="19.05" y2="13.97" width="0.127" layer="21"/>
+<wire x1="19.05" y1="13.97" x2="19.05" y2="-13.97" width="0.127" layer="21"/>
+<wire x1="19.05" y1="-13.97" x2="-19.05" y2="-13.97" width="0.127" layer="21"/>
+<pad name="GND@2" x="17.78" y="11.43" drill="0.889"/>
+<pad name="VOUT" x="17.78" y="8.89" drill="0.889"/>
+<pad name="GND@1" x="17.78" y="6.35" drill="0.889"/>
+<pad name="VDD" x="17.78" y="3.81" drill="0.889"/>
+<pad name="INB" x="17.78" y="1.27" drill="0.889"/>
+<pad name="EBN/DIAGB" x="17.78" y="-1.27" drill="0.889"/>
+<pad name="CS" x="17.78" y="-3.81" drill="0.889"/>
+<pad name="PWM" x="17.78" y="-6.35" drill="0.889"/>
+<pad name="ENA/DIAGA" x="17.78" y="-8.89" drill="0.889"/>
+<pad name="INA" x="17.78" y="-11.43" drill="0.889"/>
+<text x="16.51" y="11.43" size="1.016" layer="25" align="center-right">GND</text>
+<text x="16.51" y="6.35" size="1.016" layer="25" align="center-right">GND</text>
+<text x="16.51" y="8.89" size="1.016" layer="25" align="center-right">VOUT</text>
+<text x="16.51" y="3.81" size="1.016" layer="25" align="center-right">VDD</text>
+<text x="16.51" y="1.27" size="1.016" layer="25" align="center-right">INB</text>
+<text x="16.51" y="-1.27" size="1.016" layer="25" align="center-right">ENB/DIAGB</text>
+<text x="16.51" y="-3.81" size="1.016" layer="25" align="center-right">CS</text>
+<text x="16.51" y="-6.35" size="1.016" layer="25" align="center-right">PWM</text>
+<text x="16.51" y="-8.89" size="1.016" layer="25" align="center-right">ENA/DIAGA</text>
+<text x="16.51" y="-11.43" size="1.016" layer="25" align="center-right">INA</text>
+<text x="0" y="0" size="1.4224" layer="25" align="center">VNH5019</text>
+<text x="-16.51" y="5.08" size="1.016" layer="25">VIN</text>
+<text x="-16.51" y="0" size="1.016" layer="25">GND</text>
+<text x="-16.51" y="-5.08" size="1.016" layer="25">OUTB</text>
+<text x="-16.51" y="-10.16" size="1.016" layer="25">OUTA</text>
+<hole x="-16.51" y="11.43" drill="2.54"/>
+<hole x="13.97" y="-11.43" drill="2.54"/>
+<wire x1="-19.05" y1="-13.97" x2="-19.05" y2="13.97" width="0.127" layer="21"/>
 </package>
 </packages>
 <symbols>
 <symbol name="VNH5019">
 <description>Symbol for VNH5019 for Helmholtz Cage</description>
-<pin name="GND@1" x="10.16" y="-5.08" visible="pin" length="short" direction="pwr" rot="R180"/>
-<pin name="CS" x="10.16" y="5.08" visible="pin" length="short" direction="out" rot="R180"/>
-<pin name="INB" x="10.16" y="0" visible="pin" length="short" direction="in" rot="R180"/>
-<pin name="INA" x="10.16" y="12.7" visible="pin" length="short" direction="in" rot="R180"/>
-<pin name="VDD" x="10.16" y="-2.54" visible="pin" length="short" direction="pwr" rot="R180"/>
-<pin name="ENB/DIAGB" x="10.16" y="2.54" visible="pin" length="short" rot="R180"/>
-<pin name="PWM" x="10.16" y="7.62" visible="pin" length="short" direction="in" rot="R180"/>
-<pin name="ENA/DIAGA" x="10.16" y="10.16" visible="pin" length="short" rot="R180"/>
-<pin name="VOUT" x="10.16" y="-7.62" visible="pin" length="short" direction="pwr" rot="R180"/>
-<pin name="GND@2" x="10.16" y="-10.16" visible="pin" length="short" direction="pwr" rot="R180"/>
+<pin name="GND@1" x="12.7" y="-5.08" visible="pin" length="short" direction="pwr" rot="R180"/>
+<pin name="CS" x="12.7" y="5.08" visible="pin" length="short" direction="out" rot="R180"/>
+<pin name="INB" x="12.7" y="0" visible="pin" length="short" direction="in" rot="R180"/>
+<pin name="INA" x="12.7" y="12.7" visible="pin" length="short" direction="in" rot="R180"/>
+<pin name="VDD" x="12.7" y="-2.54" visible="pin" length="short" direction="pwr" rot="R180"/>
+<pin name="ENB/DIAGB" x="12.7" y="2.54" visible="pin" length="short" rot="R180"/>
+<pin name="PWM" x="12.7" y="7.62" visible="pin" length="short" direction="in" rot="R180"/>
+<pin name="ENA/DIAGA" x="12.7" y="10.16" visible="pin" length="short" rot="R180"/>
+<pin name="VOUT" x="12.7" y="-7.62" visible="pin" length="short" direction="pwr" rot="R180"/>
+<pin name="GND@2" x="12.7" y="-10.16" visible="pin" length="short" direction="pwr" rot="R180"/>
 <wire x1="-7.62" y1="15.24" x2="-7.62" y2="-12.7" width="0.254" layer="94"/>
-<wire x1="-7.62" y1="15.24" x2="7.62" y2="15.24" width="0.254" layer="94"/>
-<wire x1="7.62" y1="15.24" x2="7.62" y2="-12.7" width="0.254" layer="94"/>
-<wire x1="7.62" y1="-12.7" x2="-7.62" y2="-12.7" width="0.254" layer="94"/>
-<text x="-6.096" y="-2.54" size="1.016" layer="95">VNH5019</text>
-<text x="0" y="-15.24" size="1.778" layer="95">&gt;NAME</text>
+<wire x1="-7.62" y1="15.24" x2="10.16" y2="15.24" width="0.254" layer="94"/>
+<wire x1="10.16" y1="15.24" x2="10.16" y2="-12.7" width="0.254" layer="94"/>
+<wire x1="10.16" y1="-12.7" x2="-7.62" y2="-12.7" width="0.254" layer="94"/>
+<text x="-5.08" y="-5.08" size="2.032" layer="95" rot="R90">VNH5019</text>
+<text x="2.54" y="-15.24" size="1.778" layer="95">&gt;NAME</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -7329,10 +7331,10 @@ on Raspberry PI</text>
 <segment>
 <pinref part="Z" gate="G$1" pin="GND@2"/>
 <pinref part="TEST_Z" gate="A" pin="10"/>
-<wire x1="152.4" y1="38.1" x2="163.83" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="38.1" x2="163.83" y2="38.1" width="0.1524" layer="91"/>
 <pinref part="Z" gate="G$1" pin="GND@1"/>
 <pinref part="TEST_Z" gate="A" pin="8"/>
-<wire x1="152.4" y1="43.18" x2="163.83" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="43.18" x2="163.83" y2="43.18" width="0.1524" layer="91"/>
 <pinref part="GND1" gate="1" pin="GND"/>
 <wire x1="184.15" y1="43.18" x2="184.15" y2="38.1" width="0.1524" layer="91"/>
 <wire x1="184.15" y1="38.1" x2="184.15" y2="35.56" width="0.1524" layer="91"/>
@@ -7345,10 +7347,10 @@ on Raspberry PI</text>
 <segment>
 <pinref part="Y" gate="G$1" pin="GND@2"/>
 <pinref part="TEST_Y" gate="A" pin="10"/>
-<wire x1="152.4" y1="81.28" x2="163.83" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="81.28" x2="163.83" y2="81.28" width="0.1524" layer="91"/>
 <pinref part="Y" gate="G$1" pin="GND@1"/>
 <pinref part="TEST_Y" gate="A" pin="8"/>
-<wire x1="152.4" y1="86.36" x2="163.83" y2="86.36" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="86.36" x2="163.83" y2="86.36" width="0.1524" layer="91"/>
 <pinref part="GND2" gate="1" pin="GND"/>
 <wire x1="184.15" y1="86.36" x2="184.15" y2="81.28" width="0.1524" layer="91"/>
 <wire x1="184.15" y1="81.28" x2="184.15" y2="78.74" width="0.1524" layer="91"/>
@@ -7361,10 +7363,10 @@ on Raspberry PI</text>
 <segment>
 <pinref part="X" gate="G$1" pin="GND@1"/>
 <pinref part="TEST_X" gate="A" pin="8"/>
-<wire x1="152.4" y1="132.08" x2="163.83" y2="132.08" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="132.08" x2="163.83" y2="132.08" width="0.1524" layer="91"/>
 <pinref part="X" gate="G$1" pin="GND@2"/>
 <pinref part="TEST_X" gate="A" pin="10"/>
-<wire x1="152.4" y1="127" x2="163.83" y2="127" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="127" x2="163.83" y2="127" width="0.1524" layer="91"/>
 <pinref part="GND3" gate="1" pin="GND"/>
 <wire x1="184.15" y1="132.08" x2="184.15" y2="127" width="0.1524" layer="91"/>
 <wire x1="184.15" y1="127" x2="184.15" y2="124.46" width="0.1524" layer="91"/>
@@ -7456,7 +7458,7 @@ on Raspberry PI</text>
 <wire x1="195.58" y1="93.98" x2="198.12" y2="93.98" width="0.1524" layer="91"/>
 <pinref part="Y" gate="G$1" pin="INA"/>
 <pinref part="TEST_Y" gate="A" pin="1"/>
-<wire x1="152.4" y1="104.14" x2="163.83" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="104.14" x2="163.83" y2="104.14" width="0.1524" layer="91"/>
 <wire x1="163.83" y1="104.14" x2="177.8" y2="104.14" width="0.1524" layer="91"/>
 <wire x1="177.8" y1="104.14" x2="177.8" y2="111.76" width="0.1524" layer="91"/>
 <junction x="163.83" y="104.14"/>
@@ -7477,7 +7479,7 @@ on Raspberry PI</text>
 <wire x1="189.23" y1="68.58" x2="189.23" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="Z" gate="G$1" pin="INA"/>
 <pinref part="TEST_Z" gate="A" pin="1"/>
-<wire x1="152.4" y1="60.96" x2="163.83" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="60.96" x2="163.83" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="163.83" y1="60.96" x2="177.8" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="177.8" y1="60.96" x2="177.8" y2="68.58" width="0.1524" layer="91"/>
 <junction x="163.83" y="60.96"/>
@@ -7497,7 +7499,7 @@ on Raspberry PI</text>
 <wire x1="189.23" y1="48.26" x2="189.23" y2="27.94" width="0.1524" layer="91"/>
 <pinref part="Z" gate="G$1" pin="INB"/>
 <pinref part="TEST_Z" gate="A" pin="6"/>
-<wire x1="152.4" y1="48.26" x2="163.83" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="48.26" x2="163.83" y2="48.26" width="0.1524" layer="91"/>
 <wire x1="163.83" y1="48.26" x2="189.23" y2="48.26" width="0.1524" layer="91"/>
 <junction x="163.83" y="48.26"/>
 <junction x="189.23" y="48.26"/>
@@ -7517,7 +7519,7 @@ on Raspberry PI</text>
 <wire x1="198.12" y1="139.7" x2="200.66" y2="139.7" width="0.1524" layer="91"/>
 <pinref part="X" gate="G$1" pin="INA"/>
 <pinref part="TEST_X" gate="A" pin="1"/>
-<wire x1="152.4" y1="149.86" x2="163.83" y2="149.86" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="149.86" x2="163.83" y2="149.86" width="0.1524" layer="91"/>
 <wire x1="163.83" y1="149.86" x2="177.8" y2="149.86" width="0.1524" layer="91"/>
 <wire x1="177.8" y1="149.86" x2="177.8" y2="157.48" width="0.1524" layer="91"/>
 <junction x="163.83" y="149.86"/>
@@ -7535,7 +7537,7 @@ on Raspberry PI</text>
 <wire x1="198.12" y1="137.16" x2="200.66" y2="137.16" width="0.1524" layer="91"/>
 <pinref part="X" gate="G$1" pin="INB"/>
 <pinref part="TEST_X" gate="A" pin="6"/>
-<wire x1="152.4" y1="137.16" x2="163.83" y2="137.16" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="137.16" x2="163.83" y2="137.16" width="0.1524" layer="91"/>
 <wire x1="163.83" y1="137.16" x2="198.12" y2="137.16" width="0.1524" layer="91"/>
 <junction x="163.83" y="137.16"/>
 <junction x="198.12" y="137.16"/>
@@ -7554,7 +7556,7 @@ on Raspberry PI</text>
 <pinref part="TEST_Y" gate="A" pin="6"/>
 <label x="182.88" y="91.44" size="1.778" layer="95"/>
 <pinref part="Y" gate="G$1" pin="INB"/>
-<wire x1="152.4" y1="91.44" x2="163.83" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="91.44" x2="163.83" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="163.83" y1="91.44" x2="195.58" y2="91.44" width="0.1524" layer="91"/>
 <junction x="163.83" y="91.44"/>
 <junction x="195.58" y="91.44"/>
@@ -7564,14 +7566,14 @@ on Raspberry PI</text>
 <segment>
 <pinref part="X" gate="G$1" pin="ENA/DIAGA"/>
 <pinref part="TEST_X" gate="A" pin="2"/>
-<wire x1="152.4" y1="147.32" x2="163.83" y2="147.32" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="147.32" x2="163.83" y2="147.32" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="PWM_X" class="0">
 <segment>
 <pinref part="X" gate="G$1" pin="PWM"/>
 <pinref part="TEST_X" gate="A" pin="3"/>
-<wire x1="152.4" y1="144.78" x2="163.83" y2="144.78" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="144.78" x2="163.83" y2="144.78" width="0.1524" layer="91"/>
 <pinref part="R20" gate="G$1" pin="1"/>
 <wire x1="163.83" y1="144.78" x2="171.45" y2="144.78" width="0.1524" layer="91"/>
 <junction x="163.83" y="144.78"/>
@@ -7581,56 +7583,56 @@ on Raspberry PI</text>
 <segment>
 <pinref part="X" gate="G$1" pin="CS"/>
 <pinref part="TEST_X" gate="A" pin="4"/>
-<wire x1="152.4" y1="142.24" x2="163.83" y2="142.24" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="142.24" x2="163.83" y2="142.24" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="ENB/DIAGB_X" class="0">
 <segment>
 <pinref part="X" gate="G$1" pin="ENB/DIAGB"/>
 <pinref part="TEST_X" gate="A" pin="5"/>
-<wire x1="152.4" y1="139.7" x2="163.83" y2="139.7" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="139.7" x2="163.83" y2="139.7" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VDD_X" class="0">
 <segment>
 <pinref part="X" gate="G$1" pin="VDD"/>
 <pinref part="TEST_X" gate="A" pin="7"/>
-<wire x1="152.4" y1="134.62" x2="163.83" y2="134.62" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="134.62" x2="163.83" y2="134.62" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VOUT_Z" class="0">
 <segment>
 <pinref part="Z" gate="G$1" pin="VOUT"/>
 <pinref part="TEST_Z" gate="A" pin="9"/>
-<wire x1="152.4" y1="40.64" x2="163.83" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="40.64" x2="163.83" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VOUT_Y" class="0">
 <segment>
 <pinref part="Y" gate="G$1" pin="VOUT"/>
 <pinref part="TEST_Y" gate="A" pin="9"/>
-<wire x1="152.4" y1="83.82" x2="163.83" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="83.82" x2="163.83" y2="83.82" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VOUT_X" class="0">
 <segment>
 <pinref part="X" gate="G$1" pin="VOUT"/>
 <pinref part="TEST_X" gate="A" pin="9"/>
-<wire x1="152.4" y1="129.54" x2="163.83" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="129.54" x2="163.83" y2="129.54" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="ENA/DIAGA_Y" class="0">
 <segment>
 <pinref part="Y" gate="G$1" pin="ENA/DIAGA"/>
 <pinref part="TEST_Y" gate="A" pin="2"/>
-<wire x1="152.4" y1="101.6" x2="163.83" y2="101.6" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="101.6" x2="163.83" y2="101.6" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="PWM_Y" class="0">
 <segment>
 <pinref part="Y" gate="G$1" pin="PWM"/>
 <pinref part="TEST_Y" gate="A" pin="3"/>
-<wire x1="152.4" y1="99.06" x2="163.83" y2="99.06" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="99.06" x2="163.83" y2="99.06" width="0.1524" layer="91"/>
 <pinref part="R13" gate="G$1" pin="1"/>
 <wire x1="163.83" y1="99.06" x2="171.45" y2="99.06" width="0.1524" layer="91"/>
 <junction x="163.83" y="99.06"/>
@@ -7640,56 +7642,56 @@ on Raspberry PI</text>
 <segment>
 <pinref part="Y" gate="G$1" pin="CS"/>
 <pinref part="TEST_Y" gate="A" pin="4"/>
-<wire x1="152.4" y1="96.52" x2="163.83" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="96.52" x2="163.83" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="ENB/DIAGB_Y" class="0">
 <segment>
 <pinref part="Y" gate="G$1" pin="ENB/DIAGB"/>
 <pinref part="TEST_Y" gate="A" pin="5"/>
-<wire x1="152.4" y1="93.98" x2="163.83" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="93.98" x2="163.83" y2="93.98" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VDD_Y" class="0">
 <segment>
 <pinref part="Y" gate="G$1" pin="VDD"/>
 <pinref part="TEST_Y" gate="A" pin="7"/>
-<wire x1="152.4" y1="88.9" x2="163.83" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="88.9" x2="163.83" y2="88.9" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="ENA/DIAGA_Z" class="0">
 <segment>
 <pinref part="Z" gate="G$1" pin="ENA/DIAGA"/>
 <pinref part="TEST_Z" gate="A" pin="2"/>
-<wire x1="152.4" y1="58.42" x2="163.83" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="58.42" x2="163.83" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="CS_Z" class="0">
 <segment>
 <pinref part="Z" gate="G$1" pin="CS"/>
 <pinref part="TEST_Z" gate="A" pin="4"/>
-<wire x1="152.4" y1="53.34" x2="163.83" y2="53.34" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="53.34" x2="163.83" y2="53.34" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="ENB/DIAGB_Z" class="0">
 <segment>
 <pinref part="Z" gate="G$1" pin="ENB/DIAGB"/>
 <pinref part="TEST_Z" gate="A" pin="5"/>
-<wire x1="152.4" y1="50.8" x2="163.83" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="50.8" x2="163.83" y2="50.8" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VDD_Z" class="0">
 <segment>
 <pinref part="Z" gate="G$1" pin="VDD"/>
 <pinref part="TEST_Z" gate="A" pin="7"/>
-<wire x1="152.4" y1="45.72" x2="163.83" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="45.72" x2="163.83" y2="45.72" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="PWM_Z" class="0">
 <segment>
 <pinref part="Z" gate="G$1" pin="PWM"/>
 <pinref part="TEST_Z" gate="A" pin="3"/>
-<wire x1="152.4" y1="55.88" x2="163.83" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="55.88" x2="163.83" y2="55.88" width="0.1524" layer="91"/>
 <pinref part="R7" gate="G$1" pin="1"/>
 <wire x1="163.83" y1="55.88" x2="171.45" y2="55.88" width="0.1524" layer="91"/>
 <junction x="163.83" y="55.88"/>
@@ -7795,12 +7797,12 @@ on Raspberry PI</text>
 </sheet>
 </sheets>
 <errors>
-<approved hash="104,1,152.4,45.72,Z,VDD,VDD_Z,,,"/>
-<approved hash="104,1,152.4,40.64,Z,VOUT,VOUT_Z,,,"/>
-<approved hash="104,1,152.4,88.9,Y,VDD,VDD_Y,,,"/>
-<approved hash="104,1,152.4,83.82,Y,VOUT,VOUT_Y,,,"/>
-<approved hash="104,1,152.4,134.62,X,VDD,VDD_X,,,"/>
-<approved hash="104,1,152.4,129.54,X,VOUT,VOUT_X,,,"/>
+<approved hash="104,1,154.94,45.72,Z,VDD,VDD_Z,,,"/>
+<approved hash="104,1,154.94,40.64,Z,VOUT,VOUT_Z,,,"/>
+<approved hash="104,1,154.94,88.9,Y,VDD,VDD_Y,,,"/>
+<approved hash="104,1,154.94,83.82,Y,VOUT,VOUT_Y,,,"/>
+<approved hash="104,1,154.94,134.62,X,VDD,VDD_X,,,"/>
+<approved hash="104,1,154.94,129.54,X,VOUT,VOUT_X,,,"/>
 <approved hash="104,1,50.8,144.78,J1,3.3V,+3V3,,,"/>
 <approved hash="202,1,81.28,132.08,J1,MISO,,,,"/>
 <approved hash="104,1,50.8,149.86,J1,5V,+5V,,,"/>
@@ -7809,9 +7811,9 @@ on Raspberry PI</text>
 <approved hash="209,1,81.28,139.7,N$11,,,,,"/>
 <approved hash="209,1,86.36,139.7,N$11,,,,,"/>
 <approved hash="113,1,139.596,107.846,FRAME2,,,,,"/>
-<approved hash="113,1,112.207,180.566,MCP9808-1,,,,,"/>
-<approved hash="113,1,137.607,180.566,MCP9808-2,,,,,"/>
-<approved hash="113,1,161.851,180.566,MAG3110,,,,,"/>
+<approved hash="113,1,112.198,180.566,MCP9808-1,,,,,"/>
+<approved hash="113,1,137.598,180.566,MCP9808-2,,,,,"/>
+<approved hash="113,1,161.842,180.566,MAG3110,,,,,"/>
 <approved hash="113,1,164.755,51.0261,TEST_Z,,,,,"/>
 <approved hash="113,1,164.827,94.2061,TEST_Y,,,,,"/>
 <approved hash="113,1,164.827,139.926,TEST_X,,,,,"/>
