@@ -1,7 +1,7 @@
-# this script is deprecated af, plz don't use
 import cage_controller
 import utilities as utils
 import magnetic_field_current_relation as mfcr
+import time
 
 global x0, y0, z0 #initial magnetic field, sorry about the globals
 #x0, y0, z0 = cage_controller.magnotometer()
@@ -17,6 +17,15 @@ COMMAND_MAP = {
     7: 'Set uniform magnetic field',
     8: 'Plot graph'
 }
+
+# Turn power off by request or exit
+def power_off():
+    if(utils.supply_available()):
+        utils.log(0, 'Powering Off...')
+        for i in utils.POWER_SUPPLIES:
+            i.toggle_supply(0)
+    else:
+        utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
 
 # Displays the menu
 def display_menu():
@@ -34,16 +43,24 @@ def menu(control):
     elif control == 1:
         if(utils.supply_available()):
             voltage = float(input('New voltage [Volts]: '))
-            supply_index= int(input('Power Supply [1-3]: '))
-            utils.POWER_SUPPLIES[supply_index - 1].set_voltage(voltage)
+            supply_index = int(input('Power Supply [1-3] or [4] for "all": '))
+            if supply_index in range(1,4):
+                utils.POWER_SUPPLIES[supply_index - 1].set_voltage(voltage)
+            elif supply_index == 4:
+                for supply in range(supply_index):
+                    utils.POWER_SUPPLIES[supply - 1].set_voltage(voltage)
             utils.log(0, 'Voltage set to ' + str(voltage) + ' Volts on Supply #' + str(supply_index))
         else:
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
     elif control == 2:
         if(utils.supply_available()):
             current = float(input('New current [Amps]: '))
-            supply_index= int(input('Power Supply [1-3]: '))
-            utils.POWER_SUPPLIES[supply_index - 1].set_current(current)
+            supply_index = int(input('Power Supply [1-3] of [4] for "all": '))
+            if supply_index in range(1,4):
+                utils.POWER_SUPPLIES[supply_index - 1].set_current(current)
+            elif supply_index == 4:
+                for supply in range(supply_index):
+                    utils.POWER_SUPPLIES[supply - 1].set_current(current)
             utils.log(0, 'Amperage set to ' + str(current) + ' Amps on Supply #' + str(supply_index))
         else:
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
@@ -55,12 +72,7 @@ def menu(control):
         else:
             utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
     elif control == 4:
-        if(utils.supply_available()):
-            utils.log(0, 'Powering Off...')
-            for i in utils.POWER_SUPPLIES:
-                i.toggle_supply(0)
-        else:
-            utils.log(3, 'There are currently no power supplies available!\n\tThis option will not be available until one or more are connected and the controller is rebooted.')
+        power_off()
     elif control == 5:
         utils.log(0, 'Checking temperatures...')
         cage_temp_1, cage_temp_2 = cage_controller.temperature()
@@ -104,11 +116,10 @@ def interface():
 def poll_data(duration = 10.0, dt = 1.0):
     time_step = [0.0]
     # temp_array = [temperature()]
-    mag_array = [magnotometer()]
+    mag_array = [cage_controller.magnetometer()]
     while time_step[-1] < duration:
         time.sleep(dt)
         time_step.append(time_step[-1] + dt)
         # temp_array.append(temperature())
-        mag_array.append(magnotometer())
+        mag_array.append(cage_controller.magnetometer())
     return time_step, mag_array #temp_array, mag_array
-

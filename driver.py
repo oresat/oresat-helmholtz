@@ -3,6 +3,7 @@ import utilities as utils
 import cage_controller as cc
 import window as gui
 import command_line as cli
+import atexit
 
 def usage(message):
     utils.log(3, message + '\n\tusage: python3 driver.py [cli/gui]')
@@ -14,7 +15,7 @@ def main():
             utils.log(1, 'Path: ' + utils.data_file_path() + ' does not exist, creating it now.')
             os.mkdir(utils.data_file_path())
 
-        # Initialize serial ports
+        # Initialize serial ports, toggle power off
         utils.log(0, "Attempting to initialize power supplies...")
         for i in utils.PSU_ADDRS:
             try:
@@ -40,6 +41,19 @@ def main():
     else:
         usage('Invalid number of options specified for the controller!')
         exit(1)
+    
+     # Upon exit, power off supply
+    try:
+        atexit.register(cli.power_off)
+    except:
+        utils.log(3, 'Could not power down!')
+        atexit.register(cli.power_off)
+        exit(1)
 
 if __name__ == "__main__":
-    main()
+   try:
+        main()
+   except KeyboardInterrupt:
+        utils.log(3, 'Interrupt Occured')
+        atexit.register(cli.power_off)
+        exit(1)
