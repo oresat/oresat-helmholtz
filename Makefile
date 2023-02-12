@@ -1,6 +1,6 @@
 PY=python3 -m py_compile
 DRIVER=driver.py
-SRC=driver.py cage_controler.py window.py utilities.py
+SRC=driver.py cage_controller.py window.py utilities.py
 GUIS=window.ui
 GSRC=new_window.py
 

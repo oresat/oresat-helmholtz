@@ -2,12 +2,18 @@ import sys
 import graph as g
 import utilities as utils
 import cage_controller as cc
+import magnetic_field_current_relation as mfcr
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from math import sqrt
 
 class ControllerWindow(object):
     def __init__(self, window):
+        # Actual ambient magnetometer data
+        self.mag_bus = cc.init_magnetometer()
+        self.x_0, self.y_0, self.z_0 = cc.magnetometer(self.mag_bus)
+        
         self.control_mode = 0
         self.window = window
         self.font = QtGui.QFont()
@@ -90,6 +96,7 @@ class ControllerWindow(object):
         self.psu_control_mode.setObjectName("psu_control_mode")
         self.psu_control_mode.addItem("")
         self.psu_control_mode.addItem("")
+        self.psu_control_mode.addItem("")
         self.psu_control_mode.currentIndexChanged.connect(self.toggle_control_mode)
 
         #
@@ -106,7 +113,7 @@ class ControllerWindow(object):
         self.psu1_input.setObjectName("psu1_input")
 
         self.psu2_label = QtWidgets.QLabel(self.widget)
-        self.psu2_label.setObjectName("psu2_input")
+        self.psu2_label.setObjectName("psu2_label")
 
         self.psu2_input = QtWidgets.QLineEdit(self.widget)
         self.psu2_input.setObjectName("psu2_input")
@@ -148,8 +155,8 @@ class ControllerWindow(object):
         # Graph
         #
         self.graph = g.Graph(self.widget)
-        self.graph.add_line('Magnetometer X', 'g')
-        self.graph.add_line('Magnetometer Y', 'r')
+        self.graph.add_line('Magnetometer X', 'r')
+        self.graph.add_line('Magnetometer Y', 'g')
         self.graph.add_line('Magnetometer Z', 'b')
         self.graph.setGeometry(QtCore.QRect(0, 700, self.width, self.height / 3))
         self.graph.setAutoFillBackground(True)
@@ -200,7 +207,7 @@ class ControllerWindow(object):
         self.psu3_input.setText(_translate("window", "4"))
 
         self.apply_button.setText(_translate("window", "PSU_BUTTON_UPDATE"))
-
+        
         # self.accuracy_label.setText(_translate("window", "Data Accuracy:"))
         # self.accuracy_input.setSuffix(_translate("window", " decimals"))
         # self.accuracy_input.setValue(utils.DATA_ACCURACY)
@@ -209,6 +216,7 @@ class ControllerWindow(object):
 
         self.psu_control_mode.setItemText(0, _translate("window", "Voltage"))
         self.psu_control_mode.setItemText(1, _translate("window", "Current"))
+        self.psu_control_mode.setItemText(2, _translate("window", "Magnetic Field"))
 
         self.toggle_control_mode()
         self.affirm_power_supplies()
@@ -228,7 +236,7 @@ class ControllerWindow(object):
         self.psu3_label.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off,         lw, ih))
         self.psu3_input.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off + 2 * ih / 3,    iw, ih))
         self.apply_button.setGeometry(QtCore.QRect(x_off + iw * 2,  y_off + 5 * lh / 3, iw, ih))
-
+        
         # self.accuracy_label.setGeometry(QtCore.QRect(x_off + self.width - 200 - spacing, y_off + ih + spacing, iw, ih))
         # self.accuracy_input.setGeometry(QtCore.QRect(x_off + self.width - 120 - spacing, y_off + ih + spacing + 0, iw, ih))
         self.quit_button.setGeometry(QtCore.QRect(self.width - 3 * iw / 2 - spacing, self.height - 100 - ih, 3 * iw / 2, ih))
@@ -317,7 +325,7 @@ class ControllerWindow(object):
         # z = utils.generate_static(self.graph.lines[2].y)
 
         # Actual magnetometer data
-        x, y, z = cc.magnetometer()
+        x, y, z = cc.magnetometer(self.mag_bus)
 
         self.width = self.window.width()
         self.height = self.window.height()
@@ -328,9 +336,9 @@ class ControllerWindow(object):
     #   voltage over current
     #   current over voltage
     def toggle_control_mode(self):
-        labels = [ 'Voltage[V]:', 'Current[A]:' ]
-        button_labels = [ 'Apply voltage', 'Apply current']
-        input_defaults = [ '12.0', '1.0']
+        labels = [ 'Voltage[V]:', 'Current[A]:', 'Magnetic Field[uT]' ]
+        button_labels = [ 'Apply voltage', 'Apply current', 'Apply field' ]
+        input_defaults = [ '12.0', '1.0', '0.0' ]
 
         self.control_mode = self.psu_control_mode.currentIndex()
         self.active_control_mode_label.setText('Actively controlling for: ' + labels[self.control_mode])
@@ -341,6 +349,22 @@ class ControllerWindow(object):
 
     def update_data_accuracy(self):
         utils.DATA_ACCURACY = self.accuracy_input.value
+    
+    def close_the_loop(self, target):
+        k_p = 1/200 # control proportional gain, microtesla per amp
+        k_i = 0 # control integral gain
+        epsilon = 1.0 # convergence criteria
+        steps = 5*5 # how many times to iterate
+        ei = [[0, 0, 0]]
+        for i in range(steps):
+            measurement = cc.magnetometer(self.mag_bus) # takes 0.2 sec
+            error = [target[i] - measurement[i] for i in range(3)]
+            ei.append([ei[-1][i] + utils.INPUT_DELAY*error[i] for i in range(3)])
+            norm = sqrt(sum([error[i]**2 for i in range(3)]))
+            if(norm < epsilon): break
+            
+            for i, PS in enumerate(utils.POWER_SUPPLIES):
+                    PS.set_current(PS.amperage + k_p * error[i] + k_i * ei[-1][i])
 
     # Applies changes to the power supply
     def apply_psu_changes(self):
@@ -349,11 +373,17 @@ class ControllerWindow(object):
 
         if(utils.supply_available()):
             if(self.control_mode == 0):
-                for i in range(0, len(utils.POWER_SUPPLIES)):
-                    utils.POWER_SUPPLIES[i].set_voltage(values[i])
+                for i, PS in enumerate(utils.POWER_SUPPLIES):
+                    PS.set_voltage(values[i])
             elif(self.control_mode == 1):
-                for i in range(0, len(utils.POWER_SUPPLIES)):
-                    utils.POWER_SUPPLIES[i].set_current(values[i])
+                for i, PS in enumerate(utils.POWER_SUPPLIES):
+                    PS.set_current(values[i])
+            elif(self.control_mode == 2):
+                new_currents = mfcr.automatic([self.x_0, self.y_0, self.z_0], values)
+                for i, PS in enumerate(utils.POWER_SUPPLIES):
+                    PS.set_current(new_currents[i])
+                if(utils.CLOSED_LOOP):
+                    self.close_the_loop(values)
             else:
                 utils.log(3, 'An invalid control mode was specified: ' + str(self.control_mode) + '!\n\tThis input will be ignored and the power supplies cannot be modified until this is resolved.')
         else:
@@ -401,7 +431,7 @@ class ControllerWindow(object):
             self.shutdown_cage()
             exit(0)
 
-    # Ensures all physical equiptment is in its cloesd safe state then exits
+    # Ensures all physical equiptment is in its closed safe state then exits
     def shutdown_cage(self):
         utils.log(0, 'Shutting cage down gracefully...')
         if(utils.supply_available()):
