@@ -1,6 +1,31 @@
-# python-project-template
+# Helmholtz Cage Controller
 
-A minimal template python project containing boilerplate that's often re-used.
+A command-line controller for the OreSat Helmholtz Cage test-chamber.
+
+***
+
+&nbsp;
+
+# Installation and Usage
+
+## Install from Git
+
+1. Clone and enter the repository
+    * `git clone https://github.com/oresat/oresat-helmholtz.git`
+    * `cd oresat-helmholtz`
+2. Install via Pip
+    * `pip install .`
+
+## Install from PyPi
+
+1. Install via Pip
+    * `pip install oresat-hcc`
+
+
+## Usage
+
+1. Help Menu
+    * `oresat-hcc --help`
 
 ***
 
@@ -14,7 +39,3 @@ A minimal template python project containing boilerplate that's often re-used.
     * `pip install -e .[dev]`
 
 &nbsp;
-
-***
-
-> Created and Maintained by Dmitri McGuckin <dmitri@duck.com>
