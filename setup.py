@@ -31,15 +31,15 @@ setuptools.setup(
     #   Useful if publishing to PyPi
     #   Valid Classifiers: https://pypi.org/classifiers/
     classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        'Programming Language :: Python :: 3',
+        'License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication',
     ],
     
     # Project building requirements
     setup_requires=[
-        "setuptools>=66.1.1",
-        "wheel>=0.38.4",
-        "pip>=22.3.1",
+        'setuptools>=66.1.1',
+        'wheel>=0.38.4',
+        'pip>=22.3.1',
     ],
     
     # Project runtime requirements
@@ -47,21 +47,21 @@ setuptools.setup(
     
     # Project development/maintenance requirements
     extras_require={
-        "dev": [
-            "setuptools>=66.1.1",
-            "wheel>=0.38.4",
-            "flake9>=3.8.3.post2 ",
-            "black>=22.12.0",
-            "twine>=4.0.2",
-            "sphinx>=6.1.3",
+        'dev': [
+            'setuptools>=66.1.1',
+            'wheel>=0.38.4',
+            'flake9>=3.8.3.post2 ',
+            'black>=22.12.0',
+            'twine>=4.0.2',
+            'sphinx>=6.1.3',
         ]
     },
     python_requires='>=3.10',
 
     # Project script entry point
     entry_points={
-        "console_scripts": [
-            f'{module.APP_NAME} = src.__main__:main'
+        'console_scripts': [
+            f'{module.APP_NAME.replace("_", "-").lower()} = src.__main__:main'
         ]
     }
 )
