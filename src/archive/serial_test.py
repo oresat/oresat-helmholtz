@@ -1,58 +1,54 @@
 import serial
-import threading
-import time
+import signal
+import sys
 
-# Define the voltage and current settings for each power supply
-settings = {
-    "COM1": {"voltage": 5.0, "current": 0.5},
-    "COM2": {"voltage": 10.0, "current": 1.0},
-    "COM3": {"voltage": 15.0, "current": 1.5},
-}
+# Set up the serial connections for each power supply
+ser1 = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
+ser2 = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
+ser3 = serial.Serial('/dev/ttyUSB2', 9600, timeout=1)
 
-# Define the function to set the voltage and current for a power supply
-def set_voltage_current(serial_connection, voltage, current):
-    # Send the voltage and current commands to the power supply
-    serial_connection.write("VSET:{:.1f}\r\n".format(voltage))
-    serial_connection.write("ISET:{:.1f}\r\n".format(current))
+# Function to handle Ctrl+C
+def signal_handler(sig, frame):
+    print('\nProgram terminated.')
+    sys.exit(0)
 
-    # Read the response from the power supply and print it to the console
-    response = serial_connection.readline().strip()
-    print response
+signal.signal(signal.SIGINT, signal_handler)
 
-# Define the function to control the power supplies
-def control_power_supply(com_port, voltage, current):
-    # Open the serial connection to the power supply
-    serial_connection = serial.Serial(com_port, baudrate=9600, timeout=1)
-
-    while True:
-        # Set the voltage and current for the power supply
-        set_voltage_current(serial_connection, voltage, current)
-
-        # Sleep for 1 second
-        time.sleep(1)
-
-# Define the main function
-def main():
-    # Create a list to hold the threads
-    threads = []
-
-    # Create a thread for each power supply and start it
-    for com_port, values in settings.items():
-        voltage = values["voltage"]
-        current = values["current"]
-        thread = threading.Thread(target=control_power_supply, args=(com_port, voltage, current))
-        thread.start()
-        threads.append(thread)
-
-    # Wait for the threads to finish
+# Loop to continuously prompt for voltage and current values and send them to the power supplies
+while True:
     try:
-        for thread in threads:
-            thread.join()
-    except KeyboardInterrupt:
-        print "Stopping threads..."
-        for thread in threads:
-            thread.join()
-        print "Threads stopped."
+        # Prompt for voltage and current values
+        voltage = float(raw_input("Enter voltage (V): "))
+        current = float(raw_input("Enter current (A): "))
 
-if __name__ == '__main__':
-    main()
+        # Send voltage and current values to each power supply
+        ser1.write("VSET:{}\r".format(voltage).encode())
+        ser1.write("ISET:{}\r".format(current).encode())
+        ser2.write("VSET:{}\r".format(voltage).encode())
+        ser2.write("ISET:{}\r".format(current).encode())
+        ser3.write("VSET:{}\r".format(voltage).encode())
+        ser3.write("ISET:{}\r".format(current).encode())
+
+        # Read voltage and current values from each power supply
+        ser1.write("VOUT?\r".encode())
+        ser1_voltage = float(ser1.readline().strip())
+        ser1.write("IOUT?\r".encode())
+        ser1_current = float(ser1.readline().strip())
+        ser2.write("VOUT?\r".encode())
+        ser2_voltage = float(ser2.readline().strip())
+        ser2.write("IOUT?\r".encode())
+        ser2_current = float(ser2.readline().strip())
+        ser3.write("VOUT?\r".encode())
+        ser3_voltage = float(ser3.readline().strip())
+        ser3.write("IOUT?\r".encode())
+        ser3_current = float(ser3.readline().strip())
+
+        # Display voltage and current values for each power supply
+        print("Power Supply 1: Voltage = {:.2f} V, Current = {:.2f} A".format(ser1_voltage, ser1_current))
+        print("Power Supply 2: Voltage = {:.2f} V, Current = {:.2f} A".format(ser2_voltage, ser2_current))
+        print("Power Supply 3: Voltage = {:.2f} V, Current = {:.2f} A".format(ser3_voltage, ser3_current))
+    except KeyboardInterrupt:
+        print('\nProgram terminated.')
+        sys.exit(0)
+    except Exception as e:
+        print("Error: {}".format(e))
