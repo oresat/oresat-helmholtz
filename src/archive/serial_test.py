@@ -1,52 +1,58 @@
-import threading
 import serial
+import threading
 import time
 
-# define the settings for each power supply
-PS1_SETTINGS = {'voltage': 10.0, 'current': 0.5}
-PS2_SETTINGS = {'voltage': 20.0, 'current': 1.0}
-PS3_SETTINGS = {'voltage': 30.0, 'current': 1.5}
+# Define the voltage and current settings for each power supply
+settings = {
+    "COM1": {"voltage": 5.0, "current": 0.5},
+    "COM2": {"voltage": 10.0, "current": 1.0},
+    "COM3": {"voltage": 15.0, "current": 1.5},
+}
 
-# define the COM port for each power supply
-PS1_COM_PORT = '/dev/ttyUSB0'
-PS2_COM_PORT = '/dev/ttyUSB1'
-PS3_COM_PORT = '/dev/ttyUSB2'
-
-# define the baud rate for the power supplies
-BAUD_RATE = 9600
-
-# create a serial connection for each power supply
-ps1_serial = serial.Serial(PS1_COM_PORT, BAUD_RATE, timeout=1)
-ps2_serial = serial.Serial(PS2_COM_PORT, BAUD_RATE, timeout=1)
-ps3_serial = serial.Serial(PS3_COM_PORT, BAUD_RATE, timeout=1)
-
-# define a function to set the voltage and current for a power supply
+# Define the function to set the voltage and current for a power supply
 def set_voltage_current(serial_connection, voltage, current):
+    # Send the voltage and current commands to the power supply
     serial_connection.write("VSET:{:.1f}\r\n".format(voltage))
     serial_connection.write("ISET:{:.1f}\r\n".format(current))
 
-# define a function to control a power supply in a separate thread
-def control_power_supply(serial_connection, settings):
+    # Read the response from the power supply and print it to the console
+    response = serial_connection.readline().strip()
+    print response
+
+# Define the function to control the power supplies
+def control_power_supply(com_port, voltage, current):
+    # Open the serial connection to the power supply
+    serial_connection = serial.Serial(com_port, baudrate=9600, timeout=1)
+
     while True:
-        set_voltage_current(serial_connection, settings['voltage'], settings['current'])
+        # Set the voltage and current for the power supply
+        set_voltage_current(serial_connection, voltage, current)
+
+        # Sleep for 1 second
         time.sleep(1)
 
-# create a thread for each power supply
-ps1_thread = threading.Thread(target=control_power_supply, args=(ps1_serial, PS1_SETTINGS,))
-ps2_thread = threading.Thread(target=control_power_supply, args=(ps2_serial, PS2_SETTINGS,))
-ps3_thread = threading.Thread(target=control_power_supply, args=(ps3_serial, PS3_SETTINGS,))
+# Define the main function
+def main():
+    # Create a list to hold the threads
+    threads = []
 
-# start the threads
-ps1_thread.start()
-ps2_thread.start()
-ps3_thread.start()
+    # Create a thread for each power supply and start it
+    for com_port, values in settings.items():
+        voltage = values["voltage"]
+        current = values["current"]
+        thread = threading.Thread(target=control_power_supply, args=(com_port, voltage, current))
+        thread.start()
+        threads.append(thread)
 
-# wait for the threads to finish (this won't happen since they run indefinitely)
-ps1_thread.join()
-ps2_thread.join()
-ps3_thread.join()
+    # Wait for the threads to finish
+    try:
+        for thread in threads:
+            thread.join()
+    except KeyboardInterrupt:
+        print "Stopping threads..."
+        for thread in threads:
+            thread.join()
+        print "Threads stopped."
 
-# close the serial connections
-ps1_serial.close()
-ps2_serial.close()
-ps3_serial.close()
+if __name__ == '__main__':
+    main()
