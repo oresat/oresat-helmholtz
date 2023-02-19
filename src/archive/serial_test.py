@@ -22,8 +22,8 @@ ps3_serial = serial.Serial(PS3_COM_PORT, BAUD_RATE, timeout=1)
 
 # define a function to set the voltage and current for a power supply
 def set_voltage_current(serial_connection, voltage, current):
-    serial_connection.write("VSET:{:.1f}\r\n".format(voltage).encode())
-    serial_connection.write("ISET:{:.1f}\r\n".format(current).encode())
+    serial_connection.write("VSET:{:.1f}\r\n".format(voltage))
+    serial_connection.write("ISET:{:.1f}\r\n".format(current))
 
 # define a function to control a power supply in a separate thread
 def control_power_supply(serial_connection, settings):
