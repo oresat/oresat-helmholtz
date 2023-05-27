@@ -123,3 +123,8 @@ def poll_data(duration = 10.0, dt = 1.0):
         # temp_array.append(temperature())
         mag_array.append(cage_controller.magnetometer())
     return time_step, mag_array #temp_array, mag_array
+    
+if __name__ == "__main__":
+    interface()
+
+
