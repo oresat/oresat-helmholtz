@@ -20,6 +20,11 @@ class Commands(Enum):
 	'''Activate Y H-bridge in Negative Polarity'''
 	NEGATIVE_Z = 'Z'
 	'''Activate Z H-bridge in Negative Polarity'''
+
+	#This command seems redundant. Uncomment if you want to use it. 
+	#DEACTIVATE_ALL
+	#'''De-activates all H-Bridges'''
+
 	DEACTIVATE_X = 'b'
 	'''De-Activate X H-Bridge'''
 	DEACTIVATE_Y = 'c'
@@ -28,7 +33,7 @@ class Commands(Enum):
 	'''De-Activate Z H-Bridge'''
 
 	'''The following are the commands the arduino is listening for with a serial data return'''
-	MAGNETOMETER = 'm'
+	MAGNETOMETER_READING = 'm'
 	'''Request current magnetic field reading
 	Data return is "X,Y,Z" magnetic field in uT. 
 	The values of each value X,Y,Z can be positive or negative
@@ -152,6 +157,12 @@ class Arduino:
 		'''str: set Z-bridge to negative polarity'''
 	msg = self.create_command(Commands.NEGATIVE_Z.value)
 	return self.send_command(msg)
+	
+	#Deactivate all function. Comment out if you want to use it. 
+	#def deactivate_all(self) -> str:
+		#str: deactivates all H-Bridges at the same time.'''
+	#msg = self.create_command(Commands.DEACTIVATE_ALL.value)	
+	#return self.send_command(msg)
 
 	@property
 	def deactivate_X(self) -> str:
@@ -171,13 +182,33 @@ class Arduino:
 	msg = self.create_command(Commands.DEACTIVATE_Z.value)
 	return self.send_command(msg)
 
-		
+#Missing 4 functions: 
+	@property 
+	def magnetometer_reading(self) -> str:
+		'''str: return current magnetic field reading'''
+	msg = self.create_command(Commands.MAGNETOMETER_READING.value)
+	return self.send_command(msg)	
+#do something print or decode() if this fails
 
+	@property
+	def magnetometer_status(self) -> str:
+		'''str: returns 0 if magnetometer not initialized. 1 otherwise.'''
+	msg = self.create_command(Commands.MAGNETOMETER_STATUS.value)
+	return self.send_command(msg)
+#this should work
 
-
-	
-
-
+	@property
+	def bridge_status(self) -> str: 
+		'''str: data return off current status of each H-bridge'''
+	msg = self.create_command(Commands.H_BRIDGE_STATUS.value)
+	return self.send_command(msg)
+#this should also work. Might need decode()
+	@property
+	def magnetometer_temp(self) -> str:
+		'''str: requests the ambient temperature of magnetometer.'''
+	msg = self.create_command(Commands.MAGNETOMETER_TEMP.value)
+	return self.send_command(msg)
+#final command. this should work because it just returns a numberr
 
 
 
