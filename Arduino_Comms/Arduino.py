@@ -21,9 +21,8 @@ class Commands(Enum):
 	NEGATIVE_Z = 'Z'
 	'''Activate Z H-bridge in Negative Polarity'''
 
-	#This command seems redundant. Uncomment if you want to use it. 
-	#DEACTIVATE_ALL
-	#'''De-activates all H-Bridges'''
+	DEACTIVATE_ALL = 'a'
+	'''De-activates all H-Bridges'''
 
 	DEACTIVATE_X = 'b'
 	'''De-Activate X H-Bridge'''
@@ -72,143 +71,142 @@ class Commands(Enum):
 
 
 class Arduino:
-	
-	BAUDRATE = 9600
-	INPUT_DELAY = 0.001
-	BYTESIZE = serial.EIGHTBITS
-	PARITY  = serial.PARITY_NONE
-	STOPBITS = serial.STOPBITS_ONE
-	TIMEOUT = 1
 
-	def __init__(self, name: str):
-            '''Object Construction. Passes the name of the arduino's USB port'''
-  	    serial_port = None
-	    for i in serial.tools.list_ports.comports():
-                if i.name == name:
-		    serial_port = i.device
-		    break
-	    if serial_port is None:
-	        raise Exception(f'Could not ind device with id of {name}')
+    #Serial communication settings for the Arduino Nano.	
+    BAUDRATE = 115200
+    INPUT_DELAY = 0.001
+    BYTESIZE = serial.EIGHTBITS
+    PARITY  = serial.PARITY_NONE
+    STOPBITS = serial.STOPBITS_ONE
+    TIMEOUT = 1
+
+    def __init__(self, name: str):
+        '''Object Construction. Passes the name of the arduino's USB port'''
+        serial_port = None
+        for i in serial.tools.list_ports.comports():
+            if i.name == name:
+                serial_port = i.device
+                break
+        if serial_port is None:
+            raise Exception(f'Could not ind device with id of {name}')
 	
-	    self.ser = serial.Serial(
-	        port = serial_port,
-	        baudrate = self.BAUDRATE,
-	        parity = self.PARITY,
-	        stopbits = self.STOPBITS,
-	        bytesize = self.BYTESIZE,
-	        timeout = self.TIMEOUT	
+        self.ser = serial.Serial(
+            port = serial_port,
+            baudrate = self.BAUDRATE,
+            parity = self.PARITY,
+            stopbits = self.STOPBITS,
+            bytesize = self.BYTESIZE,
+            timeout = self.TIMEOUT	
 	)
 
-	def write_message(self, msg):
-	    '''writes a command to serial port'''
-	    if self.ser.out_waiting != 0:
-		self.ser.flush()
-	    self.ser.write(msg)
-	    self.ser.flush()
+    def write_message(self, msg):
+        '''writes a command to serial port'''
+        if self.ser.out_waiting != 0:
+            self.ser.flush()
+       
+        self.ser.write(msg)
+        self.ser.flush()
 
-	def read_message(self, ending_token = '\n'):
-	    '''reads from serial port until a specific character'''
-	    data = self.ser.read_until(ending_token)
-	    return data.decode().strip()
+    def read_message(self, ending_token = '\n'):
+        '''reads from serial port until a specific character'''
+        data = self.ser.read_until(ending_token)
+        return data.decode().strip()
 
-	def send_command(self, msg):
-	    '''sends a command to serial port and reads the message returned'''
-	    self.write_message(msg)
-	    return self.read_message()
+    def send_command(self, msg):
+        '''sends a command to serial port and reads the message returned'''
+        self.write_message(msg)
+        return self.read_message()
 
-	def create_command(self, command):
-	    '''creates command to send through serial port'''
-	    '''<A> is address, ends on <\n>, and encode as bytes'''
-	    msg = f'A{command}\n'.encode()
-	    return msg
+    def create_command(self, command):
+        '''creates command to send through serial port'''
+        '''<A> is address, ends on <\n>, and encode as bytes'''
+        msg = f'A{command}\n'.encode()
+        return msg
+
 #definitions for function that help operate the commands. 	
-	@property
-	def set_positive_X(self) -> str:
-	    '''str: set X H-bridge to positive polarity'''
-            msg = self.create_command(Commands.POSITIVE_X.value)
-	    return self.send_command(msg)
+    @property
+    def set_positive_X(self) -> str:
+        '''str: set X H-bridge to positive polarity'''
+        msg = self.create_command(Commands.POSITIVE_X.value)
+        return self.send_command(msg)
 
-	@property
-	def set_positive_Y(self) -> str:
-	    '''str: set Y H-bridge to positive polarity'''
-            msg = self.create_command(Commands.POSITIVE_Y.value)
-	    return self.send_command(msg)
+    @property
+    def set_positive_Y(self) -> str:
+        '''str: set Y H-bridge to positive polarity'''
+        msg = self.create_command(Commands.POSITIVE_Y.value)
+        return self.send_command(msg)
 
-	@property
-	def set_positive_Z(self) -> str:
-	    '''str: set Z H-bridge to positive polarity'''
-	    msg = self.create_command(Commands.POSITIVE_Z.value)
-	    return self.send_command(msg)
+    @property
+    def set_positive_Z(self) -> str:
+        '''str: set Z H-bridge to positive polarity'''
+        msg = self.create_command(Commands.POSITIVE_Z.value)
+        return self.send_command(msg)
 
-	@property
-	def set_negative_X(self) -> str:
-	    '''str: set X-bridge to negative polarity'''
-	    msg = self.create_command(Commands.NEGATIVE_X.value)
-	    return self.send_command(msg)
+    @property
+    def set_negative_X(self) -> str:
+        '''str: set X-bridge to negative polarity'''
+        msg = self.create_command(Commands.NEGATIVE_X.value)
+        return self.send_command(msg)
 
-	@property
-	def set_negative_Y(self) -> str:
-	    '''str: set Y-bridge to negative polarity'''
-	    msg = self.create_command(Commands.NEGATIVE_Y.value)
-	    return self.send_command(msg)
+    @property
+    def set_negative_Y(self) -> str:
+        '''str: set Y-bridge to negative polarity'''
+        msg = self.create_command(Commands.NEGATIVE_Y.value)
+        return self.send_command(msg)
 
-	@property
-	def set_negative_Z(self) -> str:
-	    '''str: set Z-bridge to negative polarity'''
-	    msg = self.create_command(Commands.NEGATIVE_Z.value)
-	    return self.send_command(msg)
+    @property
+    def set_negative_Z(self) -> str:
+        '''str: set Z-bridge to negative polarity'''
+        msg = self.create_command(Commands.NEGATIVE_Z.value)
+        return self.send_command(msg)
+
+    @property	
+    def deactivate_all(self) -> str:
+        '''str: deactivates all H-Bridges at the same time.'''
+        msg = self.create_command(Commands.DEACTIVATE_ALL.value)	
+        return self.send_command(msg)
+
+    @property
+    def deactivate_X(self) -> str:
+        '''str: turn off X H-bridge'''
+        msg = self.create_command(Commands.DEACTIVATE_X.value)
+        return self.send_command(msg)
+
+    @property	
+    def deactivate_Y(self) -> str:
+        '''str: turn off Y H-bridge'''
+        msg = self.create_command(Commands.DEACTIVATE_Y.value)
+        return self.send_command(msg)
 	
-	#Deactivate all function. Comment out if you want to use it. 
-	#def deactivate_all(self) -> str:
-		#str: deactivates all H-Bridges at the same time.'''
-	#msg = self.create_command(Commands.DEACTIVATE_ALL.value)	
-	#return self.send_command(msg)
+    @property
+    def deactivate_Z(self) -> str:
+        '''str: turn off Z H-bridge'''
+        msg = self.create_command(Commands.DEACTIVATE_Z.value)
+        return self.send_command(msg)
 
-	@property
-	def deactivate_X(self) -> str:
-	    '''str: turn off X H-bridge'''
-	    msg = self.create_command(Commands.DEACTIVATE_X.value)
-	    return self.send_command(msg)
+    @property 
+    def magnetometer_reading(self) -> str:
+        '''str: return current magnetic field reading'''
+        msg = self.create_command(Commands.MAGNETOMETER_READING.value)
+        return self.send_command(msg)	
 
-	@property	
-	def deactivate_Y(self) -> str:
-	    '''str: turn off Y H-bridge'''
-	    msg = self.create_command(Commands.DEACTIVATE_Y.value)
-	    return self.send_command(msg)
+    @property
+    def magnetometer_status(self) -> str:
+        '''str: returns 0 if magnetometer not initialized. 1 otherwise.'''
+        msg = self.create_command(Commands.MAGNETOMETER_STATUS.value)
+        return self.send_command(msg)
+
+    @property
+    def bridge_status(self) -> str: 
+        '''str: data return off current status of each H-bridge'''
+        msg = self.create_command(Commands.H_BRIDGE_STATUS.value)
+        return self.send_command(msg)
 	
-	@property
-	def deactivate_Z(self) -> str:
-	    '''str: turn off Z H-bridge'''
-	    msg = self.create_command(Commands.DEACTIVATE_Z.value)
-	    return self.send_command(msg)
-
-#Missing 4 functions: 
-	@property 
-	def magnetometer_reading(self) -> str:
-	    '''str: return current magnetic field reading'''
-	    msg = self.create_command(Commands.MAGNETOMETER_READING.value)
-	    return self.send_command(msg)	
-#do something print or decode() if this fails
-
-	@property
-	def magnetometer_status(self) -> str:
-	    '''str: returns 0 if magnetometer not initialized. 1 otherwise.'''
-	    msg = self.create_command(Commands.MAGNETOMETER_STATUS.value)
-	    return self.send_command(msg)
-#this should work
-
-	@property
-	def bridge_status(self) -> str: 
-	    '''str: data return off current status of each H-bridge'''
-	    msg = self.create_command(Commands.H_BRIDGE_STATUS.value)
-	    return self.send_command(msg)
-#this should also work. Might need decode()
-	@property
-	def magnetometer_temp(self) -> str:
-	    '''str: requests the ambient temperature of magnetometer.'''
-	    msg = self.create_command(Commands.MAGNETOMETER_TEMP.value)
-	    return self.send_command(msg)
-#final command. this should work because it just returns a numberr
+    @property
+    def magnetometer_temp(self) -> str:
+        '''str: requests the ambient temperature of magnetometer.'''
+        msg = self.create_command(Commands.MAGNETOMETER_TEMP.value)
+        return self.send_command(msg)
 
 
 
