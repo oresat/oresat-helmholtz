@@ -1,74 +1,158 @@
+#Copy of ZXY6005s library. 
+#Author: Teresa Labolle
+#Documentation: INSERT STUFF HERE
+
 import serial
-import time
-import utilities as utils #debugging
-import struct
+import serial.tools.list_ports
+from enum import Enum
 
-#v1.1_0514
-# Library that manages the ZXY6005s power supply
-
-
-#these functions to be used for later 
-#raw bytes to a string
-def as_string(raw_data):
-	return bytearray(raw_data[:-1])
-
-#raw bytes to a float
-def as_float(raw_data):
-	f = struct.unpack_from(">f", bytearray(raw_data))[0]
-	return f
-
-#raw bytes to a word
-def as_word(raw_data):
-	w = struct.unpack_from(">H", bytearray(raw_data))[0]
-	return w
+class Commands(Enum):
+    '''Get power supply unit model. Response: ZXY6005s'''
+    MODEL = 'a'
+    '''Get firmware version. Response: R2.7Z'''
+    FIRMWARE_VERSION = 'v'
+    '''Set amp hour counter to specified value. Response: Asa(value)'''
+    SET_AMP_HOUR = 'sa'
+    '''Return the amp hour reading. Response: Ara(5 digit value)'''
+    RETURN_AMP_HOUR = 'ra'
+    '''Set voltage to specified value. Response: Asu(value)'''
+    SET_VOLTAGE = 'su'
+    '''Return voltage measurement. Response: Aru(5 digit value)'''
+    RETURN_VOLTAGE = 'ru'
+    '''Set current limit to specified value. Response: Asi(value)'''
+    SET_CURRENT_LIMIT = 'si'
+    '''Return current in amps. Response: Ari(4 digit value)'''
+    RETURN_CURRENT = 'ri'
+    '''Return current mode [Constant Voltage(CV) or Constant Current(CC)] Response: Arc0 or Arc1'''
+    RETURN_MODE = 'rc'
+    '''Return temperature in Celsius. Response: Art(3 digit value)'''
+    RETURN_TEMP = 'rt'
+    '''Set power output (On/Off). Response: Aso(1 or 0)'''
+    SET_OUTPUT = 'so'
 
 
 class ZXY6005s:
-	def __init__(self, port,input_delay=utils.INPUT_DELAY,  baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, timeout=1):
-		self.port = port
-		self.input_delay = input_delay
-		self.baudrate = baudrate
-		self.baudrate = baudrate
-		self.parity = parity
-		self.bytesize = bytesize
-		self.timeout = timeout
-		self.serial = None
- 		utils.log(0, "Powersupply info:\n\tPort: " + str(port) + '\n\tInput delay: ' str(input_delay) + '\n\tBaud rate: ' + str(baudrate) + '\n\tParity: ' + str(parity) + '\n\t stop bits: ' + str(stopbits) + '\n\tByte Size: ' + str(bytesize) + '\n\tTimeout: ' + str(timeout))
+    BAUDRATE = 9600
+    INPUT_DELAY = 0.001
+    BYTESIZE = serial.EIGHTBITS
+    PARITY = serial.PARITY_NONE
+    STOPBITS = serial.STOPBITS_ONE
+    TIMEOUT = 1
 
-	def is_open(self):
-		return self.serial.is_open
-	
-	def get_device_information(self):
-		return self.__device_information
+    def __init__(self):
+        '''construct objects, using location for X, Y and Z power supplies'''
+        names = ['X', 'Y', 'Z']
+        locations = ['1-1.5.4.3', '1-1.5.4.2', '1-1.5.4.1']
+        self.devices = {}
+        for name, location in zip(names, locations):
+            serial_port = None
+            for i in serial.tools.list_ports.comports():
+                if i.location == location:
+                    serial_port = i.device
+                    break
+        if serial_port is None:
+            raise Exception(f'Could not find device with location of {location}')
 
-	def disconnect(self):
-		self.serial.close()
+        self.devices[name] = serial.Serial(
+            port = serial_port,
+            baudrate = self.BAUDRATE, 
+            parity = self.PARITY,
+            stopbits = self.STOPBITS,
+            bytesize = self.BYTESIZE, 
+            timeout = self.TIMEOUT,
+        )
 
-	def send_command(self, command):
-		self.serial.write(command.encode())
+    def write_message(self, device_name, msg):
+        '''writes a command to serial port'''
+        ser = self.devices[device_name]
+        if ser.out_waiting != 0:
+            ser.flush()
+        ser.write(msg)
+        ser.flush()
 
-	def set_voltage(self, voltage):
-		self.send_command(f"VSET:{voltage:.2f}")
+    def read_message(self, device_name, ending_token = '\n'):
+        '''reads from the serial port until a specified character'''
+        ser = self.devices[device_name]
+        data = ser.read_until(ending_token)
+        return data.decode().strip()
 
-	def set_current(self, current):
-		self.send_command(f"ISET:{current:.3f}")
-	
-	def enable_output(self):
-		self.send_command("OUT1")
+    def send_command(self, device_name, msg):
+        '''sends a command to serial port and reads the message returned'''
+        self.write_message(device_name, msg)
+        return self.read_message(device_name)
 
-	def disable_output(self):
-		self.send_command("OUT0")
+    def create_command(self, command):
+        '''creates a command to send through the serial port'''
+        '''<A> is address, end on <\n>, and encode as bytes'''
+        msg = f'A{command}\n'.encode()
+        return msg
 
-	
+    def model(self, device_name: str) -> str:
+        '''takes a device name and returns the model name'''
+        msg = self.create_command(Commands.MODEL.value)
+        return self.send_command(device_name, msg)
+
+    def firmware_version(self, device_name: str) -> str:
+        '''takes a device name and returns the firmware version'''
+        msg = self.create_command(Commands.FIRMWARE_VERSION.value)
+        return self.send_command(device_name, msg)
+
+    def set_output(self, device_name: str, value: bool):
+        '''takes a device name and a boolean: 1 for ON, 0 for OFF to set output ON/OFF'''
+        if value:
+            msg = f'{Commands.SET_OUTPUT.value}1'
+        else: 
+            msg = f'{Commands.SET_OUTPUT.value}0'
+        msg = self.create_command(msg)
+        reply = self.send_command(device_name, msg)
+        if reply != msg.decode().strip():
+            raise ValueError(f'Invalid reply was {reply}, expected {msg.decode().strip()}')
+
+    def set_amp_hour(self, device_name: str, value: int):
+        '''takes a device name and an integer, sets amp hour counter to that value'''
+        msg = f'{Commands.SET_AMP_HOUR.value}{str(value)}'
+        msg = self.create_command(msg)
+        reply = self.send_command(device_name, msg)
+        if reply != msg.decode().strip():
+            raise ValueError(f'Invalid reply was {reply}, expected {msg.decode().strip()}')
+
+    def return_amp_hour(self, device_name: str) -> str:
+        '''takes a device name and returns amp hour reading'''
+        msg = self.create_command(Commands.RETURN_AMP_HOUR.value)
+        return self.send_command(device_name, msg)
+
+    def set_voltage(self, device_name: str, value: int):
+        '''takes a device name and an integer, sets voltage to that value'''
+        msg = f'{Commands.SET_VOLTAGE.value}{str(value)}'
+        msg = self.create_command(msg)
+        reply = self.send_command(device_name, msg)
+        if reply != msg.decode().strip():
+            raise ValueError(f'Invalid reply was {reply}, expected {msg.decode().strip()}')
+
+    def return_voltage(self, device_name: str) -> str:
+        '''takes a device name and returns voltage measurement'''
+        msg = self.send_command(Commands.RETURN_VOLTAGE.value)
+        return self.send_command(device_name, msg)
+
+    def set_current_limit(self, device_name: str, value: int):
+        '''takes a device name and an integer, sets current limit to that value'''
+        msg = f'{Commands.SET_CURRENT_LIMIT.value}{str(value)}'
+        msg = self.create_command(msg)
+        reply = self.send_command(device_name, msg)
+        if reply != msg.decode().strip():
+            raise ValueError(f'Invalid reply was {reply}, expected {msg.decode().strip()}')
+
+    def return_current(self, device_name: str) -> str:
+        '''takes a device name and returns current in amps'''
+        msg = self.create_command(Commands.RETURN_CURRENT.value)
 
 
+    def return_mode(self, device_name: str) -> str:
+        '''takes a device name and returns mode (CV or CC), see Data Sheet pg 6, Item 4'''
+        msg = self.create_command(Commands.RETURN_MODE.value)
+        return self.send_command(device_name, msg)
 
-
-
-	
-#Notes
-#Baudrate: speed of communication over a data channel
-#Parity: bit added to a string as a form of error detection
-
-
-
+    def return_temp(self, device_name: str) -> str:
+        '''takes a device name and returns temperature in Celsius (of PSU?)'''
+        msg = self.create_command(Commands.RETURN_TEMP.value)
+        return self.send_command(device_name, msg)
