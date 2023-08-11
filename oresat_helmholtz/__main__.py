@@ -209,7 +209,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Accepted values are: 'b'. ")
     
     #Deactivates the Y H-bridge.    
-    def do_deactivate_Y(self, args): 
+    def do_deactivate_Y(self, arg): 
         if not self.mock: 
             self.arduino.deactivate_Y(arg[0])
     
