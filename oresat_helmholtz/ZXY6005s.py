@@ -48,19 +48,17 @@ class ZXY6005s:
             serial_port = None
             for i in serial.tools.list_ports.comports():
                 if i.location == location:
-                    serial_port = i.device
+                    self.devices[name] = serial.Serial(
+                        port = i.device,
+                        baudrate = self.BAUDRATE, 
+                        parity = self.PARITY,
+                        stopbits = self.STOPBITS,
+                        bytesize = self.BYTESIZE, 
+                        timeout = self.TIMEOUT,
+                     )
                     break
         if serial_port is None:
             raise Exception(f'Could not find device with location of {location}')
-
-        self.devices[name] = serial.Serial(
-            port = serial_port,
-            baudrate = self.BAUDRATE, 
-            parity = self.PARITY,
-            stopbits = self.STOPBITS,
-            bytesize = self.BYTESIZE, 
-            timeout = self.TIMEOUT,
-        )
 
     def write_message(self, device_name, msg):
         '''writes a command to serial port'''
