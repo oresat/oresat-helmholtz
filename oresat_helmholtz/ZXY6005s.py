@@ -113,10 +113,11 @@ class ZXY6005s:
         if reply != msg.decode().strip():
             raise ValueError(f'Invalid reply was {reply}, expected {msg.decode().strip()}')
 
-    def return_amp_hour(self, device_name: str) -> str:
+    def return_amp_hour(self, device_name: str) -> int:
         '''takes a device name and returns amp hour reading'''
         msg = self.create_command(ZXY6005sCommands.RETURN_AMP_HOUR.value)
-        return self.send_command(device_name, msg)
+        raw = self.send_command(device_name, msg)
+        return int(raw[3:].decode())
 
     def set_voltage(self, device_name: str, value: int):
         '''takes a device name and an integer, sets voltage to that value'''
@@ -126,10 +127,11 @@ class ZXY6005s:
         if reply != msg.decode().strip():
             raise ValueError(f'Invalid reply was {reply}, expected {msg.decode().strip()}')
 
-    def return_voltage(self, device_name: str) -> str:
+    def return_voltage(self, device_name: str) -> int:
         '''takes a device name and returns voltage measurement'''
         msg = self.send_command(ZXY6005sCommands.RETURN_VOLTAGE.value)
-        return self.send_command(device_name, msg)
+        raw = self.send_command(device_name, msg)
+        return int(raw[3:].decode())
 
     def set_current_limit(self, device_name: str, value: int):
         '''takes a device name and an integer, sets current limit to that value'''
@@ -139,9 +141,11 @@ class ZXY6005s:
         if reply != msg.decode().strip():
             raise ValueError(f'Invalid reply was {reply}, expected {msg.decode().strip()}')
 
-    def return_current(self, device_name: str) -> str:
+    def return_current(self, device_name: str) -> int:
         '''takes a device name and returns current in amps'''
         msg = self.create_command(ZXY6005sCommands.RETURN_CURRENT.value)
+        raw = self.send_command(device_name, msg)
+        return int(raw[4:].decode())
 
 
     def return_mode(self, device_name: str) -> str:
@@ -149,7 +153,8 @@ class ZXY6005s:
         msg = self.create_command(ZXY6005sCommands.RETURN_MODE.value)
         return self.send_command(device_name, msg)
 
-    def return_temp(self, device_name: str) -> str:
+    def return_temp(self, device_name: str) -> int:
         '''takes a device name and returns temperature in Celsius (of PSU?)'''
         msg = self.create_command(ZXY6005sCommands.RETURN_TEMP.value)
-        return self.send_command(device_name, msg)
+        raw = self.send_command(device_name, msg)
+        return int(raw[4:].decode())
