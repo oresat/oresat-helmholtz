@@ -117,7 +117,7 @@ class ZXY6005s:
         '''takes a device name and returns amp hour reading'''
         msg = self.create_command(ZXY6005sCommands.RETURN_AMP_HOUR.value)
         raw = self.send_command(device_name, msg)
-        return int(raw[3:].decode())
+        return int(raw[3:])
 
     def set_voltage(self, device_name: str, value: int):
         '''takes a device name and an integer, sets voltage to that value'''
@@ -131,7 +131,7 @@ class ZXY6005s:
         '''takes a device name and returns voltage measurement'''
         msg = self.send_command(ZXY6005sCommands.RETURN_VOLTAGE.value)
         raw = self.send_command(device_name, msg)
-        return int(raw[3:].decode())
+        return int(raw[3:])
 
     def set_current_limit(self, device_name: str, value: int):
         '''takes a device name and an integer, sets current limit to that value'''
@@ -145,7 +145,7 @@ class ZXY6005s:
         '''takes a device name and returns current in amps'''
         msg = self.create_command(ZXY6005sCommands.RETURN_CURRENT.value)
         raw = self.send_command(device_name, msg)
-        return int(raw[4:].decode())
+        return int(raw[4:])
 
 
     def return_mode(self, device_name: str) -> str:
@@ -157,4 +157,4 @@ class ZXY6005s:
         '''takes a device name and returns temperature in Celsius (of PSU?)'''
         msg = self.create_command(ZXY6005sCommands.RETURN_TEMP.value)
         raw = self.send_command(device_name, msg)
-        return int(raw[4:].decode())
+        return int(raw[4:])
