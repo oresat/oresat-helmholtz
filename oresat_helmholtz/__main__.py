@@ -281,7 +281,7 @@ class HelmholtzShell(cmd.Cmd):
 
 def main():
     parser = ArgumentParser()
-    parser.add_argument('-d', '--device', default = '/dev/ttyUSB3', help='path to arduino device')
+    parser.add_argument('-l', '--arduino-location', help='Location to Arduino. ')
     parser.add_argument('-m', '--mock', action = "store_true")
     args = parser.parse_args()
     
@@ -289,7 +289,7 @@ def main():
         arduino = None
         psu = None
     else:
-        arduino = Arduino(args.device)
+        arduino = Arduino(args.arduino_location)
         psu = ZXY6005s()
     
     

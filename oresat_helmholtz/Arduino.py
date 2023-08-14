@@ -80,15 +80,16 @@ class Arduino:
     STOPBITS = serial.STOPBITS_ONE
     TIMEOUT = 1
 
-    def __init__(self, name: str):
+    def __init__(self, location: str):
         '''Object Construction. Passes the name of the arduino's USB port'''
         serial_port = None
+        
         for i in serial.tools.list_ports.comports():
-            if i.name == name:
+            if i.location == location:
                 serial_port = i.device
                 break
         if serial_port is None:
-            raise Exception(f'Could not ind device with id of {name}')
+            raise Exception(f'Could not find device with location of {location}')
 	
         self.ser = serial.Serial(
             port = serial_port,
