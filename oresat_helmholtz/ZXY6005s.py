@@ -45,7 +45,6 @@ class ZXY6005s:
         locations = ['1-1.5.4.3', '1-1.5.4.2', '1-1.5.4.1']
         self.devices = {}
         for name, location in zip(names, locations):
-            serial_port = None
             for i in serial.tools.list_ports.comports():
                 if i.location == location:
                     self.devices[name] = serial.Serial(
@@ -57,8 +56,8 @@ class ZXY6005s:
                         timeout = self.TIMEOUT,
                      )
                     break
-        if serial_port is None:
-            raise Exception(f'Could not find device with location of {location}')
+        if len(self.devices) != 3:
+            raise Exception(f'Could not find all 3 devices. ')
 
     def write_message(self, device_name, msg):
         '''writes a command to serial port'''
