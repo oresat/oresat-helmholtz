@@ -130,12 +130,12 @@ class HelmholtzShell(cmd.Cmd):
         print("Device name can only be 'X', 'Y', or 'Z'. ")
     
     #Set X H-bridge to positive polarity. 
-    def do_set_postive_X(self, arg):
+    def do_set_positive_X(self, arg):
         if not self.mock:
             print(self.arduino.set_positive_X())
     
     #Help message for positive_X
-    def help_positive_X(self):
+    def help_set_positive_X(self):
         print("This function sets the X bridge to positive polarity.")
         print("Accepted values are 'x'. ")
     
@@ -145,7 +145,7 @@ class HelmholtzShell(cmd.Cmd):
             print(self.arduino.set_positive_Y())
     
     #Help message for positive_Y. 
-    def help_positive_Y(self):
+    def help_set_positive_Y(self):
         print("This function sets the Y bridge to positive polarity. ")
         print("Accepted values are 'y'. ")
     
@@ -155,7 +155,7 @@ class HelmholtzShell(cmd.Cmd):
             print(self.arduino.set_positive_Z())
     
     #Help message for positive_Z. 
-    def help_positive_Z(self):
+    def help_set_positive_Z(self):
         print("This function sets the Z bridge to positive polarity. ")
         print("Accepted values are: 'z'. ")
     
@@ -275,6 +275,10 @@ class HelmholtzShell(cmd.Cmd):
     
     #Closes program and exits. 
     def do_exit(self, arg):
+        print("Disabling power supplies.")
+        self.psu.set_output('X', 0)
+        self.psu.set_output('Y', 0)
+        self.psu.set_output('Z', 0)
         return True
     #Help message for exit program.
     def help_exit(self):
