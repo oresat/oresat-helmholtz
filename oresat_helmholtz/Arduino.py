@@ -125,86 +125,85 @@ class Arduino:
         return msg
 
 #definitions for function that help operate the commands. 	
-    @property
+    
     def set_positive_X(self) -> str:
         '''str: set X H-bridge to positive polarity'''
         msg = self.create_command(ArduinoCommands.POSITIVE_X.value)
         return self.send_command(msg)
-
-    @property
+         
     def set_positive_Y(self) -> str:
         '''str: set Y H-bridge to positive polarity'''
         msg = self.create_command(ArduinoCommands.POSITIVE_Y.value)
         return self.send_command(msg)
 
-    @property
-    def set_positive_Z(self) -> str:
+    
+    def set_set_positive_Z(self) -> str:
         '''str: set Z H-bridge to positive polarity'''
         msg = self.create_command(ArduinoCommands.POSITIVE_Z.value)
         return self.send_command(msg)
 
-    @property
+    
     def set_negative_X(self) -> str:
         '''str: set X-bridge to negative polarity'''
         msg = self.create_command(ArduinoCommands.NEGATIVE_X.value)
         return self.send_command(msg)
 
-    @property
+    
     def set_negative_Y(self) -> str:
         '''str: set Y-bridge to negative polarity'''
         msg = self.create_command(ArduinoCommands.NEGATIVE_Y.value)
         return self.send_command(msg)
 
-    @property
+    
     def set_negative_Z(self) -> str:
         '''str: set Z-bridge to negative polarity'''
         msg = self.create_command(ArduinoCommands.NEGATIVE_Z.value)
         return self.send_command(msg)
 
-    @property	
+   	
     def deactivate_all(self) -> str:
         '''str: deactivates all H-Bridges at the same time.'''
         msg = self.create_command(ArduinoCommands.DEACTIVATE_ALL.value)	
         return self.send_command(msg)
 
-    @property
+    
     def deactivate_X(self) -> str:
         '''str: turn off X H-bridge'''
         msg = self.create_command(ArduinoCommands.DEACTIVATE_X.value)
         return self.send_command(msg)
 
-    @property	
+    	
     def deactivate_Y(self) -> str:
         '''str: turn off Y H-bridge'''
         msg = self.create_command(ArduinoCommands.DEACTIVATE_Y.value)
         return self.send_command(msg)
 	
-    @property
+    
     def deactivate_Z(self) -> str:
         '''str: turn off Z H-bridge'''
         msg = self.create_command(ArduinoCommands.DEACTIVATE_Z.value)
         return self.send_command(msg)
 
-    @property 
-    def magnetometer_reading(self) -> str:
+    
+    def get_magnetometer_reading(self) -> str:
         '''str: return current magnetic field reading'''
         msg = self.create_command(ArduinoCommands.MAGNETOMETER_READING.value)
         return self.send_command(msg)	
 
-    @property
-    def magnetometer_status(self) -> str:
+    
+    def get_magnetometer_status(self) -> str:
         '''str: returns 0 if magnetometer not initialized. 1 otherwise.'''
         msg = self.create_command(ArduinoCommands.MAGNETOMETER_STATUS.value)
         return self.send_command(msg)
 
-    @property
-    def bridge_status(self) -> str: 
+    
+    def get_bridge_status(self) -> str: 
         '''str: data return off current status of each H-bridge'''
         msg = self.create_command(ArduinoCommands.H_BRIDGE_STATUS.value)
         return self.send_command(msg)
 	
-    @property
-    def magnetometer_temp(self) -> str:
+    
+    def get_magnetometer_temp(self) -> str:
         '''str: requests the ambient temperature of magnetometer.'''
         msg = self.create_command(ArduinoCommands.MAGNETOMETER_TEMP.value)
         return self.send_command(msg)

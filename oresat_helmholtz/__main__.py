@@ -19,7 +19,7 @@ class HelmholtzShell(cmd.Cmd):
     #Takes device name and returns model.
     def do_model(self, arg):
         if not self.mock:
-            self.psu.model(arg[0].upper())
+            print(self.psu.model(arg[0].upper()))
     
     #Help message for model command.
     def help_model(self):
@@ -28,7 +28,7 @@ class HelmholtzShell(cmd.Cmd):
     #Takes device name and returns firmware version.
     def do_firmware(self, arg):
         if not self.mock:
-            self.psu.firmware_version(arg[0].upper())
+            print(self.psu.firmware_version(arg[0].upper()))
     
     #Help message for firmware function.
     def help_firmware(self):
@@ -37,7 +37,7 @@ class HelmholtzShell(cmd.Cmd):
     #Turns on specified power supply.     
     def do_power(self, arg):
         if not self.mock:
-            self.psu.set_output(arg[0].upper(), arg[1]=="1")
+            print(self.psu.set_output(arg[0].upper(), arg[1]=="1"))
          
     #Power supply on/off help message.
     def help_power(self):
@@ -48,7 +48,7 @@ class HelmholtzShell(cmd.Cmd):
     #Sets amp hour to counter value give. Takes device name and int value.
     def do_amp_hour(self, arg):
         if not self.mock:
-            self.psu.set_amp_hour(arg[0].upper(), arg[1])
+            print(self.psu.set_amp_hour(arg[0].upper(), arg[1]))
     
     #Amp hour set function help message.
     def help_amp_hour(self):
@@ -59,7 +59,7 @@ class HelmholtzShell(cmd.Cmd):
     #Returns amp hour of a given device.
     def do_return_amp_hour(self, arg):
         if not self.mock:
-            self.psu.return_amp_hour(arg[0].upper())
+            print(self.psu.return_amp_hour(arg[0].upper()))
     
     #Help message for return amp hour
     def help_return_amp_hour(self):
@@ -79,7 +79,7 @@ class HelmholtzShell(cmd.Cmd):
     #Returns voltage of a given device.     
     def do_return_voltage(self, arg):
         if not self.mock:
-            self.psu.return_voltage(arg[0].upper())
+            print(self.psu.return_voltage(arg[0].upper()))
     
     #Help message for returning voltage.
     def help_return_voltage(self):
@@ -100,7 +100,7 @@ class HelmholtzShell(cmd.Cmd):
     #Takes a device name and returns its current in amps.   
     def do_return_current(self, arg):
         if not self.mock:
-            self.psu.return_current(arg[0].upper())
+            print(self.psu.return_current(arg[0].upper()))
     
     #Help message for returning current function.
     def help_return_current(self):
@@ -110,7 +110,7 @@ class HelmholtzShell(cmd.Cmd):
     #Returns the mode of a given device.
     def do_return_mode(self, arg):
         if not self.mock:
-            self.psu.return_mode(arg[0].upper())
+            print(self.psu.return_mode(arg[0].upper()))
     
     #Help message for return_mode function.
     def help_return_mode(self):
@@ -121,7 +121,7 @@ class HelmholtzShell(cmd.Cmd):
     #Returns the temperature of a device in Celsius.   
     def do_return_temp(self, arg):
         if not self.mock:
-            self.psu.return_temp(arg[0].upper())
+            print(self.psu.return_temp(arg[0].upper()))
     
     #Help message for return_temp function.
     def help_return_temp(self):
@@ -131,7 +131,7 @@ class HelmholtzShell(cmd.Cmd):
     #Set X H-bridge to positive polarity. 
     def do_set_postive_X(self, arg):
         if not self.mock:
-            self.arduino.set_positive_X(arg[0])
+            print(self.arduino.set_positive_X())
     
     #Help message for positive_X
     def help_positive_X(self):
@@ -141,7 +141,7 @@ class HelmholtzShell(cmd.Cmd):
     #Set Y H-bridge to positive polarity.
     def do_set_positive_Y(self, arg):
         if not self.mock:
-            self.arduino.set_positive_Y(arg[0])
+            print(self.arduino.set_positive_Y())
     
     #Help message for positive_Y. 
     def help_positive_Y(self):
@@ -151,7 +151,7 @@ class HelmholtzShell(cmd.Cmd):
     #Set Z H-bridge to positive polarity.        
     def do_set_positive_Z(self, arg):
         if not self.mock:
-            self.arduino.set_positive_Z(arg[0])
+            print(self.arduino.set_positive_Z())
     
     #Help message for positive_Z. 
     def help_positive_Z(self):
@@ -161,7 +161,7 @@ class HelmholtzShell(cmd.Cmd):
     #Set X H-bridge to negative polarity.
     def do_set_negative_X(self, arg):
         if not self.mock:
-            self.arduino.set_negative_X(arg[0].upper())
+            print(self.arduino.set_negative_X())
     
     #Help message for positive_x.
     def help_set_negative_X(self):
@@ -171,7 +171,7 @@ class HelmholtzShell(cmd.Cmd):
     #Set Y H-bridge to negative polarity.    
     def do_set_negative_Y(self, arg):
         if not self.mock:
-            self.arduino.set_negative_Z(arg[0].upper())
+            print(self.arduino.set_negative_Z())
     
     #Help message for negative_Y.
     def help_set_negative_Y(self):
@@ -181,7 +181,7 @@ class HelmholtzShell(cmd.Cmd):
     #Set Z H-bridge to negative polarity.    
     def do_set_negative_Z(self, arg):
         if not self.mock:
-            self.arduino.set_negative_Z(arg[0].upper())
+            print(self.arduino.set_negative_Z())
     
     #Help message for set_negative_Z.
     def help_set_negative_Z(self):
@@ -191,7 +191,7 @@ class HelmholtzShell(cmd.Cmd):
     #Deactivates all H-bridges. 
     def do_deactivate_all(self, arg):
         if not self.mock:
-            self.arduino.deactivate_all(arg[0])
+            self.arduino.deactivate_all()
     
     #Help message for deactivate_all.
     def help_deactivate_all(self):
@@ -201,7 +201,7 @@ class HelmholtzShell(cmd.Cmd):
     #Deactivates the X H-bridge.    
     def do_deactivate_X(self, arg):
         if not self.mock:
-            self.arduino.deactivate_X(arg[0])
+            self.arduino.deactivate_X()
     
     #Help message for deactivate_X.         
     def help_deactivate_X(self):
@@ -211,7 +211,7 @@ class HelmholtzShell(cmd.Cmd):
     #Deactivates the Y H-bridge.    
     def do_deactivate_Y(self, arg): 
         if not self.mock: 
-            self.arduino.deactivate_Y(arg[0])
+            self.arduino.deactivate_Y()
     
     #Help message for deactivate_Y. 
     def help_deactivate_Y(self):
@@ -221,7 +221,7 @@ class HelmholtzShell(cmd.Cmd):
     #Deactivates the Z H-bridge. 
     def do_deactivate_Z(self, arg): 
         if not self.mock:
-            self.arduino.deactivate_Z(arg[0])
+            self.arduino.deactivate_Z()
     
     #Help message for deactivate_Z.         
     def help_deactivate_Z(self): 
@@ -231,7 +231,7 @@ class HelmholtzShell(cmd.Cmd):
     #Returns the magnetic field reading. 
     def do_magnetometer_reading(self, arg):
         if not self.mock:
-            self.arduino.magnetometer_reading(arg[0])
+            print(self.arduino.get_magnetometer_reading())
     
     #Help message for magnetometer_reading.
     def help_magnetometer_reading(self):
@@ -241,17 +241,17 @@ class HelmholtzShell(cmd.Cmd):
     #Is the magnetometer on or off?    
     def do_magnetometer_status(self, arg):
         if not self.mock:
-            self.arduino.magnetometer_status(arg[0])
+            print(self.arduino.get_magnetometer_status())
     
     #Help message for magnetometer_status. 
-    def help_magnetometer_reading(self):
+    def help_magnetometer_status(self):
         print("This function returns whether the magnetometer is on/off. ")
         print("Accepted values are: 'q'. ")
     
     #Returns the status of all 3 H-bridges.     
     def do_bridge_status(self, arg):
         if not self.mock:
-            self.arduino.bridge_status(arg[0])
+            print(self.arduino.get_bridge_status())
     
     #Help message for bridge_status. 
     def help_bridge_status(self):
@@ -264,7 +264,7 @@ class HelmholtzShell(cmd.Cmd):
     #Returns the temperature of the magnetometer. 
     def do_magnetometer_temp(self, arg):
         if not self.mock:
-            self.arduino.magnetometer_temp(arg[0])
+            print(self.arduino.get_magnetometer_temp())
     
     #Help message for magnetometer_temp. 
     def help_magnetometer_temp(self):
