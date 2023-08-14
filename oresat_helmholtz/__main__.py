@@ -37,7 +37,8 @@ class HelmholtzShell(cmd.Cmd):
     #Turns on specified power supply.     
     def do_power(self, arg):
         if not self.mock:
-            print(self.psu.set_output(arg[0].upper(), arg[1]=="1"))
+            args = arg.split(" ")
+            print(self.psu.set_output(args[0].upper(), args[1]=="1"))
          
     #Power supply on/off help message.
     def help_power(self):

@@ -145,16 +145,20 @@ class ZXY6005s:
         '''takes a device name and returns current in amps'''
         msg = self.create_command(ZXY6005sCommands.RETURN_CURRENT.value)
         raw = self.send_command(device_name, msg)
-        return int(raw[4:])
+        return int(raw[3:])
 
 
     def return_mode(self, device_name: str) -> str:
-        '''takes a device name and returns mode (CV or CC), see Data Sheet pg 6, Item 4'''
+        '''takes a device name and returns mode. see Data Sheet pg 6, Item 4'''
         msg = self.create_command(ZXY6005sCommands.RETURN_MODE.value)
-        return self.send_command(device_name, msg)
+        raw = self.send_command(device_name, msg)
+        if int(raw[3:]) == 1:
+            return 'CC'
+        else: 
+            return 'CV'
 
     def return_temp(self, device_name: str) -> int:
         '''takes a device name and returns temperature in Celsius (of PSU?)'''
         msg = self.create_command(ZXY6005sCommands.RETURN_TEMP.value)
         raw = self.send_command(device_name, msg)
-        return int(raw[4:])
+        return int(raw[3:])
