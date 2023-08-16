@@ -137,7 +137,7 @@ class Arduino:
         return self.send_command(msg)
 
     
-    def set_set_positive_Z(self) -> str:
+    def set_positive_Z(self) -> str:
         '''str: set Z H-bridge to positive polarity'''
         msg = self.create_command(ArduinoCommands.POSITIVE_Z.value)
         return self.send_command(msg)
