@@ -172,7 +172,7 @@ class HelmholtzShell(cmd.Cmd):
     #Set Y H-bridge to negative polarity.    
     def do_set_negative_Y(self, arg):
         if not self.mock:
-            print(self.arduino.set_negative_Z())
+            print(self.arduino.set_negative_Y())
     
     #Help message for negative_Y.
     def help_set_negative_Y(self):
