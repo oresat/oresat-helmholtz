@@ -129,7 +129,7 @@ class ZXY6005s:
 
     def return_voltage(self, device_name: str) -> int:
         '''takes a device name and returns voltage measurement'''
-        msg = self.send_command(ZXY6005sCommands.RETURN_VOLTAGE.value)
+        msg = self.create_command(ZXY6005sCommands.RETURN_VOLTAGE.value)
         raw = self.send_command(device_name, msg)
         return int(raw[3:])
 
