@@ -69,8 +69,14 @@ class HelmholtzShell(cmd.Cmd):
     
     #Setting voltage for a specified device.    
     def do_voltage(self, arg):
+        args = arg.split(" ")
+        try: 
+            value = int(args[1])
+        except ValueError:
+            self.help_voltage()
+            return
         if not self.mock:
-            self.psu.set_voltage(arg[0].upper(), arg[1])
+            self.psu.set_voltage(arg[0].upper(), value)
     
     #Help message for set voltage.
     def help_voltage(self):
