@@ -22,9 +22,7 @@ class ZXY6005sCommands(Enum):
     SET_CURRENT_LIMIT = 'si'
     '''Set current limit to specified value. Response: Asi(value)'''
     RETURN_CURRENT = 'ri'
-    '''Return current in amps. Response: Ari(4 digit value)'''
-    SET_MODE = 'sc'
-    '''Sets mode for each power supply. [Constant Voltage (CV) or Constant Current (CC)]'''
+    '''Return current in amps. Response: Ari(4 digit value)'''  
     RETURN_MODE = 'rc'
     '''Return current mode [Constant Voltage(CV) or Constant Current(CC)] Response: Arc0 or Arc1'''
     RETURN_TEMP = 'rt'
@@ -138,7 +136,7 @@ class ZXY6005s:
         '''takes a device name and an integer, sets current limit to that value'''
         msg = f'{ZXY6005sCommands.SET_CURRENT_LIMIT.value}{str(value)}'
         msg = self.create_command(msg)
-        reply = self.send_command(device_name, msg)
+        reply = self.send_command(device_name, msg) 
         if reply != msg.decode().strip():
             raise ValueError(f'Invalid reply was {reply}, expected {msg.decode().strip()}')
 

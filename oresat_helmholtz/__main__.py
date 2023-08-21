@@ -89,8 +89,14 @@ class HelmholtzShell(cmd.Cmd):
     
     #Sets current limit to be a value entered.
     def do_current_limit(self, arg):
+        args = arg.split(" ")
+        try: 
+            value = int(args[1])
+        except ValueError:
+            self.help_current_limit()
+            return
         if not self.mock:
-            self.psu.set_current_limit(arg[0].upper(), arg[1])
+            print(self.psu.set_current_limit(arg[0].upper(), value))
     
     #Help message for current_limit function.
     def help_current_limit(self):
