@@ -7,29 +7,30 @@ import serial.tools.list_ports
 from enum import Enum
 
 class ZXY6005sCommands(Enum):
-    '''Get power supply unit model. Response: ZXY6005s'''
     MODEL = 'a'
-    '''Get firmware version. Response: R2.7Z'''
+    '''Get power supply unit model. Response: ZXY6005s.'''
     FIRMWARE_VERSION = 'v'
-    '''Set amp hour counter to specified value. Response: Asa(value)'''
+    '''Get firmware version. Response: R2.7Z'''
     SET_AMP_HOUR = 'sa'
-    '''Return the amp hour reading. Response: Ara(5 digit value)'''
+    '''Set amp hour counter to specified value. Response: Asa(value)'''
     RETURN_AMP_HOUR = 'ra'
-    '''Set voltage to specified value. Response: Asu(value)'''
+    '''Return the amp hour reading. Response: Ara(5 digit value)'''
     SET_VOLTAGE = 'su'
-    '''Return voltage measurement. Response: Aru(5 digit value)'''
+    '''Set voltage to specified value. Response: Asu(value)'''
     RETURN_VOLTAGE = 'ru'
-    '''Set current limit to specified value. Response: Asi(value)'''
+    '''Return voltage measurement. Response: Aru(5 digit value)'''
     SET_CURRENT_LIMIT = 'si'
-    '''Return current in amps. Response: Ari(4 digit value)'''
+    '''Set current limit to specified value. Response: Asi(value)'''
     RETURN_CURRENT = 'ri'
-    '''Return current mode [Constant Voltage(CV) or Constant Current(CC)] Response: Arc0 or Arc1'''
+    '''Return current in amps. Response: Ari(4 digit value)'''
+    SET_MODE = 'sc'
+    '''Sets mode for each power supply. [Constant Voltage (CV) or Constant Current (CC)]'''
     RETURN_MODE = 'rc'
-    '''Return temperature in Celsius. Response: Art(3 digit value)'''
+    '''Return current mode [Constant Voltage(CV) or Constant Current(CC)] Response: Arc0 or Arc1'''
     RETURN_TEMP = 'rt'
-    '''Set power output (On/Off). Response: Aso(1 or 0)'''
+    '''Return temperature in Celsius. Response: Art(3 digit value)'''
     SET_OUTPUT = 'so'
-
+    '''Set power output (On/Off). Response: Aso(1 or 0)'''
 
 class ZXY6005s:
     BAUDRATE = 9600
