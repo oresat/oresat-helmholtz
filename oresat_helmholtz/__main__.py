@@ -1,11 +1,12 @@
 import cmd
+import csv
 from argparse import ArgumentParser
 
 from .Arduino import Arduino, ArduinoCommands
 from .ZXY6005s import ZXY6005s, ZXY6005sCommands
 
 class HelmholtzShell(cmd.Cmd):
-    intro = "Welcome to the Helmholtz Shell! Type 'help' to list commands \n"
+    intro = "Welcome to the Helmholtz Cage Shell! Type 'help' to list commands \n"
     prompt = "> "
     file = None
     
@@ -283,7 +284,59 @@ class HelmholtzShell(cmd.Cmd):
     def help_magnetometer_temp(self):
         print("This function returns the temperature of the magnetometer in Celsius. ")
         print("Accepted values are: 't'. ")
+    
+    #Calibration function prototype
+    def do_calibration(self):
+        if not self.mock:
+            max_current = 1000
+            min_current = 0 
+            step = -100
             
+            with open("cage_cal.csv", "w") as new_file:
+                fieldnames = ['Current (A)', 'Magnetic Field X (T)', 'Magnetic Field Y (T)', 'Magnetic Field Z (T)']
+                csv_writer= csv.DictWriter(new_file, fieldsnames = fieldnames, delimiter='\t')
+                csv_writer.writeheader()
+                
+                
+                for i in 'XYZ':
+                    #Making sure all power supplies are off.
+                    self.psu.set_output('X', 0)
+                    self.psu.set_output('Y', 0)
+                    self.psu.set_output('Z', 0)
+                    
+                    self.psu.set_output(i, 1)
+
+                    if i == 'X': 
+                        self.arduino.set_negative_X()
+                    
+                    elif i == 'Y': 
+                        self.arduino.set_negative_Y()
+                        
+                    elif i == 'Z': 
+                        self.arduino.set_negative_Z()
+                    
+                    
+                    for current_val in range(max_current, min_current - step, step):
+                        current_val = self.psu.set_current_limit(self, current_val)
+                        mag_x, mag_y, mag_z = self.arduino.get_magnetometer_reading()
+                        csv_writer.writerow(current_val, mag_x, mag_y, mag_z)
+
+                    if i == 'X': 
+                        self.arduino.set_positive_X()
+                    
+                    elif i == 'Y': 
+                        self.arduino.set_positive_Y()
+                        
+                    elif i == 'Z': 
+                        self.arduino.set_positive_Z()
+                    
+                    for current_val in range(min_current, max_current - step, step):
+                        current_val = self.psu.set_current_limit(self, current_val)
+                        mag_x, mag_y, mag_z = self.arduino.get_magnetometer_reading()
+                        csv_writer.writerow(current_val, mag_x, mag_y, mag_z)
+                    
+                    
+                
     
     #Closes program and exits. 
     def do_exit(self, arg):
