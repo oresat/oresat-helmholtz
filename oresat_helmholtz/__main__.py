@@ -323,7 +323,8 @@ class HelmholtzShell(cmd.Cmd):
                     for current_val in range(max_current, min_current - step, step):
                         current_val = self.psu.set_current_limit(i, current_val)
                         mag_x, mag_y, mag_z = self.arduino.get_magnetometer_reading().split(",")
-                        csv_writer.writerow(current_val, mag_x, mag_y, mag_z)
+                        dict_to_write = {'Current (A)': current_val, 'Magnetic Field X (T)': mag_x, 'Magnetic Field Y (T)':mag_y,'Magnetic Field Z (T)':mag_z}
+                        csv_writer.writerow(dict_to_write)
 
                     #Setting X, Y and Z bridges to positive polarity.
                     if i == 'X': 
