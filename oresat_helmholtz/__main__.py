@@ -343,8 +343,10 @@ class HelmholtzShell(cmd.Cmd):
                         
             #Next steps: sci pi on the .csv and find line of best fit (linear) between magnitude of Mag. Field and Current
             #
-                    
-                    
+    
+    #Calibration function help message.                 
+    def help_calibration(self): 
+        print("Testing help message for the calibration function. This is a WIP.")                
                 
     
     #Closes program and exits. 
