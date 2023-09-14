@@ -321,7 +321,7 @@ class HelmholtzShell(cmd.Cmd):
                     
                     #Iterating starting at -1 amps to 0 amps. 
                     for current_val in range(max_current, min_current - step, step):
-                        current_val = self.psu.set_current_limit(self, current_val)
+                        current_val = self.psu.set_current_limit(self, i, current_val)
                         mag_x, mag_y, mag_z = self.arduino.get_magnetometer_reading()
                         csv_writer.writerow(current_val, mag_x, mag_y, mag_z)
 
@@ -337,7 +337,7 @@ class HelmholtzShell(cmd.Cmd):
                     
                     #Iterating starting at 0 amps to 1 amps. 
                     for current_val in range(min_current, max_current - step, step):
-                        current_val = self.psu.set_current_limit(self, current_val)
+                        current_val = self.psu.set_current_limit(self, i, current_val)
                         mag_x, mag_y, mag_z = self.arduino.get_magnetometer_reading()
                         csv_writer.writerow(current_val, mag_x, mag_y, mag_z)
                         
