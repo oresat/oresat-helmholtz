@@ -288,10 +288,13 @@ class HelmholtzShell(cmd.Cmd):
     #Calibration function prototype
     def do_calibration(self):
         if not self.mock:
+            
+            #Current values.
             max_current = 1000
             min_current = 0 
             step = -100
             
+            #Opening and declaring headers for the CSV file.
             with open("cage_cal.csv", "w") as new_file:
                 fieldnames = ['Current (A)', 'Magnetic Field X (T)', 'Magnetic Field Y (T)', 'Magnetic Field Z (T)']
                 csv_writer= csv.DictWriter(new_file, fieldsnames = fieldnames, delimiter='\t')
@@ -299,13 +302,14 @@ class HelmholtzShell(cmd.Cmd):
                 
                 
                 for i in 'XYZ':
-                    #Making sure all power supplies are off.
+                    #Making sure all power supplies are off by default.
                     self.psu.set_output('X', 0)
                     self.psu.set_output('Y', 0)
                     self.psu.set_output('Z', 0)
                     
                     self.psu.set_output(i, 1)
 
+                    #Setting X, Y and Z bridges to negative polarity.
                     if i == 'X': 
                         self.arduino.set_negative_X()
                     
@@ -315,12 +319,13 @@ class HelmholtzShell(cmd.Cmd):
                     elif i == 'Z': 
                         self.arduino.set_negative_Z()
                     
-                    
+                    #Iterating starting at -1 amps to 0 amps. 
                     for current_val in range(max_current, min_current - step, step):
                         current_val = self.psu.set_current_limit(self, current_val)
                         mag_x, mag_y, mag_z = self.arduino.get_magnetometer_reading()
                         csv_writer.writerow(current_val, mag_x, mag_y, mag_z)
 
+                    #Setting X, Y and Z bridges to positive polarity.
                     if i == 'X': 
                         self.arduino.set_positive_X()
                     
@@ -330,10 +335,14 @@ class HelmholtzShell(cmd.Cmd):
                     elif i == 'Z': 
                         self.arduino.set_positive_Z()
                     
+                    #Iterating starting at 0 amps to 1 amps. 
                     for current_val in range(min_current, max_current - step, step):
                         current_val = self.psu.set_current_limit(self, current_val)
                         mag_x, mag_y, mag_z = self.arduino.get_magnetometer_reading()
                         csv_writer.writerow(current_val, mag_x, mag_y, mag_z)
+                        
+            #Next steps: sci pi on the .csv and find line of best fit (linear) between magnitude of Mag. Field and Current
+            #
                     
                     
                 
@@ -349,6 +358,7 @@ class HelmholtzShell(cmd.Cmd):
     def help_exit(self):
         print("Type in exit to close the program ")
 
+#Main program. Objects declared here. Shell built. 
 def main():
     parser = ArgumentParser()
     parser.add_argument('-l', '--arduino-location', help='Location to Arduino. ')
