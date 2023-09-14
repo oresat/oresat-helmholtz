@@ -286,7 +286,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Accepted values are: 't'. ")
     
     #Calibration function prototype
-    def do_calibration(self, arg):
+    def do_calibration(self):
         if not self.mock:
             
             #Current values.
