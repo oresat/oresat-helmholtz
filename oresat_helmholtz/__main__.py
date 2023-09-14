@@ -297,7 +297,7 @@ class HelmholtzShell(cmd.Cmd):
             #Opening and declaring headers for the CSV file.
             with open("cage_cal.csv", "w") as new_file:
                 fieldnames = ['Current (A)', 'Magnetic Field X (T)', 'Magnetic Field Y (T)', 'Magnetic Field Z (T)']
-                csv_writer= csv.DictWriter(new_file, fieldsnames = fieldnames, delimiter='\t')
+                csv_writer= csv.DictWriter(new_file, fieldnames = fieldnames, delimiter='\t')
                 csv_writer.writeheader()
                 
                 
