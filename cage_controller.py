@@ -1,6 +1,6 @@
 import serial # Stuff for controlling the power supplies
 import time # Stuff for regulated sensor delays
-import smbus # Stuff for controlling temperature and magnetic sensors
+import smbus2 # Stuff for controlling temperature and magnetic sensors
 import utilities as utils # Stuff for debugging and/or general info
 from gpiozero import LED
 
