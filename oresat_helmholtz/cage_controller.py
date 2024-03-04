@@ -1,7 +1,7 @@
 import serial # Stuff for controlling the power supplies
 import time # Stuff for regulated sensor delays
 import smbus2 # Stuff for controlling temperature and magnetic sensors
-import utilities as utils # Stuff for debugging and/or general info
+import oresat_helmholtz.utilities as utils # Stuff for debugging and/or general info
 from gpiozero import LED
 
 WIRE_WARN_TEMP = 100 # Min cage wire temperatures in F for warning
@@ -34,7 +34,7 @@ class PowerSupply(serial.Serial):
         self.timeout = timeout
         self.warn_temp = 35 # Min cage wire temperatures in F for warning
         self.halt_temp = 40 # Max cage wire temperatures in F for forced halting
-        self.coil = Coil(self.index())
+        # self.coil = Coil(self.index())
 
         utils.log(0, 'Initialized Power supply with the following:\n\tPort: ' + str(port_device)
                                                                + '\n\tInput Delay: ' + str(input_delay)
@@ -58,10 +58,10 @@ class PowerSupply(serial.Serial):
         utils.log(0, 'Setting ' + self.name + ' current to: ' + str(amperage) + ' amps.')
         self.write(str("Asi" + str(abs(amperage) * 1000) + "\n").encode())
         self.amperage = amperage
-        if(amperage < 0):
-            self.coil.negative()
-        else:
-            self.coil.positive()
+        # if(amperage < 0):
+            # self.coil.negative()
+        # else:
+            # self.coil.positive()
 
     def check_temperatures():
         utils.log(0, 'Checking ' + self.name + ' temperatures...')

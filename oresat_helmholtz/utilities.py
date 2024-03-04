@@ -8,10 +8,13 @@ INPUT_DELAY = 0.001
 DATA_ACCURACY = 4
 POWER_SUPPLIES = []
 TEMPERATURE_SENSORS = []
-PSU_ADDRS = [ 'ttyUSB0', 'ttyUSB1', 'ttyUSB2' ]
+PSU_ADDRS = [ 'ttyUSB3', 'ttyUSB1', 'ttyUSB2' ]
 COIL_ADDRS = [ ['31','32'], ['35','36'], ['37','38'] ] # change if you change pin-out
 ICON_IMG_PATH='./img/icon.png'
 CAGE_DATA_PATH = '/cage_data/'
+
+def psu_devices() -> list[str]:
+    return PSU_ADDRS
 
 def data_file_path(filename=''):
     return (str(os.getenv("HOME") + CAGE_DATA_PATH + filename))
