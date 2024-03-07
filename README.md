@@ -8,6 +8,13 @@
 $ pip3 install --user -r requirements.txt
 ```
 
+## Find PSUs
+
+As a sanity check, you can look through your dmesg logs to find the TTYs your psus are wired to.
+```
+dmesg | grep 'pl2303 converter now attached' | sed -e 's/.\+\(ttyUSB[0-9]\)/\1/g' | sort | uniq
+```
+
 ## Magnetic Environment Simulator for CubeSats
 
 SOP can be found [here](http://psu-epl.github.io/doc/equip/testing/ETL/) at the Electronics Prototyping Lab website
