@@ -1,6 +1,8 @@
 import pyqtgraph as pg
-import utilities as utils
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+import utilities as utils
+
 
 class Line(pg.PlotItem):
     def __init__(self, name, color, parent=None):
@@ -19,7 +21,7 @@ class Line(pg.PlotItem):
         return x_point, y_point, self.size
 
     def pop_point(self):
-        if(self.data_size > 0):
+        if self.data_size > 0:
             x_point = self.x.pop(self.data_size - 1)
             y_point = self.y.pop(self.data_size - 1)
             size = self.data_size
@@ -32,7 +34,8 @@ class Line(pg.PlotItem):
         return x_point, y_point, size
 
     def is_empty(self):
-        return (self.data_size <= 0)
+        return self.data_size <= 0
+
 
 class Graph(QtGui.QWidget):
     def __init__(self, parent, graph_range=utils.GRAPH_RANGE):
@@ -48,24 +51,24 @@ class Graph(QtGui.QWidget):
         #
         # Graph semantics
         #
-        self.plot = pg.PlotWidget(title='Cage Magnetic Field')
+        self.plot = pg.PlotWidget(title="Cage Magnetic Field")
         self.plot.setClipToView(True)
         self.plot.showGrid(x=True, y=True)
-        self.plot.setLabel('left', 'Magnetic Field', units='mT')
-        self.plot.setLabel('bottom', 'Ticks', units=str(utils.TICK_TIME))
+        self.plot.setLabel("left", "Magnetic Field", units="mT")
+        self.plot.setLabel("bottom", "Ticks", units=str(utils.TICK_TIME))
 
         #
         # Graph Legend
         #
         self.plot.addLegend()
-        self.plot.plot([], pen='r', symbolBrush=0.2, name='MagSensor-X')
-        self.plot.plot([], pen='g', symbolBrush=0.2, name='MagSensor-Y')
-        self.plot.plot([], pen='b', symbolBrush=0.2, name='MagSensor-Z')
+        self.plot.plot([], pen="r", symbolBrush=0.2, name="MagSensor-X")
+        self.plot.plot([], pen="g", symbolBrush=0.2, name="MagSensor-Y")
+        self.plot.plot([], pen="b", symbolBrush=0.2, name="MagSensor-Z")
 
-        self.toggle_button = QtWidgets.QPushButton('Start Graph', self)
+        self.toggle_button = QtWidgets.QPushButton("Start Graph", self)
         self.toggle_button.clicked.connect(self.toggle_graph)
 
-        self.dump_button = QtWidgets.QPushButton('Dump Data', self)
+        self.dump_button = QtWidgets.QPushButton("Dump Data", self)
         self.dump_button.clicked.connect(self.dump_data_to_console)
 
         #
@@ -84,17 +87,17 @@ class Graph(QtGui.QWidget):
 
     # Pauses graph plotting
     def toggle_graph(self):
-        if(self.graph_active):
+        if self.graph_active:
             self.graph_active = False
-            self.toggle_button.setText('Start Graph')
+            self.toggle_button.setText("Start Graph")
         else:
             self.graph_active = True
-            self.toggle_button.setText('Pause Graph')
+            self.toggle_button.setText("Pause Graph")
 
     # Adds a point to each line endpoint and redraws the graph
     #   number: Takes an array of y-values from line 0 to n (x, y, ... z) to update at each endpoint
     def update_graph(self, numbers=None):
-        if(self.graph_active):
+        if self.graph_active:
             # Math updates
             self.data_size += 1
             for i in range(0, len(self.lines)):
@@ -104,8 +107,10 @@ class Graph(QtGui.QWidget):
             self.plot.clear()
 
             # Determine the graph range
-            if(self.data_size < self.graph_range): min = 0
-            else: min = self.data_size - self.graph_range
+            if self.data_size < self.graph_range:
+                min = 0
+            else:
+                min = self.data_size - self.graph_range
             self.plot.setXRange(min, self.data_size)
 
             # Update the lines
@@ -115,7 +120,14 @@ class Graph(QtGui.QWidget):
     def get_data(self):
         results = []
         for i in range(0, self.data_size - 1):
-            results.append([self.lines[0].x[0], round(self.lines[0].y[i], utils.DATA_ACCURACY), round(self.lines[1].y[i], utils.DATA_ACCURACY), round(self.lines[2].y[i], utils.DATA_ACCURACY)])
+            results.append(
+                [
+                    self.lines[0].x[0],
+                    round(self.lines[0].y[i], utils.DATA_ACCURACY),
+                    round(self.lines[1].y[i], utils.DATA_ACCURACY),
+                    round(self.lines[2].y[i], utils.DATA_ACCURACY),
+                ]
+            )
         return results
 
     def dump_data(self):
@@ -124,7 +136,14 @@ class Graph(QtGui.QWidget):
             x = self.lines[0].pop_point()
             y = self.lines[1].pop_point()
             z = self.lines[2].pop_point()
-            results.append([x[0], round(x[1], utils.DATA_ACCURACY), round(y[1], utils.DATA_ACCURACY), round(z[1], utils.DATA_ACCURACY)])
+            results.append(
+                [
+                    x[0],
+                    round(x[1], utils.DATA_ACCURACY),
+                    round(y[1], utils.DATA_ACCURACY),
+                    round(z[1], utils.DATA_ACCURACY),
+                ]
+            )
 
         self.x = []
         self.y = []
@@ -136,7 +155,7 @@ class Graph(QtGui.QWidget):
         return results
 
     def dump_data_to_console(self):
-        utils.log(0, 'Here\'s all that hot-n-steamy data you asked for, boss.')
-        print('\tINDEX:\t\t\tX:\tY:\tZ:')
+        utils.log(0, "Here's all that hot-n-steamy data you asked for, boss.")
+        print("\tINDEX:\t\t\tX:\tY:\tZ:")
         for i in self.dump_data():
-            print('\t' + str(i[0]) + '\t' + str(i[1]) + '\t' + str(i[2]) + '\t' + str(i[3]))
+            print("\t" + str(i[0]) + "\t" + str(i[1]) + "\t" + str(i[2]) + "\t" + str(i[3]))

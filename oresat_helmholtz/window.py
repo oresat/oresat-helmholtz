@@ -1,19 +1,22 @@
 import sys
-import graph as g
-import utilities as utils
-import cage_controller as cc
-import magnetic_field_current_relation as mfcr
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
 from math import sqrt
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+
+import cage_controller as cc
+import graph as g
+import magnetic_field_current_relation as mfcr
+import utilities as utils
+
 
 class ControllerWindow(object):
     def __init__(self, window):
         # Actual ambient magnetometer data
         self.mag_bus = cc.init_magnetometer()
         self.x_0, self.y_0, self.z_0 = cc.magnetometer(self.mag_bus)
-        
+
         self.control_mode = 0
         self.window = window
         self.font = QtGui.QFont()
@@ -21,7 +24,9 @@ class ControllerWindow(object):
         self.font.setPointSize(11)
 
         self.icon = QtGui.QIcon()
-        self.icon.addPixmap(QtGui.QPixmap(utils.ICON_IMG_PATH), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.icon.addPixmap(
+            QtGui.QPixmap(utils.ICON_IMG_PATH), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
 
         self.window.setObjectName("window")
         self.window.resize(720, 480)
@@ -41,9 +46,9 @@ class ControllerWindow(object):
 
     def initialize_user_interface(self):
         self.central_widget = QtWidgets.QWidget(self.window)
-        self.central_widget.setObjectName('central_widget')
+        self.central_widget.setObjectName("central_widget")
         self.widget = QtWidgets.QWidget(self.central_widget)
-        self.widget.setObjectName('widget')
+        self.widget.setObjectName("widget")
 
         #
         # Action Menu
@@ -155,9 +160,9 @@ class ControllerWindow(object):
         # Graph
         #
         self.graph = g.Graph(self.widget)
-        self.graph.add_line('Magnetometer X', 'r')
-        self.graph.add_line('Magnetometer Y', 'g')
-        self.graph.add_line('Magnetometer Z', 'b')
+        self.graph.add_line("Magnetometer X", "r")
+        self.graph.add_line("Magnetometer Y", "g")
+        self.graph.add_line("Magnetometer Z", "b")
         self.graph.setGeometry(QtCore.QRect(0, 700, self.width, self.height / 3))
         self.graph.setAutoFillBackground(True)
         self.graph.setObjectName("graph")
@@ -207,7 +212,7 @@ class ControllerWindow(object):
         self.psu3_input.setText(_translate("window", "4"))
 
         self.apply_button.setText(_translate("window", "PSU_BUTTON_UPDATE"))
-        
+
         # self.accuracy_label.setText(_translate("window", "Data Accuracy:"))
         # self.accuracy_input.setSuffix(_translate("window", " decimals"))
         # self.accuracy_input.setValue(utils.DATA_ACCURACY)
@@ -225,67 +230,73 @@ class ControllerWindow(object):
         #
         # Geometries
         #
-        self.psu_control_mode_label.setGeometry(QtCore.QRect(   x_off + self.width - 200 - spacing, y_off, iw, ih))
-        self.psu_control_mode.setGeometry(QtCore.QRect(         x_off + self.width - 120 - spacing, y_off, iw, ih))
+        self.psu_control_mode_label.setGeometry(
+            QtCore.QRect(x_off + self.width - 200 - spacing, y_off, iw, ih)
+        )
+        self.psu_control_mode.setGeometry(
+            QtCore.QRect(x_off + self.width - 120 - spacing, y_off, iw, ih)
+        )
 
         self.active_control_mode_label.setGeometry(QtCore.QRect(x_off, y_off - lh / 4, lw * 5, ih))
-        self.psu1_label.setGeometry(QtCore.QRect(x_off + iw * 0,    y_off,         lw, ih))
-        self.psu1_input.setGeometry(QtCore.QRect(x_off + iw * 0,    y_off + 2 * ih / 3,    iw, ih))
-        self.psu2_label.setGeometry(QtCore.QRect(x_off + iw * 1,    y_off,         lw, ih))
-        self.psu2_input.setGeometry(QtCore.QRect(x_off + iw * 1,    y_off + 2 * ih / 3,    iw, ih))
-        self.psu3_label.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off,         lw, ih))
-        self.psu3_input.setGeometry(QtCore.QRect(x_off + iw * 2,    y_off + 2 * ih / 3,    iw, ih))
-        self.apply_button.setGeometry(QtCore.QRect(x_off + iw * 2,  y_off + 5 * lh / 3, iw, ih))
-        
+        self.psu1_label.setGeometry(QtCore.QRect(x_off + iw * 0, y_off, lw, ih))
+        self.psu1_input.setGeometry(QtCore.QRect(x_off + iw * 0, y_off + 2 * ih / 3, iw, ih))
+        self.psu2_label.setGeometry(QtCore.QRect(x_off + iw * 1, y_off, lw, ih))
+        self.psu2_input.setGeometry(QtCore.QRect(x_off + iw * 1, y_off + 2 * ih / 3, iw, ih))
+        self.psu3_label.setGeometry(QtCore.QRect(x_off + iw * 2, y_off, lw, ih))
+        self.psu3_input.setGeometry(QtCore.QRect(x_off + iw * 2, y_off + 2 * ih / 3, iw, ih))
+        self.apply_button.setGeometry(QtCore.QRect(x_off + iw * 2, y_off + 5 * lh / 3, iw, ih))
+
         # self.accuracy_label.setGeometry(QtCore.QRect(x_off + self.width - 200 - spacing, y_off + ih + spacing, iw, ih))
         # self.accuracy_input.setGeometry(QtCore.QRect(x_off + self.width - 120 - spacing, y_off + ih + spacing + 0, iw, ih))
-        self.quit_button.setGeometry(QtCore.QRect(self.width - 3 * iw / 2 - spacing, self.height - 100 - ih, 3 * iw / 2, ih))
+        self.quit_button.setGeometry(
+            QtCore.QRect(self.width - 3 * iw / 2 - spacing, self.height - 100 - ih, 3 * iw / 2, ih)
+        )
         self.graph.setGeometry(QtCore.QRect(0, 0, self.width, self.height / 2))
 
         #
         # Layouts
         #
         self.psu_cml = QtWidgets.QHBoxLayout(self.widget)
-        self.psu_cml.setObjectName('psu_cml')
+        self.psu_cml.setObjectName("psu_cml")
         self.psu_cml.setContentsMargins(0, 0, 0, 0)
         self.psu_cml.addWidget(self.psu_control_mode_label)
         self.psu_cml.addWidget(self.psu_control_mode)
 
         self.psu_ci1 = QtWidgets.QHBoxLayout(self.widget)
-        self.psu_ci1.setObjectName('psu_ci1')
+        self.psu_ci1.setObjectName("psu_ci1")
         self.psu_ci1.setContentsMargins(0, 0, 0, 0)
         self.psu_ci1.addWidget(self.psu1_label)
         self.psu_ci1.addWidget(self.psu1_input)
 
         self.psu_ci2 = QtWidgets.QHBoxLayout(self.widget)
-        self.psu_ci2.setObjectName('psu_ci2')
+        self.psu_ci2.setObjectName("psu_ci2")
         self.psu_ci2.setContentsMargins(0, 0, 0, 0)
         self.psu_ci2.addWidget(self.psu2_label)
         self.psu_ci2.addWidget(self.psu2_input)
 
         self.psu_ci3 = QtWidgets.QHBoxLayout(self.widget)
-        self.psu_ci3.setObjectName('psu_ci3')
+        self.psu_ci3.setObjectName("psu_ci3")
         self.psu_ci3.setContentsMargins(0, 0, 0, 0)
         self.psu_ci3.addWidget(self.psu3_label)
         self.psu_ci3.addWidget(self.psu3_input)
 
         self.dai = QtWidgets.QHBoxLayout(self.widget)
-        self.dai.setObjectName('dai')
+        self.dai.setObjectName("dai")
         self.dai.setContentsMargins(0, 0, 0, 0)
         # self.dai.addWidget(self.accuracy_label)
         # self.dai.addWidget(self.accuracy_input)
 
         self.psu_cmt = QtWidgets.QGridLayout(self.widget)
-        self.psu_cmt.setObjectName('psu_cmt')
+        self.psu_cmt.setObjectName("psu_cmt")
         self.psu_cmt.setContentsMargins(0, 0, 0, 0)
-        self.psu_cmt.addLayout(self.psu_cml,0, 1)
-        self.psu_cmt.addLayout(self.psu_ci1,0, 2)
-        self.psu_cmt.addLayout(self.psu_ci2,0, 3)
-        self.psu_cmt.addLayout(self.psu_ci3,0, 4)
+        self.psu_cmt.addLayout(self.psu_cml, 0, 1)
+        self.psu_cmt.addLayout(self.psu_ci1, 0, 2)
+        self.psu_cmt.addLayout(self.psu_ci2, 0, 3)
+        self.psu_cmt.addLayout(self.psu_ci3, 0, 4)
         self.psu_cmt.addLayout(self.dai, 0, 5)
 
         self.master = QtWidgets.QVBoxLayout(self.widget)
-        self.master.setObjectName('master')
+        self.master.setObjectName("master")
         self.master.setContentsMargins(0, 0, 0, 0)
         self.master.addWidget(self.graph)
         self.master.addLayout(self.psu_cmt)
@@ -293,30 +304,43 @@ class ControllerWindow(object):
         self.window.setCentralWidget(self.widget)
 
     def toggle_gui_features(self, mode):
-        features = [self.psu_control_mode, self.psu1_input, self.psu2_input, self.psu3_input, self.apply_button, self.graph.dump_button, self.graph.toggle_button]
-        if(mode):
+        features = [
+            self.psu_control_mode,
+            self.psu1_input,
+            self.psu2_input,
+            self.psu3_input,
+            self.apply_button,
+            self.graph.dump_button,
+            self.graph.toggle_button,
+        ]
+        if mode:
             for i in features:
-                utils.log(2, 'Enabling: ' + str(i))
+                utils.log(2, "Enabling: " + str(i))
                 i.setDisabled(False)
         else:
             for i in features:
-                utils.log(2, 'Disabling: ' + str(i))
+                utils.log(2, "Disabling: " + str(i))
                 i.setDisabled(True)
 
     def affirm_power_supplies(self):
-        if(not utils.supply_available()):
+        if not utils.supply_available():
             self.toggle_gui_features(False)
             response_box = QMessageBox()
             response_box.setIcon(QMessageBox.Warning)
             response_box.setText("No Power supplies were found.")
-            response_box.setInformativeText('Please try the following:\n1.) Turn off all PSU\'s\n2.) Check the cable connections\n3.) Rescan for PSU\'s')
+            response_box.setInformativeText(
+                "Please try the following:\n1.) Turn off all PSU's\n2.) Check the cable connections\n3.) Rescan for PSU's"
+            )
             response_box.setStandardButtons(QMessageBox.Ok)
             response = response_box.exec_()
-        else: self.toggle_gui_features(True)
+        else:
+            self.toggle_gui_features(True)
 
     def toggle_scanning(self):
-        if(self.toggle_scan.isChecked()): self.toggle_gui_features(True)
-        else: self.affirm_power_supplies()
+        if self.toggle_scan.isChecked():
+            self.toggle_gui_features(True)
+        else:
+            self.affirm_power_supplies()
 
     def tick(self):
         # Generates dummy data just for testing the graph
@@ -336,12 +360,14 @@ class ControllerWindow(object):
     #   voltage over current
     #   current over voltage
     def toggle_control_mode(self):
-        labels = [ 'Voltage[V]:', 'Current[A]:', 'Magnetic Field[uT]' ]
-        button_labels = [ 'Apply voltage', 'Apply current', 'Apply field' ]
-        input_defaults = [ '12.0', '1.0', '0.0' ]
+        labels = ["Voltage[V]:", "Current[A]:", "Magnetic Field[uT]"]
+        button_labels = ["Apply voltage", "Apply current", "Apply field"]
+        input_defaults = ["12.0", "1.0", "0.0"]
 
         self.control_mode = self.psu_control_mode.currentIndex()
-        self.active_control_mode_label.setText('Actively controlling for: ' + labels[self.control_mode])
+        self.active_control_mode_label.setText(
+            "Actively controlling for: " + labels[self.control_mode]
+        )
         self.psu1_input.setText(input_defaults[self.control_mode])
         self.psu2_input.setText(input_defaults[self.control_mode])
         self.psu3_input.setText(input_defaults[self.control_mode])
@@ -349,71 +375,94 @@ class ControllerWindow(object):
 
     def update_data_accuracy(self):
         utils.DATA_ACCURACY = self.accuracy_input.value
-    
+
     def close_the_loop(self, target):
-        k_p = 1/200 # control proportional gain, microtesla per amp
-        k_i = 0 # control integral gain
-        epsilon = 1.0 # convergence criteria
-        steps = 5*5 # how many times to iterate
+        k_p = 1 / 200  # control proportional gain, microtesla per amp
+        k_i = 0  # control integral gain
+        epsilon = 1.0  # convergence criteria
+        steps = 5 * 5  # how many times to iterate
         ei = [[0, 0, 0]]
         for i in range(steps):
-            measurement = cc.magnetometer(self.mag_bus) # takes 0.2 sec
+            measurement = cc.magnetometer(self.mag_bus)  # takes 0.2 sec
             error = [target[i] - measurement[i] for i in range(3)]
-            ei.append([ei[-1][i] + utils.INPUT_DELAY*error[i] for i in range(3)])
-            norm = sqrt(sum([error[i]**2 for i in range(3)]))
-            if(norm < epsilon): break
-            
+            ei.append([ei[-1][i] + utils.INPUT_DELAY * error[i] for i in range(3)])
+            norm = sqrt(sum([error[i] ** 2 for i in range(3)]))
+            if norm < epsilon:
+                break
+
             for i, PS in enumerate(utils.POWER_SUPPLIES):
-                    PS.set_current(PS.amperage + k_p * error[i] + k_i * ei[-1][i])
+                PS.set_current(PS.amperage + k_p * error[i] + k_i * ei[-1][i])
 
     # Applies changes to the power supply
     def apply_psu_changes(self):
-        values = [ float(self.psu1_input.text()), float(self.psu2_input.text()), float(self.psu3_input.text()) ]
-        utils.log(0, 'Applying values:\t\t' + str(values))
+        values = [
+            float(self.psu1_input.text()),
+            float(self.psu2_input.text()),
+            float(self.psu3_input.text()),
+        ]
+        utils.log(0, "Applying values:\t\t" + str(values))
 
-        if(utils.supply_available()):
-            if(self.control_mode == 0):
+        if utils.supply_available():
+            if self.control_mode == 0:
                 for i, PS in enumerate(utils.POWER_SUPPLIES):
                     PS.set_voltage(values[i])
-            elif(self.control_mode == 1):
+            elif self.control_mode == 1:
                 for i, PS in enumerate(utils.POWER_SUPPLIES):
                     PS.set_current(values[i])
-            elif(self.control_mode == 2):
+            elif self.control_mode == 2:
                 new_currents = mfcr.automatic([self.x_0, self.y_0, self.z_0], values)
                 for i, PS in enumerate(utils.POWER_SUPPLIES):
                     PS.set_current(new_currents[i])
-                if(utils.CLOSED_LOOP):
+                if utils.CLOSED_LOOP:
                     self.close_the_loop(values)
             else:
-                utils.log(3, 'An invalid control mode was specified: ' + str(self.control_mode) + '!\n\tThis input will be ignored and the power supplies cannot be modified until this is resolved.')
+                utils.log(
+                    3,
+                    "An invalid control mode was specified: "
+                    + str(self.control_mode)
+                    + "!\n\tThis input will be ignored and the power supplies cannot be modified until this is resolved.",
+                )
         else:
-            utils.log(3, 'No supplies are available for updating!\n\tThrowing away button press event.')
+            utils.log(
+                3, "No supplies are available for updating!\n\tThrowing away button press event."
+            )
 
     # Writes graph data to a CSV file auto-generated and puts it in ~/cage_data
     def save_data(self):
-        filename = str(utils.unique_time()) + '_magnetometer_data.csv'
+        filename = str(utils.unique_time()) + "_magnetometer_data.csv"
         filepath = utils.data_file_path(filename=filename)
-        utils.log(0, 'Saving graph data to file: ' + filepath)
+        utils.log(0, "Saving graph data to file: " + filepath)
 
-        file = open(filepath, mode='w')
-        file.write(',,,,,SAVE_TIME:,' + utils.unique_time_pretty() + '\n')
-        file.write('INDEX,TIME(ms),X,Y,Z\n')
+        file = open(filepath, mode="w")
+        file.write(",,,,,SAVE_TIME:," + utils.unique_time_pretty() + "\n")
+        file.write("INDEX,TIME(ms),X,Y,Z\n")
         index = 1
         for i in self.graph.get_data():
-            file.write(str(index) + ',' + str(index * utils.TICK_TIME)  + ',' + str(i[1]) + ',' + str(i[2]) + ',' + str(i[3]) + '\n')
+            file.write(
+                str(index)
+                + ","
+                + str(index * utils.TICK_TIME)
+                + ","
+                + str(i[1])
+                + ","
+                + str(i[2])
+                + ","
+                + str(i[3])
+                + "\n"
+            )
             index += 1
         file.close()
 
         response_box = QMessageBox()
         response_box.setIcon(QMessageBox.Information)
         response_box.setText("Magnetometer Data was saved!")
-        response_box.setInformativeText('Data was saved to file: ' + filepath)
+        response_box.setInformativeText("Data was saved to file: " + filepath)
         response_box.setStandardButtons(QMessageBox.Ok)
         response = response_box.exec_()
 
     # Writes graph data to a file specified by the user
     def save_data_as(self, filename):
-        self.save_data() # TODO: change this to open a window asking the user for a new path to save to
+        self.save_data()  # TODO: change this to open a window asking the user for a new path to save to
 
     def keyPress(self, e):
         utils.log(0, str(e))
@@ -422,23 +471,24 @@ class ControllerWindow(object):
         response_box = QMessageBox()
         response_box.setIcon(QMessageBox.Question)
         response_box.setText("Would you like to shut down the cage?")
-        response_box.setInformativeText('You will lose any unsaved data.')
-        response_box.setStandardButtons(QMessageBox.Yes| QMessageBox.No)
+        response_box.setInformativeText("You will lose any unsaved data.")
+        response_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         response_box.setDefaultButton(QMessageBox.No)
         response = response_box.exec_()
 
-        if(response == QtWidgets.QMessageBox.Yes):
+        if response == QtWidgets.QMessageBox.Yes:
             self.shutdown_cage()
             exit(0)
 
     # Ensures all physical equiptment is in its closed safe state then exits
     def shutdown_cage(self):
-        utils.log(0, 'Shutting cage down gracefully...')
-        if(utils.supply_available()):
+        utils.log(0, "Shutting cage down gracefully...")
+        if utils.supply_available():
             for i in utils.POWER_SUPPLIES:
                 i.toggle_supply(0)
         else:
-            utils.log(0, 'Power supplies were not available, there is nothing to do.')
+            utils.log(0, "Power supplies were not available, there is nothing to do.")
+
 
 # Function called by the driver to launch the GUI
 def interface():

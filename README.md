@@ -5,8 +5,12 @@
 ## Installation
 
 ```shell
-$ pip3 install --user -r requirements.txt
+$ pip3 install --user -e .[dev]
 ```
+
+## Contributing
+
+See [the contributor's guide for more information](CONTRIBUTING.md)
 
 ## Find PSUs
 

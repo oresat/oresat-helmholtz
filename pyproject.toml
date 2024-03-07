@@ -4,6 +4,7 @@ description = "Oresat QA infrastructure using our Helmholtz cage."
 dependencies = [
   "setuptools"
 ]
+version = "0.0.1"
 
 [project.urls]
 Homepage = "TODO"
@@ -29,6 +30,10 @@ line-length = 99
 [tool.isort]
 line_length = 99
 profile = "black"
+src_paths = [
+  "oresat_helmholtz",
+  "test"
+]
 
 [tool.mypy]
 files = ['oresat_helmholtz/**/*.py']

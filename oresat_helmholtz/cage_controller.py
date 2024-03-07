@@ -1,30 +1,51 @@
-import serial # Stuff for controlling the power supplies
-import time # Stuff for regulated sensor delays
-import smbus2 # Stuff for controlling temperature and magnetic sensors
-import oresat_helmholtz.utilities as utils # Stuff for debugging and/or general info
+import time  # Stuff for regulated sensor delays
+
+import serial  # Stuff for controlling the power supplies
+import smbus2  # Stuff for controlling temperature and magnetic sensors
 from gpiozero import LED
 
-WIRE_WARN_TEMP = 100 # Min cage wire temperatures in F for warning
-WIRE_HCF_TEMP = 120 # Max cage wire temperatures in F for forced halting
-pin = 'BOARD'
+import oresat_helmholtz.utilities as utils  # Stuff for debugging and/or general info
 
-class Coil(): # controls for motor drivers
+WIRE_WARN_TEMP = 100  # Min cage wire temperatures in F for warning
+WIRE_HCF_TEMP = 120  # Max cage wire temperatures in F for forced halting
+pin = "BOARD"
+
+
+class Coil:  # controls for motor drivers
     def __init__(self, psu_index):
         self.in_a = LED(pin + utils.COIL_ADDRS[psu_index][0])
         self.in_b = LED(pin + utils.COIL_ADDRS[psu_index][1])
         self.positive()
-    
+
     def positive(self):
         self.in_b.off()
         self.in_a.on()
-    
+
     def negative(self):
         self.in_a.off()
         self.in_b.on()
 
+
 class PowerSupply(serial.Serial):
-    def __init__(self, port_device, input_delay=utils.INPUT_DELAY, baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, timeout=1):
-        serial.Serial.__init__(self, port=str('/dev/' + port_device), baudrate=baudrate, parity=parity, stopbits=stopbits, bytesize=bytesize, timeout=timeout)
+    def __init__(
+        self,
+        port_device,
+        input_delay=utils.INPUT_DELAY,
+        baudrate=9600,
+        parity=serial.PARITY_NONE,
+        stopbits=serial.STOPBITS_ONE,
+        bytesize=serial.EIGHTBITS,
+        timeout=1,
+    ):
+        serial.Serial.__init__(
+            self,
+            port=str("/dev/" + port_device),
+            baudrate=baudrate,
+            parity=parity,
+            stopbits=stopbits,
+            bytesize=bytesize,
+            timeout=timeout,
+        )
         self.port_device = port_device
         self.input_delay = input_delay
         self.baudrate = baudrate
@@ -32,42 +53,64 @@ class PowerSupply(serial.Serial):
         self.stopbits = stopbits
         self.bytesize = bytesize
         self.timeout = timeout
-        self.warn_temp = 35 # Min cage wire temperatures in F for warning
-        self.halt_temp = 40 # Max cage wire temperatures in F for forced halting
+        self.warn_temp = 35  # Min cage wire temperatures in F for warning
+        self.halt_temp = 40  # Max cage wire temperatures in F for forced halting
         # self.coil = Coil(self.index())
 
-        utils.log(0, 'Initialized Power supply with the following:\n\tPort: ' + str(port_device)
-                                                               + '\n\tInput Delay: ' + str(input_delay)
-                                                               + '\n\tBaud Rate: ' + str(baudrate)
-                                                               + '\n\tParity:' + str(parity)
-                                                               + '\n\tStop Bits: ' + str(stopbits)
-                                                               + '\n\tByte Size: ' + str(bytesize)
-                                                               + '\n\tTimeout: ' + str(timeout))
+        utils.log(
+            0,
+            "Initialized Power supply with the following:\n\tPort: "
+            + str(port_device)
+            + "\n\tInput Delay: "
+            + str(input_delay)
+            + "\n\tBaud Rate: "
+            + str(baudrate)
+            + "\n\tParity:"
+            + str(parity)
+            + "\n\tStop Bits: "
+            + str(stopbits)
+            + "\n\tByte Size: "
+            + str(bytesize)
+            + "\n\tTimeout: "
+            + str(timeout),
+        )
+
     def index(self):
-        return int(self.port_device[-1]) # uses last character of device name for index
+        return int(self.port_device[-1])  # uses last character of device name for index
 
     def toggle_supply(self, mode):
-        utils.log(0, 'Setting ' + self.name + ' to: ' + str(mode))
+        utils.log(0, "Setting " + self.name + " to: " + str(mode))
         self.write(str("Aso" + str(mode) + "\n").encode())
 
     def set_voltage(self, voltage):
-        utils.log(0, 'Setting ' + self.name + ' voltage to: ' + str(voltage) + ' volts.')
+        utils.log(0, "Setting " + self.name + " voltage to: " + str(voltage) + " volts.")
         self.write(str("Asu" + str(abs(voltage) * 100) + "\n").encode())
 
     def set_current(self, amperage):
-        utils.log(0, 'Setting ' + self.name + ' current to: ' + str(amperage) + ' amps.')
+        utils.log(0, "Setting " + self.name + " current to: " + str(amperage) + " amps.")
         self.write(str("Asi" + str(abs(amperage) * 1000) + "\n").encode())
         self.amperage = amperage
         # if(amperage < 0):
-            # self.coil.negative()
+        # self.coil.negative()
         # else:
-            # self.coil.positive()
+        # self.coil.positive()
 
     def check_temperatures():
-        utils.log(0, 'Checking ' + self.name + ' temperatures...')
+        utils.log(0, "Checking " + self.name + " temperatures...")
 
-class TemperatureSensor():
-    def __init__(self, address, delay=utils.INPUT_DELAY, raw_offset=8192, max_raw=4095,byte_size=2, cont_conv=0x18, power_up=0x01, config=[0x00, 0x00]):
+
+class TemperatureSensor:
+    def __init__(
+        self,
+        address,
+        delay=utils.INPUT_DELAY,
+        raw_offset=8192,
+        max_raw=4095,
+        byte_size=2,
+        cont_conv=0x18,
+        power_up=0x01,
+        config=[0x00, 0x00],
+    ):
         TemperatureSensor.bus = smbus.SMBus(1)
         TemperatureSensor.is_closed = False
         self.address = address
@@ -80,54 +123,59 @@ class TemperatureSensor():
         self.config = config
 
     def __del__(self):
-        if(TemperatureSensor.is_closed):
+        if TemperatureSensor.is_closed:
             TemperatureSensor.bus.close()
             TemperatureSensor.is_closed = True
-
 
     def read(self):
         time.sleep(self.delay)
         raw_data = TemperatureSensor.bus.read_i2c_block_data(cont_conv, 0x05, self.byte_size)
         temperature = ((raw_data[0] & 0x1F) * 256) + raw_data[1]
-        if(temperature > max_raw): temperature -= offset
+        if temperature > max_raw:
+            temperature -= offset
         return temperature * 0.0625
 
 
 # data conversion processes for magnetometer and temperature
 def checksize(measurement, maxval, offset):
-    if measurement > maxval :
+    if measurement > maxval:
         return measurement - offset
     else:
         return measurement
 
+
 # function to safety check temperatures
 def temperature_check_bounds(temp, warning, shutoff):
     if temp > warning:
-        utils.log(1, "Reached minimum warning temperature! Try turning off the cage to let it cool off?")
+        utils.log(
+            1, "Reached minimum warning temperature! Try turning off the cage to let it cool off?"
+        )
         if temp > shutoff:
             utils.log(1, "Reached maximum warning temperature! Auto-powering down the cage!")
             toggle_all_power_supply(0)
 
+
 # see page 21 of https://www.nxp.com/docs/en/data-sheet/MAG3110.pdf
 # "When asserted, initiates a magnetic sensor reset cycle that will restore
-# correct operation after exposure to an excessive magnetic field" 
+# correct operation after exposure to an excessive magnetic field"
 # Value goes back to 0 after completion
 def init_magnetometer():
     # Get I2C bus
     bus = smbus.SMBus(1)
     time.sleep(utils.INPUT_DELAY)
-    
+
     # MAG3110 address, 0x0E(14)
     # Select Control register, 0x10(16)
     #        0x01(01)    Normal mode operation, Active mode
     bus.write_byte_data(0x0E, 0x10, 0x01)
     time.sleep(utils.INPUT_DELAY)
-    
+
     # MAG3110 address, 0x0E(14)
     # Select Control register2, 0x11(17)
     bus.write_byte_data(0x0E, 0x11, 0b00010000)
     time.sleep(utils.INPUT_DELAY)
     return bus
+
 
 # function to get magnetic field components from sensors
 def magnetometer(bus):
@@ -148,7 +196,8 @@ def magnetometer(bus):
     zMag = checksize(zMag, 32767, 65536)
 
     # divide by 10 to convert bit counts to microteslas
-    return xMag/10, yMag/10, zMag/10
+    return xMag / 10, yMag / 10, zMag / 10
+
 
 # function to get (and check) temperatures from sensors
 # Sensors located at i2c addresses 0x18 and 0x1c
@@ -187,13 +236,13 @@ def temperature():
     ctemp1 = ctemp1 * 0.0625
 
     # 2nd sensor for PSU temp
-    #------------------------------------
-    bus.write_i2c_block_data(0x1c, 0x01, config)
-    bus.write_byte_data(0x1c, 0x08, 0x03)
+    # ------------------------------------
+    bus.write_i2c_block_data(0x1C, 0x01, config)
+    bus.write_byte_data(0x1C, 0x08, 0x03)
 
     time.sleep(utils.INPUT_DELAY)
 
-    data = bus.read_i2c_block_data(0x1c, 0x05, 2)
+    data = bus.read_i2c_block_data(0x1C, 0x05, 2)
 
     ctemp2 = ((data[0] & 0x1F) * 256) + data[1]
     ctemp2 = checksize(ctemp2, 4095, 8192)

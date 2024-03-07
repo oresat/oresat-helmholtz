@@ -1,33 +1,39 @@
-import serial
 import os
 
+import serial
+
+
 def write_encoded(device: serial.Serial, message: str) -> None:
-    '''
+    """
     Messages written to the PSU must be newline terminated and properly encoded.
-    '''
-    assert len(message) > 0, "Tried to write a message of length zero '{message}' to device '{device}'"
-    encoded: bytes = (message + '\n').encode()
+    """
+    assert (
+        len(message) > 0
+    ), "Tried to write a message of length zero '{message}' to device '{device}'"
+    encoded: bytes = (message + "\n").encode()
     written: int = device.write(encoded)
     assert written == len(encoded), "Attempted write to device '{device}' failed"
 
+
 def psu_serial_device_from_tty(tty_device: str) -> serial.Serial:
-    '''
+    """
     Configure the serial object with appropriate configuration options for the
     PSUs in the Helmholtz cage.
-    '''
+    """
     return serial.Serial(
-            port=tty_device,
-            baudrate=9600,
-            parity=serial.PARITY_NONE,
-            stopbits=serial.STOPBITS_ONE,
-            bytesize=serial.EIGHTBITS,
-            timeout=1
-            )
+        port=tty_device,
+        baudrate=9600,
+        parity=serial.PARITY_NONE,
+        stopbits=serial.STOPBITS_ONE,
+        bytesize=serial.EIGHTBITS,
+        timeout=1,
+    )
+
 
 class PSU:
-    '''
+    """
     Interface for interacting with one of our PSUs over serial.
-    '''
+    """
 
     VOLTS_MAGIC_STR = "Asu"
     AMPS_MAGIC_STR = "Asi"
@@ -44,7 +50,7 @@ class PSU:
     # Property to disallow users from changing manually
     @property
     def enabled(self) -> bool:
-        'Has the device already been enabled?'
+        "Has the device already been enabled?"
         return self._enabled
 
     def enable(self):
