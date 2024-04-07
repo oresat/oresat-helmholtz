@@ -5,7 +5,11 @@ import pytest
 from oresat_helmholtz.psu import PSU
 
 # TODO: dynamically find the right paths. hardcoded paths for now.
-psu_tty_paths = ["/dev/ttyUSB1", "/dev/ttyUSB2", "/dev/ttyUSB3"]
+psu_tty_paths = [
+    "/dev/ttyUSB1",
+    "/dev/ttyUSB2",
+    "/dev/ttyUSB3",
+]  ### automatically identify and set enviornment variables for USB TTy
 
 # Some small value for floating point comparisons
 EPSILON = 0.000000001

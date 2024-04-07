@@ -1,10 +1,10 @@
+## main executable
 import cmd
 import csv
 from argparse import ArgumentParser
 
-from .Arduino import Arduino, ArduinoCommands
-from .ZXY6005s import ZXY6005s, ZXY6005sCommands
-
+from Arduino import Arduino, ArduinoCommands
+from ZXY6005s import ZXY6005s, ZXY6005sCommands
 
 class HelmholtzShell(cmd.Cmd):
     intro = "Welcome to the Helmholtz Cage Shell! Type 'help' to list commands \n"
@@ -291,7 +291,6 @@ class HelmholtzShell(cmd.Cmd):
     # Calibration function prototype
     def do_calibration(self, arg):
         if not self.mock:
-
             # Current values.
             max_current = 1000
             min_current = 0

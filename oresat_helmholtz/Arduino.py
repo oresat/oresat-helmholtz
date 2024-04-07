@@ -7,7 +7,6 @@ from enum import Enum
 import serial
 import serial.tools.list_ports
 
-
 class ArduinoCommands(Enum):
     """The following are the commands the arduino is listening for without any serial data returned"""
 
@@ -74,7 +73,6 @@ class ArduinoCommands(Enum):
 
 
 class Arduino:
-
     # Serial communication settings for the Arduino Nano.
     BAUDRATE = 115200
     INPUT_DELAY = 0.001
@@ -91,6 +89,7 @@ class Arduino:
             if i.location == location:
                 serial_port = i.device
                 break
+        
         if serial_port is None:
             raise Exception(f"Could not find device with location of {location}")
 

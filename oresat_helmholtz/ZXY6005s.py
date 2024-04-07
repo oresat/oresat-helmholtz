@@ -44,11 +44,25 @@ class ZXY6005s:
     def __init__(self):
         """construct objects, using location for X, Y and Z power supplies"""
         names = ["X", "Y", "Z"]
-        locations = ["1-1.5.4.3", "1-1.5.4.2", "1-1.5.4.1"]
+        # # locations = ["1-1.5.4.3", "1-1.5.4.2", "1-1.5.4.1"]
+        # self.devices = {}
+        # for name, location in zip(names, locations):
+        #     for i in serial.tools.list_ports.comports():
+        #         if i.location == location:
+        #             self.devices[name] = serial.Serial(
+        #                 port=i.device,
+        #                 baudrate=self.BAUDRATE,
+        #                 parity=self.PARITY,
+        #                 stopbits=self.STOPBITS,
+        #                 bytesize=self.BYTESIZE,
+        #                 timeout=self.TIMEOUT,
+        #             )
+        #             break
+        device_names = ['/dev/ttyUSB3', '/dev/ttyUSB2', '/dev/ttyUSB1']
         self.devices = {}
-        for name, location in zip(names, locations):
+        for name, dev in zip(names, device_names):
             for i in serial.tools.list_ports.comports():
-                if i.location == location:
+                if i.device == dev:
                     self.devices[name] = serial.Serial(
                         port=i.device,
                         baudrate=self.BAUDRATE,
@@ -58,8 +72,9 @@ class ZXY6005s:
                         timeout=self.TIMEOUT,
                     )
                     break
+
         if len(self.devices) != 3:
-            raise Exception(f"Could not find all 3 devices. ")
+            raise Exception(f"Did Not Detect 3 Devices")
 
     def write_message(self, device_name, msg):
         """writes a command to serial port"""

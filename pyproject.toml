@@ -2,7 +2,8 @@
 name = "oresat_helmholtz"
 description = "Oresat QA infrastructure using our Helmholtz cage."
 dependencies = [
-  "setuptools"
+  "setuptools",
+  "pyserial"
 ]
 version = "0.0.1"
 
