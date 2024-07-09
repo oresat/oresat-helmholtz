@@ -1,0 +1,4 @@
+smbus2==0.4.3
+pyserial==3.5 
+PyQt5==5.15.10
+pyqtgraph==0.13.7 

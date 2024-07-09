@@ -361,24 +361,3 @@ class HelmholtzShell(cmd.Cmd):
     #Help message for exit program.
     def help_exit(self):
         print("Type in exit to close the program ")
-
-#Main program. Objects declared here. Shell built. 
-def main():
-    parser = ArgumentParser()
-    parser.add_argument('-l', '--arduino-location', help='Location to Arduino. ')
-    parser.add_argument('-m', '--mock', action = "store_true")
-    args = parser.parse_args()
-    
-    if args.mock:
-        arduino = None
-        psu = None
-    else:
-        arduino = Arduino(args.arduino_location)
-        psu = ZXY6005s()
-    
-    
-    shell = HelmholtzShell(arduino, psu, args.mock)
-    shell.cmdloop()
-
-if __name__ == "__main__":
-    main()
