@@ -36,8 +36,7 @@ void setup() {
  
  //Baudrate/bytes per second set.
  Serial.begin(115200);
- 
- 
+  
    // Initialise the mag sensor */
   if (mmc.begin(MMC56X3_DEFAULT_ADDRESS, &Wire)) {  // I2C mode
     magstat = 1;
@@ -48,7 +47,6 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  
   // reply only when you receive data:
   if (Serial.available() > 0) {
     // read the incoming byte:

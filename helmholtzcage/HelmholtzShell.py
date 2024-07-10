@@ -292,7 +292,7 @@ class HelmholtzShell(cmd.Cmd):
             #Current values.
             max_current = 1000
             min_current = 0 
-            step = -100
+            step = 100
             
             #Opening and declaring headers for the CSV file.
             with open("cage_cal.csv", "w") as new_file:
@@ -320,12 +320,15 @@ class HelmholtzShell(cmd.Cmd):
                         self.arduino.set_negative_Z()
                     
                     #Iterating starting at -1 amps to 0 amps. 
-                    for current_val in range(max_current, min_current - step, step):
+                    for current_val in range(max_current, min_current - step, -step):
                         self.psu.set_current_limit(i, current_val)
                         current_val = self.psu.return_current(i)
-                        mag_x, mag_y, mag_z = self.arduino.get_magnetometer_reading().split(",")
-                        dict_to_write = {'Current (A)': current_val, 'Magnetic Field X (T)': mag_x, 'Magnetic Field Y (T)':mag_y,'Magnetic Field Z (T)':mag_z}
-                        csv_writer.writerow(dict_to_write)
+                        print("current val -", current_val)
+                        #mag_x, mag_y, mag_z = self.arduino.get_magnetometer_reading().split(",")#try a max split??
+                        #mag = self.arduino.get_magnetometer_reading()
+                        #print(mag)
+                        #dict_to_write = {'Current (A)': current_val, 'Magnetic Field X (T)': mag_x, 'Magnetic Field Y (T)':mag_y,'Magnetic Field Z (T)':mag_z}
+                        #csv_writer.writerow(dict_to_write)
 
                     #Setting X, Y and Z bridges to positive polarity.
                     if i == 'X': 
@@ -338,10 +341,12 @@ class HelmholtzShell(cmd.Cmd):
                         self.arduino.set_positive_Z()
                     
                     #Iterating starting at 0 amps to 1 amps. 
-                    for current_val in range(min_current, max_current - step, step):
-                        current_val = self.psu.set_current_limit(i, current_val)
-                        mag_x, mag_y, mag_z = self.arduino.get_magnetometer_reading().split(",")
-                        csv_writer.writerow(current_val, mag_x, mag_y, mag_z)
+                    for current_val in range(min_current, max_current + step, step):
+                        self.psu.set_current_limit(i, current_val)
+                        current_val = self.psu.return_current(i)
+                        print("current val +", current_val)
+                        #mag_x, mag_y, mag_z = self.arduino.get_magnetometer_reading().split(",")
+                        #csv_writer.writerow(current_val, mag_x, mag_y, mag_z)
                         
             #Next steps: sci pi on the .csv and find line of best fit (linear) between magnitude of Mag. Field and Current
             #
