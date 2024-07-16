@@ -25,4 +25,4 @@ MCECS BETA Project 2018
 3. Ports for the buck converters will look something like this: x-x.x.1', 'x-x.x.2', and 'x-x.x.3'
 4. In helmholtzcage/ZXY6005s.py file, look for the location variables, replace with the port locations that were discovered above for the converters
 5. Find location of the arduino - list ports again. It will look like x-x.x
-6. If running from a computer and not the Rasp Pi, use the command `python main.py -l x-x.x` wherex-x.x is the port of the arduino
+6. If running from a computer and not the Rasp Pi, use the command `python main.py -l x-x.x` where x-x.x is the port of the arduino
