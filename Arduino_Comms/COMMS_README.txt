@@ -5,6 +5,12 @@ This document is the decode key to "ArduinoComms.py" and "PSAS_HHCage.ino"
 General:
 The arduino will initialize the magnetic sensor (if present) and listen on USB-Serial (115200) for one byte messages from the Raspberry PI / Python. The Arduino will control 3 H-bridges (X,Y,Z) and interact with a magnetometer (MMC5603). Some commands from the PI will recieve a serial data return.
 
+
+Things you need to get started:
+- 1. Make sure the Arduino IDE is set to upload to an Arduino Nano Board. To check this, go to the Tools tab, and scroll down to board. Select "Arduino Nano". 
+- 2. Install the Adafruit MMC56x3 library. To do this, go to the Sketch tab, scroll down to "Include Library". There should be a search bar at the very top left. Look for "Adafruit MMC" and the first result is what you will be installing. 
+- 3. Make sure the baudrate is set to 115200. 
+
 Note that decode values are case sensitive.The following are the commands the arduino is listening for without any serial data returned: 
 x - Activate X H-bridge in Positive Polarity
 y - Activate Y H-bridge in Positive Polarity
