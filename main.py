@@ -15,5 +15,8 @@ else:
     psu = ZXY6005s()
 
 shell = HelmholtzShell(arduino, psu, args.mock)
+for i in 'xyz':
+    shell.do_voltage(i + " 700")
+    shell.do_current_limit(i + " 1000")
 shell.cmdloop()
 
