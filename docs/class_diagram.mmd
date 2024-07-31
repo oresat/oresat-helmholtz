@@ -1,0 +1,62 @@
+
+classDiagram
+    main~HOST~ --|> Arduino~HOST~ : pass location
+    main --|> HelmholtzShell~HOST~ : pass arduino and psu(s)
+    main --|> ZXY6005s~HOST~
+    
+    note for ZXY6005s "Controls buck converters for X, Y, and Z Axis \ndevice_name in {X, Y, Z}"
+    note for main "Creates instances of \n HelmholtzShell, Arduino, and ZXY6005s \nthen initiates HelmholtzShell command loop"
+    HelmholtzShell --> Arduino
+    note for HelmholtzShell "Communicates commands from user to Arduino and ZXY6005s\nEach command has a 'do' call and 'help' call"
+    note for Arduino "Sends commands to the Arduino Nano"
+    HelmholtzShell --> ZXY6005s
+    
+    class ZXY6005s{
+        -list names
+        -list locations 
+        -dict~str : Serial~ -> devices
+        +model(device_name)
+        +firmware_version(device_name)
+        +set_output(str device_name, int value)
+        +set_output(str device_name, int value)
+        +set_amp_hour(str device_name, int value)
+        +set_voltage(str device_name, int value)
+
+        +return_current(str device_name)
+        +return_voltage(str device_name)
+        +return_temp(str device_name)
+
+        -write_message()
+        -read_message()
+        -send_command()
+        -create_command()
+    }
+    class Arduino{
+        -serial
+        +set_positive_X()
+        +set_positive_Y()
+        +set_positive_Z()
+
+        +set_negative_X()
+        +set_negative_Y()
+        +set_negative_Z()
+
+        +deactivate_all()
+        +deactivate_X()
+        +deactivate_Y()
+        +deactivate_Z()
+
+        +get_bridge_status()
+        
+
+        -write_message()
+        -read_message()
+        -send_command()
+        -create_command()
+    }
+    class HelmholtzShell{
+      +cmdloop()
+
+
+
+    }
