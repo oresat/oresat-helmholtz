@@ -326,7 +326,7 @@ class HelmholtzShell(cmd.Cmd):
                         print("current val -", current_val)
                         #mag_x, mag_y, mag_z = self.arduino.get_magnetometer_reading().split(",")#try a max split??
                         #mag = self.arduino.get_magnetometer_reading()
-                        print(mag)
+                        #print(mag)
                         #dict_to_write = {'Current (A)': current_val, 'Magnetic Field X (T)': mag_x, 'Magnetic Field Y (T)':mag_y,'Magnetic Field Z (T)':mag_z}
                         #csv_writer.writerow(dict_to_write)
 
