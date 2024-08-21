@@ -4,6 +4,7 @@ from argparse import ArgumentParser
 
 from .Arduino import Arduino, ArduinoCommands
 from .ZXY6005s import ZXY6005s, ZXY6005sCommands
+from .Magnetometer import Magnetometer, MagnetometerCommands
 
 class HelmholtzShell(cmd.Cmd):
     intro = "Welcome to the Helmholtz Cage Shell! Type 'help' to list commands \n"
@@ -11,11 +12,12 @@ class HelmholtzShell(cmd.Cmd):
     file = None
     
     #Main objection construction for power supply and arduino libraries.
-    def __init__(self, arduino: Arduino, psu: ZXY6005s, mock:bool):
+    def __init__(self, arduino: Arduino, psu: ZXY6005s, meter: Magnetometer, mock:bool):
         super().__init__()
         self.arduino = arduino
         self.psu = psu
         self.mock = mock
+        self.meter = meter
     
     #Takes device name and returns model.
     def do_model(self, arg):
@@ -368,3 +370,11 @@ class HelmholtzShell(cmd.Cmd):
     #Help message for exit program.
     def help_exit(self):
         print("Type in exit to close the program ")
+        
+    
+    #Prototyping area. WIP first command for new alphalab meter. 
+    
+    #Retrieve the meter's current properties. 
+    def do_meter_properties(self):
+        if not self.mock:
+            print(self.meter.meter_properties())
