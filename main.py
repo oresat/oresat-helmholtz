@@ -4,6 +4,7 @@ from argparse import ArgumentParser
 #Main program. Objects declared here. Shell built. 
 parser = ArgumentParser()
 parser.add_argument('-l', '--arduino-location', help='Location to Arduino. ')
+parser.add_argument('-l', '--meter-location', help='Location to Meter.')
 parser.add_argument('-m', '--mock', action = "store_true")
 args = parser.parse_args()
 
@@ -14,7 +15,7 @@ if args.mock:
 else:
     arduino = Arduino(args.arduino_location)
     psu = ZXY6005s()
-    meter = Magnetometer.Magnetometer()
+    meter = Magnetometer(args.meter_location)
 
 shell = HelmholtzShell(arduino, psu, meter, args.mock)
 for i in 'xyz':
