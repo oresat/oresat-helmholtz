@@ -10,9 +10,11 @@ args = parser.parse_args()
 if args.mock:
     arduino = None
     psu = None
+    meter = None
 else:
     arduino = Arduino(args.arduino_location)
     psu = ZXY6005s()
+    meter = Magnetometer()
 
 shell = HelmholtzShell(arduino, psu, meter, args.mock)
 for i in 'xyz':
