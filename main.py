@@ -15,7 +15,7 @@ if args.mock:
 else:
     arduino = Arduino(args.arduino_location)
     psu = ZXY6005s()
-    meter = Magnetometer(args.meter_location)
+    meter = Magnetometer.Magnetometer(args.meter_location)
 
 shell = HelmholtzShell(arduino, psu, meter, args.mock)
 for i in 'xyz':
