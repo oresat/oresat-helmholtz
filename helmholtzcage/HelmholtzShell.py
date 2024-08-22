@@ -105,6 +105,9 @@ class HelmholtzShell(cmd.Cmd):
             self.help_current_limit()
             return
         if not self.mock:
+            value = int((value-28.3)/1.23)
+            if value < 0:
+                value = 0
             print(self.psu.set_current_limit(arg[0].upper(), value))
     
     #Help message for current_limit function.
