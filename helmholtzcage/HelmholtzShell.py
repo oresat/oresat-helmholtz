@@ -371,12 +371,9 @@ class HelmholtzShell(cmd.Cmd):
     def help_exit(self):
         print("Type in exit to close the program ")
         
-    
-    #Prototyping area. WIP first command for new alphalab meter. 
-    
     #Retrieve the meter's current properties. 
     def do_meter_properties(self, arg):
         if not self.mock:
-            #print(self.meter.meter_properties())
-            self.meter.send_command(0x01)
-            self.meter.handle_meter_response()
+            self.meter.meter_properties()
+            #self.meter.send_command(0x01)
+            #self.meter.handle_meter_response()

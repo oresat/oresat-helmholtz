@@ -26,6 +26,7 @@ class Magnetometer:
     STOPBITS = serial.STOPBITS_ONE
     TIMEOUT = 1
 
+    #Magnetometer class constructor. Serial setup done here.
     def __init__(self, location: str):
         '''Object Construction. Passes the name of the Magnetometer's USB port'''
         serial_port = None
@@ -46,28 +47,10 @@ class Magnetometer:
             timeout = self.TIMEOUT	
 	)
 
-    def write_message(self, msg):
-        '''writes a command to serial port'''
-        if self.ser.out_waiting != 0:
-            self.ser.flush()
-       
-        self.ser.write(msg)
-        self.ser.flush()
-
-    #def read_message(self, ending_token = '\n'):
-        #'''reads from serial port until a specific character'''
-        #data = self.ser.read_until(ending_token)
-        #return data.decode().strip() 
-    
     #Prototype read message function. Devs: please DO NOT delete any code until file is finalized!
     def proto_read_chunk(self):
         data = self.ser.read(20) #Read in 20 bytes.
         return data
-
-    #def send_command(self, msg):
-        #'''sends a command to serial port and reads the message returned'''
-        #self.write_message(msg)
-        #return self.read_message()
     
     #Prototype send message function. 
     def send_command(self, command, extra_bytes = None):
@@ -81,13 +64,6 @@ class Magnetometer:
         self.ser.write(bytearray(ack_command))
         print("Sent acknowledgement")
     
-        
-    def create_command(self, command):
-        '''creates command to send through serial port'''
-        '''<A> is address, ends on <\n>, and encode as bytes'''
-        msg = f'A{command}\n'.encode()
-        return msg
-
     #Prototype function to handle meter's response.
     def handle_meter_response(self):
         full_response = ""
@@ -110,6 +86,7 @@ class Magnetometer:
             else:
                 self.acknowledgment()
         
+        #Parse any data that was returned by the meter. 
         self.parse_meter_response(full_response)
      
     #Parsing the data received from the meter.    
@@ -125,14 +102,9 @@ class Magnetometer:
         #Display the parsed properties.
         for key, value in parsed_data.items():
             print(f"{key}: {value}")
+    
+    #Prototype meter command: ID_METER_PROP. 
+    def meter_properties(self):
+        self.send_command(MagnetometerCommands.ID_METER_PROP.value)
+        self.handle_meter_response()
         
-
-    #WIP of the first command. To all developers: comment out code you do not wish to use. 
-    #def meter_properties(self) -> str: 
-        #'''str: send the 0x01 command to retrieve the meter's current properties. '''
-        #msg = self.create_command(MagnetometerCommands.ID_METER_PROP.value) #Creating the command 
-        #return self.send_command(msg)
-        
-        
-    #The meter will be returning a "confirmation byte" back along with the data needed. This logic will be placed in the
-    #helmholtz shell file. 
