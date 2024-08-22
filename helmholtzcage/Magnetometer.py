@@ -12,7 +12,7 @@ from enum import Enum
 #Magnetometer Commands Library.
 class MagnetometerCommands(Enum):
     '''The following are the commands the sensor responds to through serial.'''
-    ID_METER_PROP = '0x01' #See page 4 on the alphalab serial handbook for more information. 
+    ID_METER_PROP = 0x01 #See page 4 on the alphalab serial handbook for more information. 
     
     #Add more commands here as we see fit. 
 
