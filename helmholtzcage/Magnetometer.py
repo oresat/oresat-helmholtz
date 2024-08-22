@@ -74,7 +74,7 @@ class Magnetometer:
     def meter_properties(self) -> str: 
         '''str: send the 0x01 command to retrieve the meter's current properties. '''
         msg = self.create_command(MagnetometerCommands.ID_METER_PROP.value) #Creating the command 
-        self.send_command(msg)
+        return self.send_command(msg)
         
         
     #The meter will be returning a "confirmation byte" back along with the data needed. This logic will be placed in the
