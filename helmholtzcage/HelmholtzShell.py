@@ -247,26 +247,6 @@ class HelmholtzShell(cmd.Cmd):
         print("This function deactivates just the Z H-bridge. ")
         print("Accepted values are: 'd'. ")
     
-    #Returns the magnetic field reading. 
-    def do_magnetometer_reading(self, arg):
-        if not self.mock:
-            print(self.arduino.get_magnetometer_reading())
-    
-    #Help message for magnetometer_reading.
-    def help_magnetometer_reading(self):
-        print("This function returns the current magnetic field reading. ")
-        print("Accepted values are: 'm'. ")
-    
-    #Is the magnetometer on or off?    
-    def do_magnetometer_status(self, arg):
-        if not self.mock:
-            print(self.arduino.get_magnetometer_status())
-    
-    #Help message for magnetometer_status. 
-    def help_magnetometer_status(self):
-        print("This function returns whether the magnetometer is on/off. ")
-        print("Accepted values are: 'q'. ")
-    
     #Returns the status of all 3 H-bridges.     
     def do_bridge_status(self, arg):
         if not self.mock:
@@ -279,16 +259,6 @@ class HelmholtzShell(cmd.Cmd):
         print("2 = Bridge set to negative polarity. ")
         print("0 = Bridge is turned off. ")
         print("Accepted values are: 's'. ")
-    
-    #Returns the temperature of the magnetometer. 
-    def do_magnetometer_temp(self, arg):
-        if not self.mock:
-            print(self.arduino.get_magnetometer_temp())
-    
-    #Help message for magnetometer_temp. 
-    def help_magnetometer_temp(self):
-        print("This function returns the temperature of the magnetometer in Celsius. ")
-        print("Accepted values are: 't'. ")
     
     #Calibration function prototype
     def do_calibration(self, arg):
@@ -359,6 +329,23 @@ class HelmholtzShell(cmd.Cmd):
     def help_calibration(self): 
         print("Testing help message for the calibration function. This is a WIP.")                
                 
+    #Retrieve the meter's current properties. 
+    def do_meter_properties(self, arg):
+        if not self.mock:
+            self.meter.meter_properties()
+     
+    #Meter properties help message. 
+    def help_meter_properties(self):
+        print("This function lists out the magnetometer's current properties. Should be listed.\n")
+        print("The command for this function is 0x01. To run, just type 'meter_properties'. \n")
+               
+    #Retrieve user values that define the meter's behavior. 
+    def do_meter_values(self, arg):
+        if not self.mock:
+            self.meter.meter_value_settings()
+    
+    
+    
     
     #Closes program and exits. 
     def do_exit(self, arg):
@@ -367,13 +354,10 @@ class HelmholtzShell(cmd.Cmd):
         self.psu.set_output('Y', 0)
         self.psu.set_output('Z', 0)
         return True
+    
     #Help message for exit program.
     def help_exit(self):
         print("Type in exit to close the program ")
         
-    #Retrieve the meter's current properties. 
-    def do_meter_properties(self, arg):
-        if not self.mock:
-            self.meter.meter_properties()
-            #self.meter.send_command(0x01)
-            #self.meter.handle_meter_response()
+    
+    

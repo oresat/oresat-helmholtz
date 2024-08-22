@@ -171,42 +171,23 @@ class Arduino:
         '''str: turn off X H-bridge'''
         msg = self.create_command(ArduinoCommands.DEACTIVATE_X.value)
         return self.send_command(msg)
-
     	
     def deactivate_Y(self) -> str:
         '''str: turn off Y H-bridge'''
         msg = self.create_command(ArduinoCommands.DEACTIVATE_Y.value)
         return self.send_command(msg)
-	
-    
+	 
     def deactivate_Z(self) -> str:
         '''str: turn off Z H-bridge'''
         msg = self.create_command(ArduinoCommands.DEACTIVATE_Z.value)
         return self.send_command(msg)
-
-    
-    def get_magnetometer_reading(self) -> str:
-        '''str: return current magnetic field reading'''
-        msg = self.create_command(ArduinoCommands.MAGNETOMETER_READING.value)
-        return self.send_command(msg)	
-
-    
-    def get_magnetometer_status(self) -> str:
-        '''str: returns 0 if magnetometer not initialized. 1 otherwise.'''
-        msg = self.create_command(ArduinoCommands.MAGNETOMETER_STATUS.value)
-        return self.send_command(msg)
-
     
     def get_bridge_status(self) -> str: 
         '''str: data return off current status of each H-bridge'''
         msg = self.create_command(ArduinoCommands.H_BRIDGE_STATUS.value)
         return self.send_command(msg)
 	
-    
-    def get_magnetometer_temp(self) -> str:
-        '''str: requests the ambient temperature of magnetometer.'''
-        msg = self.create_command(ArduinoCommands.MAGNETOMETER_TEMP.value)
-        return self.send_command(msg)
+
 
 
 

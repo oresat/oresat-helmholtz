@@ -13,6 +13,7 @@ from enum import Enum
 class MagnetometerCommands(Enum):
     '''The following are the commands the sensor responds to through serial.'''
     ID_METER_PROP = 0x01 #See page 4 on the alphalab serial handbook for more information. 
+    ID_METER_SETT = 0x02 #See page 6 on the alphalab serial handbook for more information.
     
     #Add more commands here as we see fit. 
 
@@ -103,8 +104,12 @@ class Magnetometer:
         for key, value in parsed_data.items():
             print(f"{key}: {value}")
     
-    #Prototype meter command: ID_METER_PROP. 
+    #ID_METER_PROP (0x01). Returns the current meter's properties.  
     def meter_properties(self):
         self.send_command(MagnetometerCommands.ID_METER_PROP.value)
         self.handle_meter_response()
-        
+    
+    #ID_METER_SETT (0x02). Returns all user values that define desired behavior of the meter. 
+    def meter_value_settings(self):
+        self.send_command(MagnetometerCommands.ID_METER_SETT.value)
+        self.handle_meter_response()
