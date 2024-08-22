@@ -377,4 +377,6 @@ class HelmholtzShell(cmd.Cmd):
     #Retrieve the meter's current properties. 
     def do_meter_properties(self, arg):
         if not self.mock:
-            print(self.meter.meter_properties())
+            #print(self.meter.meter_properties())
+            self.meter.send_command(0x01)
+            self.meter.handle_meter_response()
