@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 
 #Main program. Objects declared here. Shell built. 
 parser = ArgumentParser()
-parser.add_argument('-l', '--arduino-location', help='Location to Arduino. ')
+parser.add_argument('-l', '--arduino-location', help='Location to Arduino. ') #1-1.2.2
 parser.add_argument('-s', '--meter-location', help='Location to Meter.') #1-1.2.3
 parser.add_argument('-m', '--mock', action = "store_true")
 args = parser.parse_args()

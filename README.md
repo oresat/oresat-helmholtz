@@ -17,12 +17,13 @@ MCECS BETA Project 2018
 
 ## To run again later
 `source .venv/bin/activate`
-`python main.py`
+`python3 main.py -l '1-1.2.2' -s '1-1.2.3'`
 
 ## Detecting ports for the buck converters and arduino on linux
 1. ls -la /sys/bus/usb/devices (to view all ports)
 2. Crosscheck what comes up before and after plugging in the cagebox
 3. Ports for the buck converters will look something like this: x-x.x.1', 'x-x.x.2', and 'x-x.x.3'
 4. In helmholtzcage/ZXY6005s.py file, look for the location variables, replace with the port locations that were discovered above for the converters
-5. Find location of the arduino - list ports again. It will look like x-x.x
-6. If running from a computer and not the Rasp Pi, use the command `python main.py -l x-x.x` where x-x.x is the port of the arduino
+5. Find location of the arduino and magnetometer - list ports again. It will look like x-x.x.x and will most likely be one less digit than the power converters.
+6. If the cage box is connected to the USB port on the back of the top row on the raspberry pi, the below line of code should work.
+7. Use the command `python3 main.py -l '1-1.2.2' -s '1-1.2.3'` where -l is the port for the arduino, and -s is the port for the magnetometer sensor.
