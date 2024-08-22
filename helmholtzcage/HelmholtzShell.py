@@ -375,6 +375,6 @@ class HelmholtzShell(cmd.Cmd):
     #Prototyping area. WIP first command for new alphalab meter. 
     
     #Retrieve the meter's current properties. 
-    def do_meter_properties(self):
+    def do_meter_properties(self, arg):
         if not self.mock:
             print(self.meter.meter_properties())
