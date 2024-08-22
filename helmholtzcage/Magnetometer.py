@@ -14,6 +14,7 @@ class MagnetometerCommands(Enum):
     '''The following are the commands the sensor responds to through serial.'''
     ID_METER_PROP = 0x01 #See page 4 on the alphalab serial handbook for more information. 
     ID_METER_SETT = 0x02 #See page 6 on the alphalab serial handbook for more information.
+    ID_METER_ADC_SETT = 0x1C #See page 7 on the alphalab serial handbook for more information.
     
     #Add more commands here as we see fit. 
 
@@ -113,3 +114,13 @@ class Magnetometer:
     def meter_value_settings(self):
         self.send_command(MagnetometerCommands.ID_METER_SETT.value)
         self.handle_meter_response()
+        
+    #ID_METER_ADC_SETT (0x1C). Returns a list of meter ADC setting that are pre-defined, user selectable, 
+    # configuration settings for the meter ADC(s).
+    def var_adc_settings(self):
+        self.send_command(MagnetometerCommands.ID_METER_ADC_SETT.value)
+        self.handle_meter_response()
+        
+    
+        
+    

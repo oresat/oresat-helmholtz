@@ -344,6 +344,15 @@ class HelmholtzShell(cmd.Cmd):
         if not self.mock:
             self.meter.meter_value_settings()
     
+    #Changable meter values help message. 
+    def help_meter_values(self):
+        print("This function returns the data values that can be changed by the user that define the meter's behavior. \n")
+        print("This function's command is 0x02")
+        
+    #VAR_ADC_SETT tag function for meters that have it. 
+    def do_var_tag(self, arg):
+        if not self.mock:
+            self.meter.var_adc_settings()
     
     
     
