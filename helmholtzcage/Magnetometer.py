@@ -113,7 +113,7 @@ class Magnetometer:
         self.parse_meter_response(full_response)
      
     #Parsing the data received from the meter.    
-    def parse_meter_response(response):
+    def parse_meter_response(self, response):
         properties = response.split(':')
         parsed_data = {}
         
