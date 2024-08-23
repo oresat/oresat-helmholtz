@@ -6,6 +6,7 @@
 #Notes: This file follows a similar structure to the ZXY6005s and Arduino python libraries. 
 
 import serial
+import struct
 import serial.tools.list_ports
 from enum import Enum
 
@@ -15,6 +16,7 @@ class MagnetometerCommands(Enum):
     ID_METER_PROP = 0x01 #See page 4 on the alphalab serial handbook for more information. 
     ID_METER_SETT = 0x02 #See page 6 on the alphalab serial handbook for more information.
     ID_METER_ADC_SETT = 0x1C #See page 7 on the alphalab serial handbook for more information.
+    STREAM_DATA = 0x03 #See page 8 on the alphalab serial handbook for more information. 
     
     #Add more commands here as we see fit. 
 
@@ -66,7 +68,7 @@ class Magnetometer:
         self.ser.write(bytearray(ack_command))
         print("Sent acknowledgement")
     
-    #Prototype function to handle meter's response.
+    #Prototype function to handle meter's response. (Used for commands that deal with chunks)
     def handle_meter_response(self):
         full_response = ""
         
@@ -104,7 +106,36 @@ class Magnetometer:
         #Display the parsed properties.
         for key, value in parsed_data.items():
             print(f"{key}: {value}")
-    
+            
+    #Prototype function to handle the streaming of data. 
+    def read_stream_data(self):
+        #Read the initial chunk of data.
+        stream_data = self.ser.read_until(b'\x08') #Read until the acknowledgment byte.
+        
+        #Remove the final acknowledgement byte from the stream data. 
+        if stream_data[-1] == 0x08:
+            stream_data = stream_data[:-1]
+            
+        #Determine the number of data points.
+        num_data_points = len(stream_data) // 6
+        
+        #Process each data point.
+        for i in range(num_data_points):
+            data_point = stream_data[i*6:(i+1)*6]
+            self.parse_data_point(data_point)
+        print("Stream data processed successfully.")
+        
+    #Prototype function to parse through each data point received. 
+    def parse_data_point(self, data_point):
+        #Convering the 6-byte data point into individual components.
+        #Assuming data_point is a bytearray or bytes object.
+        
+        config_info = (data_point[0] << 4) | (data_point[1] >> 4) #12 bits for configuration. 
+        sign_decimal_info = ((data_point[1] & 0x0F) << 4) | (data_point[2] >> 4) #4 bits for sign and decimal
+        actual_number = struct.unpack(">I", data_point[2:6])[0] & 0xFFFFFFFF #32 bits for the actual number.
+        
+        print(f"Config Info: {config_info}, Sign/Decimal Info: {sign_decimal_info}, Number: {actual_number}")
+                
     #ID_METER_PROP (0x01). Returns the current meter's properties.  
     def meter_properties(self):
         self.send_command(MagnetometerCommands.ID_METER_PROP.value)
@@ -121,6 +152,9 @@ class Magnetometer:
         self.send_command(MagnetometerCommands.ID_METER_ADC_SETT.value)
         self.handle_meter_response()
         
-    
+    #STREAM_DATA (0x03). Stream data function. (WIP)
+    def stream_data(self):
+        self.send_command(MagnetometerCommands.STREAM_DATA.value)
+        self.read_stream_data()
         
     

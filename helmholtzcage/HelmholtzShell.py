@@ -354,6 +354,10 @@ class HelmholtzShell(cmd.Cmd):
         if not self.mock:
             self.meter.var_adc_settings()
     
+    #Stream data from the meter. (WIP)
+    def do_stream(self, arg):
+        if not self.mock:
+            self.meter.stream_data()
     
     
     #Closes program and exits. 
