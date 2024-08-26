@@ -353,11 +353,27 @@ class HelmholtzShell(cmd.Cmd):
     def do_var_tag(self, arg):
         if not self.mock:
             self.meter.var_adc_settings()
+            
+    #VAR_ADC_SETT tag help function. 
+    def help_var(self):
+        print("This function only works on meters with the VAR tag. Returns nothing if the meter doesn't have it. \n")
     
     #Stream data from the meter. (WIP)
     def do_stream(self, arg):
         if not self.mock:
             self.meter.stream_data()
+    
+    #Stream data function help message. 
+    def help_stream(self):
+        print("This command returns the current magnetometer readings.")
+        print("To run this command, run 'stream'. \n")
+        print("READING FORMAT:\n")
+        print("X-AXIS READING: \n")
+        print("Y-AXIS READING: \n")
+        print("Z-AXIS READING: \n")
+        print("READING MAGNITUDE: \n")
+        
+        
     
     
     #Closes program and exits. 
