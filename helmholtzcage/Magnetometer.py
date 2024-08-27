@@ -129,12 +129,25 @@ class Magnetometer:
     def parse_data_point(self, data_point):
         #Convering the 6-byte data point into individual components.
         #Assuming data_point is a bytearray or bytes object.
-        
+        '''# new alternative below
         config_info = (data_point[0] << 4) | (data_point[1] >> 4) #12 bits for configuration. 
         sign_decimal_info = ((data_point[1] & 0x0F) << 4) | (data_point[2] >> 4) #4 bits for sign and decimal
         actual_number = struct.unpack(">I", data_point[2:6])[0] & 0xFFFFFFFF #32 bits for the actual number.
         
         print(f"Config Info: {config_info}, Sign/Decimal Info: {sign_decimal_info}, Number: {actual_number}")
+        '''
+
+        # FIXME : Test this code, then remove this comment when working
+        config_info = data_point[0]                             # config info we don't use yet
+        sign_decimal_info = data_point[1]                       # second byte tells sign and decimal place
+        sign = -1 if (sign_decimal_info & 0x08) else 1          # if 4th msb is positive, the value is negative
+        decimal_power = (sign_decimal_info & ~0xF8)             # 3 lsb denote power of 10 at decimal place
+
+        raw_value = struct.unpack(">I", data_point[2:6])[0] & 0xFFFFFFFF # 32 bits for unsigned integer value of the data point
+        value = (sign * raw_value) / (10.0 ** decimal_power)    # converts to signed float32
+        print("Config info: {:b}\nSign/Decimal: {:b}\nuInt Value: {}\nValue: {}".format(config_info, sign_decimal_info, raw_value, value))
+        return {'config' : config_info, 'sign' : sign, 'power' : decimal_power, 'raw_value' : raw_value, 'value' : value} 
+        
                 
     #ID_METER_PROP (0x01). Returns the current meter's properties.  
     def meter_properties(self):
