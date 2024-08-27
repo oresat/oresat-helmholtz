@@ -132,7 +132,9 @@ class Magnetometer:
             data_point = stream_data[i*6:(i+1)*6]
             bad = self.parse_data_point(data_point,point_dict[i])
             if bad == 0:
-                i = 0
+                print("parsing failed - bad data")
+                break
+                
         print("Stream data processed successfully.")
         
     #Prototype function to parse through each data point received. 
