@@ -145,7 +145,7 @@ class Magnetometer:
 
         raw_value = struct.unpack(">I", data_point[2:6])[0] & 0xFFFFFFFF # 32 bits for unsigned integer value of the data point
         value = (sign * raw_value) / (10.0 ** decimal_power)    # converts to signed float32
-        print("Config info: {:b}\nSign/Decimal: {:b}\nuInt Value: {}\nValue: {}".format(config_info, sign_decimal_info, raw_value, value))
+        print("Config info: {:b} Sign/Decimal: {:b} uInt Value: {} Value: {}".format(config_info, sign_decimal_info, raw_value, value))
         return {'config' : config_info, 'sign' : sign, 'power' : decimal_power, 'raw_value' : raw_value, 'value' : value} 
         
                 
