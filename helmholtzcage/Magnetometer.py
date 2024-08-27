@@ -119,16 +119,24 @@ class Magnetometer:
         #Determine the number of data points.
         num_data_points = len(stream_data) // 6
         
+        point_dict = {
+            0:"time",
+            1:"x",
+            2:"y",
+            3:"z",
+            4:"magnitude"
+        }
+
         #Process each data point.
         for i in range(num_data_points):
             data_point = stream_data[i*6:(i+1)*6]
-            bad = self.parse_data_point(data_point)
+            bad = self.parse_data_point(data_point,point_dict[i])
             if bad == 0:
                 i = 0
         print("Stream data processed successfully.")
         
     #Prototype function to parse through each data point received. 
-    def parse_data_point(self, data_point):
+    def parse_data_point(self, data_point, dict):
         #Convering the 6-byte data point into individual components.
         #Assuming data_point is a bytearray or bytes object.
         '''# new alternative below
@@ -150,7 +158,7 @@ class Magnetometer:
         value = (sign * raw_value) / (10.0 ** decimal_power)    # converts to signed float32
         if config_info == 0:
             return 0
-        print("Config info: {:b} Sign/Decimal: {:b} uInt Value: {} Value: {}".format(config_info, sign_decimal_info, raw_value, value))
+        print("Config info: {:b} Sign/Decimal: {:b} uInt Value: {} Value {}: {}".format(config_info, sign_decimal_info, raw_value, dict, value))
         return {'config' : config_info, 'sign' : sign, 'power' : decimal_power, 'raw_value' : raw_value, 'value' : value} 
         
                 
