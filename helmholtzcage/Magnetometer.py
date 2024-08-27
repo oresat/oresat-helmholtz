@@ -137,6 +137,7 @@ class Magnetometer:
         print(f"Config Info: {config_info}, Sign/Decimal Info: {sign_decimal_info}, Number: {actual_number}")
         '''
 
+        print("byte array", data_point)
         # FIXME : Test this code, then remove this comment when working
         config_info = data_point[0]                             # config info we don't use yet
         sign_decimal_info = data_point[1]                       # second byte tells sign and decimal place
