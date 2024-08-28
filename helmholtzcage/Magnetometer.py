@@ -160,8 +160,6 @@ class Magnetometer:
 
         raw_value = struct.unpack(">I", data_point[2:6])[0] & 0xFFFFFFFF # 32 bits for unsigned integer value of the data point
         value = (sign * raw_value) / (10.0 ** decimal_power)    # converts to signed float32
-        if config_info == 0:
-            return 0
         print("Config info: {:b} Sign/Decimal: {:b} uInt Value: {} Value {}: {}".format(config_info, sign_decimal_info, raw_value, dict, value))
         return {'config' : config_info, 'sign' : sign, 'power' : decimal_power, 'raw_value' : raw_value, 'value' : value} 
         
@@ -206,15 +204,15 @@ class Magnetometer:
                 sum_z += chunk[3]['value']
                 count += 1
             else:
-                print("Error. No data or timeout.")
+                print("Warning: bad data encountered.")
         
         #Now find the averages of all 3 axes.
-        if (count) :        
+        if (count) :
             x_avg = sum_x/count 
             y_avg = sum_y/count
             z_avg = sum_z/count
         else:
-            print("boo boo ;()")
+            print("boo boo ;(")
 
         print(x_avg)
         print(y_avg)
