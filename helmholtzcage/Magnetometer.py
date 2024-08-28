@@ -197,22 +197,24 @@ class Magnetometer:
         count = 0
         
         #Iterate and get 10 readings. 
-        iteration = 0
-        if iteration <= 10:
+        num_iterations = 10
+        for _ in range(num_iterations):
             chunk = self.stream_data() 
             if (chunk):
                 sum_x += chunk[1]['value']
                 sum_y += chunk[2]['value']
                 sum_z += chunk[3]['value']
                 count += 1
-
             else:
                 print("Error. No data or timeout.")
         
-        #Now find the averages of all 3 axes.        
-        x_avg = sum_x/count 
-        y_avg = sum_y/count
-        z_avg = sum_z/count
+        #Now find the averages of all 3 axes.
+        if (count) :        
+            x_avg = sum_x/count 
+            y_avg = sum_y/count
+            z_avg = sum_z/count
+        else:
+            print("boo boo ;()")
 
         print(x_avg)
         print(y_avg)
