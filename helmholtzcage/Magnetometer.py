@@ -126,16 +126,18 @@ class Magnetometer:
             3:"z",
             4:"magnitude"
         }
+        chunk = []
 
         #Process each data point.
         for i in range(num_data_points):
             data_point = stream_data[i*6:(i+1)*6]
-            bad = self.parse_data_point(data_point,point_dict[i])
-            if bad == 0:
+            data = self.parse_data_point(data_point,point_dict[i])
+            if data['config'] == 0:
                 print("parsing failed - bad data")
                 break
-                
+            chunk.append(data)
         print("Stream data processed successfully.")
+        return chunk
         
     #Prototype function to parse through each data point received. 
     def parse_data_point(self, data_point, dict):
@@ -185,4 +187,33 @@ class Magnetometer:
         self.send_command(MagnetometerCommands.STREAM_DATA.value)
         self.read_stream_data()
         
-    
+    #Prototype function to calculate the milligauss averages of all 3 axis using the STREAM function. (WIP)
+    def reading_avg(self):
+        
+        #Variables needed. 
+        sum_x = 0
+        sum_y = 0
+        sum_z = 0
+        count = 0
+        
+        #Iterate and get 10 readings. 
+        iteration = 0
+        if iteration <= 10:
+            if (chunk):
+                chunk = self.stream_data() 
+                sum_x += chunk[1]['value']
+                sum_y += chunk[2]['value']
+                sum_z += chunk[3]['value']
+                count += 1
+
+            else:
+                print("Error. No data or timeout.")
+        
+        #Now find the averages of all 3 axes.        
+        x_avg = sum_x/count 
+        y_avg = sum_y/count
+        z_avg = sum_z/count
+
+        print(x_avg)
+        print(y_avg)
+        print(z_avg)            

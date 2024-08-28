@@ -323,7 +323,6 @@ class HelmholtzShell(cmd.Cmd):
                         print("current val +", current_val)
                         
             #Next steps: sci pi on the .csv and find line of best fit (linear) between magnitude of Mag. Field and Current
-            #
     
     #Calibration function help message.                 
     def help_calibration(self): 
