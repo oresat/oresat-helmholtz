@@ -355,7 +355,7 @@ class HelmholtzShell(cmd.Cmd):
             self.meter.var_adc_settings()
             
     #VAR_ADC_SETT tag help function. 
-    def help_var(self):
+    def help_var_tag(self):
         print("This function only works on meters with the VAR tag. Returns nothing if the meter doesn't have it. \n")
     
     #Stream data from the meter. (WIP)
@@ -373,9 +373,6 @@ class HelmholtzShell(cmd.Cmd):
         print("Z-AXIS READING: \n")
         print("READING MAGNITUDE: \n")
         
-        
-    
-    
     #Closes program and exits. 
     def do_exit(self, arg):
         print("Disabling power supplies.")
