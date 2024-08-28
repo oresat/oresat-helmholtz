@@ -372,6 +372,12 @@ class HelmholtzShell(cmd.Cmd):
         print("Z-AXIS READING: \n")
         print("READING MAGNITUDE: \n")
         
+    #Reading the averages of all 3 axes mag. field readings. 
+    def do_average(self, arg):
+        if not self.mock:
+            self.meter.reading_avg()
+            
+        
     #Closes program and exits. 
     def do_exit(self, arg):
         print("Disabling power supplies.")
