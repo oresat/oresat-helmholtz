@@ -192,13 +192,13 @@ class Magnetometer:
         sum_x = 0
         sum_y = 0
         sum_z = 0
-        #count = 0
+        count = 0
         
         #Iterate and get 10 readings. 
         num_iterations = 10
         for _ in range(num_iterations):
             chunk = self.stream_data() 
-            if (chunk != 0):
+            if (chunk != []):
                 sum_x += chunk[1]['value']
                 print(sum_x)                
                 sum_y += chunk[2]['value']
@@ -213,11 +213,11 @@ class Magnetometer:
         x_avg = 0
         y_avg = 0
         z_avg = 0
-        #if (count):
-        x_avg += sum_x/num_iterations 
-        y_avg += sum_y/num_iterations
-        z_avg += sum_z/num_iterations
-        #else:
+        if (count):
+            x_avg += sum_x/num_iterations 
+            y_avg += sum_y/num_iterations
+            z_avg += sum_z/num_iterations
+        else:
             #print("boo boo ;(")
 
         print(x_avg)
