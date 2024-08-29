@@ -2,6 +2,8 @@
 #Author(s): Gustavo A. Cotom
 #This file contains the utility functions needed to calibrate the PSAS Helmholtz Cage. 
 
+import matplotlib.pyplot as plt
+from scipy import stats
 from .Magnetometer import Magnetometer, MagnetometerCommands
 
 class Utilities:
@@ -49,7 +51,28 @@ class Utilities:
         negated_x = 0 - x_avg 
         negated_y = 0 - y_avg
         negated_z = 0 - z_avg
+        negate = []
+        negate.append(x_avg, y_avg, z_avg)
+        return negate
         
-        print(f"Negated x_axis average:", negated_x)
-        print(f"Negated y axis average:", negated_y)
-        print(f"Negated z axis average:", negated_z)
+    
+    #Prototype function for getting the currents needed to match to earth's magnetic field. 
+    def magnetic_to_current_zero(self):
+        
+        #This function to zero out the field in the cage utilizes the negated averages of each cage axis. 
+        
+        #First, get the y-value (y = desired_mag_field - mag_averages)
+        data = self.reading_avg() #Call the reading average function and store the data.
+        adjusted_field_x = 0 - data[0]
+        adjusted_field_y = 0 - data[1]
+        adjusted_field_z = 0 - data[2]
+        
+        print(f"Negated x_axis average:", adjusted_field_x)
+        print(f"Negated y axis average:", adjusted_field_y)
+        print(f"Negated z axis average:", adjusted_field_z)
+        
+        
+        currents = [-1000, -900, -800, -700, -600, -500, -400, -300, -200, -100, 0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+        
+        
+        
