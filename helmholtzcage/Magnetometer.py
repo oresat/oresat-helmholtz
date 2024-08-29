@@ -197,7 +197,7 @@ class Magnetometer:
         #Iterate and get 10 readings. 
         num_iterations = 10
         for _ in range(num_iterations):
-            chunk = self.read_stream_data() 
+            chunk = self.stream_data() 
             if (chunk != 0):
                 sum_x += chunk[1]['value']
                 print(sum_x)                
