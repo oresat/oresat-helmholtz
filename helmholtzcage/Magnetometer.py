@@ -200,8 +200,11 @@ class Magnetometer:
             chunk = self.stream_data() 
             if (chunk):
                 sum_x += chunk[1]['value']
+                print(sum_x)                
                 sum_y += chunk[2]['value']
+                print(sum_y)
                 sum_z += chunk[3]['value']
+                print(sum_z)
                 #count += 1
             else:
                 print("Warning: bad data encountered.")
