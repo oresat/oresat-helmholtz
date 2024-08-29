@@ -192,7 +192,7 @@ class Magnetometer:
         sum_x = 0
         sum_y = 0
         sum_z = 0
-        count = 0
+        #count = 0
         
         #Iterate and get 10 readings. 
         num_iterations = 10
@@ -202,7 +202,7 @@ class Magnetometer:
                 sum_x += chunk[1]['value']
                 sum_y += chunk[2]['value']
                 sum_z += chunk[3]['value']
-                count += 1
+                #count += 1
             else:
                 print("Warning: bad data encountered.")
         
@@ -210,12 +210,12 @@ class Magnetometer:
         x_avg = 0
         y_avg = 0
         z_avg = 0
-        if (count) :
-            x_avg += sum_x/count 
-            y_avg += sum_y/count
-            z_avg += sum_z/count
-        else:
-            print("boo boo ;(")
+        #if (count):
+        x_avg += sum_x/num_iterations 
+        y_avg += sum_y/num_iterations
+        z_avg += sum_z/num_iterations
+        #else:
+            #print("boo boo ;(")
 
         print(x_avg)
         print(y_avg)
