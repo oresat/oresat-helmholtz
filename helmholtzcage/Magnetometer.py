@@ -135,8 +135,10 @@ class Magnetometer:
             if data['config'] == 0:
                 print("parsing failed - bad data")
                 #break
+                data = 0
+            else:
+                print("Stream data processed successfully.")
             chunk.append(data)
-        print("Stream data processed successfully.")
         return chunk
         
     #Prototype function to parse through each data point received. 
