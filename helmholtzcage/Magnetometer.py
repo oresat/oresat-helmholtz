@@ -136,7 +136,7 @@ class Magnetometer:
                 print("parsing failed - bad data")
                 #break
                 #data = 0
-                return 0
+                return []
             else:
                 print("Stream data processed successfully.")
             chunk.append(data)
@@ -202,7 +202,7 @@ class Magnetometer:
         num_iterations = 10
         for _ in range(num_iterations):
             chunk = self.stream_data() 
-            if (chunk != 0):
+            if (chunk != []):
                 sum_x += chunk[1]['value']
                 print("sum_x:",sum_x)                
                 sum_y += chunk[2]['value']
