@@ -219,4 +219,13 @@ class Magnetometer:
 
         print("x avg:", x_avg)
         print("y avg:", y_avg)
-        print("z avg:", z_avg)            
+        print("z avg:", z_avg)           
+        
+        #Negated. 
+        negated_x = 0 - x_avg 
+        negated_y = 0 - y_avg
+        negated_z = 0 - z_avg
+        
+        print(f"Negated x_axis average:", negated_x)
+        print(f"Negated y axis average:", negated_y)
+        print(f"Negated z axis average:", negated_z)
