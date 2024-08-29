@@ -5,6 +5,7 @@ from argparse import ArgumentParser
 from .Arduino import Arduino, ArduinoCommands
 from .ZXY6005s import ZXY6005s, ZXY6005sCommands
 from .Magnetometer import Magnetometer, MagnetometerCommands
+from .utils import Utilities
 
 class HelmholtzShell(cmd.Cmd):
     intro = "Welcome to the Helmholtz Cage Shell! Type 'help' to list commands \n"
@@ -12,12 +13,13 @@ class HelmholtzShell(cmd.Cmd):
     file = None
     
     #Main objection construction for power supply and arduino libraries.
-    def __init__(self, arduino: Arduino, psu: ZXY6005s, meter: Magnetometer, mock:bool):
+    def __init__(self, arduino: Arduino, psu: ZXY6005s, meter: Magnetometer, utility: Utilities, mock:bool):
         super().__init__()
         self.arduino = arduino
         self.psu = psu
         self.mock = mock
         self.meter = meter
+        self.utility = utility
     
     #Takes device name and returns model.
     def do_model(self, arg):
@@ -375,7 +377,7 @@ class HelmholtzShell(cmd.Cmd):
     #Reading the averages of all 3 axes mag. field readings. 
     def do_average(self, arg):
         if not self.mock:
-            self.meter.reading_avg()
+            self.utility.reading_avg()
             
         
     #Closes program and exits. 
