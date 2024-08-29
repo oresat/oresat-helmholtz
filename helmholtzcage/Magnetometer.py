@@ -134,9 +134,7 @@ class Magnetometer:
             data = self.parse_data_point(data_point,point_dict[i])
             if data['config'] == 0:
                 print("parsing failed - bad data")
-                #break
-                #data = 0
-                return []
+                break
             else:
                 print("Stream data processed successfully.")
             chunk.append(data)
