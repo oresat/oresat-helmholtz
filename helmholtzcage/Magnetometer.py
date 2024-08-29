@@ -153,7 +153,7 @@ class Magnetometer:
         print(f"Config Info: {config_info}, Sign/Decimal Info: {sign_decimal_info}, Number: {actual_number}")
         '''
 
-        print("byte array", data_point)
+        #print("byte array", data_point)
         # FIXME : Test this code, then remove this comment when working
         config_info = data_point[0]                             # config info we don't use yet
         sign_decimal_info = data_point[1]                       # second byte tells sign and decimal place
@@ -163,6 +163,7 @@ class Magnetometer:
         raw_value = struct.unpack(">I", data_point[2:6])[0] & 0xFFFFFFFF # 32 bits for unsigned integer value of the data point
         value = (sign * raw_value) / (10.0 ** decimal_power)    # converts to signed float32
         print("Config info: {:b} Sign/Decimal: {:b} uInt Value: {} Value {}: {}".format(config_info, sign_decimal_info, raw_value, dict, value))
+        print()
         return {'config' : config_info, 'sign' : sign, 'power' : decimal_power, 'raw_value' : raw_value, 'value' : value} 
         
                 
@@ -202,11 +203,11 @@ class Magnetometer:
             chunk = self.stream_data() 
             if (chunk != []):
                 sum_x += chunk[1]['value']
-                print(sum_x)                
+                print("sum_x:",sum_x)                
                 sum_y += chunk[2]['value']
-                print(sum_y)
+                print("sum_y:", sum_y)
                 sum_z += chunk[3]['value']
-                print(sum_z)
+                print("sum_z:", sum_z)
                 #count += 1
             else:
                 print("Warning: bad data encountered.")
