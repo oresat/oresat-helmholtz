@@ -1,4 +1,4 @@
-from helmholtzcage import Arduino, HelmholtzShell, ZXY6005s, Magnetometer
+from helmholtzcage import Arduino, HelmholtzShell, ZXY6005s, Magnetometer, utils
 from argparse import ArgumentParser
 
 #Main program. Objects declared here. Shell built. 
@@ -12,12 +12,14 @@ if args.mock:
     arduino = None
     psu = None
     meter = None
+    utils = None
 else:
     arduino = Arduino(args.arduino_location)
     psu = ZXY6005s()
     meter = Magnetometer.Magnetometer(args.meter_location)
+    utils = utils()
 
-shell = HelmholtzShell(arduino, psu, meter, args.mock)
+shell = HelmholtzShell(arduino, psu, meter, utils, args.mock)
 for i in 'xyz':
     shell.do_voltage(i + " 700")
     shell.do_current_limit(i + " 1000")
