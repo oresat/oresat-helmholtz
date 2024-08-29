@@ -187,7 +187,7 @@ class Magnetometer:
     #STREAM_DATA (0x03). Stream data function. (WIP)
     def stream_data(self):
         self.send_command(MagnetometerCommands.STREAM_DATA.value)
-        self.read_stream_data()
+        return self.read_stream_data()
         
     #Prototype function to calculate the milligauss averages of all 3 axis using the STREAM function. (WIP)
     def reading_avg(self):
