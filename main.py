@@ -12,14 +12,14 @@ if args.mock:
     arduino = None
     psu = None
     meter = None
-    utils = None
+    utility = None
 else:
     arduino = Arduino(args.arduino_location)
     psu = ZXY6005s()
     meter = Magnetometer.Magnetometer(args.meter_location)
-    utils = utils.Utilities()
+    utility = utils.Utilities(meter)
 
-shell = HelmholtzShell(arduino, psu, meter, utils, args.mock)
+shell = HelmholtzShell(arduino, psu, meter, utility, args.mock)
 for i in 'xyz':
     shell.do_voltage(i + " 700")
     shell.do_current_limit(i + " 1000")
