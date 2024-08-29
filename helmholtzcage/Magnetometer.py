@@ -207,6 +207,9 @@ class Magnetometer:
                 print("Warning: bad data encountered.")
         
         #Now find the averages of all 3 axes.
+        x_avg = 0
+        y_avg = 0
+        z_avg = 0
         if (count) :
             x_avg = sum_x/count 
             y_avg = sum_y/count
