@@ -218,7 +218,7 @@ class Magnetometer:
             y_avg += sum_y/num_iterations
             z_avg += sum_z/num_iterations
         else:
-            #print("boo boo ;(")
+            print("boo boo ;(")
 
         print(x_avg)
         print(y_avg)
