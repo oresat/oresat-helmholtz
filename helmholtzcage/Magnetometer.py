@@ -211,9 +211,9 @@ class Magnetometer:
         y_avg = 0
         z_avg = 0
         if (count) :
-            x_avg = sum_x/count 
-            y_avg = sum_y/count
-            z_avg = sum_z/count
+            x_avg += sum_x/count 
+            y_avg += sum_y/count
+            z_avg += sum_z/count
         else:
             print("boo boo ;(")
 
