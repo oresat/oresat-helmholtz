@@ -118,7 +118,7 @@ class Utilities:
 
         # updating PSUs
         for i, dev in enumerate(['X', 'Y', 'Z']):
-            self.psu.set_current_limit(dev, int(abs(out_current[i]))i)
+            self.psu.set_current_limit(dev, int(abs(out_current[i])))
 
         # powering up PSUs
         for dev in ['X', 'Y', 'Z']:
