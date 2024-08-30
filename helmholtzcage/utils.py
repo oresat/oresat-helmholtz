@@ -79,7 +79,7 @@ class Utilities:
        slope = 1.23
        y_int = 28.3
        out_curr_vec = np.array(raw_currents)
-       out_curr_vec = (out_curr_vec + 28.3) // 1.23
+       out_curr_vec = (out_curr_vec - y_int) // slope
        return out_curr_vec
 
     def mag_to_current(self, raw_mag, ambient_mag):
@@ -94,11 +94,12 @@ class Utilities:
            out_mag = (raw_mag - ambient_mag) // xyz_slope
            return out_mag
     
-    def set_field_vector(self, *target):
+    def set_field_vector(self, target):
         # Attempts to set magnetic field in cage to the specified vector, assuming zero if argument is left empty
+        print(target)
         target = np.array(target)
         out_field = np.array([0, 0, 0])
-        out_field += target[:2]           # sets output vector to xyz targets from arguments
+        outfield = out_field + target[:2]          # sets output vector to xyz targets from arguments
         print("Setting magnetic field to target vector : {}, {}, {}".format(*out_field))
 
         # calculating current settings

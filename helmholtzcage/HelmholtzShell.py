@@ -382,7 +382,7 @@ class HelmholtzShell(cmd.Cmd):
     def do_set_field(self, arg):
         # testing
         if not self.mock:
-            self.utility.set_field_vector(*arg) 
+            self.utility.set_field_vector(arg) 
 
     def help_set_field(self):
         # testing!
