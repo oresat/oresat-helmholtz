@@ -4,6 +4,7 @@
 
 import matplotlib.pyplot as plt
 from scipy import stats
+import numpy as np
 from .Magnetometer import Magnetometer, MagnetometerCommands
 
 class Utilities:
@@ -70,9 +71,28 @@ class Utilities:
         print(f"Negated x_axis average:", adjusted_field_x)
         print(f"Negated y axis average:", adjusted_field_y)
         print(f"Negated z axis average:", adjusted_field_z)
+        # currents = [-1000, -900, -800, -700, -600, -500, -400, -300, -200, -100, 0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+
+        ambient_mag = np.array([adjusted_feild_x, adjusted_field_y, adjusted_field_z])
+        return ambient_mag
         
-        
-        currents = [-1000, -900, -800, -700, -600, -500, -400, -300, -200, -100, 0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
-        
-        
-        
+    def to_output_current(self, *raw_currents):
+       # Maps theoretical current value to an output current to adjust for power supply errors
+       slope = 1.23
+       y_int = 28.3
+       out_curr_vec = np.array(raw_currents)
+       out_curr_vec = (out_curr_vec + 28.3) // 1.23
+       return out_curr_vec
+
+    def to_output_mag(self, raw_mag, ambient_mag):
+       # Adjusts  magnetic field vector for output errors
+       if len(raw_mag) < 3:
+           print("Error: Magnetic field vector must have length 3, got {}".format(len(raw_mag)))
+           return np.array([0, 0, 0])
+       else:
+           xyz_slope = np.array([-1.27, 1.27, -1.1])
+           raw_mag = np.array(raw_mag)
+           ambient_mag = np.array(ambient_mag)
+           out_mag = (raw_mag - ambient_mag) // xyz_slope
+           return out_mag
+
