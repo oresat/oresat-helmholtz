@@ -381,8 +381,14 @@ class HelmholtzShell(cmd.Cmd):
 
     def do_set_field(self, arg):
         # testing
+        args = arg.split(" ")
+        vals = []
+        for val in args:
+            try:
+                vals.append(int(val))
+            except: ValueError
         if not self.mock:
-            self.utility.set_field_vector(arg) 
+            self.utility.set_field_vector(vals) 
 
     def help_set_field(self):
         # testing!
