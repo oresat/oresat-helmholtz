@@ -99,7 +99,7 @@ class Utilities:
         print(target)
         target = np.array(target)
         out_field = np.array([0, 0, 0])
-        outfield = out_field + target[:2]          # sets output vector to xyz targets from arguments
+        outfield = out_field + target          # sets output vector to xyz targets from arguments
         print("Setting magnetic field to target vector : {}, {}, {}".format(*out_field))
 
         # calculating current settings
