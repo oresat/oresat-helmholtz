@@ -378,7 +378,17 @@ class HelmholtzShell(cmd.Cmd):
     def do_average(self, arg):
         if not self.mock:
             self.utility.reading_avg()
-            
+
+    def do_set_field(self, arg):
+        # testing
+        if not self.mock:
+            self.utility.set_field_vector(*arg) 
+
+    def help_set_field(self):
+        # testing!
+        print("This command sets and outputs a magnetic field vector")
+        print("Arguments are integers separated by spaces")
+        print("Eg. 10 20 30 attempts to form X:10 Y:20 Z:30")
         
     #Closes program and exits. 
     def do_exit(self, arg):
