@@ -96,9 +96,7 @@ class Utilities:
     
     def set_field_vector(self, target):
         # Attempts to set magnetic field in cage to the specified vector, assuming zero if argument is left empty
-        target = np.array(target)
-        out_field = np.array([0, 0, 0])
-        outfield = target          # sets output vector to xyz targets from arguments
+        out_field = np.array(target)          # xyz targets from arguments
         print("Setting magnetic field to target vector : {}, {}, {}".format(*out_field))
 
         # calculating current settings
