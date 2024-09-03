@@ -321,6 +321,23 @@ class HelmholtzShell(cmd.Cmd):
         if not self.mock:
             self.utility.reading_avg()
             
+    #Prototype function. 
+    def do_set_field(self, arg):
+        args = arg.split(" ")
+        vals = []
+        for val in args:
+            try:
+                vals.append(int(val))
+            except: ValueError
+            self.utility.set_field_vector(vals)
+            
+    #Prototype help message.
+    def help_set_field(self):
+        #testing!
+        print("This command sets and outputs a magnetic field vector.")
+        print("Arguments are integers seperate by spaces")
+        print("Eg. 10 20 30 attempts to form X:10 Y:20 Z:30")
+            
     #Closes program and exits. 
     def do_exit(self, arg):
         print("Disabling power supplies.")

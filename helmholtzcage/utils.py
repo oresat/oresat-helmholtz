@@ -1,5 +1,5 @@
 #Utils.py library
-#Author(s): Gustavo A. Cotom
+#Author(s): Gustavo A. Cotom, Emily Snodgrass, Daniel Monahan
 #This file contains the utility functions needed to calibrate the PSAS Helmholtz Cage. 
 
 import matplotlib.pyplot as plt
@@ -65,7 +65,7 @@ class Utilities:
         negate.append(x_avg, y_avg, z_avg)
         return negate
         
-    
+    '''
     #Prototype function for getting the currents needed to match to earth's magnetic field. 
     def magnetic_to_current_zero(self):
         
@@ -84,17 +84,18 @@ class Utilities:
 
         ambient_mag = np.array([adjusted_field_x, adjusted_field_y, adjusted_field_z])
         return ambient_mag
+    '''
         
     def to_output_current(self, *raw_currents):
        # Maps theoretical current value to an output current to adjust for power supply errors
        slope = 1.23
        y_int = 28.3
        out_curr_vec = np.array(raw_currents)
-       out_curr_vec = (out_curr_vec + 28.3) // 1.23
+       out_curr_vec = (out_curr_vec - y_int) // slope
        return out_curr_vec
 
     def to_output_mag(self, raw_mag, ambient_mag):
-       # Adjusts  magnetic field vector for output errors
+       # Adjusts magnetic field vector for output errors
        if len(raw_mag) < 3:
            print("Error: Magnetic field vector must have length 3, got {}".format(len(raw_mag)))
            return np.array([0, 0, 0])
@@ -104,6 +105,49 @@ class Utilities:
            ambient_mag = np.array(ambient_mag)
            out_mag = (raw_mag - ambient_mag) // xyz_slope
            return out_mag
+    
+    def set_field_vector(self, target):
+        #Attempts to set magnetic field in cage to the specified vector, assuming zero if argument is left empty.
+        print(target)
+        target = np.array(target)
+        out_field = np.array([0, 0, 0])
+        outfield = out_field + target                  #sets output to xyz targets from arguments
+        print("Setting magnetic field to target vector : {}, {}, {}".format(*out_field))
+        
+        
+        #calculating current settings
+        ambient_field = self.reading_avg()
+        target_current = self.to_output_mag(out_field, ambient_field)
+        out_current = self.to_output_current(*target_current)
+        
+        if (out_current.min() < -800 or out_current.max() > 800):
+            print("output currents are out of range!!\ncancelling output")
+            return -1
+        
+        #updating H-Bridges
+        self.arduino.set_positive_X if out_current[0] > 0 else self.arduino.set_negative_X
+        self.arduino.set_positive_Y if out_current[1] > 0 else self.arduino.set_negative_Y
+        self.arduino.set_positive_Z if out_current[2] > 0 else self.arduino.set_negative_Z
+        
+        #updating PSUs
+        for i, dev in enumerate(['X', 'Y', 'Z']):
+            self.psu.set_current_limit(dev, int(abs(out_current[i]))) 
+        
+        #powering up PSUs
+        for dev in ['X', 'Y', 'Z']:
+            self.psu.set_output(dev, int[1])
+            
+        return 0
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
        
     def calibration(self):
         #Current values.
