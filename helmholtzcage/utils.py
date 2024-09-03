@@ -130,7 +130,7 @@ class Utilities:
         
         #powering up PSUs
         for dev in ['X', 'Y', 'Z']:
-            self.psu.set_output(dev, int[1])
+            self.psu.set_output(dev, int(1))
             
         return 0
 
