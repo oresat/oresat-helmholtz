@@ -263,7 +263,7 @@ class HelmholtzShell(cmd.Cmd):
     #Calibration function prototype
     def do_calibration(self, arg):
         if not self.mock:
-            Utilities.calibration()
+            Utilities.calibration(self)
             self.psu.set_output('X', 0)
             self.psu.set_output('Y', 0)
             self.psu.set_output('Z', 0)
