@@ -99,7 +99,6 @@ class Utilities:
     def set_field_vector(self, target):
         # Attempts to set magnetic field in cage to the specified vector, assuming zero if argument is left empty
         out_field = np.array(target)          # xyz targets from arguments
-        print("Setting magnetic field to target vector : {}, {}, {}".format(*out_field))
 
         # calculating current settings
         ambient_field = self.reading_avg()
@@ -109,6 +108,7 @@ class Utilities:
         if (out_current.min() < -800 or out_current.max() > 800):
             print("output currents are out of range!!\ncancelling output")
             return -1
+        print("Setting magnetic field to target vector : {}, {}, {}".format(*out_field))
 
         # updating H-Bridges
         self.arduino.set_positive_X() if out_current[0] > 0 else self.arduino.set_negative_X()
