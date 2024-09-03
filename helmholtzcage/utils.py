@@ -18,7 +18,7 @@ class Utilities:
         self.arduino = arduino
     
     def convert_amp_val(self, val):
-        #accounts for inconsistencies in the power converters by adjusting an amperage by a conversion factor
+        #accounts for inconsistencies in the power converters by adjusting an amperage using a conversion factor
         final_val =  int((val-28.3)/1.23)
         if final_val < 0:
             final_val = 0
@@ -31,7 +31,6 @@ class Utilities:
         sum_x = 0
         sum_y = 0
         sum_z = 0
-        count = 0
         
         #Iterate and get 10 readings. 
         num_iterations = 10
@@ -138,7 +137,7 @@ class Utilities:
             
             #Iterating starting at -1 amps to 0 amps. 
             for current_val in range(max_current, min_current, -step):
-                current_val = self.convert_amp_val(current_val)#int((current_val-28.3)/1.23)
+                current_val = self.convert_amp_val(current_val)
                 self.psu.set_current_limit(i, current_val)
                 current_val = self.psu.return_current(i)
                 print("current val -", current_val)
@@ -155,8 +154,11 @@ class Utilities:
             
             #Iterating starting at 0 amps to 1 amps. 
             for current_val in range(min_current, max_current + step, step):
-                current_val = self.convert_amp_val(current_val)#int((current_val-28.3)/1.23)
+                current_val = self.convert_amp_val(current_val)
                 self.psu.set_current_limit(i, current_val)
                 current_val = self.psu.return_current(i)
                 print("current val +", current_val)
 
+            self.psu.set_output('X', 0)
+            self.psu.set_output('Y', 0)
+            self.psu.set_output('Z', 0)

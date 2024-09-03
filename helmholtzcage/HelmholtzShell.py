@@ -108,7 +108,6 @@ class HelmholtzShell(cmd.Cmd):
             return
         if not self.mock:
             value = Utilities.convert_amp_val(value)
-            #value = int((value-28.3)/1.23)
             print(self.psu.set_current_limit(arg[0].upper(), value))
     
     #Help message for current_limit function.
