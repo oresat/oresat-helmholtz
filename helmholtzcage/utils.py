@@ -112,9 +112,9 @@ class Utilities:
             return -1
 
         # updating H-Bridges
-        self.arduino.set_positive_X if out_current[0] > 0 else self.arduino.set_negative_X
-        self.arduino.set_positive_Y if out_current[1] > 0 else self.arduino.set_negative_Y
-        self.arduino.set_positive_Z if out_current[2] > 0 else self.arduino.set_negative_Z
+        self.arduino.set_positive_X() if out_current[0] > 0 else self.arduino.set_negative_X()
+        self.arduino.set_positive_Y() if out_current[1] > 0 else self.arduino.set_negative_Y()
+        self.arduino.set_positive_Z() if out_current[2] > 0 else self.arduino.set_negative_Z()
 
         # updating PSUs
         for i, dev in enumerate(['X', 'Y', 'Z']):
