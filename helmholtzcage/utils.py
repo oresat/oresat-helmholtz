@@ -32,11 +32,11 @@ class Utilities:
             chunk = self.meter.stream_data() 
             if (chunk != []):
                 sum_x += chunk[1]['value']
-                print("sum_x:",sum_x)                
+                # print("sum_x:",sum_x)                
                 sum_y += chunk[2]['value']
-                print("sum_y:", sum_y)
+                # print("sum_y:", sum_y)
                 sum_z += chunk[3]['value']
-                print("sum_z:", sum_z)
+                # print("sum_z:", sum_z)
                 count += 1
             else:
                 print("Warning: bad data encountered.")
@@ -96,10 +96,9 @@ class Utilities:
     
     def set_field_vector(self, target):
         # Attempts to set magnetic field in cage to the specified vector, assuming zero if argument is left empty
-        print(target)
         target = np.array(target)
         out_field = np.array([0, 0, 0])
-        outfield = out_field + target          # sets output vector to xyz targets from arguments
+        outfield = target          # sets output vector to xyz targets from arguments
         print("Setting magnetic field to target vector : {}, {}, {}".format(*out_field))
 
         # calculating current settings
