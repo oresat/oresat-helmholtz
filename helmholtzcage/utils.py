@@ -57,13 +57,8 @@ class Utilities:
         print("y avg:", y_avg)
         print("z avg:", z_avg)           
         
-        #Negated. 
-        negated_x = 0 - x_avg 
-        negated_y = 0 - y_avg
-        negated_z = 0 - z_avg
-        negate = []
-        negate.append(x_avg, y_avg, z_avg)
-        return negate
+        mag_readings = np.array([x_avg, y_avg, z_avg])
+        return mag_readings
         
     '''
     #Prototype function for getting the currents needed to match to earth's magnetic field. 
