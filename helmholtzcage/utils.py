@@ -158,7 +158,3 @@ class Utilities:
                 self.psu.set_current_limit(i, current_val)
                 current_val = self.psu.return_current(i)
                 print("current val +", current_val)
-
-            self.psu.set_output('X', 0)
-            self.psu.set_output('Y', 0)
-            self.psu.set_output('Z', 0)
