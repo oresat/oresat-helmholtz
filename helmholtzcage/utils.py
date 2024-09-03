@@ -6,14 +6,24 @@ import matplotlib.pyplot as plt
 from scipy import stats
 import numpy as np
 from .Magnetometer import Magnetometer, MagnetometerCommands
+from .ZXY6005s import ZXY6005s, ZXY6005sCommands
+from .Arduino import Arduino, ArduinoCommands
 
 class Utilities:
     #Class utilities constructor.
-    def __init__(self, meter: Magnetometer):
+    def __init__(self, meter: Magnetometer, psu:ZXY6005s, arduino:Arduino):
         super().__init__()
         self.meter = meter
-        pass
+        self.psu = psu
+        self.arduino = arduino
     
+    def convert_amp_val(self, val):
+        #accounts for inconsistencies in the power converters by adjusting an amperage by a conversion factor
+        final_val =  int((val-28.3)/1.23)
+        if final_val < 0:
+            final_val = 0
+        return final_val
+
     ##Prototype function to calculate the milligauss averages of all 3 axis using the STREAM function. (WIP)
     def reading_avg(self):
         
@@ -73,7 +83,7 @@ class Utilities:
         print(f"Negated z axis average:", adjusted_field_z)
         # currents = [-1000, -900, -800, -700, -600, -500, -400, -300, -200, -100, 0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 
-        ambient_mag = np.array([adjusted_feild_x, adjusted_field_y, adjusted_field_z])
+        ambient_mag = np.array([adjusted_field_x, adjusted_field_y, adjusted_field_z])
         return ambient_mag
         
     def to_output_current(self, *raw_currents):
@@ -95,4 +105,58 @@ class Utilities:
            ambient_mag = np.array(ambient_mag)
            out_mag = (raw_mag - ambient_mag) // xyz_slope
            return out_mag
+       
+    def calibration(self):
+        #Current values.
+        max_current = 1000
+        min_current = 0 
+        step = 100
+        
+        #Opening and declaring headers for the CSV file.
+        # with open("cage_cal.csv", "w") as new_file:
+        #     fieldnames = ['Current (A)', 'Magnetic Field X (T)', 'Magnetic Field Y (T)', 'Magnetic Field Z (T)']
+        #     csv_writer= csv.DictWriter(new_file, fieldnames = fieldnames, delimiter='\t')
+        #     csv_writer.writeheader()
+                        
+        for i in 'XYZ':
+            #Making sure all power supplies are off by default.
+            self.psu.set_output('X', 0)
+            self.psu.set_output('Y', 0)
+            self.psu.set_output('Z', 0)
+            
+            self.psu.set_output(i, 1)
+
+            #Setting X, Y and Z bridges to negative polarity.
+            if i == 'X': 
+                self.arduino.set_negative_X()
+            
+            elif i == 'Y': 
+                self.arduino.set_negative_Y()
+                
+            elif i == 'Z': 
+                self.arduino.set_negative_Z()
+            
+            #Iterating starting at -1 amps to 0 amps. 
+            for current_val in range(max_current, min_current, -step):
+                current_val = self.convert_amp_val(current_val)#int((current_val-28.3)/1.23)
+                self.psu.set_current_limit(i, current_val)
+                current_val = self.psu.return_current(i)
+                print("current val -", current_val)
+
+            #Setting X, Y and Z bridges to positive polarity.
+            if i == 'X': 
+                self.arduino.set_positive_X()
+            
+            elif i == 'Y': 
+                self.arduino.set_positive_Y()
+                
+            elif i == 'Z': 
+                self.arduino.set_positive_Z()
+            
+            #Iterating starting at 0 amps to 1 amps. 
+            for current_val in range(min_current, max_current + step, step):
+                current_val = self.convert_amp_val(current_val)#int((current_val-28.3)/1.23)
+                self.psu.set_current_limit(i, current_val)
+                current_val = self.psu.return_current(i)
+                print("current val +", current_val)
 
