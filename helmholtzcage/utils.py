@@ -1,5 +1,5 @@
 #Utils.py library
-#Author(s): Gustavo A. Cotom
+#Author(s): Gustavo A. Cotom, Emily Snodgrass, Daniel Monahan
 #This file contains the utility functions needed to calibrate the PSAS Helmholtz Cage. 
 
 import matplotlib.pyplot as plt
