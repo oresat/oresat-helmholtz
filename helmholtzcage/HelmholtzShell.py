@@ -107,9 +107,7 @@ class HelmholtzShell(cmd.Cmd):
             self.help_current_limit()
             return
         if not self.mock:
-            value = int((value-28.3)/1.23)
-            if value < 0:
-                value = 0
+            value = Utilities.convert_amp_val(self, value)
             print(self.psu.set_current_limit(arg[0].upper(), value))
     
     #Help message for current_limit function.
@@ -265,67 +263,11 @@ class HelmholtzShell(cmd.Cmd):
     #Calibration function prototype
     def do_calibration(self, arg):
         if not self.mock:
-            
-            #Current values.
-            max_current = 1000
-            min_current = 0 
-            step = 100
-            
-            #Opening and declaring headers for the CSV file.
-            with open("cage_cal.csv", "w") as new_file:
-                fieldnames = ['Current (A)', 'Magnetic Field X (T)', 'Magnetic Field Y (T)', 'Magnetic Field Z (T)']
-                csv_writer= csv.DictWriter(new_file, fieldnames = fieldnames, delimiter='\t')
-                csv_writer.writeheader()
+            Utilities.calibration(self.utility)
+            self.psu.set_output('X', 0)
+            self.psu.set_output('Y', 0)
+            self.psu.set_output('Z', 0)
                 
-                
-                for i in 'XYZ':
-                    #Making sure all power supplies are off by default.
-                    self.psu.set_output('X', 0)
-                    self.psu.set_output('Y', 0)
-                    self.psu.set_output('Z', 0)
-                    
-                    self.psu.set_output(i, 1)
-
-                    #Setting X, Y and Z bridges to negative polarity.
-                    if i == 'X': 
-                        self.arduino.set_negative_X()
-                    
-                    elif i == 'Y': 
-                        self.arduino.set_negative_Y()
-                        
-                    elif i == 'Z': 
-                        self.arduino.set_negative_Z()
-                    
-                    #Iterating starting at -1 amps to 0 amps. 
-                    for current_val in range(max_current, min_current, -step):
-                        current_val = int((current_val-28.3)/1.23)
-                        if current_val < 0:
-                            current_val = 0
-                        self.psu.set_current_limit(i, current_val)
-                        current_val = self.psu.return_current(i)
-                        print("current val -", current_val)
-
-                    #Setting X, Y and Z bridges to positive polarity.
-                    if i == 'X': 
-                        self.arduino.set_positive_X()
-                    
-                    elif i == 'Y': 
-                        self.arduino.set_positive_Y()
-                        
-                    elif i == 'Z': 
-                        self.arduino.set_positive_Z()
-                    
-                    #Iterating starting at 0 amps to 1 amps. 
-                    for current_val in range(min_current, max_current + step, step):
-                        current_val = int((current_val-28.3)/1.23)
-                        if current_val < 0:
-                            current_val = 0
-                        self.psu.set_current_limit(i, current_val)
-                        current_val = self.psu.return_current(i)
-                        print("current val +", current_val)
-                        
-            #Next steps: sci pi on the .csv and find line of best fit (linear) between magnitude of Mag. Field and Current
-    
     #Calibration function help message.                 
     def help_calibration(self): 
         print("Testing help message for the calibration function. This is a WIP.")                
@@ -378,24 +320,23 @@ class HelmholtzShell(cmd.Cmd):
     def do_average(self, arg):
         if not self.mock:
             self.utility.reading_avg()
-
+            
+    #Prototype function. 
     def do_set_field(self, arg):
-        # testing
         args = arg.split(" ")
         vals = []
         for val in args:
             try:
                 vals.append(int(val))
             except: ValueError
-        if not self.mock:
-            self.utility.set_field_vector(vals) 
-
+            self.utility.set_field_vector(vals)
+            
+    #Prototype help message.
     def help_set_field(self):
-        # testing!
-        print("This command sets and outputs a magnetic field vector")
-        print("Arguments are integers separated by spaces")
+        #testing!
+        print("This command sets and outputs a magnetic field vector.")
+        print("Arguments are integers seperated by spaces")
         print("Eg. 10 20 30 attempts to form X:10 Y:20 Z:30")
-        
     #Closes program and exits. 
     def do_exit(self, arg):
         print("Disabling power supplies.")
@@ -407,6 +348,3 @@ class HelmholtzShell(cmd.Cmd):
     #Help message for exit program.
     def help_exit(self):
         print("Type in exit to close the program ")
-        
-    
-    
