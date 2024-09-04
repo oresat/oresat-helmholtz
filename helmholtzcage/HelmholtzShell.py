@@ -335,9 +335,8 @@ class HelmholtzShell(cmd.Cmd):
     def help_set_field(self):
         #testing!
         print("This command sets and outputs a magnetic field vector.")
-        print("Arguments are integers seperate by spaces")
+        print("Arguments are integers seperated by spaces")
         print("Eg. 10 20 30 attempts to form X:10 Y:20 Z:30")
-            
     #Closes program and exits. 
     def do_exit(self, arg):
         print("Disabling power supplies.")
