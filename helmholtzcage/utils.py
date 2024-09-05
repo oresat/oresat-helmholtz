@@ -42,7 +42,6 @@ class Utilities:
                 # print("sum_y:", sum_y)
                 sum_z += chunk[3]['value']
                 # print("sum_z:", sum_z)
-                count += 1
             else:
                 print("Warning: bad data encountered.")
         
