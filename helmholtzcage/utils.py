@@ -143,7 +143,9 @@ class Utilities:
         #     fieldnames = ['Current (A)', 'Magnetic Field X (T)', 'Magnetic Field Y (T)', 'Magnetic Field Z (T)']
         #     csv_writer= csv.DictWriter(new_file, fieldnames = fieldnames, delimiter='\t')
         #     csv_writer.writeheader()
-                        
+        
+        
+        ''' Deprecating
         for i in 'XYZ':
             #Making sure all power supplies are off by default.
             self.psu.set_output('X', 0)
@@ -185,3 +187,68 @@ class Utilities:
                 self.psu.set_current_limit(i, current_val)
                 current_val = self.psu.return_current(i)
                 print("current val +", current_val)
+        '''
+        #Prototype calibration v2. Running calibration on all 3 PSUs at once instead of continously. 
+        #Initial check: making sure all PSUs are off. 
+        self.psu.set_output('X', 0)
+        self.psu.set_output('Y', 0)
+        self.psu.set_output('Z', 0)
+        
+        #Powering up all PSUs
+        self.psu.set_output('X', 1)
+        self.psu.set_output('Y', 1)
+        self.psu.set_output('Z', 1)
+        
+        #Setting all H-bridges to negative polarity.
+        self.arduino.set_negative_X()
+        self.arduino.set_negative_Y()
+        self.arduino.set_negative_Z()
+        
+        #Iterating starting at -1000 mA to 0. 
+        currents_rec = {'X': [], 'Y': [], 'Z': []}
+        for axis in ['X', 'Y', 'Z']:
+            self.psu.set_current_limit('X', 0)
+            self.psu.set_current_limit('Y', 0)
+            self.psu.set_current_limit('Z', 0)
+            for current_val in range(max_current, min_current, -step):
+                current_val = self.convert_amp_val(current_val)
+                self.psu.set_current_limit(axis, current_val)
+                current_val = self.psu.return_current(axis)
+                currents_rec[axis].append(current_val)
+            
+        #Setting all H-bridges to positive polarity.
+        self.arduino.set_positive_X()
+        self.arduino.set_positive_Y()
+        self.arduino.set_positive_Z()
+        
+        #Iterating starting at 0 mA to 1000.
+        for axis in ['X', 'Y', 'Z']:
+            self.psu.set_current_limit('X', 0)
+            self.psu.set_current_limit('Y', 0)
+            self.psu.set_current_limit('Z', 0)
+            for current_val in range(max_current, min_current, -step):
+                current_val = self.convert_amp_val(current_val)
+                self.psu.set_current_limit(axis, current_val)
+                current_val = self.psu.return_current(axis)
+                currents_rec[axis].append(current_val)
+        
+        
+                
+        
+    def linear_regression(x, y):
+        # Performs 2-dim linear regression and returns a tuple of linear coefficients.
+        num_points = np.size(x)
+        
+        # mean of x and y vectors
+        mean_x = np.mean(x)
+        mean_y = np.mean(y)
+        
+        # sum of cross and square deviations in xy and xx respectively
+        sum_cross_xy = np.sum(y*x) - num_points*mean_x*mean_y
+        sum_square_xx = np.sum(x*x) - num_points*mean_x*mean_x
+        
+        # calculating slope and intercepts
+        m = sum_cross_xy / sum_square_xx
+        y_0 = mean_y - m*mean_x
+        return (m, y_0)
+        
