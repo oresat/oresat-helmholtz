@@ -215,6 +215,7 @@ class Utilities:
                 self.psu.set_current_limit(axis, current_val)
                 current_val = self.psu.return_current(axis)
                 currents_rec[axis].append(current_val)
+                print(currents_rec)
             
         #Setting all H-bridges to positive polarity.
         self.arduino.set_positive_X()
@@ -231,6 +232,7 @@ class Utilities:
                 self.psu.set_current_limit(axis, current_val)
                 current_val = self.psu.return_current(axis)
                 currents_rec[axis].append(current_val)
+                print(currents_rec)
         
         
                 
