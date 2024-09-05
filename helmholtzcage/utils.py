@@ -30,6 +30,7 @@ class Utilities:
         sum_x = 0
         sum_y = 0
         sum_z = 0
+        count = 0
         
         #Iterate and get 10 readings. 
         num_iterations = 10
@@ -42,6 +43,7 @@ class Utilities:
                 # print("sum_y:", sum_y)
                 sum_z += chunk[3]['value']
                 # print("sum_z:", sum_z)
+                count = count + 1
             else:
                 print("Warning: bad data encountered.")
         
