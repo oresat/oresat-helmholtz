@@ -329,7 +329,7 @@ class HelmholtzShell(cmd.Cmd):
             try:
                 vals.append(int(val))
             except: ValueError
-            self.utility.set_field_vector(vals)
+        self.utility.set_field_vector(vals)
             
     #Prototype help message.
     def help_set_field(self):
