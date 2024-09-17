@@ -214,7 +214,10 @@ class Utilities:
                 current_val = self.convert_amp_val(current_val)
                 self.psu.set_current_limit(axis, current_val)
                 magdict = self.meter.stream_data()
-                mag_val = magdict[idx]['value']
+                if magdict is not None:
+                    mag_val = magdict[idx]['value']
+                else:
+                    mag_val = 0
                 mags_rec[axis].append(mag_val)
                 print(mags_rec)
             
@@ -232,7 +235,10 @@ class Utilities:
                 current_val = self.convert_amp_val(current_val)
                 self.psu.set_current_limit(axis, current_val)
                 magdict = self.meter.stream_data()
-                mag_val = magdict[idx]['value']
+                if magdict is not None:
+                    mag_val = magdict[idx]['value']
+                else:
+                    mag_val = 0
                 mags_rec[axis].append(mag_val)
                 print(mags_rec)
 
