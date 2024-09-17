@@ -214,7 +214,7 @@ class Utilities:
                 current_val = self.convert_amp_val(current_val)
                 self.psu.set_current_limit(axis, current_val)
                 magdict = self.meter.stream_data()
-                mag_val = magdict[axis-'X']['value']
+                mag_val = magdict[int(axis)-int('X')]['value']
                 mags_rec[axis].append(mag_val)
                 print(mags_rec)
             
@@ -232,7 +232,7 @@ class Utilities:
                 current_val = self.convert_amp_val(current_val)
                 self.psu.set_current_limit(axis, current_val)
                 magdict = self.meter.stream_data()
-                mag_val = magdict[axis-'X']['value']
+                mag_val = magdict[int(axis)-int('X')]['value']
                 mags_rec[axis].append(mag_val)
                 print(mags_rec)
 
