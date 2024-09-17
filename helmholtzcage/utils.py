@@ -206,7 +206,7 @@ class Utilities:
         
         #Iterating starting at -1000 mA to 0. 
         mags_rec = {'X': [], 'Y': [], 'Z': []}
-        for axis in ['X', 'Y', 'Z']:
+        for idx, axis in enumerate(['X', 'Y', 'Z']):
             self.psu.set_current_limit('X', 0)
             self.psu.set_current_limit('Y', 0)
             self.psu.set_current_limit('Z', 0)
@@ -214,7 +214,7 @@ class Utilities:
                 current_val = self.convert_amp_val(current_val)
                 self.psu.set_current_limit(axis, current_val)
                 magdict = self.meter.stream_data()
-                mag_val = magdict[int(axis)-int('X')]['value']
+                mag_val = magdict[idx]['value']
                 mags_rec[axis].append(mag_val)
                 print(mags_rec)
             
@@ -224,7 +224,7 @@ class Utilities:
         self.arduino.set_positive_Z()
         
         #Iterating starting at 0 mA to 1000.
-        for axis in ['X', 'Y', 'Z']:
+        for idx, axis in enumerate(['X', 'Y', 'Z']):
             self.psu.set_current_limit('X', 0)
             self.psu.set_current_limit('Y', 0)
             self.psu.set_current_limit('Z', 0)
@@ -232,7 +232,7 @@ class Utilities:
                 current_val = self.convert_amp_val(current_val)
                 self.psu.set_current_limit(axis, current_val)
                 magdict = self.meter.stream_data()
-                mag_val = magdict[int(axis)-int('X')]['value']
+                mag_val = magdict[idx]['value']
                 mags_rec[axis].append(mag_val)
                 print(mags_rec)
 
