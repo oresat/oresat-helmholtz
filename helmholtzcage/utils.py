@@ -205,7 +205,7 @@ class Utilities:
         self.arduino.set_negative_Z()
         
         #Iterating starting at -1000 mA to 0. 
-        currents_rec = {'X': [], 'Y': [], 'Z': []}
+        mags_rec = {'X': [], 'Y': [], 'Z': []}
         for axis in ['X', 'Y', 'Z']:
             self.psu.set_current_limit('X', 0)
             self.psu.set_current_limit('Y', 0)
@@ -213,9 +213,10 @@ class Utilities:
             for current_val in range(max_current, min_current, -step):
                 current_val = self.convert_amp_val(current_val)
                 self.psu.set_current_limit(axis, current_val)
-                current_val = self.psu.return_current(axis)
-                currents_rec[axis].append(current_val)
-                print(currents_rec)
+                magdict = self.meter.stream_data()
+                mag_val = magdict[axis-'X']['value']
+                mags_rec[axis].append(mag_val)
+                print(mags_rec)
             
         #Setting all H-bridges to positive polarity.
         self.arduino.set_positive_X()
@@ -230,11 +231,12 @@ class Utilities:
             for current_val in range(max_current, min_current, -step):
                 current_val = self.convert_amp_val(current_val)
                 self.psu.set_current_limit(axis, current_val)
-                current_val = self.psu.return_current(axis)
-                currents_rec[axis].append(current_val)
-                print(currents_rec)
-        
-        
+                magdict = self.meter.stream_data()
+                mag_val = magdict[axis-'X']['value']
+                mags_rec[axis].append(mag_val)
+                print(mags_rec)
+
+        print("Recorded calibration data...\n{}".format((mags_rec))
                 
         
     def linear_regression(x, y):
