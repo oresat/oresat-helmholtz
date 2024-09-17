@@ -236,7 +236,7 @@ class Utilities:
                 mags_rec[axis].append(mag_val)
                 print(mags_rec)
 
-        print("Recorded calibration data...\n{}".format((mags_rec))
+        print("Recorded calibration data...\n{}".format(mags_rec))
                 
         
     def linear_regression(x, y):
