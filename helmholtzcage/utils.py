@@ -214,8 +214,8 @@ class Utilities:
                 current_val = self.convert_amp_val(current_val)
                 self.psu.set_current_limit(axis, current_val)
                 magdict = self.meter.stream_data()
-                if magdict is not None:
-                    mag_val = magdict[idx]['value']
+                if magdict:
+                    mag_val = magdict[idx]['value'] * magdict[idx]['sign']
                 else:
                     mag_val = 0
                 mags_rec[axis].append(mag_val)
@@ -231,12 +231,12 @@ class Utilities:
             self.psu.set_current_limit('X', 0)
             self.psu.set_current_limit('Y', 0)
             self.psu.set_current_limit('Z', 0)
-            for current_val in range(max_current, min_current, -step):
+            for current_val in range(min_current, max_current, step):
                 current_val = self.convert_amp_val(current_val)
                 self.psu.set_current_limit(axis, current_val)
                 magdict = self.meter.stream_data()
-                if magdict is not None:
-                    mag_val = magdict[idx]['value']
+                if magdict:
+                    mag_val = magdict[idx]['value'] * magdict[idx]['sign']
                 else:
                     mag_val = 0
                 mags_rec[axis].append(mag_val)
