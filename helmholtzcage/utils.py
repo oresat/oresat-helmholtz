@@ -240,7 +240,7 @@ class Utilities:
                 else:
                     mag_val = 0
                 mags_rec[axis].append(mag_val)
-                print(mags_rec)
+                print(idx, axis)
 
         print("Recorded calibration data...\n{}".format(mags_rec))
                 
