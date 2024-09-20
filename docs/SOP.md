@@ -55,7 +55,7 @@ $ python3 main.py -l '1-1.2.2' -s '1-1.2.3'
  **Note: If you are using your own laptop to control the cage, or these bus locations do not work, please see "Connecting to the Cage Manually"**
 
 Once the script has started you can view the various commands available using the `help` command.
-![Alt text](relative%20media/helmholtz_help.png)
+![helmholtz_help](https://github.com/user-attachments/assets/d9d7023a-c39e-4fea-ba2e-20a3f53f1c34)
 
 ---
 ## Testing & Analyzing Data:
