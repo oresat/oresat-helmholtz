@@ -23,7 +23,9 @@ CubeSat attitude controls.
 
 ## Sphinx Documenation
 A convienient way to view the documentation for this project is provided through the Sphinx
-documentation framework. To compile and view the docs you may use the prodecure below,
+documentation framework. In order to use the Sphinx documentation you must first install the 
+library as well as the markdown extension, `myst-parser`. See installation instructions [here](https://www.sphinx-doc.org/en/master/usage/installation.html).
+Once installed, you may compile and view the docs using the prodecure below,
 1. Enter the docs location and build the HTML file.
 ```
 $ cd docs

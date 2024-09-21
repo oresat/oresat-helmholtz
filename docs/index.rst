@@ -15,4 +15,5 @@ If you're a developer looking for details of the Helmholtz cage command line ref
    :caption: Contents:
    
    Standard Operating Procedure <SOP>
+   Manpages <manindex>
 

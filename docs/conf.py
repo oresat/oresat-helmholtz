@@ -7,8 +7,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Oresat Helmholtz'
-copyright = '2024, danielkm-ee'
-author = 'danielkm-ee'
+copyright = '2024, Oresat'
+author = 'Oresat'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
