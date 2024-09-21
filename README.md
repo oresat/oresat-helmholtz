@@ -4,7 +4,8 @@
 
 ## Magnetic Environment Simulator for CubeSats
 
-![helmholtz_cage](https://github.com/user-attachments/assets/c287db3b-c9df-459c-89e3-0f97d68d458c)
+![helmholtz_cage](https://github.com/user-attachments/assets/d6497e7c-381d-4789-8209-2f4df54b8677)
+
 
 
 Oresat Helmholtz is an open-source and DIY Helmholtz cage controller for facilitating magnetic
