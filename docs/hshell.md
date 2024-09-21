@@ -88,10 +88,10 @@ and calibration methods using the various tools provided in the utilites module.
 ### do_meter_values(arg)
 
 ---
-## do_var_tag(arg)
+### do_var_tag(arg)
 
 ---
-## do_stream(arg)
+### do_stream(arg)
 
 ---
 ## Utilites Commands:
