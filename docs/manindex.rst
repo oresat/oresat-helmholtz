@@ -10,4 +10,4 @@ Detailed documentation of the Helmholtz cage program can be found here.
    Magnetometer <magmeter>
    ZXY6005s     <powsups>
    Arduino      <arduino>
-   utils        <utils>
+   Utilities    <utils>

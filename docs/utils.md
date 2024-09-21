@@ -51,7 +51,7 @@ Accuracy of the result depends of the accuracy of the `zyx_slope` and `ambient_f
 which can be updated by calls to the calibration function.
 
 ---
-## calibration()
+## `calibration() -> tuple`
 Arguments:
 None
 
@@ -59,7 +59,7 @@ Return:
 * `(xyz_slope, ambient_field)` : tuple of linear regression coefficients resulting from magnetic-current relationship.
 
 ---
-## linear_regression(x, y)
+## `linear_regression(x, y) -> tuple`
 Arguments
 * `x` : array of values for the independent variable
 * `y` : array of values for the dependent variable
