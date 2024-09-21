@@ -4,11 +4,12 @@
 
 ## Magnetic Environment Simulator for CubeSats
 
-SOP can be found [here](http://psu-epl.github.io/doc/equip/testing/ETL/) at the Electronics Prototyping Lab website
-
 ![alt text](https://user-images.githubusercontent.com/33878769/48651456-dfe9f300-e9af-11e8-9a90-02227cccc314.jpg)
 
-MCECS BETA Project 2018
+Oresat Helmholtz is an open-source and DIY Helmholtz cage controller for facilitating magnetic
+field simulations. Developed for the Oresat project, this repo hosts a software designed to 
+facilite the operation of the Helmholtz cage and execute dynamics testing for B-Field related 
+CubeSat attitude controls.
 
 ## To Set Up Run:
 `python -m venv .venv`
@@ -18,6 +19,19 @@ MCECS BETA Project 2018
 ## To run again later
 `source .venv/bin/activate`
 `python3 main.py -l '1-1.2.2' -s '1-1.2.3'`
+
+## Sphinx Documenation
+A convienient way to view the documentation for this project is provided through the Sphinx
+documentation framework. To compile and view the docs you may use the prodecure below,
+1. Enter the docs location and build the HTML file.
+```
+$ cd docs
+$ make html
+```
+2. Open the index page using your browser of choice. Either navigate to `docs/_build/html/index.html` graphically and open the file, or via the command line. eg. with firefox
+```
+<docs location>$ firefox _build/html/index.html
+```
 
 ## Detecting ports for the buck converters and arduino on linux
 1. ls -la /sys/bus/usb/devices (to view all ports)
