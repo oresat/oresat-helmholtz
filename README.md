@@ -4,7 +4,8 @@
 
 ## Magnetic Environment Simulator for CubeSats
 
-![helmholtz_cage](https://github.com/user-attachments/assets/d6497e7c-381d-4789-8209-2f4df54b8677)
+![helmholtz_cage](https://github.com/user-attachments/assets/35ffd680-2c4b-4acd-8774-dfff9f08daa9)
+
 
 
 
