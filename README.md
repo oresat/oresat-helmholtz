@@ -7,7 +7,7 @@
 ![helmholtz_cage](https://github.com/user-attachments/assets/6658f6dd-697b-4fe9-8dbe-10519ecca47b)
 
 
-Oresat Helmholtz is an open-source and DIY Helmholtz cage controller for facilitating magnetic
+Oresat Helmholtz is an open-source and DIY Helmholtz cage controller for magnetic
 field simulations. Developed for the Oresat project, this repo hosts a software designed to 
 facilite the operation of the Helmholtz cage and execute dynamics testing for B-Field related 
 CubeSat attitude controls.
@@ -31,9 +31,10 @@ Once installed, you may compile and view the docs using the prodecure below,
 $ cd docs
 $ make html
 ```
+If you get errors from `myst-parser`, just run `make html` twice.
 2. Open the index page using your browser of choice. Either navigate to `docs/_build/html/index.html` graphically and open the file, or via the command line. eg. with firefox
 ```
-<docs location>$ firefox _build/html/index.html
+<docs location>$ firefox file:./_build/html/index.html
 ```
 
 ## Detecting ports for the buck converters and arduino on linux
