@@ -32,6 +32,7 @@ $ cd docs
 $ make html
 ```
 If you get errors from `myst-parser`, just run `make html` twice.
+
 2. Open the index page using your browser of choice. Either navigate to `docs/_build/html/index.html` graphically and open the file, or via the command line. eg. with firefox
 ```
 <docs location>$ firefox file:./_build/html/index.html
