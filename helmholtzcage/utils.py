@@ -11,7 +11,7 @@ from .Arduino import Arduino, ArduinoCommands
 
 MAX_OUT_CURRENT = 1000                  # 1 amp limit
 MAG_CURRENT_SLOPE = [-1.27, 1.27, -1.1] # Conversion factors for magnetic field to current relation
-WMM_AMBIENT_FIELD = [194, 520, 479]     # (mG) Ambient field according to World Magnetic Model
+AMBIENT_FIELD = [226, 238, 401]         # (mG) Ambient field components recorded on 09/22/24
 
 class Utilities:
     #Class utilities constructor.
@@ -21,7 +21,7 @@ class Utilities:
         self.psu = psu
         self.arduino = arduino
         self.xyz_slope = MAG_CURRENT_SLOPE      # default calibration settings
-        self.ambient_field = WMM_AMBIENT_FIELD  # default calibration settings
+        self.ambient_field = AMBIENT_FIELD  # default calibration settings
     
     def convert_amp_val(self, val):
         #accounts for inconsistencies in the power converters by adjusting an amperage using a conversion factor
@@ -63,6 +63,7 @@ class Utilities:
         print("z avg:", z_avg) 
         
         mag_readings = np.array([x_avg, y_avg, z_avg])
+        self.ambient_field = mag_readings
         return mag_readings
         
     ''' Deprecating
@@ -120,7 +121,7 @@ class Utilities:
             return -1
 
         # calculating current settings
-        target_current = self.mag_to_current(out_field, xyz_slope, ambient_field)
+        target_current = self.mag_to_current(out_field)
         out_current = self.to_output_current(target_current)
         
         if (np.abs(out_current).max() > MAX_OUT_CURRENT):
