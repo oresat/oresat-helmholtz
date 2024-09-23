@@ -20,6 +20,8 @@ class Utilities:
         self.meter = meter
         self.psu = psu
         self.arduino = arduino
+        self.xyz_slope = MAG_CURRENT_SLOPE      # default calibration settings
+        self.ambient_field = WMM_AMBIENT_FIELD  # default calibration settings
     
     def convert_amp_val(self, val):
         #accounts for inconsistencies in the power converters by adjusting an amperage using a conversion factor
@@ -94,23 +96,24 @@ class Utilities:
        out_curr_vec = (out_curr_vec - y_int) // slope
        return out_curr_vec
 
-    def mag_to_current(self, target_mag, xyz_slope=MAG_CURRENT_SLOPE, ambient_mag=WMM_AMBIENT_FIELD):
+    def mag_to_current(self, target_mag):
        # Adjusts magnetic field vector to remove ambient influences and system error using linear regression coefficients
        if len(target_mag) < 3:
            print("Error: Target field vector must have length 3, got {}".format(len(target_mag)))
            return np.array([0, 0, 0])
        else:
            target_mag = np.array(target_mag)
-           xyz_slope = np.array(xyz_slope)              # slope of mag-current line
-           ambient_mag = np.array(ambient_mag)          # intercept of mag-current line
+           xyz_slope = np.array(self.xyz_slope)                # slope of mag-current line
+           ambient_mag = np.array(self.ambient_field)          # intercept of mag-current line
 
-           out_mag = (target_mag - ambient_mag) // xyz_slope
+           out_mag = (target_mag - ambient_mag) // self.xyz_slope
            return out_mag
     
-    def set_field_vector(self, target=[0, 0, 0], xyz_slope=MAG_CURRENT_SLOPE, ambient_field=WMM_AMBIENT_FIELD):
+    def set_field_vector(self, target=[0, 0, 0]):
         # Attempts to set magnetic field in cage to the specified vector, assuming zero if argument is left empty
         out_field = np.array(target)            # xyz targets from arguments
-        ambient_field = np.array(ambient_field) # average field from earth
+        ambient_field = np.array(self.ambient_field) # average field from earth
+        xyz_slope = np.array(self.xyz_slope)
 
         if (out_field.shape != (3,) or ambient_field.shape != (3,)):
             print("Error: Vectors provided to set_field_vector() must be of shape (3,). Got {} and {}.".format(out_field.shape, ambient_field.shape) )
