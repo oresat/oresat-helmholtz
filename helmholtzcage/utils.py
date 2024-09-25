@@ -5,9 +5,6 @@
 import matplotlib.pyplot as plt
 from scipy import stats
 import numpy as np
-import struct
-import serial
-import pprint
 from .Magnetometer import Magnetometer, MagnetometerCommands
 from .ZXY6005s import ZXY6005s, ZXY6005sCommands
 from .Arduino import Arduino, ArduinoCommands
@@ -188,17 +185,3 @@ class Utilities:
                 self.psu.set_current_limit(i, current_val)
                 current_val = self.psu.return_current(i)
                 print("current val +", current_val)
-    
-    #Prototype function to test Lev's code.
-    def receive_sim_data():
-        with serial.Serial(port = "/dev/ttyUSB1", baudrate= 115200) as ser:
-            while True:
-                #Continuously listen for incoming serial data.
-                data = ser.read(1140)
-                #If there is actual data that comes through:
-                if len(data) > 0:
-                    #Unpack the data (will arrive in byte format) and make vectors.
-                    new_array = [[x, y, z] for x, y, z,  in struct.iter_unpack('3f', data)]
-                    #This line prints it to the terminal, for test purposes.
-                    pprint.pp(new_array)
-                    

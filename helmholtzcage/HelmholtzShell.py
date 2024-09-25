@@ -337,15 +337,6 @@ class HelmholtzShell(cmd.Cmd):
         print("This command sets and outputs a magnetic field vector.")
         print("Arguments are integers seperated by spaces")
         print("Eg. 10 20 30 attempts to form X:10 Y:20 Z:30")
-        
-    #Prototype function for Lev's code.
-    def do_receive_sim_data(self):
-        if not self.mock:
-            self.utility.receive_sim_data
-    
-           
-        
-    
     #Closes program and exits. 
     def do_exit(self, arg):
         print("Disabling power supplies.")
