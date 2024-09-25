@@ -5,6 +5,9 @@
 import matplotlib.pyplot as plt
 from scipy import stats
 import numpy as np
+import struct
+import serial
+import pprint
 from .Magnetometer import Magnetometer, MagnetometerCommands
 from .ZXY6005s import ZXY6005s, ZXY6005sCommands
 from .Arduino import Arduino, ArduinoCommands
@@ -257,8 +260,18 @@ class Utilities:
                 print(idx, axis)
 
         print("Recorded calibration data...\n{}".format(mags_rec))
-                
-        
+
+    def recieve_sim_data():
+        with serial.Serial(port="/dev/ttyUSB1", baudrate=115200) as ser:
+            while True:
+                # Continuously listen for serial data until it is recieved
+                data = ser.read(1140)
+
+                if len(data) > 0:
+                    # Unpack the bytearrays containing data into vectors
+                    new_array = [[x, y, z] for x, y, z in struct.iter_unpack('3f', data)]
+                    pprint.pp(new_array) # FIXME: This line prints result for testing purposes
+ 
     def linear_regression(x, y):
         # Performs 2-dim linear regression and returns a tuple of linear coefficients.
         num_points = np.size(x)
