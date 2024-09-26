@@ -352,7 +352,7 @@ class HelmholtzShell(cmd.Cmd):
 
     def help_run_sim(self):
         print("Produces the magnetic field data from most recent basilisk packet")
-        print("Run 'run_sim' to start')
+        print("Run 'run_sim' to start")
 
     #Closes program and exits. 
     def do_exit(self, arg):
