@@ -283,7 +283,7 @@ class Utilities:
     def run_sim(self):
         # attempts to do the thing.
         for mag_vector in self.bask_data:
-            set_field_vector(mag_vector)
+            self.set_field_vector(mag_vector)
 
     def linear_regression(x, y):
         # Performs 2-dim linear regression and returns a tuple of linear coefficients.
