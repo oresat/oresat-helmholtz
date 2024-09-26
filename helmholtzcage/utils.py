@@ -267,7 +267,7 @@ class Utilities:
         with serial.Serial(port="/dev/ttyUSB5", baudrate=115200) as ser:
             start = time.time()
             success = False
-            while (start - time.time() < 2) :
+            while ((time.time() - start) < 2) :
                 # Continuously listen for serial data until it is recieved
                 data = ser.read(1140)
 
