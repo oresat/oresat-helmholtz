@@ -346,6 +346,14 @@ class HelmholtzShell(cmd.Cmd):
         print("To run this command, run 'recieve_sim_data'.\n")
         print("See documentation for further details.")
 
+    def do_run_sim(self, arg):
+        if not self.mock:
+            self.utility.run_sim()
+
+    def help_run_sim(self):
+        print("Produces the magnetic field data from most recent basilisk packet")
+        print("Run 'run_sim' to start')
+
     #Closes program and exits. 
     def do_exit(self, arg):
         print("Disabling power supplies.")

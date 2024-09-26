@@ -279,7 +279,12 @@ class Utilities:
                 print("Error: Receive sim data timed out!")
             else:
                 self.bask_data = new_array
- 
+
+    def run_sim(self):
+        # attempts to do the thing.
+        for mag_vector in self.bask_data:
+            set_field_vector(mag_vector)
+
     def linear_regression(x, y):
         # Performs 2-dim linear regression and returns a tuple of linear coefficients.
         num_points = np.size(x)
