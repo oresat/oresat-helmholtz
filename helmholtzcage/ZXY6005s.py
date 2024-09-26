@@ -41,7 +41,7 @@ class ZXY6005s:
     def __init__(self):
         '''construct objects, using location for X, Y and Z power supplies'''
         names = ['X', 'Y', 'Z']
-        locations = ['1-1.5.4.3', '1-1.5.4.2', '1-1.5.4.1']
+        locations = ['1-1.2.4.3', '1-1.2.4.2', '1-1.2.4.1']
         self.devices = {}
         for name, location in zip(names, locations):
             for i in serial.tools.list_ports.comports():
