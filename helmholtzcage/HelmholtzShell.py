@@ -333,18 +333,18 @@ class HelmholtzShell(cmd.Cmd):
             
     #Prototype help message.
     def help_set_field(self):
-        #testing!
         print("This command sets and outputs a magnetic field vector.")
         print("Arguments are integers seperated by spaces")
         print("Eg. 10 20 30 attempts to form X:10 Y:20 Z:30")
 
-    def do_recieve_sim_data(self):
+    def do_receive_sim_data(self, arg):
         if not self.mock:
-            self.utility.recieve_sim_data()
+            self.utility.receive_sim_data()
+
     def help_recieve_sim_data(self):
         print("This function listens for and unpacks data from the oresat simulator")
         print("To run this command, run 'recieve_sim_data'.\n")
-        print("See documentation for further details."
+        print("See documentation for further details.")
 
     #Closes program and exits. 
     def do_exit(self, arg):

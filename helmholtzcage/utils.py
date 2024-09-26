@@ -8,12 +8,13 @@ import numpy as np
 import struct
 import serial
 import pprint
+import time
 from .Magnetometer import Magnetometer, MagnetometerCommands
 from .ZXY6005s import ZXY6005s, ZXY6005sCommands
 from .Arduino import Arduino, ArduinoCommands
 
-MAX_OUT_CURRENT = 1000                  # 1 amp limit
-MAG_CURRENT_SLOPE = [-1.27, 1.27, -1.1] # Conversion factors for magnetic field to current relation
+MAX_OUT_CURRENT = 800                    # 1 amp limit
+MAG_CURRENT_SLOPE = [-1.24, 1.25, -1.12] # Conversion factors for magnetic field to current relation
 AMBIENT_FIELD = [226, 238, 401]         # (mG) Ambient field components recorded on 09/22/24
 
 class Utilities:
@@ -24,7 +25,8 @@ class Utilities:
         self.psu = psu
         self.arduino = arduino
         self.xyz_slope = MAG_CURRENT_SLOPE      # default calibration settings
-        self.ambient_field = AMBIENT_FIELD  # default calibration settings
+        self.ambient_field = AMBIENT_FIELD      # default calibration settings
+        self.bask_data = [[0, 0, 0]]            # register for basilisk data
     
     def convert_amp_val(self, val):
         #accounts for inconsistencies in the power converters by adjusting an amperage using a conversion factor
@@ -124,8 +126,7 @@ class Utilities:
             return -1
 
         # calculating current settings
-        target_current = self.mag_to_current(out_field)
-        out_current = self.to_output_current(target_current)
+        out_current = self.mag_to_current(out_field)
         
         if (np.abs(out_current).max() > MAX_OUT_CURRENT):
             print("output currents are out of range!!\ncancelling output")
@@ -261,16 +262,23 @@ class Utilities:
 
         print("Recorded calibration data...\n{}".format(mags_rec))
 
-    def recieve_sim_data():
-        with serial.Serial(port="/dev/ttyUSB1", baudrate=115200) as ser:
-            while True:
+    def receive_sim_data(self):
+        with serial.Serial(port="/dev/ttyUSB5", baudrate=115200) as ser:
+            start = time.Time()
+            success = False
+            while (start - time.time() < 2) :
                 # Continuously listen for serial data until it is recieved
                 data = ser.read(1140)
 
                 if len(data) > 0:
                     # Unpack the bytearrays containing data into vectors
                     new_array = [[x, y, z] for x, y, z in struct.iter_unpack('3f', data)]
+                    success = True
                     pprint.pp(new_array) # FIXME: This line prints result for testing purposes
+            if not success:
+                print("Error: Receive sim data timed out!")
+            else:
+                self.bask_data = new_array
  
     def linear_regression(x, y):
         # Performs 2-dim linear regression and returns a tuple of linear coefficients.
