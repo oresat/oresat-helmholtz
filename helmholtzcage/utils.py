@@ -283,7 +283,7 @@ class Utilities:
         print("Turning on power supplies...")
         for dev in ['X', 'Y', 'Z']:
             self.psu.set_output(dev, int(1))
-        print("Power Supplies are ON!"
+        print("Power Supplies are ON!")
 
         for mag_vector in self.bask_data:
             self.set_field_vector(mag_vector)
@@ -291,7 +291,7 @@ class Utilities:
         print("Turning off power supplies...")
         for dev in ['X', 'Y', 'Z']:
             self.psu.set_output(dev, int(1))
-        print("Power Supplies are OFF!"
+        print("Power Supplies are OFF!")
 
     def linear_regression(x, y):
         # Performs 2-dim linear regression and returns a tuple of linear coefficients.
