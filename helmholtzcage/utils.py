@@ -291,7 +291,7 @@ class Utilities:
 
         print("Turning off power supplies...")
         for dev in ['X', 'Y', 'Z']:
-            self.psu.set_output(dev, int(1))
+            self.psu.set_output(dev, int(0))
         print("Power Supplies are OFF!")
 
     def linear_regression(x, y):
