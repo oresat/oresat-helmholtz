@@ -107,7 +107,6 @@ class HelmholtzShell(cmd.Cmd):
             self.help_current_limit()
             return
         if not self.mock:
-            value = Utilities.convert_amp_val(self, value)
             print(self.psu.set_current_limit(arg[0].upper(), value))
     
     #Help message for current_limit function.

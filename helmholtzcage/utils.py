@@ -126,8 +126,7 @@ class Utilities:
             return -1
 
         # calculating current settings
-        target_current = self.mag_to_current(out_field)
-        out_current = self.to_output_current(target_current)
+        out_current = self.mag_to_current(out_field)
         
         if (np.abs(out_current).max() > MAX_OUT_CURRENT):
             print("output currents are out of range!!\ncancelling output")
@@ -143,10 +142,6 @@ class Utilities:
         # updating PSUs
         for i, dev in enumerate(['X', 'Y', 'Z']):
             self.psu.set_current_limit(dev, int(abs(out_current[i])))
-
-        # powering up PSUs
-        for dev in ['X', 'Y', 'Z']:
-            self.psu.set_output(dev, int(1))
 
         return 0
     
@@ -283,8 +278,20 @@ class Utilities:
 
     def run_sim(self):
         # attempts to do the thing.
+        
+        # powering up PSUs
+        print("Turning on power supplies...")
+        for dev in ['X', 'Y', 'Z']:
+            self.psu.set_output(dev, int(1))
+        print("Power Supplies are ON!"
+
         for mag_vector in self.bask_data:
             self.set_field_vector(mag_vector)
+
+        print("Turning off power supplies...")
+        for dev in ['X', 'Y', 'Z']:
+            self.psu.set_output(dev, int(1))
+        print("Power Supplies are OFF!"
 
     def linear_regression(x, y):
         # Performs 2-dim linear regression and returns a tuple of linear coefficients.
