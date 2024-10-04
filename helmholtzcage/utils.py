@@ -5,13 +5,17 @@
 import matplotlib.pyplot as plt
 from scipy import stats
 import numpy as np
+import struct
+import serial
+import pprint
+import time
 from .Magnetometer import Magnetometer, MagnetometerCommands
 from .ZXY6005s import ZXY6005s, ZXY6005sCommands
 from .Arduino import Arduino, ArduinoCommands
 
-MAX_OUT_CURRENT = 1000                  # 1 amp limit
-MAG_CURRENT_SLOPE = [-1.27, 1.27, -1.1] # Conversion factors for magnetic field to current relation
-WMM_AMBIENT_FIELD = [194, 520, 479]     # (mG) Ambient field according to World Magnetic Model
+MAX_OUT_CURRENT = 800                    # 1 amp limit
+MAG_CURRENT_SLOPE = [-1.24, 1.25, -1.12] # Conversion factors for magnetic field to current relation
+AMBIENT_FIELD = [226, 238, 401]         # (mG) Ambient field components recorded on 09/22/24
 
 class Utilities:
     #Class utilities constructor.
@@ -20,6 +24,9 @@ class Utilities:
         self.meter = meter
         self.psu = psu
         self.arduino = arduino
+        self.xyz_slope = MAG_CURRENT_SLOPE      # default calibration settings
+        self.ambient_field = AMBIENT_FIELD      # default calibration settings
+        self.bask_data = [[0, 0, 0]]            # register for basilisk data
     
     def convert_amp_val(self, val):
         #accounts for inconsistencies in the power converters by adjusting an amperage using a conversion factor
@@ -61,6 +68,7 @@ class Utilities:
         print("z avg:", z_avg) 
         
         mag_readings = np.array([x_avg, y_avg, z_avg])
+        self.ambient_field = mag_readings
         return mag_readings
         
     ''' Deprecating
@@ -94,30 +102,31 @@ class Utilities:
        out_curr_vec = (out_curr_vec - y_int) // slope
        return out_curr_vec
 
-    def mag_to_current(self, target_mag, xyz_slope=MAG_CURRENT_SLOPE, ambient_mag=WMM_AMBIENT_FIELD):
+    def mag_to_current(self, target_mag):
        # Adjusts magnetic field vector to remove ambient influences and system error using linear regression coefficients
        if len(target_mag) < 3:
            print("Error: Target field vector must have length 3, got {}".format(len(target_mag)))
            return np.array([0, 0, 0])
        else:
            target_mag = np.array(target_mag)
-           xyz_slope = np.array(xyz_slope)              # slope of mag-current line
-           ambient_mag = np.array(ambient_mag)          # intercept of mag-current line
+           xyz_slope = np.array(self.xyz_slope)                # slope of mag-current line
+           ambient_mag = np.array(self.ambient_field)          # intercept of mag-current line
 
-           out_mag = (target_mag - ambient_mag) // xyz_slope
+           out_mag = (target_mag - ambient_mag) // self.xyz_slope
            return out_mag
     
-    def set_field_vector(self, target=[0, 0, 0], xyz_slope=MAG_CURRENT_SLOPE, ambient_field=WMM_AMBIENT_FIELD):
+    def set_field_vector(self, target=[0, 0, 0]):
         # Attempts to set magnetic field in cage to the specified vector, assuming zero if argument is left empty
         out_field = np.array(target)            # xyz targets from arguments
-        ambient_field = np.array(ambient_field) # average field from earth
+        ambient_field = np.array(self.ambient_field) # average field from earth
+        xyz_slope = np.array(self.xyz_slope)
 
         if (out_field.shape != (3,) or ambient_field.shape != (3,)):
             print("Error: Vectors provided to set_field_vector() must be of shape (3,). Got {} and {}.".format(out_field.shape, ambient_field.shape) )
             return -1
 
         # calculating current settings
-        target_current = self.mag_to_current(out_field, xyz_slope, ambient_field)
+        target_current = self.mag_to_current(out_field)
         out_current = self.to_output_current(target_current)
         
         if (np.abs(out_current).max() > MAX_OUT_CURRENT):
@@ -134,10 +143,6 @@ class Utilities:
         # updating PSUs
         for i, dev in enumerate(['X', 'Y', 'Z']):
             self.psu.set_current_limit(dev, int(abs(out_current[i])))
-
-        # powering up PSUs
-        for dev in ['X', 'Y', 'Z']:
-            self.psu.set_output(dev, int(1))
 
         return 0
     
@@ -253,8 +258,42 @@ class Utilities:
                 print(idx, axis)
 
         print("Recorded calibration data...\n{}".format(mags_rec))
-                
+
+    def receive_sim_data(self):
+        with serial.Serial(port="/dev/ttyUSB5", baudrate=115200) as ser:
+            start = time.time()
+            success = False
+            while ((time.time() - start) < 2) :
+                # Continuously listen for serial data until it is recieved
+                data = ser.read(1140)
+
+                if len(data) > 0:
+                    # Unpack the bytearrays containing data into vectors
+                    new_array = [[x, y, z] for x, y, z in struct.iter_unpack('3f', data)]
+                    success = True
+                    pprint.pp(new_array) # FIXME: This line prints result for testing purposes
+            if not success:
+                print("Error: Receive sim data timed out!")
+            else:
+                self.bask_data = new_array
+
+    def run_sim(self):
+        # attempts to do the thing.
         
+        # powering up PSUs
+        print("Turning on power supplies...")
+        for dev in ['X', 'Y', 'Z']:
+            self.psu.set_output(dev, int(1))
+        print("Power Supplies are ON!")
+
+        for mag_vector in self.bask_data:
+            self.set_field_vector(mag_vector)
+
+        print("Turning off power supplies...")
+        for dev in ['X', 'Y', 'Z']:
+            self.psu.set_output(dev, int(0))
+        print("Power Supplies are OFF!")
+
     def linear_regression(x, y):
         # Performs 2-dim linear regression and returns a tuple of linear coefficients.
         num_points = np.size(x)

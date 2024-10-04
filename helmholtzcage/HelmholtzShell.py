@@ -107,7 +107,6 @@ class HelmholtzShell(cmd.Cmd):
             self.help_current_limit()
             return
         if not self.mock:
-            value = Utilities.convert_amp_val(self, value)
             print(self.psu.set_current_limit(arg[0].upper(), value))
     
     #Help message for current_limit function.
@@ -333,10 +332,27 @@ class HelmholtzShell(cmd.Cmd):
             
     #Prototype help message.
     def help_set_field(self):
-        #testing!
         print("This command sets and outputs a magnetic field vector.")
         print("Arguments are integers seperated by spaces")
         print("Eg. 10 20 30 attempts to form X:10 Y:20 Z:30")
+
+    def do_receive_sim_data(self, arg):
+        if not self.mock:
+            self.utility.receive_sim_data()
+
+    def help_recieve_sim_data(self):
+        print("This function listens for and unpacks data from the oresat simulator")
+        print("To run this command, run 'recieve_sim_data'.\n")
+        print("See documentation for further details.")
+
+    def do_run_sim(self, arg):
+        if not self.mock:
+            self.utility.run_sim()
+
+    def help_run_sim(self):
+        print("Produces the magnetic field data from most recent basilisk packet")
+        print("Run 'run_sim' to start")
+
     #Closes program and exits. 
     def do_exit(self, arg):
         print("Disabling power supplies.")
