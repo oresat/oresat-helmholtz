@@ -16,24 +16,28 @@ class HelmholtzShell(cmd.Cmd):
     def __init__(self, arduino: Arduino, psu: ZXY6005s, meter: Magnetometer, utility: Utilities, mock:bool):
         super().__init__()
         self.arduino = arduino
-        self.psu = psu
         self.mock = mock
         self.meter = meter
         self.utility = utility
+        self.psu = {}
+        for axis, power_supply in zip('XYZ', psu):
+            self.psu[axis] = power_supply
     
     #Takes device name and returns model.
     def do_model(self, arg):
+        axis = arg.split(" ")[0]
         if not self.mock:
-            print(self.psu.model(arg[0].upper()))
+            print(self.psu[axis.upper()].model())
     
     #Help message for model command.
     def help_model(self):
+        print("Prints the model of the power supply device.")
         print("Device name can be 'X', 'Y' or 'Z'. ")
     
     #Takes device name and returns firmware version.
-    def do_firmware(self, arg):
+    def do_firmware(self, axis):
         if not self.mock:
-            print(self.psu.firmware_version(arg[0].upper()))
+            print(self.psu[axis[0].upper()].firmware_version())
     
     #Help message for firmware function.
     def help_firmware(self):
@@ -42,8 +46,8 @@ class HelmholtzShell(cmd.Cmd):
     #Turns on specified power supply.     
     def do_power(self, arg):
         if not self.mock:
-            args = arg.split(" ")
-            print(self.psu.set_output(args[0].upper(), args[1]=="1"))
+            (axis, power) = arg.split(" ")
+            print(self.psu[axis.upper()].set_output(power=="1"))
          
     #Power supply on/off help message.
     def help_power(self):
@@ -53,8 +57,9 @@ class HelmholtzShell(cmd.Cmd):
     
     #Sets amp hour to counter value give. Takes device name and int value.
     def do_amp_hour(self, arg):
+        (axis, mAh) = arg.split(" ")
         if not self.mock:
-            print(self.psu.set_amp_hour(arg[0].upper(), arg[1]))
+            print(self.psu[axis.upper()].set_amp_hour(mAh))
     
     #Amp hour set function help message.
     def help_amp_hour(self):
@@ -63,9 +68,9 @@ class HelmholtzShell(cmd.Cmd):
         print("Value needs to be in amps")
     
     #Returns amp hour of a given device.
-    def do_return_amp_hour(self, arg):
+    def do_return_amp_hour(self, axis):
         if not self.mock:
-            print(self.psu.return_amp_hour(arg[0].upper()))
+            print(self.psu[axis[0].upper()].return_amp_hour())
     
     #Help message for return amp hour
     def help_return_amp_hour(self):
@@ -74,14 +79,13 @@ class HelmholtzShell(cmd.Cmd):
     
     #Setting voltage for a specified device.    
     def do_voltage(self, arg):
-        args = arg.split(" ")
         try: 
-            value = int(args[1])
+            (axis, mV) = arg.split(" ")
         except ValueError:
             self.help_voltage()
             return
         if not self.mock:
-            self.psu.set_voltage(arg[0].upper(), value)
+            self.psu[axis].set_voltage(int(mV))
     
     #Help message for set voltage.
     def help_voltage(self):
@@ -89,9 +93,9 @@ class HelmholtzShell(cmd.Cmd):
         print("This function requires a int value. Please input voltage desired as an integer. ")
     
     #Returns voltage of a given device.     
-    def do_return_voltage(self, arg):
+    def do_return_voltage(self, axis):
         if not self.mock:
-            print(self.psu.return_voltage(arg[0].upper()))
+            print(self.psu[axis[0].upper()].return_voltage())
     
     #Help message for returning voltage.
     def help_return_voltage(self):
@@ -100,14 +104,14 @@ class HelmholtzShell(cmd.Cmd):
     
     #Sets current limit to be a value entered.
     def do_current_limit(self, arg):
-        args = arg.split(" ")
+        (axis, mA) = arg.split(" ")
         try: 
-            value = int(args[1])
+            value = int(mA)
         except ValueError:
             self.help_current_limit()
             return
         if not self.mock:
-            print(self.psu.set_current_limit(arg[0].upper(), value))
+            print(self.psu[axis].set_current_limit(int(mA)))
     
     #Help message for current_limit function.
     def help_current_limit(self):
@@ -116,9 +120,9 @@ class HelmholtzShell(cmd.Cmd):
         print("This function takes a device name and value and sets the current limit to that value. ")
     
     #Takes a device name and returns its current in amps.   
-    def do_return_current(self, arg):
+    def do_return_current(self, axis):
         if not self.mock:
-            print(self.psu.return_current(arg[0].upper()))
+            print(self.psu[axis[0].upper()].return_current())
     
     #Help message for returning current function.
     def help_return_current(self):
@@ -126,9 +130,9 @@ class HelmholtzShell(cmd.Cmd):
         print("Device name can be 'X', 'Y', or 'Z'. ")
     
     #Returns the mode of a given device.
-    def do_return_mode(self, arg):
+    def do_return_mode(self, axis):
         if not self.mock:
-            print(self.psu.return_mode(arg[0].upper()))
+            print(self.psu[axis[0].upper()].return_mode())
     
     #Help message for return_mode function.
     def help_return_mode(self):
@@ -137,9 +141,9 @@ class HelmholtzShell(cmd.Cmd):
         print("Device name can only be 'X', 'Y', 'Z'. ")
     
     #Returns the temperature of a device in Celsius.   
-    def do_return_temp(self, arg):
+    def do_return_temp(self, axis):
         if not self.mock:
-            print(self.psu.return_temp(arg[0].upper()))
+            print(self.psu[axis[0].upper(].return_temp()))
     
     #Help message for return_temp function.
     def help_return_temp(self):
@@ -147,7 +151,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Device name can only be 'X', 'Y', or 'Z'. ")
     
     #Set X H-bridge to positive polarity. 
-    def do_set_positive_X(self, arg):
+    def do_set_positive_X(self, _):
         if not self.mock:
             print(self.arduino.set_positive_X())
     
@@ -157,7 +161,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Accepted values are 'x'. ")
     
     #Set Y H-bridge to positive polarity.
-    def do_set_positive_Y(self, arg):
+    def do_set_positive_Y(self, _):
         if not self.mock:
             print(self.arduino.set_positive_Y())
     
@@ -167,7 +171,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Accepted values are 'y'. ")
     
     #Set Z H-bridge to positive polarity.        
-    def do_set_positive_Z(self, arg):
+    def do_set_positive_Z(self, _):
         if not self.mock:
             print(self.arduino.set_positive_Z())
     
@@ -177,7 +181,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Accepted values are: 'z'. ")
     
     #Set X H-bridge to negative polarity.
-    def do_set_negative_X(self, arg):
+    def do_set_negative_X(self, _):
         if not self.mock:
             print(self.arduino.set_negative_X())
     
@@ -187,7 +191,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Accepted values are: 'X'. ")
     
     #Set Y H-bridge to negative polarity.    
-    def do_set_negative_Y(self, arg):
+    def do_set_negative_Y(self, _):
         if not self.mock:
             print(self.arduino.set_negative_Y())
     
@@ -197,7 +201,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Accepted values are: 'Y'. ")
     
     #Set Z H-bridge to negative polarity.    
-    def do_set_negative_Z(self, arg):
+    def do_set_negative_Z(self, _):
         if not self.mock:
             print(self.arduino.set_negative_Z())
     
@@ -207,7 +211,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Accepted values are: 'Z'. ")
     
     #Deactivates all H-bridges. 
-    def do_deactivate_all(self, arg):
+    def do_deactivate_all(self, _):
         if not self.mock:
             self.arduino.deactivate_all()
     
@@ -217,7 +221,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Accepted values are: 'a'. ")
     
     #Deactivates the X H-bridge.    
-    def do_deactivate_X(self, arg):
+    def do_deactivate_X(self, _):
         if not self.mock:
             self.arduino.deactivate_X()
     
@@ -227,7 +231,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Accepted values are: 'b'. ")
     
     #Deactivates the Y H-bridge.    
-    def do_deactivate_Y(self, arg): 
+    def do_deactivate_Y(self, _): 
         if not self.mock: 
             self.arduino.deactivate_Y()
     
@@ -237,7 +241,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Accepted values are: 'c'. ")
     
     #Deactivates the Z H-bridge. 
-    def do_deactivate_Z(self, arg): 
+    def do_deactivate_Z(self, _): 
         if not self.mock:
             self.arduino.deactivate_Z()
     
@@ -247,7 +251,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Accepted values are: 'd'. ")
     
     #Returns the status of all 3 H-bridges.     
-    def do_bridge_status(self, arg):
+    def do_bridge_status(self, _):
         if not self.mock:
             print(self.arduino.get_bridge_status())
     
@@ -260,19 +264,19 @@ class HelmholtzShell(cmd.Cmd):
         print("Accepted values are: 's'. ")
     
     #Calibration function prototype
-    def do_calibration(self, arg):
+    def do_calibration(self, _):
         if not self.mock:
             Utilities.calibration(self.utility)
-            self.psu.set_output('X', 0)
-            self.psu.set_output('Y', 0)
-            self.psu.set_output('Z', 0)
+            self.psu['X'].set_output(0)
+            self.psu['Y'].set_output(0)
+            self.psu['Z'].set_output(0)
                 
     #Calibration function help message.                 
     def help_calibration(self): 
         print("Testing help message for the calibration function. This is a WIP.")                
                 
     #Retrieve the meter's current properties. 
-    def do_meter_properties(self, arg):
+    def do_meter_properties(self, _):
         if not self.mock:
             self.meter.meter_properties()
      
@@ -282,7 +286,7 @@ class HelmholtzShell(cmd.Cmd):
         print("The command for this function is 0x01. To run, just type 'meter_properties'. \n")
                
     #Retrieve user values that define the meter's behavior. 
-    def do_meter_values(self, arg):
+    def do_meter_values(self, _):
         if not self.mock:
             self.meter.meter_value_settings()
     
@@ -292,7 +296,7 @@ class HelmholtzShell(cmd.Cmd):
         print("This function's command is 0x02")
         
     #VAR_ADC_SETT tag function for meters that have it. 
-    def do_var_tag(self, arg):
+    def do_var_tag(self, _):
         if not self.mock:
             self.meter.var_adc_settings()
             
@@ -301,7 +305,7 @@ class HelmholtzShell(cmd.Cmd):
         print("This function only works on meters with the VAR tag. Returns nothing if the meter doesn't have it. \n")
     
     #Stream data from the meter. (WIP)
-    def do_stream(self, arg):
+    def do_stream(self, _):
         if not self.mock:
             self.meter.stream_data()
     
@@ -316,19 +320,19 @@ class HelmholtzShell(cmd.Cmd):
         print("READING MAGNITUDE: \n")
         
     #Reading the averages of all 3 axes mag. field readings. 
-    def do_average(self, arg):
+    def do_average(self, _):
         if not self.mock:
             self.utility.reading_avg()
             
     #Prototype function. 
     def do_set_field(self, arg):
-        args = arg.split(" ")
+        (mG_x, mG_y, mG_z) = arg.split(" ")
         vals = []
-        for val in args:
+        for mG in (mG_x, mG_y, mG_z):
             try:
-                vals.append(int(val))
+                mG = int(mG)
             except: ValueError
-        self.utility.set_field_vector(vals)
+        self.utility.set_field_vector((mG_x, mG_y, mG_z))
             
     #Prototype help message.
     def help_set_field(self):
@@ -336,7 +340,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Arguments are integers seperated by spaces")
         print("Eg. 10 20 30 attempts to form X:10 Y:20 Z:30")
 
-    def do_receive_sim_data(self, arg):
+    def do_receive_sim_data(self, _):
         if not self.mock:
             self.utility.receive_sim_data()
 
@@ -345,7 +349,7 @@ class HelmholtzShell(cmd.Cmd):
         print("To run this command, run 'recieve_sim_data'.\n")
         print("See documentation for further details.")
 
-    def do_run_sim(self, arg):
+    def do_run_sim(self, _):
         if not self.mock:
             self.utility.run_sim()
 
@@ -354,7 +358,7 @@ class HelmholtzShell(cmd.Cmd):
         print("Run 'run_sim' to start")
 
     #Closes program and exits. 
-    def do_exit(self, arg):
+    def do_exit(self, _):
         print("Disabling power supplies.")
         self.psu.set_output('X', 0)
         self.psu.set_output('Y', 0)

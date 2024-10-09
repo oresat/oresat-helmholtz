@@ -15,13 +15,23 @@ if args.mock:
     utility = None
 else:
     arduino = Arduino(args.arduino_location)
-    psu = ZXY6005s()
+    psX = ZXY6005s('1-1.2.4.3')
+    psY = ZXY6005s('1-1.2.4.2')
+    psZ = ZXY6005s('1-1.2.4.1')
     meter = Magnetometer.Magnetometer(args.meter_location)
-    utility = utils.Utilities(meter=meter, arduino=arduino, psu=psu)
+    utility = utils.Utilities(meter=meter, arduino=arduino, psu=(psX, psY, psZ))
 
-shell = HelmholtzShell(arduino, psu, meter, utility, args.mock)
-for i in 'xyz':
-    shell.do_voltage(i + " 700")
-    shell.do_current_limit(i + " 1000")
-shell.cmdloop()
+shell = HelmholtzShell(arduino, (psX, psY, psZ), meter, utility, args.mock)
+
+def set_all(mV, mA, power):
+    for device in 'xyz':
+        shell.do_voltage(f"{device} {mV}")
+        shell.do_current_limit(f"{device} {mA}")
+        shell.do_power(f"{device} {power}")
+
+set_all(700, 500)
+try:
+    shell.cmdloop()
+finally:
+    set_all(0, 0, 0)
 
