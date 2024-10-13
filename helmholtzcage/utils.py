@@ -239,16 +239,16 @@ class Utilities:
 
             magdict = self.meter.stream_data()
             if magdict:
-                mag_val = magdict[1]['value'] * magdict[1]['sign']
+                mag_val = magdict['XYZ'.index(axis) + 1]['value'] * magdict['XYZ'.index(axis) + 1]['sign']
             else:
                 mag_val = 0
 
             mags_rec.append(mag_val)  # record results
 
         mags_rec = np.array(mags_rec)
-        (slope, intercept) = self.linear_regression(mags_rec, current_set)
+        return (slope, intercept) = self.linear_regression(mags_rec, current_set)
 
-        print("Recorded calibration data...\n\tSlope: {}\n\ty-int: {}\ndata:{}".format(slope, intercept, mags_rec))
+        print("Recorded calibration data...\n\tSlope: {}\n\ty-int: {}\ndata:{}".format(slope*1e-3, intercept*1e-3, mags_rec))
 
     def receive_sim_data(self):
         with serial.Serial(port="/dev/ttyUSB5", baudrate=115200) as ser:
