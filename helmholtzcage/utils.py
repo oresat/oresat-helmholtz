@@ -230,7 +230,6 @@ class Utilities:
         #Iterating starting at -1000 mA to 0. 
         self.psu[axis.upper()].set_output(0)
         for current_val in current_set:
-            current_val = self.convert_amp_val(current_val)
 
             # updating H-Bridges (we can't easily select a single axis, so we set them all)
             self.arduino.set_positive_X() if current_val > 0 else self.arduino.set_negative_X()
