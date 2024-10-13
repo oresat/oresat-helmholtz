@@ -247,7 +247,7 @@ class Utilities:
             mags_rec.append(mag_val)  # record results
 
         mags_rec = np.array(mags_rec)
-        (slope, intercept) = linear_regression(mags_rec, current_set)
+        (slope, intercept) = self.linear_regression(mags_rec, current_set)
 
         print("Recorded calibration data...\n\tSlope: {}\n\ty-int: {}\ndata:{}".format(slope, intercept, mags_rec))
 
