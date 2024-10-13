@@ -235,7 +235,7 @@ class Utilities:
             self.arduino.set_positive_X() if current_val > 0 else self.arduino.set_negative_X()
             self.arduino.set_positive_Y() if current_val > 0 else self.arduino.set_negative_Y()
             self.arduino.set_positive_Z() if current_val > 0 else self.arduino.set_negative_Z()
-            self.psu[axis].set_current_limit(abs(current_val))
+            self.psu[axis].set_current_limit(int(abs(current_val)))
 
             magdict = self.meter.stream_data()
             if magdict:
