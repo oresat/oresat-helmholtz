@@ -246,9 +246,11 @@ class Utilities:
             mags_rec.append(mag_val)  # record results
 
         mags_rec = np.array(mags_rec)
-        return (slope, intercept) = self.linear_regression(mags_rec, current_set)
+        (slope, intercept) = self.linear_regression(mags_rec, current_set)
 
         print("Recorded calibration data...\n\tSlope: {}\n\ty-int: {}\ndata:{}".format(slope*1e-3, intercept*1e-3, mags_rec))
+
+        return (slope, intercept)
 
     def receive_sim_data(self):
         with serial.Serial(port="/dev/ttyUSB5", baudrate=115200) as ser:
