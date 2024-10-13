@@ -274,7 +274,7 @@ class Utilities:
         
         # powering up PSUs
         print("Turning on power supplies...")
-        for dev in 'XYZ':
+        for axis in 'XYZ':
             self.psu[axis].set_output(int(1))
         print("Power Supplies are ON!")
 
