@@ -1,0 +1,712 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "e20e3a76-387c-414c-8ae8-757e15ea8616")
+	(paper "A4")
+	(lib_symbols
+		(symbol "Buck Converters:ZXY-6005S"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "ZXY"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "ZXY-6005S_0_1"
+				(rectangle
+					(start -10.16 -1.27)
+					(end 10.16 -21.59)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "ZXY-6005S_1_1"
+				(pin power_in line
+					(at -12.7 -6.35 0)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 -15.24 0)
+					(length 2.54)
+					(name "RxD"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 -12.7 0)
+					(length 2.54)
+					(name "TxD"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -12.7 -3.81 0)
+					(length 2.54)
+					(name "VIN"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 12.7 -8.89 180)
+					(length 2.54)
+					(name "VOUT+"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 12.7 -11.43 180)
+					(length 2.54)
+					(name "VOUT-"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+	)
+	(junction
+		(at 53.34 55.88)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "01b9845d-17da-4dff-b549-7aae04c93f0c")
+	)
+	(junction
+		(at 53.34 96.52)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "77fdb8ce-2eea-4bfb-ab73-754c62dfcc70")
+	)
+	(wire
+		(pts
+			(xy 53.34 96.52) (xy 53.34 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "29412f43-3ac1-4b4b-ad81-d26b832d152f")
+	)
+	(wire
+		(pts
+			(xy 52.07 55.88) (xy 53.34 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2d1aca84-068a-4d1a-a704-4ac80a63abbe")
+	)
+	(wire
+		(pts
+			(xy 52.07 139.7) (xy 52.07 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4ca04f57-0efb-4821-a2c7-d18dfed02395")
+	)
+	(wire
+		(pts
+			(xy 53.34 55.88) (xy 53.34 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "73312d24-8521-4c00-bad0-a0612d8adfb9")
+	)
+	(wire
+		(pts
+			(xy 53.34 95.25) (xy 53.34 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "752adc7d-30d0-425b-93c3-712164b9521e")
+	)
+	(wire
+		(pts
+			(xy 53.34 54.61) (xy 53.34 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b4aaf4aa-aad0-4298-8a2f-478530e340db")
+	)
+	(wire
+		(pts
+			(xy 52.07 96.52) (xy 53.34 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bdd6e004-82c3-443b-807a-c57a7abf7edd")
+	)
+	(text "Z-Axis\nBuck Converter"
+		(exclude_from_sim no)
+		(at 64.77 136.144 0)
+		(effects
+			(font
+				(size 1.016 1.016)
+			)
+		)
+		(uuid "0c301879-0166-4c6f-8919-1e418c1dc99f")
+	)
+	(text "X-Axis\nBuck Converter\n"
+		(exclude_from_sim no)
+		(at 66.04 51.054 0)
+		(effects
+			(font
+				(size 1.016 1.016)
+			)
+		)
+		(uuid "56629144-510c-4afb-82db-c3fd047b5576")
+	)
+	(text "Y-Axis\nBuck Converter"
+		(exclude_from_sim no)
+		(at 65.786 91.694 0)
+		(effects
+			(font
+				(size 1.016 1.016)
+			)
+		)
+		(uuid "a4bf89d5-79d6-4927-ab06-c2cb4e514a81")
+	)
+	(hierarchical_label "Z_Axis_GND"
+		(shape input)
+		(at 52.07 133.35 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "0d96a51a-b0b0-4d2c-a07a-13449fef0f21")
+	)
+	(hierarchical_label "Y_Axis_VOUT_GND"
+		(shape output)
+		(at 78.74 93.98 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "19323b9c-895a-4cec-bb67-abdd5381a077")
+	)
+	(hierarchical_label "X_Axis_VIN"
+		(shape input)
+		(at 53.34 45.72 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "23a2cb10-9033-4f3f-888f-f5e42c2e916c")
+	)
+	(hierarchical_label "Z_Axis_Serial"
+		(shape input)
+		(at 52.07 140.97 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.016 1.016)
+			)
+			(justify right)
+		)
+		(uuid "24ea5c0a-1742-4f9c-983a-107a2e4dcaad")
+	)
+	(hierarchical_label "Z_Axis_VOUT_GND"
+		(shape output)
+		(at 77.47 138.43 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "259b9409-18a7-4446-885e-a0dffacbb11f")
+	)
+	(hierarchical_label "Y_Axis_GND"
+		(shape input)
+		(at 53.34 88.9 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "4bd97bbf-b4e6-42aa-830f-4e7341ef01e9")
+	)
+	(hierarchical_label "X_Axis_VOUT_GND"
+		(shape output)
+		(at 78.74 53.34 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5689d313-c474-4346-acb7-5c5ece52e62e")
+	)
+	(hierarchical_label "X_Axis_VOUT_+"
+		(shape output)
+		(at 78.74 50.8 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "60678cc2-5e16-487b-bb72-6bc3e0a5e399")
+	)
+	(hierarchical_label "Y_Axis_VOUT_+"
+		(shape output)
+		(at 78.74 91.44 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "818f1aa3-5c1f-44cd-aa8e-43eedf546cbc")
+	)
+	(hierarchical_label "X_Axis_Serial"
+		(shape input)
+		(at 52.07 55.88 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.016 1.016)
+			)
+			(justify right)
+		)
+		(uuid "87e0941d-165a-4b26-9c64-0af12d8a2f63")
+	)
+	(hierarchical_label "Y_Axis_Serial"
+		(shape input)
+		(at 52.07 96.52 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.016 1.016)
+			)
+			(justify right)
+		)
+		(uuid "88d7f51b-74e1-45e9-97a0-34ff09ea13d3")
+	)
+	(hierarchical_label "Z_Axis_VIN"
+		(shape input)
+		(at 52.07 130.81 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a37a5e0a-2b4e-4f5d-a393-3141da78991f")
+	)
+	(hierarchical_label "Z_Axis_VOUT_+"
+		(shape output)
+		(at 77.47 135.89 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ab532d4a-3398-45f5-a563-eef2963385b0")
+	)
+	(hierarchical_label "X_Axis_GND"
+		(shape input)
+		(at 53.34 48.26 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e43a9dda-8c3d-4a95-9c75-db7382b6295b")
+	)
+	(hierarchical_label "Y_Axis_VIN"
+		(shape input)
+		(at 53.34 86.36 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "fed71093-e266-4ba6-9e3c-1abcfbd5b2c6")
+	)
+	(symbol
+		(lib_id "Buck Converters:ZXY-6005S")
+		(at 66.04 41.91 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b0db4afd-fe99-45f1-8dda-4024346cc187")
+		(property "Reference" "ZXY1"
+			(at 66.04 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 66.04 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 66.04 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 66.04 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 66.04 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin ""
+			(uuid "95e30820-b42a-4dfd-a3ee-2e7ace5a3fc0")
+		)
+		(pin ""
+			(uuid "e21f1a1f-0b87-45f4-9161-cb7e1425451a")
+		)
+		(pin ""
+			(uuid "8433a061-4341-427d-a556-fbdbae47c9b3")
+		)
+		(pin ""
+			(uuid "889a6056-1176-4592-b40f-397fc71ded85")
+		)
+		(pin ""
+			(uuid "4dd91fe5-c294-44fc-81b0-038ed70cf853")
+		)
+		(pin ""
+			(uuid "f934d647-a9fd-41e8-a7bf-43553227ed6f")
+		)
+		(instances
+			(project ""
+				(path "/91382351-cae2-4242-a3c7-9faa231cc23b/eb7ebe41-356b-4587-bdb0-102bd87ad8a7"
+					(reference "ZXY1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Buck Converters:ZXY-6005S")
+		(at 66.04 82.55 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b8855da7-d666-43de-9b58-b1a79ca24039")
+		(property "Reference" "ZXY2"
+			(at 66.04 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 66.04 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 66.04 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 66.04 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 66.04 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin ""
+			(uuid "57a49cef-d792-4d52-80c1-cda994906530")
+		)
+		(pin ""
+			(uuid "603e6db7-9249-48fe-aa68-7a2a86334d5a")
+		)
+		(pin ""
+			(uuid "5d7c3069-2369-4066-80d9-ea9414357fb9")
+		)
+		(pin ""
+			(uuid "e75fbe2b-4596-4a81-b2c9-9a8e6d113669")
+		)
+		(pin ""
+			(uuid "8b61c51d-c1c6-4d17-9efb-86475ec2aa8f")
+		)
+		(pin ""
+			(uuid "bc135190-760f-477a-88be-7bd09468fa4f")
+		)
+		(instances
+			(project ""
+				(path "/91382351-cae2-4242-a3c7-9faa231cc23b/eb7ebe41-356b-4587-bdb0-102bd87ad8a7"
+					(reference "ZXY2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Buck Converters:ZXY-6005S")
+		(at 64.77 127 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c1d0a881-747a-432a-84a3-a460aa4ced1a")
+		(property "Reference" "ZXY3"
+			(at 64.77 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 64.77 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 64.77 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 64.77 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 64.77 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin ""
+			(uuid "8a2a2a5f-427e-479f-9227-959458c3192f")
+		)
+		(pin ""
+			(uuid "7e5e8668-f28d-471e-8a62-b8ca8e830775")
+		)
+		(pin ""
+			(uuid "bce3fcaa-f459-432a-96bd-b1e0c3c09808")
+		)
+		(pin ""
+			(uuid "cb1129b7-f629-43be-9219-cf9c06969432")
+		)
+		(pin ""
+			(uuid "fd37a271-c4bd-43f1-a755-9180c9f1c485")
+		)
+		(pin ""
+			(uuid "ed6a6de5-d241-453c-b9bc-839b762f948a")
+		)
+		(instances
+			(project ""
+				(path "/91382351-cae2-4242-a3c7-9faa231cc23b/eb7ebe41-356b-4587-bdb0-102bd87ad8a7"
+					(reference "ZXY3")
+					(unit 1)
+				)
+			)
+		)
+	)
+)

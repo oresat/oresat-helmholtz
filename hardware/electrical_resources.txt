@@ -1,0 +1,2 @@
+This folder contains resources for reproducing and developing the helmholtz cage
+hardware.
