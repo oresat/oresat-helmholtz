@@ -130,29 +130,34 @@ class Utilities:
 
         return 0
     
+    def linear_regression(self, x, y):
+        # Performs 2-dim linear regression and returns a tuple of linear coefficients.
+        num_points = np.size(x)
+        
+        # mean of x and y vectors
+        mean_x = np.mean(x)
+        mean_y = np.mean(y)
+        
+        # sum of cross and square deviations in xy and xx respectively
+        sum_cross_xy = np.sum(y*x) - num_points*mean_x*mean_y
+        sum_square_xx = np.sum(x*x) - num_points*mean_x*mean_x
+        
+        # calculating slope and intercepts
+        m = sum_cross_xy / sum_square_xx
+        y_0 = mean_y - m*mean_x
+        return (m, y_0)
        
     def calibration(self):
         #Current values.
         max_current = 1000
-        min_current = 0 
+        min_current = 0
         step = 100
-        
-        #Opening and declaring headers for the CSV file.
-        # with open("cage_cal.csv", "w") as new_file:
-        #     fieldnames = ['Current (A)', 'Magnetic Field X (T)', 'Magnetic Field Y (T)', 'Magnetic Field Z (T)']
-        #     csv_writer= csv.DictWriter(new_file, fieldnames = fieldnames, delimiter='\t')
-        #     csv_writer.writeheader()
         
         #Prototype calibration v2. Running calibration on all 3 PSUs at once instead of continously. 
         #Initial check: making sure all PSUs are off. 
-        self.psu.set_output('X', 0)
-        self.psu.set_output('Y', 0)
-        self.psu.set_output('Z', 0)
-        
-        #Powering up all PSUs
-        self.psu.set_output('X', 1)
-        self.psu.set_output('Y', 1)
-        self.psu.set_output('Z', 1)
+        self.psu['X'].set_output(0)
+        self.psu['Y'].set_output(0)
+        self.psu['Z'].set_output(0)
         
         #Setting all H-bridges to negative polarity.
         self.arduino.set_negative_X()
@@ -160,8 +165,8 @@ class Utilities:
         self.arduino.set_negative_Z()
         
         #Iterating starting at -1000 mA to 0. 
-        mags_rec = {'X': [], 'Y': [], 'Z': []}
-        for idx, axis in enumerate(['X', 'Y', 'Z']):
+        mags_rec = []
+        for idx, axis in enumerate('XYZ'):
             # disable all power supplies
             self.psu['X'].set_output(0)
             self.psu['Y'].set_output(0)
@@ -177,7 +182,8 @@ class Utilities:
                     mag_val = magdict[idx]['value'] * magdict[idx]['sign']
                 else:
                     mag_val = 0
-                mags_rec[axis].append(mag_val)  # record results
+
+                mags_rec.append(mag_val)  # record results
                 print(mags_rec)
             
         #Setting all H-bridges to positive polarity.
@@ -206,6 +212,7 @@ class Utilities:
                 print(idx, axis)
 
         print("Recorded calibration data...\n{}".format(mags_rec))
+
 
     def receive_sim_data(self):
         with serial.Serial(port="/dev/ttyUSB5", baudrate=115200) as ser:
@@ -242,20 +249,4 @@ class Utilities:
             self.psu[axis].set_output(int(0))
         print("Power Supplies are OFF!")
 
-    def linear_regression(x, y):
-        # Performs 2-dim linear regression and returns a tuple of linear coefficients.
-        num_points = np.size(x)
-        
-        # mean of x and y vectors
-        mean_x = np.mean(x)
-        mean_y = np.mean(y)
-        
-        # sum of cross and square deviations in xy and xx respectively
-        sum_cross_xy = np.sum(y*x) - num_points*mean_x*mean_y
-        sum_square_xx = np.sum(x*x) - num_points*mean_x*mean_x
-        
-        # calculating slope and intercepts
-        m = sum_cross_xy / sum_square_xx
-        y_0 = mean_y - m*mean_x
-        return (m, y_0)
         

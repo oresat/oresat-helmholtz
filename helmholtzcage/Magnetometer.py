@@ -31,10 +31,8 @@ class Magnetometer:
     TIMEOUT = 1
 
     #Magnetometer class constructor. Serial setup done here.
-    def __init__(self, location: str):
+    def __init__(self, location: str, serial_port=None):
         '''Object Construction. Passes the name of the Magnetometer's USB port'''
-        serial_port = None
-        
         for i in serial.tools.list_ports.comports():
             if i.location == location:
                 serial_port = i.device

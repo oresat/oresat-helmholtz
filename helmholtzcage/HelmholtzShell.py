@@ -143,7 +143,7 @@ class HelmholtzShell(cmd.Cmd):
     #Returns the temperature of a device in Celsius.   
     def do_return_temp(self, axis):
         if not self.mock:
-            print(self.psu[axis[0].upper(].return_temp()))
+            print(self.psu[axis[0].upper()].return_temp())
     
     #Help message for return_temp function.
     def help_return_temp(self):
@@ -327,12 +327,12 @@ class HelmholtzShell(cmd.Cmd):
     #Prototype function. 
     def do_set_field(self, arg):
         (mG_x, mG_y, mG_z) = arg.split(" ")
-        vals = []
-        for mG in (mG_x, mG_y, mG_z):
+        target = []
+        for idx,mG in enumerate((mG_x, mG_y, mG_z)):
             try:
-                mG = int(mG)
+                target.append(int(mG))
             except: ValueError
-        self.utility.set_field_vector((mG_x, mG_y, mG_z))
+        self.utility.set_field_vector(target)
             
     #Prototype help message.
     def help_set_field(self):
@@ -360,9 +360,9 @@ class HelmholtzShell(cmd.Cmd):
     #Closes program and exits. 
     def do_exit(self, _):
         print("Disabling power supplies.")
-        self.psu.set_output('X', 0)
-        self.psu.set_output('Y', 0)
-        self.psu.set_output('Z', 0)
+        self.psu['X'].set_output(0)
+        self.psu['Y'].set_output(0)
+        self.psu['Z'].set_output(0)
         return True
     
     #Help message for exit program.

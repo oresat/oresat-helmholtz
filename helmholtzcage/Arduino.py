@@ -82,7 +82,7 @@ class Arduino:
 
     def __init__(self, location: str):
         '''Object Construction. Passes the name of the arduino's USB port'''
-        serial_port = None
+        serial_port = '/dev/pts/4'
         
         for i in serial.tools.list_ports.comports():
             if i.location == location:
@@ -100,7 +100,7 @@ class Arduino:
             timeout = self.TIMEOUT	
 	)
 
-    def send_command(self, device_name, command):
+    def send_command(self, command):
         '''sends a command to serial port and reads the message returned'''
         self.ser.write(f'A{command}\n'.encode())
         self.ser.flush()

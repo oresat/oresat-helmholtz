@@ -38,24 +38,25 @@ class ZXY6005s:
     STOPBITS = serial.STOPBITS_ONE
     TIMEOUT = 1
 
-    def __init__(self, location):
+    def __init__(self, location, serial_port=None):
         '''construct objects, using location for X, Y and Z power supplies'''
         for i in serial.tools.list_ports.comports():
             if i.location == location:
-                self.ser = serial.Serial(
-                        port = i.device,
-                        baudrate = self.BAUDRATE,
-                        parity = self.PARITY,
-                        stopbits = self.STOPBITS,
-                        bytesize = self.BYTESIZE,
-                        timeout = self.TIMEOUT,
-                )
+                serial_port = i.device
                 break
-            else:
-                raise Exception(f'Could not find device {location}')
+        if serial_port is None:
+            raise Exception(f'Could not find device with location of {location}')
 
+        self.ser = serial.Serial(
+                port = serial_port,
+                baudrate = self.BAUDRATE,
+                parity = self.PARITY,
+                stopbits = self.STOPBITS,
+                bytesize = self.BYTESIZE,
+                timeout = self.TIMEOUT,
+        )
 
-    def send_command(self, device_name, command):
+    def send_command(self, command):
         '''sends a command to serial port and reads the message returned'''
         self.ser.write(f'A{command}\n'.encode())
         self.ser.flush()
@@ -65,7 +66,7 @@ class ZXY6005s:
         ''' returns the model of power supply unit'''
         return self.send_command(ZXY6005sCommands.MODEL.value)
 
-    def firmware_version(self, device_name: str) -> str:
+    def firmware_version(self) -> str:
         '''returns the firmware version'''
         return self.send_command(ZXY6005sCommands.FIRMWARE_VERSION.value)
 
@@ -76,15 +77,15 @@ class ZXY6005s:
         else: 
             command = f'{ZXY6005sCommands.SET_OUTPUT.value}0'
         reply = self.send_command(command)
-        if reply != command:
-            raise ValueError(f'Invalid reply was {reply}, expected {command}')
+        if reply != f'A{command}':
+            raise ValueError(f'Invalid reply was {reply}, expected A{command}')
 
     def set_amp_hour(self, mAh: int):
         '''takes an integer and sets amp hour counter to that value'''
         command = f'{ZXY6005sCommands.SET_AMP_HOUR.value}{mAh}'
         reply = self.send_command(command)
-        if reply != command:
-            raise ValueError(f'Invalid reply was {reply}, expected {command}')
+        if reply != f'A{command}':
+            raise ValueError(f'Invalid reply was {reply}, expected A{command}')
 
     def return_amp_hour(self) -> int:
         '''returns amp hour reading'''
@@ -92,10 +93,10 @@ class ZXY6005s:
 
     def set_voltage(self, mV: int):
         '''takes an integer and sets voltage to that value in mV'''
-        command = f'{ZXY6005sCommands.SET_VOLTAGE.value}{str(value)}'
+        command = f'{ZXY6005sCommands.SET_VOLTAGE.value}{mV}'
         reply = self.send_command(command)
-        if reply != command:
-            raise ValueError(f'Invalid reply was {reply}, expected {command}')
+        if reply != f'A{command}':
+            raise ValueError(f'Invalid reply was {reply}, expected A{command}')
 
     def return_voltage(self) -> int:
         '''takes a device name and returns voltage measurement'''
@@ -103,10 +104,10 @@ class ZXY6005s:
 
     def set_current_limit(self, mA: int):
         '''takes an integer and sets current limit to that value in mA'''
-        command = f'{ZXY6005sCommands.SET_CURRENT_LIMIT.value}{str(value)}'
+        command = f'{ZXY6005sCommands.SET_CURRENT_LIMIT.value}{str(mA)}'
         reply = self.send_command(command) 
-        if reply != command:
-            raise ValueError(f'Invalid reply was {reply}, expected {command}')
+        if reply != f'A{command}':
+            raise ValueError(f'Invalid reply was {reply}, expected A{command}')
 
     def return_current(self) -> int:
         '''returns power supply current in amps'''
