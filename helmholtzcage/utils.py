@@ -240,7 +240,7 @@ class Utilities:
 
             magdict = self.meter.stream_data()
             if magdict:
-                mag_val = magdict[idx]['value'] * magdict[idx]['sign']
+                mag_val = magdict[1]['value'] * magdict[1]['sign']
             else:
                 mag_val = 0
 
