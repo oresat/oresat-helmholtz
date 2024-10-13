@@ -213,6 +213,43 @@ class Utilities:
 
         print("Recorded calibration data...\n{}".format(mags_rec))
 
+    def calibrate_axis(self, axis):
+        # Calibrates a single axis
+        #Current values.
+        max_current = 1000
+        min_current = -1000
+        step = 100
+
+        #Initial check: making sure all PSUs are off. 
+        self.psu['X'].set_output(0)
+        self.psu['Y'].set_output(0)
+        self.psu['Z'].set_output(0)
+        
+        mags_rec = []
+        current_set = np.linspace(-1000, 1000, 21)
+        #Iterating starting at -1000 mA to 0. 
+        self.psu[axis.upper()].set_output(0)
+        for current_val in current_set:
+            current_val = self.convert_amp_val(current_val)
+
+            # updating H-Bridges (we can't easily select a single axis, so we set them all)
+            self.arduino.set_positive_X() if current_val > 0 else self.arduino.set_negative_X()
+            self.arduino.set_positive_Y() if current_val > 0 else self.arduino.set_negative_Y()
+            self.arduino.set_positive_Z() if current_val > 0 else self.arduino.set_negative_Z()
+            self.psu[axis].set_current_limit(abs(current_val))
+
+            magdict = self.meter.stream_data()
+            if magdict:
+                mag_val = magdict[idx]['value'] * magdict[idx]['sign']
+            else:
+                mag_val = 0
+
+            mags_rec.append(mag_val)  # record results
+
+        mags_rec = np.array(mags_rec)
+        (slope, intercept) = linear_regression(mags_rec, current_set)
+
+        print("Recorded calibration data...\n\tSlope: {}\n\ty-int: {}\ndata:{}".format(slope, intercept, mags_rec))
 
     def receive_sim_data(self):
         with serial.Serial(port="/dev/ttyUSB5", baudrate=115200) as ser:
