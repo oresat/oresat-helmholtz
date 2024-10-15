@@ -285,7 +285,7 @@ class HelmholtzShell(cmd.Cmd):
     #Retrieve the meter's current properties. 
     def do_meter_properties(self, _):
         if not self.mock:
-            self.meter.meter_properties()
+            print(self.meter.meter_properties())
      
     #Meter properties help message. 
     def help_meter_properties(self):
@@ -314,7 +314,7 @@ class HelmholtzShell(cmd.Cmd):
     #Stream data from the meter. (WIP)
     def do_stream(self, _):
         if not self.mock:
-            self.meter.stream_data()
+            print(self.meter.stream_data())
     
     #Stream data function help message. 
     def help_stream(self):

@@ -17,6 +17,9 @@ class MagnetometerCommands(Enum):
     ID_METER_SETT = 0x02 #See page 6 on the alphalab serial handbook for more information.
     ID_METER_ADC_SETT = 0x1C #See page 7 on the alphalab serial handbook for more information.
     STREAM_DATA = 0x03 #See page 8 on the alphalab serial handbook for more information. 
+    BREAK_SUSPEND = 0x14 # See page 20 of alphalab comm protocol
+    KILL_PROC = 0xFF # Kills all processes and clears meter buffer
+    ACK = 0x08
     
     #Add more commands here as we see fit. 
 
@@ -48,140 +51,110 @@ class Magnetometer:
             bytesize = self.BYTESIZE,
             timeout = self.TIMEOUT	
 	)
-
-    #Prototype read message function. Devs: please DO NOT delete any code until file is finalized!
-    def proto_read_chunk(self):
-        data = self.ser.read(20) #Read in 20 bytes.
-        return data
     
-    #Prototype send message function. 
-    def send_command(self, command, extra_bytes = None):
-        command = [command] + (extra_bytes if extra_bytes else [0x00]* 5)
+    def send_command(self, command=0x08):
+        # sends a command, default is ACK
+        command = [command]*6
         self.ser.write(bytearray(command))
         print(f"Sent: {command}")
-        
-    #Prototype acknowledgment function. 
-    def acknowledgment(self):
-        ack_command = [0x08, 0x00, 0x00, 0x00, 0x00, 0x00]
-        self.ser.write(bytearray(ack_command))
-        print("Sent acknowledgement")
-    
+      
     #Prototype function to handle meter's response. (Used for commands that deal with chunks)
-    def handle_meter_response(self):
-        full_response = ""
+    def read_ascii_stream(self):
+        # parses data returned from magnetometer using ascii encoding, used for meter properties and settings
+        ascii_response = ""
+        chunk = None
+        read_chunk = True
+        timeouts = 0
         
-        while True:
-            chunk = self.proto_read_chunk()
+        while read_chunk:
+            chunk = self.ser.read_until(expected=b'\x08', size=20) # magnetometer sends data in 20-byte chunks
             
-            if not chunk:
-                print("No response or communication timeout.")
-                break
-            
-            #Decoding the ASCII data.
-            ascii_data = chunk.decode('ascii', errors='ignore').strip()
-            full_response += ascii_data
-            
-            #checking for the termination byte (0x07)
-            if chunk[-1] == 0x07:
-                print("Termination byte received, ending communication.")
-                break
+            if chunk:
+                #Decoding the ASCII data.
+                ascii_response += chunk.decode('ascii', errors='ignore').strip()
+                
+                #checking for the termination byte (0x07)
+                if chunk[-1] == 0x07:
+                    print("Termination byte received, ending communication.")
+                    break
+                else:
+                    self.send_command(MagnetometerCommands.ACK.value)
             else:
-                self.acknowledgment()
-        
+                timeouts += 1
+                print("No response recieved and communication timed out. Trying again")
+                if timeouts > 5:
+                    read_chunk = False
+                    print("No data encountered in 20 chunks. Ending transmission.")
+            
         #Parse any data that was returned by the meter. 
-        self.parse_meter_response(full_response)
-     
-    #Parsing the data received from the meter.    
-    def parse_meter_response(self, response):
-        properties = response.split(':')
-        parsed_data = {}
-        
+        response = {}
+        properties = ascii_response.split(':')
         for prop in properties:
             if '=' in prop:
                 key, value = prop.split('=', 1)
-                parsed_data[key] = value
-                
-        #Display the parsed properties.
-        for key, value in parsed_data.items():
-            print(f"{key}: {value}")
-            
-    #Prototype function to handle the streaming of data. 
-    def read_stream_data(self):
-        #Read the initial chunk of data.
-        stream_data = self.ser.read_until(b'\x08') #Read until the acknowledgment byte.
-        
-        #Remove the final acknowledgement byte from the stream data. 
-        if stream_data[-1] == 0x08:
-            stream_data = stream_data[:-1]
-            
-        #Determine the number of data points.
-        num_data_points = len(stream_data) // 6
-        
-        point_dict = {
-            0:"time",
-            1:"x",
-            2:"y",
-            3:"z",
-            4:"magnitude"
-        }
-        chunk = []
+                response[key] = value
+        return response
 
-        #Process each data point.
-        for i in range(num_data_points):
-            data_point = stream_data[i*6:(i+1)*6]
-            data = self.parse_data_point(data_point,point_dict[i])
-            if data['config'] == 0:
-                print("parsing failed - bad data")
-                break
+            
+    def get_value(self, byte_array):
+        # Decodes data point and returns integer value, data_point
+        sign = -1 if (byte_array[1] & 0x08) else 1          # if 4th msb in byte2 is positive, the value is negative
+        decimal_power = (byte_array[1] & ~0xF8)             # 3 lsb denote power of 10 at decimal place
+
+        raw_value = struct.unpack(">I", byte_array[2:6])[0] & 0xFFFFFFFF # 32 bits for unsigned integer value of the data point
+        value = (sign * raw_value) / (10.0 ** decimal_power)    # converts to signed float32
+        return value
+
+    def stream_data(self):
+        # requests and recieves data points from magnetometer
+        no_ack = 1
+        timeouts = 0
+        data = []
+
+        self.send_command(MagnetometerCommands.STREAM_DATA.value) # request data
+        while no_ack:
+            point = self.ser.read_until(b'\x08', size=6)  # read until the acknowledgment byte
+            if point:
+                if point == b'\x08':
+                    no_ack = 0 # got ACK byte, ending transmission
+                else:
+                    data.append(self.get_value(point))
             else:
-                print("Stream data processed successfully.")
-            chunk.append(data)
-        return chunk
-        
-    #Prototype function to parse through each data point received. 
-    def parse_data_point(self, data_point, dict):
+                timeouts += 1
+                print("Data stream timed out, trying again.")
+                if timeouts > 4:
+                    print("No data encountered. Returning zeros.")
+                    data = [0, 0, 0, 0, 0]
+                    break
+
+        self.send_command(MagnetometerCommands.KILL_PROC.value) # clears buffer
+        return data
+            
+    def get_full_datapoint(self, byte_array):
         #Convering the 6-byte data point into individual components.
         #Assuming data_point is a bytearray or bytes object.
-        '''# new alternative below
-        config_info = (data_point[0] << 4) | (data_point[1] >> 4) #12 bits for configuration. 
-        sign_decimal_info = ((data_point[1] & 0x0F) << 4) | (data_point[2] >> 4) #4 bits for sign and decimal
-        actual_number = struct.unpack(">I", data_point[2:6])[0] & 0xFFFFFFFF #32 bits for the actual number.
-        
-        print(f"Config Info: {config_info}, Sign/Decimal Info: {sign_decimal_info}, Number: {actual_number}")
-        '''
+        config_info = byte_array[0]                             # config info we don't use yet
+        sign = -1 if (byte_array[1] & 0x08) else 1          # if 4th msb is positive, the value is negative
+        decimal_power = (byte_array[1] & ~0xF8)             # 3 lsb denote power of 10 at decimal place
 
-        #print("byte array", data_point)
-        # FIXME : Test this code, then remove this comment when working
-        config_info = data_point[0]                             # config info we don't use yet
-        sign_decimal_info = data_point[1]                       # second byte tells sign and decimal place
-        sign = -1 if (sign_decimal_info & 0x08) else 1          # if 4th msb is positive, the value is negative
-        decimal_power = (sign_decimal_info & ~0xF8)             # 3 lsb denote power of 10 at decimal place
-
-        raw_value = struct.unpack(">I", data_point[2:6])[0] & 0xFFFFFFFF # 32 bits for unsigned integer value of the data point
+        raw_value = struct.unpack(">I", byte_array[2:6])[0] & 0xFFFFFFFF # 32 bits for unsigned integer value of the data point
         value = (sign * raw_value) / (10.0 ** decimal_power)    # converts to signed float32
-        print("Config info: {:b} Sign/Decimal: {:b} uInt Value: {} Value {}: {}".format(config_info, sign_decimal_info, raw_value, dict, value))
-        print()
         return {'config' : config_info, 'sign' : sign, 'power' : decimal_power, 'raw_value' : raw_value, 'value' : value} 
         
                 
     #ID_METER_PROP (0x01). Returns the current meter's properties.  
     def meter_properties(self):
         self.send_command(MagnetometerCommands.ID_METER_PROP.value)
-        self.handle_meter_response()
+        return self.read_ascii_stream()
     
     #ID_METER_SETT (0x02). Returns all user values that define desired behavior of the meter. 
     def meter_value_settings(self):
         self.send_command(MagnetometerCommands.ID_METER_SETT.value)
-        self.handle_meter_response()
+        return self.read_ascii_stream()
         
     #ID_METER_ADC_SETT (0x1C). Returns a list of meter ADC setting that are pre-defined, user selectable, 
     # configuration settings for the meter ADC(s).
     def var_adc_settings(self):
         self.send_command(MagnetometerCommands.ID_METER_ADC_SETT.value)
-        self.handle_meter_response()
-        
-    #STREAM_DATA (0x03). Stream data function. (WIP)
-    def stream_data(self):
-        self.send_command(MagnetometerCommands.STREAM_DATA.value)
-        return self.read_stream_data()
+        return self.read_ascii_stream()
         
