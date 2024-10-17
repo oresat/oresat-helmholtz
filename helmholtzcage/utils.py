@@ -49,15 +49,15 @@ class Utilities:
         #Iterate and get 10 readings. 
         num_iterations = 10
         for _ in range(num_iterations):
-            chunk = self.meter.stream_data() 
-            if (chunk != []):
-                sum_x += chunk[1]['value']
+            data = self.meter.stream_data() 
+            if data:
+                sum_x += data[1]
                 # print("sum_x:",sum_x)                
-                sum_y += chunk[2]['value']
+                sum_y += data[2]
                 # print("sum_y:", sum_y)
-                sum_z += chunk[3]['value']
+                sum_z += data[3]
                 # print("sum_z:", sum_z)
-                count = count + 1
+                count += 1
             else:
                 print("Warning: bad data encountered.")
         
@@ -179,7 +179,7 @@ class Utilities:
 
                 magdict = self.meter.stream_data()
                 if magdict:
-                    mag_val = magdict[idx]['value'] * magdict[idx]['sign']
+                    mag_val = magdict[idx+1]
                 else:
                     mag_val = 0
 
@@ -239,7 +239,7 @@ class Utilities:
 
             magdict = self.meter.stream_data()
             if magdict:
-                mag_val = magdict['XYZ'.index(axis) + 1]['value'] * magdict['XYZ'.index(axis) + 1]['sign']
+                mag_val = magdict['XYZ'.index(axis) + 1]
             else:
                 mag_val = 0
 
@@ -247,10 +247,7 @@ class Utilities:
 
         mags_rec = np.array(mags_rec)
         (slope, intercept) = self.linear_regression(mags_rec, current_set)
-
-        print("Recorded calibration data...\n\tSlope: {}\n\ty-int: {}\ndata:{}".format(slope*1e-3, intercept*1e-3, mags_rec))
-
-        return (slope, intercept)
+        return (slope, intercept), mags_rec
 
     def receive_sim_data(self):
         with serial.Serial(port="/dev/ttyUSB5", baudrate=115200) as ser:

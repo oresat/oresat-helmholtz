@@ -60,7 +60,7 @@ class ZXY6005s:
         '''sends a command to serial port and reads the message returned'''
         self.ser.write(f'A{command}\n'.encode())
         self.ser.flush()
-        return self.ser.readline().decode().strip()
+        return self.ser.readline().decode('ascii', errors='backslashreplace').strip()
 
     def model(self) -> str:
         ''' returns the model of power supply unit'''

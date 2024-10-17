@@ -102,7 +102,7 @@ class Arduino:
 
     def send_command(self, command):
         '''sends a command to serial port and reads the message returned'''
-        self.ser.write(f'A{command}\n'.encode())
+        self.ser.write(f'{command}\n'.encode())
         self.ser.flush()
         return self.ser.readline().decode().strip()
 

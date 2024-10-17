@@ -67,7 +67,7 @@ class Magnetometer:
         timeouts = 0
         
         while read_chunk:
-            chunk = self.ser.read_until(expected=b'\x08', size=20) # magnetometer sends data in 20-byte chunks
+            chunk = self.ser.read_until(expected=b'\x08', size=21) # magnetometer sends data in 20-byte chunks
             
             if chunk:
                 #Decoding the ASCII data.
@@ -84,7 +84,7 @@ class Magnetometer:
                 print("No response recieved and communication timed out. Trying again")
                 if timeouts > 5:
                     read_chunk = False
-                    print("No data encountered in 20 chunks. Ending transmission.")
+                    print("No data encountered in 5 chunks. Ending transmission.")
             
         #Parse any data that was returned by the meter. 
         response = {}
@@ -93,6 +93,8 @@ class Magnetometer:
             if '=' in prop:
                 key, value = prop.split('=', 1)
                 response[key] = value
+
+        self.send_command(MagnetometerCommands.KILL_PROC.value) # clears buffer
         return response
 
             
