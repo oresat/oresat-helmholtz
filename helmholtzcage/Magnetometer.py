@@ -103,7 +103,7 @@ class Magnetometer:
         sign = -1 if (byte_array[1] & 0x08) else 1          # if 4th msb in byte2 is positive, the value is negative
         decimal_power = (byte_array[1] & ~0xF8)             # 3 lsb denote power of 10 at decimal place
 
-        raw_value = struct.unpack(">I", byte_array[2:6])[0] & 0xFFFFFFFF # 32 bits for unsigned integer value of the data point
+        raw_value = struct.unpack(">I", byte_array[1:5])[0] & 0xFFFFFFFF # 32 bits for unsigned integer value of the data point
         value = (sign * raw_value) / (10.0 ** decimal_power)    # converts to signed float32
         return value
 
