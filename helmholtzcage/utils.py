@@ -148,85 +148,33 @@ class Utilities:
         return (m, y_0)
        
     def calibration(self):
-        #Current values.
-        max_current = 1000
-        min_current = 0
-        step = 100
+        # updates linear regression coefficients
+        coeffs = []
+        for axis in "XYZ":
+           coeffs.append(calibrate_axis(axis)) 
+
+        # update coefficients
+        for idx, slope, intp in enumerate(coeffs):
+            self.xyz_slope[idx] = slope
+            self.ambient_field[idx] = intp
+
+        print("New calibration terms,\n{}\n{}".format(self.xyz_slope, self.ambient_field))
         
-        #Prototype calibration v2. Running calibration on all 3 PSUs at once instead of continously. 
-        #Initial check: making sure all PSUs are off. 
-        self.psu['X'].set_output(0)
-        self.psu['Y'].set_output(0)
-        self.psu['Z'].set_output(0)
-        
-        #Setting all H-bridges to negative polarity.
-        self.arduino.set_negative_X()
-        self.arduino.set_negative_Y()
-        self.arduino.set_negative_Z()
-        
-        #Iterating starting at -1000 mA to 0. 
-        mags_rec = []
-        for idx, axis in enumerate('XYZ'):
-            # disable all power supplies
-            self.psu['X'].set_output(0)
-            self.psu['Y'].set_output(0)
-            self.psu['Z'].set_output(0)
 
-            # sweep negative current across axis
-            for current_val in range(max_current, min_current, -step):
-                current_val = self.convert_amp_val(current_val)
-                self.psu[axis].set_current_limit(current_val)
-
-                magdict = self.meter.stream_data()
-                if magdict:
-                    mag_val = magdict["XYZ".index(axis)+1]
-                else:
-                    mag_val = 0
-
-                mags_rec.append(mag_val)  # record results
-                print(mags_rec)
-            
-        #Setting all H-bridges to positive polarity.
-        self.arduino.set_positive_X()
-        self.arduino.set_positive_Y()
-        self.arduino.set_positive_Z()
-        
-        #Iterating starting at 0 mA to 1000.
-        for idx, axis in enumerate('XYZ'):
-            # disable all power supplies
-            self.psu['X'].set_output(0)
-            self.psu['Y'].set_output(0)
-            self.psu['Z'].set_output(0)
-
-            # sweet positive current across axis
-            for current_val in range(min_current, max_current, step):
-                current_val = self.convert_amp_val(current_val)
-                self.psu[axis].set_current_limit(current_val)
-                
-                magdict = self.meter.stream_data()
-                if magdict:
-                    mag_val = magdict["XYZ".index(axis)+1]
-                else:
-                    mag_val = 0
-                mags_rec[axis].append(mag_val)  # record results
-                print(idx, axis)
-
-        print("Recorded calibration data...\n{}".format(mags_rec))
-
-    def calibrate_axis(self, axis):
+    def calibrate_axis(self, axis, max_current=1000, min_current=-1000, step=100):
         # Calibrates a single axis
         #Current values.
-        max_current = 1000
-        min_current = -1000
-        step = 100
+        current_set = np.linspace(
+                min_current, 
+                max_current, 
+                (max_current-max_current)/step +1)
 
-        #Initial check: making sure all PSUs are off. 
+        # making sure all PSUs are off. 
         self.psu['X'].set_output(0)
         self.psu['Y'].set_output(0)
         self.psu['Z'].set_output(0)
         
         mags_rec = []
-        current_set = np.linspace(-1000, 1000, 21)
         #Iterating starting at -1000 mA to 0. 
         self.psu[axis.upper()].set_output(1)
         for current_val in current_set:
@@ -245,7 +193,7 @@ class Utilities:
 
         mags_rec = np.array(mags_rec)
         (slope, intercept) = self.linear_regression(mags_rec, current_set)
-        return (slope, intercept), mags_rec
+        return (slope, intercept)
 
     def receive_sim_data(self):
         with serial.Serial(port="/dev/ttyUSB5", baudrate=115200) as ser:
