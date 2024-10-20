@@ -238,9 +238,10 @@ class Utilities:
             self.psu[axis].set_current_limit(int(abs(current_val)))
 
             mag_array = self.meter.stream_data()
-            mag_val = magdict['XYZ'.index(axis) + 1]
+            mag_val = mag_array['XYZ'.index(axis) + 1]
 
             mags_rec.append(mag_val)  # record results
+        self.psu[axis.upper()].set_output(0)
 
         mags_rec = np.array(mags_rec)
         (slope, intercept) = self.linear_regression(mags_rec, current_set)
