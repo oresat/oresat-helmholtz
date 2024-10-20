@@ -114,8 +114,8 @@ class Magnetometer:
         timeouts = 0
         data = []
 
-        self.send_command(MagnetometerCommands.STREAM_DATA.value) # request data
         while no_ack:
+        self.send_command(MagnetometerCommands.STREAM_DATA.value) # request data
             point = self.ser.read_until(b'\x08', size=6)  # read until the acknowledgment byte
             if point:
                 if point == b'\x08':
@@ -124,6 +124,7 @@ class Magnetometer:
                     data.append(self.get_value(point))
             else:
                 timeouts += 1
+                sleep(0.4)
                 print("Data stream timed out, trying again.")
                 if timeouts > 4:
                     print("No data encountered. Returning zeros.")
@@ -131,7 +132,6 @@ class Magnetometer:
                     break
 
         self.send_command(MagnetometerCommands.KILL_PROC.value) # clears buffer
-        sleep(0.3)
         return data
             
     def get_full_datapoint(self, byte_array):

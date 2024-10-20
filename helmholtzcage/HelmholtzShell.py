@@ -277,7 +277,7 @@ class HelmholtzShell(cmd.Cmd):
 
     def do_calibrate_axis(self, axis):
         # calibrate a single axis
-        self.utility.calibrate_axis(axis.upper())
+        print(self.utility.calibrate_axis(axis.upper()))
     
     def help_calibrate_axis(self):
         print("Performs a linear regression on a single axis")
