@@ -84,7 +84,7 @@ class ZXY6005s:
             reply = self.send_command(command)
             if reply != f'A{command}' and retries>0:
                 print("PSUs: Reply recieved was {}, wanted {}. Trying again.".format(reply, f'A{command}'))
-                self.ser.write('\n\n\n')
+                self.ser.write('\n\n\n'.encode())
                 time.sleep(0.3)
                 retry = True
             else:
@@ -124,7 +124,7 @@ class ZXY6005s:
             reply = self.send_command(command)
             if (reply != f'A{command}') and retries>0:
                 print("PSUs: Reply recieved was {}, wanted {}. Trying again.".format(reply, f'A{command}'))
-                self.ser.write('\n\n\n')
+                self.ser.write('\n\n\n'.encode())
                 time.sleep(0.3)
                 retries -= 1
                 retry = True
