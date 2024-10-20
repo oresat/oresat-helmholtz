@@ -151,7 +151,7 @@ class Utilities:
         # updates linear regression coefficients
         coeffs = []
         for axis in "XYZ":
-           coeffs.append(calibrate_axis(axis)) 
+           coeffs.append(self.calibrate_axis(axis)) 
 
         # update coefficients
         for idx, slope, intp in enumerate(coeffs):
