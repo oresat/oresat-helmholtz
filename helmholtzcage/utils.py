@@ -167,7 +167,7 @@ class Utilities:
         current_set = np.linspace(
                 min_current, 
                 max_current, 
-                (max_current-max_current)/step +1)
+                (max_current-max_current)//step +1)
 
         # making sure all PSUs are off. 
         self.psu['X'].set_output(0)
