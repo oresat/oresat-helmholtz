@@ -228,7 +228,7 @@ class Utilities:
         mags_rec = []
         current_set = np.linspace(-1000, 1000, 21)
         #Iterating starting at -1000 mA to 0. 
-        self.psu[axis.upper()].set_output(0)
+        self.psu[axis.upper()].set_output(1)
         for current_val in current_set:
 
             # updating H-Bridges (we can't easily select a single axis, so we set them all)
@@ -237,11 +237,8 @@ class Utilities:
             self.arduino.set_positive_Z() if current_val > 0 else self.arduino.set_negative_Z()
             self.psu[axis].set_current_limit(int(abs(current_val)))
 
-            magdict = self.meter.stream_data()
-            if magdict:
-                mag_val = magdict['XYZ'.index(axis) + 1]
-            else:
-                mag_val = 0
+            mag_array = self.meter.stream_data()
+            mag_val = magdict['XYZ'.index(axis) + 1]
 
             mags_rec.append(mag_val)  # record results
 
