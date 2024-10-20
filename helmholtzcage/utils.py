@@ -179,7 +179,7 @@ class Utilities:
 
                 magdict = self.meter.stream_data()
                 if magdict:
-                    mag_val = magdict[idx+1]
+                    mag_val = magdict["XYZ".index(axis)+1]
                 else:
                     mag_val = 0
 
@@ -205,7 +205,7 @@ class Utilities:
                 
                 magdict = self.meter.stream_data()
                 if magdict:
-                    mag_val = magdict[idx]['value'] * magdict[idx]['sign']
+                    mag_val = magdict["XYZ".index(axis)+1]
                 else:
                     mag_val = 0
                 mags_rec[axis].append(mag_val)  # record results
