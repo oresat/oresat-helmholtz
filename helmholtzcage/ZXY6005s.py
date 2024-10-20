@@ -4,6 +4,7 @@
 
 import serial
 import serial.tools.list_ports
+import time
 from enum import Enum
 
 class ZXY6005sCommands(Enum):
@@ -72,13 +73,23 @@ class ZXY6005s:
 
     def set_output(self, power: bool):
         '''takes a boolean: 1 for ON, 0 for OFF to set output ON/OFF'''
-        if power:
-            command = f'{ZXY6005sCommands.SET_OUTPUT.value}1'
-        else: 
-            command = f'{ZXY6005sCommands.SET_OUTPUT.value}0'
-        reply = self.send_command(command)
-        if reply != f'A{command}':
-            raise ValueError(f'Invalid reply was {reply}, expected A{command}')
+        retry = True
+        retries = 3
+        while (retry):
+
+            if power:
+                command = f'{ZXY6005sCommands.SET_OUTPUT.value}1'
+            else: 
+                command = f'{ZXY6005sCommands.SET_OUTPUT.value}0'
+            reply = self.send_command(command)
+            if reply != f'A{command}' and retries>0:
+                self.ser.write('\n\n\n')
+                time.sleep(0.3)
+                retry = True
+            else:
+                retry = False
+
+
 
     def set_amp_hour(self, mAh: int):
         '''takes an integer and sets amp hour counter to that value'''
@@ -104,10 +115,20 @@ class ZXY6005s:
 
     def set_current_limit(self, mA: int):
         '''takes an integer and sets current limit to that value in mA'''
-        command = f'{ZXY6005sCommands.SET_CURRENT_LIMIT.value}{str(mA)}'
-        reply = self.send_command(command) 
-        if reply != f'A{command}':
-            raise ValueError(f'Invalid reply was {reply}, expected A{command}')
+        retries = 3
+        retry = True
+        while (retry):
+
+            command = f'{ZXY6005sCommands.SET_CURRENT_LIMIT.value}{str(mA)}'
+            reply = self.send_command(command)
+            if (reply != f'A{command}') and retries>0:
+                print("PSUs: Reply recieved was {}, wanted {}. Trying again.".format(reply, f'A{command}')
+                self.ser.write('\n\n\n')
+                time.sleep(0.3)
+                retries -= 1
+                retry = True
+            else:
+                retry = False
 
     def return_current(self) -> int:
         '''returns power supply current in amps'''
