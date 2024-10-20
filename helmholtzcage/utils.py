@@ -154,7 +154,8 @@ class Utilities:
            coeffs.append(self.calibrate_axis(axis)) 
 
         # update coefficients
-        for idx, slope, intp in enumerate(coeffs):
+        for idx, tupl in enumerate(coeffs):
+            slope, intp = tupl
             self.xyz_slope[idx] = slope
             self.ambient_field[idx] = intp
 
