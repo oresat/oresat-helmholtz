@@ -83,6 +83,7 @@ class ZXY6005s:
                 command = f'{ZXY6005sCommands.SET_OUTPUT.value}0'
             reply = self.send_command(command)
             if reply != f'A{command}' and retries>0:
+                print("PSUs: Reply recieved was {}, wanted {}. Trying again.".format(reply, f'A{command}'))
                 self.ser.write('\n\n\n')
                 time.sleep(0.3)
                 retry = True
@@ -122,7 +123,7 @@ class ZXY6005s:
             command = f'{ZXY6005sCommands.SET_CURRENT_LIMIT.value}{str(mA)}'
             reply = self.send_command(command)
             if (reply != f'A{command}') and retries>0:
-                print("PSUs: Reply recieved was {}, wanted {}. Trying again.".format(reply, f'A{command}')
+                print("PSUs: Reply recieved was {}, wanted {}. Trying again.".format(reply, f'A{command}'))
                 self.ser.write('\n\n\n')
                 time.sleep(0.3)
                 retries -= 1
