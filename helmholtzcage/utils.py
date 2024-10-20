@@ -152,6 +152,7 @@ class Utilities:
         coeffs = []
         for axis in "XYZ":
            coeffs.append(self.calibrate_axis(axis)) 
+           time.sleep(0.5)
 
         # update coefficients
         for idx, tupl in enumerate(coeffs):
@@ -185,11 +186,13 @@ class Utilities:
             self.arduino.set_positive_Y() if current_val > 0 else self.arduino.set_negative_Y()
             self.arduino.set_positive_Z() if current_val > 0 else self.arduino.set_negative_Z()
             self.psu[axis].set_current_limit(int(abs(current_val)))
+            time.sleep(0.3)
 
             mag_array = self.meter.stream_data()
             mag_val = mag_array['XYZ'.index(axis) + 1]
 
             mags_rec.append(mag_val)  # record results
+
         self.psu[axis.upper()].set_output(0)
 
         mags_rec = np.array(mags_rec)
