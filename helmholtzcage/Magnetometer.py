@@ -8,6 +8,7 @@
 import serial
 import struct
 import serial.tools.list_ports
+from time import sleep
 from enum import Enum
 
 #Magnetometer Commands Library.
@@ -130,6 +131,7 @@ class Magnetometer:
                     break
 
         self.send_command(MagnetometerCommands.KILL_PROC.value) # clears buffer
+        sleep(0.3)
         return data
             
     def get_full_datapoint(self, byte_array):
