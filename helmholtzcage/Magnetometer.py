@@ -122,6 +122,7 @@ class Magnetometer:
                     no_ack = 0 # got ACK byte, ending transmission
                 else:
                     data.append(self.get_value(point))
+                    sleep(0.1)
             else:
                 timeouts += 1
                 sleep(0.4)
@@ -140,7 +141,7 @@ class Magnetometer:
         sign = -1 if (byte_array[1] & 0x08) else 1          # if 4th msb is positive, the value is negative
         decimal_power = (byte_array[1] & ~0xF8)             # 3 lsb denote power of 10 at decimal place
 
-        raw_value = struct.unpack(">I", byte_array[2:6])[0] & 0xFFFFFFFF # 32 bits for unsigned integer value of the data point
+        raw_value = struct.unpack(">I", byte_array[1:5])[0] & 0xFFFFFFFF # 32 bits for unsigned integer value of the data point
         value = (sign * raw_value) / (10.0 ** decimal_power)    # converts to signed float32
         return {'config' : config_info, 'sign' : sign, 'power' : decimal_power, 'raw_value' : raw_value, 'value' : value} 
         
