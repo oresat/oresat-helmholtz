@@ -110,9 +110,9 @@ class Utilities:
             return -1
 
         # calculating current settings
-        target_current = self.mag_to_current(out_field)
+        out_current = self.mag_to_current(out_field)
         
-        if (np.abs(target_current).max() > MAX_OUT_CURRENT):
+        if (np.abs(out_current).max() > MAX_OUT_CURRENT):
             print("output currents are out of range!!\ncancelling output")
             return -1
 
