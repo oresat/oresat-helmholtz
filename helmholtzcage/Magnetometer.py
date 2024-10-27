@@ -124,14 +124,12 @@ class Magnetometer:
                     data.append(self.get_value(point))
             else:
                 timeouts -= 1
-                self.send_command(MagnetometerCommands.KILL_PROC.value) # clears buffer
                 print("Data stream timed out, trying again.")
                 self.send_command(MagnetometerCommands.STREAM_DATA.value) # request data
                 if timeouts <= 0:
                     print("No data encountered. Returning zeros.")
                     data = [0, 0, 0, 0, 0]
                     break
-
         self.send_command(MagnetometerCommands.KILL_PROC.value) # clears buffer
         return data
             
