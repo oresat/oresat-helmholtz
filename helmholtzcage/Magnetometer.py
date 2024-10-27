@@ -8,7 +8,7 @@
 import serial
 import struct
 import serial.tools.list_ports
-from time import sleep
+import time
 from enum import Enum
 
 #Magnetometer Commands Library.
@@ -125,7 +125,6 @@ class Magnetometer:
             else:
                 timeouts -= 1
                 self.send_command(MagnetometerCommands.KILL_PROC.value) # clears buffer
-                sleep(0.4)
                 print("Data stream timed out, trying again.")
                 self.send_command(MagnetometerCommands.STREAM_DATA.value) # request data
                 if timeouts <= 0:
