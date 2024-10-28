@@ -194,7 +194,7 @@ class Utilities:
         self.psu[axis.upper()].set_output(0)
 
         mags_rec = np.array(mags_rec)
-        (slope, intercept) = self.linear_regression(mags_rec, current_set)
+        (slope, intercept) = self.linear_regression(current_set, mags_rec)
         return (slope, intercept)
 
     def receive_sim_data(self):
