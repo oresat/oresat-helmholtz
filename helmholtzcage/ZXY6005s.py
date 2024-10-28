@@ -94,10 +94,18 @@ class ZXY6005s:
 
     def set_amp_hour(self, mAh: int):
         '''takes an integer and sets amp hour counter to that value'''
-        command = f'{ZXY6005sCommands.SET_AMP_HOUR.value}{mAh}'
-        reply = self.send_command(command)
-        if reply != f'A{command}':
-            raise ValueError(f'Invalid reply was {reply}, expected A{command}')
+        retry = true
+        retries = 3
+        while (retry):
+            command = f'{zxy6005scommands.set_amp_hour.value}{mah}'
+            reply = self.send_command(command)
+            if reply != f'a{command}' and retries>0:
+                print("psus: reply recieved was {}, wanted {}. trying again.".format(reply, f'a{command}'))
+                self.ser.write('\n\n\n'.encode())
+                time.sleep(0.3)
+                retry = true
+            else:
+                retry = false
 
     def return_amp_hour(self) -> int:
         '''returns amp hour reading'''
@@ -105,10 +113,18 @@ class ZXY6005s:
 
     def set_voltage(self, mV: int):
         '''takes an integer and sets voltage to that value in mV'''
-        command = f'{ZXY6005sCommands.SET_VOLTAGE.value}{mV}'
-        reply = self.send_command(command)
-        if reply != f'A{command}':
-            raise ValueError(f'Invalid reply was {reply}, expected A{command}')
+        retry = True
+        retries = 3
+        while (retry):
+            command = f'{ZXY6005sCommands.SET_VOLTAGE.value}{mV}'
+            reply = self.send_command(command)
+            if reply != f'A{command}' and retries>0:
+                print("PSUs: Reply recieved was {}, wanted {}. Trying again.".format(reply, f'A{command}'))
+                self.ser.write('\n\n\n'.encode())
+                time.sleep(0.3)
+                retry = True
+            else:
+                retry = False
 
     def return_voltage(self) -> int:
         '''takes a device name and returns voltage measurement'''
@@ -119,7 +135,6 @@ class ZXY6005s:
         retries = 3
         retry = True
         while (retry):
-
             command = f'{ZXY6005sCommands.SET_CURRENT_LIMIT.value}{str(mA)}'
             reply = self.send_command(command)
             if (reply != f'A{command}') and retries>0:
