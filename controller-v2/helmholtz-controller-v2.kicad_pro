@@ -431,7 +431,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "Oresat Helmholtz Driver.kicad_pro",
+    "filename": "helmholtz-controller-v2.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -563,7 +563,7 @@
       "version": 1
     },
     "net_format_name": "",
-    "page_layout_descr_file": "",
+    "page_layout_descr_file": "${PSAS_ORESAT}/title-blocks/oresat-schematic-title-block.kicad_wks",
     "plot_directory": "",
     "spice_current_sheet_as_root": false,
     "spice_external_command": "spice \"%I\"",
