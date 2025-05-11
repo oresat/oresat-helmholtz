@@ -36,11 +36,7 @@ void setup() {
 
  //Baudrate/bytes per second set.
  Serial.begin(115200);
-
-<<<<<<< HEAD
-=======
  Serial.println("Arduino Nano H-bridge Controller");
->>>>>>> 06d9f6344e2ee0d0589fcd968dadd6745ab0f00e
 
    // Initialise the mag sensor */
   if (mmc.begin(MMC56X3_DEFAULT_ADDRESS, &Wire)) {  // I2C mode
