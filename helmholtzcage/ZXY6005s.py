@@ -76,7 +76,6 @@ class ZXY6005s:
         retry = True
         retries = 3
         while (retry):
-
             if power:
                 command = f'{ZXY6005sCommands.SET_OUTPUT.value}1'
             else: 
