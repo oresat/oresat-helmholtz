@@ -4803,7 +4803,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
 			(at 234.696 155.194 90)
 			(effects
 				(font
@@ -5195,7 +5195,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 197.104 142.494 90)
 			(effects
 				(font
@@ -5264,7 +5264,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 156.464 97.536 90)
 			(effects
 				(font
@@ -5335,7 +5335,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "psas-footprints:U-BD63150AFM"
 			(at 222.25 125.73 0)
 			(effects
 				(font
@@ -5466,7 +5466,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 219.71 124.7648 0)
 			(effects
 				(font
@@ -5697,7 +5697,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 242.316 223.774 90)
 			(effects
 				(font
@@ -6033,7 +6033,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "psas-footprints:U-BD63150AFM"
 			(at 222.25 201.93 0)
 			(effects
 				(font
@@ -6366,7 +6366,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-4-3.5-H_1x04_P3.50mm_Horizontal"
 			(at 274.32 59.69 0)
 			(effects
 				(font
@@ -6501,7 +6501,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 200.914 224.536 90)
 			(effects
 				(font
@@ -6569,7 +6569,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 219.71 48.5648 0)
 			(effects
 				(font
@@ -6773,7 +6773,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-4-3.5-H_1x04_P3.50mm_Horizontal"
 			(at 274.32 212.09 0)
 			(effects
 				(font
@@ -6937,7 +6937,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
 			(at 234.696 78.994 90)
 			(effects
 				(font
@@ -7141,7 +7141,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 132.3848 38.1 0)
 			(effects
 				(font
@@ -7211,7 +7211,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 242.316 71.374 90)
 			(effects
 				(font
@@ -7347,7 +7347,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-4-3.5-H_1x04_P3.50mm_Horizontal"
 			(at 120.65 40.64 0)
 			(effects
 				(font
@@ -7484,7 +7484,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
 			(at 234.696 231.394 90)
 			(effects
 				(font
@@ -7554,7 +7554,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 242.316 147.574 90)
 			(effects
 				(font
@@ -7754,7 +7754,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
 			(at 247.904 58.674 90)
 			(effects
 				(font
@@ -8023,7 +8023,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 197.104 218.694 90)
 			(effects
 				(font
@@ -8223,7 +8223,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
 			(at 247.904 211.074 90)
 			(effects
 				(font
@@ -8359,7 +8359,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-4-3.5-H_1x04_P3.50mm_Horizontal"
 			(at 274.32 135.89 0)
 			(effects
 				(font
@@ -8427,7 +8427,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 219.71 200.9648 0)
 			(effects
 				(font
@@ -8563,7 +8563,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 200.914 148.336 90)
 			(effects
 				(font
@@ -8765,7 +8765,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 197.104 66.294 90)
 			(effects
 				(font
@@ -8836,7 +8836,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "psas-footprints:U-BD63150AFM"
 			(at 222.25 49.53 0)
 			(effects
 				(font
@@ -9328,7 +9328,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 200.914 72.136 90)
 			(effects
 				(font
@@ -9395,7 +9395,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
 			(at 247.904 134.874 90)
 			(effects
 				(font
@@ -9464,7 +9464,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 148.844 97.536 90)
 			(effects
 				(font
