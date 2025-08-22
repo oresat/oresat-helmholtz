@@ -827,6 +827,189 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:LED"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "LED"
+				(at 0 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Light emitting diode"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Sim.Pins" "1=K 2=A"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "LED diode"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "LED* LED_SMD:* LED_THT:*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LED_0_1"
+				(polyline
+					(pts
+						(xy -3.048 -0.762) (xy -4.572 -2.286) (xy -3.81 -2.286) (xy -4.572 -2.286) (xy -4.572 -1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.778 -0.762) (xy -3.302 -2.286) (xy -2.54 -2.286) (xy -3.302 -2.286) (xy -3.302 -1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 0) (xy 1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 -1.27) (xy -1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -1.27) (xy 1.27 1.27) (xy -1.27 0) (xy 1.27 -1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "LED_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:R_US"
 			(pin_numbers
 				(hide yes)
@@ -2100,6 +2283,89 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "oresat-misc:Test-Point-0.75mm-th"
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "TP"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.0795)
+					)
+				)
+			)
+			(property "Value" "Test-Point"
+				(at 0 7.62 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Footprint" "oresat-misc:TestPoint-0.75mm-th"
+				(at 0 10.16 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "0.75 mm TH test point; good for scope probes and jumpers"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Test-Point-0.75mm-th_1_0"
+				(pin passive line
+					(at 0 0 0)
+					(length 0)
+					(name "1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+			)
+			(symbol "Test-Point-0.75mm-th_1_1"
+				(rectangle
+					(start -1.27 1.27)
+					(end 1.27 -1.27)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "oresat-power:GND"
 			(power)
 			(pin_numbers
@@ -2338,6 +2604,26 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "Ioutmax = 2.0A"
+		(exclude_from_sim no)
+		(at 189.23 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "2359ee94-656e-4fdf-b487-32b468bea3d5")
+	)
+	(text "Ioutmax = 2.0A"
+		(exclude_from_sim no)
+		(at 186.69 71.12 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "4e2f9428-7112-4d91-908b-a9bf2986edd7")
+	)
 	(text "Channel X"
 		(exclude_from_sim no)
 		(at 290.83 58.166 0)
@@ -2367,6 +2653,16 @@
 			)
 		)
 		(uuid "a0bd9d22-22f4-4cc6-bcdf-453953289283")
+	)
+	(text "Ioutmax = 2.0A"
+		(exclude_from_sim no)
+		(at 186.69 222.25 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "a1b8ad45-79f7-4436-b332-3f4ebe5cbab7")
 	)
 	(text "addr: 0x80\n"
 		(exclude_from_sim no)
@@ -2410,13 +2706,25 @@
 	)
 	(text "Pi powered from USB"
 		(exclude_from_sim no)
-		(at 107.696 91.948 0)
+		(at 127 93.98 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 		)
 		(uuid "fd683ea3-ec81-4e65-916f-e9b27b2907d5")
+	)
+	(junction
+		(at 177.8 125.73)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "096ac627-1f12-4c2d-936f-9772b28afdd3")
+	)
+	(junction
+		(at 152.4 105.41)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0cab16e8-2d35-4adc-b97a-cb271f792dcb")
 	)
 	(junction
 		(at 252.73 195.58)
@@ -2479,10 +2787,22 @@
 		(uuid "4a2c925f-0afa-4506-9204-157f79295905")
 	)
 	(junction
+		(at 156.21 107.95)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4a930f2f-c153-446e-b962-0f60e6a4f160")
+	)
+	(junction
 		(at 233.68 74.93)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "511f1ca6-8e16-4bdd-9b05-8d4d9fcc1495")
+	)
+	(junction
+		(at 184.15 62.23)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "52eb472c-230b-455f-861e-9b21506c8a47")
 	)
 	(junction
 		(at 210.82 232.41)
@@ -2551,6 +2871,12 @@
 		(uuid "81b3fc0d-06a9-4a57-bfa0-d3aeeb2f42ca")
 	)
 	(junction
+		(at 179.07 214.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "846f220b-1c5f-4351-b632-ee78cc27ec83")
+	)
+	(junction
 		(at 254 212.09)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2579,6 +2905,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a02bf8be-bcbb-4a0d-8a10-a437f6944c95")
+	)
+	(junction
+		(at 200.66 59.69)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a6095bad-6a99-4290-a8e5-54d4bbb9ad64")
 	)
 	(junction
 		(at 241.3 59.69)
@@ -2617,6 +2949,18 @@
 		(uuid "c0e59961-d85b-4162-95f3-7bc924e51384")
 	)
 	(junction
+		(at 129.54 29.21)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d1fde945-e237-451b-a8e6-8d06b20ca232")
+	)
+	(junction
+		(at 167.64 128.27)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "daaf7365-55ab-4b7d-8acf-df7bb2e48a42")
+	)
+	(junction
 		(at 222.25 162.56)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2633,6 +2977,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "eedb9f2d-b352-4a2b-bc14-4e0076eaa0ce")
+	)
+	(junction
+		(at 200.66 212.09)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f237b5a3-4264-4135-84b9-a3728955f0c2")
 	)
 	(junction
 		(at 222.25 201.93)
@@ -2665,10 +3015,6 @@
 		(uuid "1f30a7b9-2512-44ba-922b-42a914c313b3")
 	)
 	(no_connect
-		(at 146.05 151.13)
-		(uuid "35a7e147-bf5a-4641-8d24-fca5f753098d")
-	)
-	(no_connect
 		(at 110.49 120.65)
 		(uuid "645d45d5-c6e3-43e6-ad32-841cd26ed26f")
 	)
@@ -2679,10 +3025,6 @@
 	(no_connect
 		(at 110.49 151.13)
 		(uuid "7a78edd0-2fc9-4ec9-be72-26c44375afe3")
-	)
-	(no_connect
-		(at 146.05 146.05)
-		(uuid "9a941a50-6801-4147-9083-0b0de81d0988")
 	)
 	(no_connect
 		(at 110.49 146.05)
@@ -2725,16 +3067,16 @@
 		(uuid "d5aaac60-3643-4197-9859-2502a80eb0ab")
 	)
 	(no_connect
-		(at 146.05 123.19)
-		(uuid "d8102165-1875-443c-8e6f-0dd45b202ffa")
-	)
-	(no_connect
 		(at 110.49 123.19)
 		(uuid "d8ec39eb-4d43-4081-b8e8-8b426808d0a6")
 	)
 	(no_connect
 		(at 110.49 107.95)
 		(uuid "ded04fa3-26e9-4834-9341-562d388816ca")
+	)
+	(no_connect
+		(at 146.05 148.59)
+		(uuid "f1b8c6d0-89d1-4734-8901-588770db7b3d")
 	)
 	(no_connect
 		(at 110.49 140.97)
@@ -2745,10 +3087,6 @@
 		(uuid "f4610beb-3a29-41ef-b55e-10ffec48f891")
 	)
 	(no_connect
-		(at 146.05 153.67)
-		(uuid "f694d790-27b5-4bd2-906d-633767dfbc64")
-	)
-	(no_connect
 		(at 110.49 125.73)
 		(uuid "f7dc4605-e73e-4b0f-ac01-2c6ca845a43c")
 	)
@@ -2756,9 +3094,15 @@
 		(at 146.05 120.65)
 		(uuid "fd69e0d4-89e8-48a0-8864-d4b1db115dbf")
 	)
-	(no_connect
-		(at 146.05 148.59)
-		(uuid "fddb015b-4d0f-40af-883b-86807c05f054")
+	(wire
+		(pts
+			(xy 133.35 196.85) (xy 138.43 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "02ea507d-0b0f-493f-93d9-518017b05b69")
 	)
 	(wire
 		(pts
@@ -2812,6 +3156,16 @@
 	)
 	(wire
 		(pts
+			(xy 177.8 125.73) (xy 146.05 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "073b7082-6a3b-4d44-9f79-746b01a984a3")
+	)
+	(wire
+		(pts
 			(xy 274.32 106.68) (xy 280.67 106.68)
 		)
 		(stroke
@@ -2842,7 +3196,7 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 138.43) (xy 146.05 138.43)
+			(xy 176.53 138.43) (xy 146.05 138.43)
 		)
 		(stroke
 			(width 0)
@@ -2942,16 +3296,6 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 115.57) (xy 110.49 115.57)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "17ad2bc5-b51e-419e-a132-4cc4e424d7f1")
-	)
-	(wire
-		(pts
 			(xy 233.68 224.79) (xy 233.68 227.33)
 		)
 		(stroke
@@ -2999,6 +3343,16 @@
 			(type default)
 		)
 		(uuid "1d143b15-e072-45f8-8e6d-71da8eb67995")
+	)
+	(wire
+		(pts
+			(xy 152.4 105.41) (xy 157.48 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1dad56b5-6295-4e62-b8c0-c2e51bdb3f5a")
 	)
 	(wire
 		(pts
@@ -3062,6 +3416,16 @@
 	)
 	(wire
 		(pts
+			(xy 161.29 196.85) (xy 156.21 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "250fa6d9-69e0-4944-86b4-2e2c5f4b24eb")
+	)
+	(wire
+		(pts
 			(xy 233.68 148.59) (xy 233.68 151.13)
 		)
 		(stroke
@@ -3122,6 +3486,26 @@
 	)
 	(wire
 		(pts
+			(xy 107.95 115.57) (xy 110.49 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "31f62110-ad0b-48ca-b121-acb9d5d20808")
+	)
+	(wire
+		(pts
+			(xy 146.05 153.67) (xy 146.05 158.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "32ac2e24-9b31-46ba-8865-0e06b03241dd")
+	)
+	(wire
+		(pts
 			(xy 241.3 212.09) (xy 243.84 212.09)
 		)
 		(stroke
@@ -3132,7 +3516,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 143.51) (xy 166.37 143.51)
+			(xy 146.05 143.51) (xy 171.45 143.51)
 		)
 		(stroke
 			(width 0)
@@ -3282,6 +3666,16 @@
 	)
 	(wire
 		(pts
+			(xy 138.43 166.37) (xy 138.43 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3febfefb-9574-4d79-bf3a-e028512e14a5")
+	)
+	(wire
+		(pts
 			(xy 153.67 92.71) (xy 157.48 92.71)
 		)
 		(stroke
@@ -3372,7 +3766,7 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 107.95) (xy 160.02 107.95)
+			(xy 149.86 107.95) (xy 156.21 107.95)
 		)
 		(stroke
 			(width 0)
@@ -3392,6 +3786,16 @@
 	)
 	(wire
 		(pts
+			(xy 161.29 186.69) (xy 156.21 186.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "490e6c83-43c2-4d92-a774-fce8ea8f912b")
+	)
+	(wire
+		(pts
 			(xy 222.25 200.66) (xy 222.25 201.93)
 		)
 		(stroke
@@ -3402,6 +3806,16 @@
 	)
 	(wire
 		(pts
+			(xy 200.66 212.09) (xy 212.09 212.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4aef16fe-6876-437f-85bf-e5a6bd7f5cfe")
+	)
+	(wire
+		(pts
 			(xy 210.82 77.47) (xy 210.82 80.01)
 		)
 		(stroke
@@ -3409,6 +3823,16 @@
 			(type default)
 		)
 		(uuid "4cc619bd-c45e-4ca5-9415-af13937a4010")
+	)
+	(wire
+		(pts
+			(xy 146.05 146.05) (xy 148.59 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4cdfe91e-5036-4988-ba50-87719ef2b03a")
 	)
 	(wire
 		(pts
@@ -3429,6 +3853,16 @@
 			(type default)
 		)
 		(uuid "520e80a0-2fb8-439a-91c1-5e1da188be63")
+	)
+	(wire
+		(pts
+			(xy 161.29 199.39) (xy 161.29 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5217f3b9-be1a-4375-903c-03cce4a43305")
 	)
 	(wire
 		(pts
@@ -3462,7 +3896,7 @@
 	)
 	(wire
 		(pts
-			(xy 184.15 125.73) (xy 146.05 125.73)
+			(xy 184.15 125.73) (xy 177.8 125.73)
 		)
 		(stroke
 			(width 0)
@@ -3512,6 +3946,16 @@
 	)
 	(wire
 		(pts
+			(xy 200.66 59.69) (xy 212.09 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5e4e91ec-c717-433c-aa67-87a30dc2be68")
+	)
+	(wire
+		(pts
 			(xy 233.68 82.55) (xy 233.68 86.36)
 		)
 		(stroke
@@ -3532,7 +3976,7 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 59.69) (xy 212.09 59.69)
+			(xy 173.99 59.69) (xy 200.66 59.69)
 		)
 		(stroke
 			(width 0)
@@ -3549,6 +3993,16 @@
 			(type default)
 		)
 		(uuid "64122a3e-1110-460d-a1b6-d7de03cd870a")
+	)
+	(wire
+		(pts
+			(xy 132.08 29.21) (xy 129.54 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "65363a09-40bb-4327-9dd6-e41bc0442929")
 	)
 	(wire
 		(pts
@@ -3652,6 +4106,16 @@
 	)
 	(wire
 		(pts
+			(xy 152.4 29.21) (xy 149.86 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "77c4eef3-49ba-4424-a366-59efd2e16e01")
+	)
+	(wire
+		(pts
 			(xy 153.67 91.44) (xy 153.67 92.71)
 		)
 		(stroke
@@ -3682,7 +4146,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 105.41) (xy 107.95 105.41)
+			(xy 110.49 105.41) (xy 105.41 105.41)
 		)
 		(stroke
 			(width 0)
@@ -3732,6 +4196,16 @@
 	)
 	(wire
 		(pts
+			(xy 147.32 175.26) (xy 149.86 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "81147f87-10f0-4558-bc1e-b45c70902330")
+	)
+	(wire
+		(pts
 			(xy 252.73 95.25) (xy 245.11 95.25)
 		)
 		(stroke
@@ -3752,7 +4226,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 140.97) (xy 146.05 140.97)
+			(xy 173.99 140.97) (xy 146.05 140.97)
 		)
 		(stroke
 			(width 0)
@@ -3812,7 +4286,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 214.63) (xy 168.91 140.97)
+			(xy 173.99 214.63) (xy 173.99 140.97)
 		)
 		(stroke
 			(width 0)
@@ -3842,6 +4316,26 @@
 	)
 	(wire
 		(pts
+			(xy 161.29 189.23) (xy 161.29 186.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9256cae0-da81-4366-aef3-6778fa9599f6")
+	)
+	(wire
+		(pts
+			(xy 152.4 31.75) (xy 152.4 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "92b4eeb9-23ef-4480-a7f3-cfe987cc5dde")
+	)
+	(wire
+		(pts
 			(xy 275.59 187.96) (xy 275.59 193.04)
 		)
 		(stroke
@@ -3862,7 +4356,7 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 62.23) (xy 212.09 62.23)
+			(xy 176.53 62.23) (xy 184.15 62.23)
 		)
 		(stroke
 			(width 0)
@@ -3872,7 +4366,7 @@
 	)
 	(wire
 		(pts
-			(xy 166.37 247.65) (xy 246.38 247.65)
+			(xy 171.45 247.65) (xy 246.38 247.65)
 		)
 		(stroke
 			(width 0)
@@ -3909,6 +4403,16 @@
 			(type default)
 		)
 		(uuid "95d1c358-504b-4d80-a55e-1a42fb62f5c9")
+	)
+	(wire
+		(pts
+			(xy 146.05 158.75) (xy 133.35 158.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9602ed13-a6ab-4a31-8be5-006531b1c855")
 	)
 	(wire
 		(pts
@@ -3952,7 +4456,37 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 105.41) (xy 157.48 105.41)
+			(xy 85.09 115.57) (xy 90.17 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9a3e905b-8c19-4ef3-a3ea-f42d2f4c734e")
+	)
+	(wire
+		(pts
+			(xy 148.59 146.05) (xy 148.59 166.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9a86bdd1-a424-4f44-a6bb-38511d68d118")
+	)
+	(wire
+		(pts
+			(xy 133.35 158.75) (xy 133.35 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9ee9bb79-3650-4f85-9afd-24904cac5b24")
+	)
+	(wire
+		(pts
+			(xy 146.05 105.41) (xy 152.4 105.41)
 		)
 		(stroke
 			(width 0)
@@ -4052,7 +4586,7 @@
 	)
 	(wire
 		(pts
-			(xy 166.37 143.51) (xy 166.37 247.65)
+			(xy 171.45 143.51) (xy 171.45 247.65)
 		)
 		(stroke
 			(width 0)
@@ -4102,13 +4636,23 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 212.09) (xy 212.09 212.09)
+			(xy 176.53 212.09) (xy 200.66 212.09)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "b0c81764-b69d-4d9b-8749-355b25348115")
+	)
+	(wire
+		(pts
+			(xy 161.29 175.26) (xy 157.48 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b18c69b8-9127-4b48-abdc-f6c6b7044d16")
 	)
 	(wire
 		(pts
@@ -4119,6 +4663,16 @@
 			(type default)
 		)
 		(uuid "b1fc736b-eb2d-4480-acf6-fe03160f409a")
+	)
+	(wire
+		(pts
+			(xy 97.79 115.57) (xy 100.33 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b1fd58c2-c90c-43ad-b9de-fde01ab493a5")
 	)
 	(wire
 		(pts
@@ -4142,7 +4696,7 @@
 	)
 	(wire
 		(pts
-			(xy 107.95 105.41) (xy 107.95 100.33)
+			(xy 105.41 101.6) (xy 105.41 105.41)
 		)
 		(stroke
 			(width 0)
@@ -4202,6 +4756,36 @@
 	)
 	(wire
 		(pts
+			(xy 135.89 186.69) (xy 138.43 186.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b7264c49-66cb-426c-9bbd-86610446324f")
+	)
+	(wire
+		(pts
+			(xy 146.05 186.69) (xy 148.59 186.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b73614fe-30f3-4256-8e19-e72fe11b1394")
+	)
+	(wire
+		(pts
+			(xy 85.09 118.11) (xy 85.09 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b7ab8f6f-fae7-44ba-870c-5780fdc5dca3")
+	)
+	(wire
+		(pts
 			(xy 173.99 59.69) (xy 173.99 113.03)
 		)
 		(stroke
@@ -4209,6 +4793,36 @@
 			(type default)
 		)
 		(uuid "b7c40b48-7e07-44a1-88d7-93f250203dbf")
+	)
+	(wire
+		(pts
+			(xy 147.32 162.56) (xy 135.89 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b95c92c9-b687-40ef-aab6-13804b5cca6c")
+	)
+	(wire
+		(pts
+			(xy 156.21 107.95) (xy 160.02 107.95)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b99fd3db-6807-4dc3-af38-dd836e88cc2a")
+	)
+	(wire
+		(pts
+			(xy 184.15 62.23) (xy 212.09 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b9bf5e17-5661-4c2a-b983-227acdcff3ad")
 	)
 	(wire
 		(pts
@@ -4272,6 +4886,16 @@
 	)
 	(wire
 		(pts
+			(xy 147.32 151.13) (xy 147.32 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bec85f41-8f6f-427c-9c58-9bc4509d9c24")
+	)
+	(wire
+		(pts
 			(xy 251.46 102.87) (xy 254 102.87)
 		)
 		(stroke
@@ -4282,13 +4906,33 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 128.27) (xy 181.61 128.27)
+			(xy 179.07 214.63) (xy 212.09 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c061ae35-6eb0-4526-ae96-451c0f5573a0")
+	)
+	(wire
+		(pts
+			(xy 146.05 128.27) (xy 167.64 128.27)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "c07a79a2-3265-4b30-97b8-7e407f7f8790")
+	)
+	(wire
+		(pts
+			(xy 146.05 151.13) (xy 147.32 151.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1d7d6cb-7fe1-41e2-ac7c-8663876ed4fc")
 	)
 	(wire
 		(pts
@@ -4342,13 +4986,23 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 212.09) (xy 171.45 138.43)
+			(xy 176.53 212.09) (xy 176.53 138.43)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "c8feda37-f7b7-4784-aff8-6a8213cb80d1")
+	)
+	(wire
+		(pts
+			(xy 142.24 29.21) (xy 139.7 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ca9d49b1-8c47-4779-a223-e3ed9afbdc62")
 	)
 	(wire
 		(pts
@@ -4442,6 +5096,16 @@
 	)
 	(wire
 		(pts
+			(xy 129.54 29.21) (xy 129.54 24.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dd54b4aa-7add-43cd-88e0-932cdf66c6d0")
+	)
+	(wire
+		(pts
 			(xy 201.93 153.67) (xy 201.93 152.4)
 		)
 		(stroke
@@ -4482,7 +5146,7 @@
 	)
 	(wire
 		(pts
-			(xy 129.54 36.83) (xy 129.54 35.56)
+			(xy 129.54 29.21) (xy 129.54 36.83)
 		)
 		(stroke
 			(width 0)
@@ -4519,6 +5183,16 @@
 			(type default)
 		)
 		(uuid "e46a4ba1-e44f-4900-9b39-8acf60313221")
+	)
+	(wire
+		(pts
+			(xy 135.89 162.56) (xy 135.89 186.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e648fad7-8af6-44fc-acdd-3e3dc5e63fb0")
 	)
 	(wire
 		(pts
@@ -4652,6 +5326,36 @@
 	)
 	(wire
 		(pts
+			(xy 148.59 166.37) (xy 138.43 166.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f1b26b74-e0f3-4bfb-b81f-7ccad2d8f637")
+	)
+	(wire
+		(pts
+			(xy 146.05 196.85) (xy 148.59 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f1c08d2f-459f-453c-9543-8f76157b4f03")
+	)
+	(wire
+		(pts
+			(xy 167.64 128.27) (xy 181.61 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f48cdefa-6cc7-4f9d-8090-63ce39f4a637")
+	)
+	(wire
+		(pts
 			(xy 233.68 162.56) (xy 222.25 162.56)
 		)
 		(stroke
@@ -4682,7 +5386,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 214.63) (xy 212.09 214.63)
+			(xy 173.99 214.63) (xy 179.07 214.63)
 		)
 		(stroke
 			(width 0)
@@ -4699,6 +5403,16 @@
 			(type default)
 		)
 		(uuid "f8ce0c9b-c368-47c3-898a-ad85ccf512a6")
+	)
+	(wire
+		(pts
+			(xy 138.43 175.26) (xy 139.7 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f9ab9707-816a-4298-bbbd-6df414a749a7")
 	)
 	(wire
 		(pts
@@ -4729,6 +5443,16 @@
 			(type default)
 		)
 		(uuid "fa287357-cc55-4c07-9e93-981cc601c1dd")
+	)
+	(wire
+		(pts
+			(xy 161.29 177.8) (xy 161.29 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fa36c39c-b4fc-4425-a227-18b8236c1fd4")
 	)
 	(wire
 		(pts
@@ -5094,6 +5818,72 @@
 		)
 	)
 	(symbol
+		(lib_id "oresat-misc:Test-Point-0.75mm-th")
+		(at 152.4 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "031ac856-1b50-4934-8600-8a63b8eb8847")
+		(property "Reference" "TP8"
+			(at 151.13 102.87 0)
+			(effects
+				(font
+					(size 1.27 1.0795)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Test-Point"
+			(at 152.4 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "oresat-misc:TestPoint-0.75mm-th"
+			(at 152.4 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 152.4 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "0.75 mm TH test point; good for scope probes and jumpers"
+			(at 152.4 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a55d09b0-0704-44b9-a218-d250b8f48c25")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "TP8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "oresat-power:GND")
 		(at 251.46 180.34 0)
 		(unit 1)
@@ -5318,7 +6108,7 @@
 				)
 			)
 		)
-		(property "Footprint" "oresat-misc:RPi_Pico_TH"
+		(property "Footprint" "oresat-misc:RPi_Pico_Castellated"
 			(at 127 111.76 0)
 			(effects
 				(font
@@ -5485,6 +6275,73 @@
 	)
 	(symbol
 		(lib_id "oresat-power:GND")
+		(at 161.29 199.39 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0fef1eee-a64b-4a30-8dc7-5f09eff18c00")
+		(property "Reference" "#PWR044"
+			(at 161.29 204.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 161.29 201.93 0)
+			(do_not_autoplace yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 161.29 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 161.29 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 161.29 199.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2c23c651-8a30-404b-9e0b-a1c21141e5ce")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "#PWR044")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "oresat-power:GND")
 		(at 222.25 241.3 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5544,6 +6401,73 @@
 			(project "helmholtz-controller-v2"
 				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
 					(reference "#PWR028")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+12V")
+		(at 105.41 101.6 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "10412bf4-05d5-4ac6-9b0c-731e0c855aa1")
+		(property "Reference" "#PWR037"
+			(at 105.41 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5.0V"
+			(at 105.41 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 105.41 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 105.41 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+12V\""
+			(at 105.41 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e54926f4-ad66-44d0-815d-ba9d92fc2f7f")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "#PWR037")
 					(unit 1)
 				)
 			)
@@ -5682,6 +6606,140 @@
 			(project "helmholtz-controller-v2"
 				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
 					(reference "R17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "oresat-misc:Test-Point-0.75mm-th")
+		(at 200.66 59.69 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "17a03642-b0dc-44be-8c73-fecb39daa262")
+		(property "Reference" "TP5"
+			(at 203.2 59.6899 0)
+			(effects
+				(font
+					(size 1.27 1.0795)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Test-Point"
+			(at 200.66 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "oresat-misc:TestPoint-0.75mm-th"
+			(at 200.66 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 200.66 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "0.75 mm TH test point; good for scope probes and jumpers"
+			(at 200.66 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2d7fcdb0-1204-4326-bdd9-05a9763e4d89")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "TP5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "oresat-misc:Test-Point-0.75mm-th")
+		(at 167.64 128.27 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1a4f2312-0839-46c1-a13b-51eb8e906815")
+		(property "Reference" "TP4"
+			(at 170.18 128.2699 0)
+			(effects
+				(font
+					(size 1.27 1.0795)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Test-Point"
+			(at 167.64 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "oresat-misc:TestPoint-0.75mm-th"
+			(at 167.64 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 167.64 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "0.75 mm TH test point; good for scope probes and jumpers"
+			(at 167.64 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "97689d6b-a3bb-4f55-8567-58f0b8d48814")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "TP4")
 					(unit 1)
 				)
 			)
@@ -6187,6 +7245,73 @@
 		)
 	)
 	(symbol
+		(lib_id "oresat-power:GND")
+		(at 161.29 189.23 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "25ee14ec-693d-4d06-b918-ecc5b1981590")
+		(property "Reference" "#PWR043"
+			(at 161.29 194.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 161.29 191.77 0)
+			(do_not_autoplace yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 161.29 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 161.29 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 161.29 189.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "77185187-187e-4e79-ac2e-bb5d5430e1e1")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "#PWR043")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+12V")
 		(at 264.16 175.26 0)
 		(unit 1)
@@ -6319,6 +7444,82 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:LED")
+		(at 152.4 196.85 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "28d4977f-518b-4976-a70d-89a930930bce")
+		(property "Reference" "D4"
+			(at 152.4 201.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LED"
+			(at 152.4 199.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
+			(at 152.4 196.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 152.4 196.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Light emitting diode"
+			(at 152.4 196.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 152.4 196.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "3e319fe8-42a2-4d0a-a7f0-03059ae533cd")
+		)
+		(pin "1"
+			(uuid "fcefbbf9-c979-467b-9d46-616637b8d04e")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "D4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+12V")
 		(at 246.38 158.75 0)
 		(unit 1)
@@ -6379,6 +7580,73 @@
 			(project "helmholtz-controller-v2"
 				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
 					(reference "#PWR015")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "oresat-misc:Test-Point-0.75mm-th")
+		(at 177.8 125.73 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "333e660d-6c9c-430e-910e-e0c60726a5f5")
+		(property "Reference" "TP3"
+			(at 180.34 125.7299 0)
+			(effects
+				(font
+					(size 1.27 1.0795)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Test-Point"
+			(at 177.8 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "oresat-misc:TestPoint-0.75mm-th"
+			(at 177.8 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 177.8 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "0.75 mm TH test point; good for scope probes and jumpers"
+			(at 177.8 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3f326c7e-bc17-4a34-b5eb-795490d9dbb5")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "TP3")
 					(unit 1)
 				)
 			)
@@ -6789,6 +8057,149 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:LED")
+		(at 152.4 186.69 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "3db8b539-dff1-4bf3-bc3f-0c34a5341f8f")
+		(property "Reference" "D5"
+			(at 152.4 191.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LED"
+			(at 152.4 189.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
+			(at 152.4 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 152.4 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Light emitting diode"
+			(at 152.4 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 152.4 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "482aee3e-2c88-441b-b2c9-efdf21c62f70")
+		)
+		(pin "1"
+			(uuid "a36f6593-01b2-471c-aeb5-daab41187b79")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "D5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "oresat-misc:Test-Point-0.75mm-th")
+		(at 179.07 214.63 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3e12ba8f-2a92-4757-9747-4057270ec7f0")
+		(property "Reference" "TP1"
+			(at 181.61 214.6299 0)
+			(effects
+				(font
+					(size 1.27 1.0795)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Test-Point"
+			(at 179.07 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "oresat-misc:TestPoint-0.75mm-th"
+			(at 179.07 204.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 179.07 214.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "0.75 mm TH test point; good for scope probes and jumpers"
+			(at 179.07 214.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "459c6ad1-bb78-4a3a-872c-020e2d682665")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "TP1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+12V")
 		(at 245.11 77.47 0)
 		(mirror y)
@@ -7051,6 +8462,75 @@
 			(project "helmholtz-controller-v2"
 				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
 					(reference "R12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 142.24 196.85 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "541f68e6-dcd3-4c14-8d94-0f3ba148b1a6")
+		(property "Reference" "R20"
+			(at 144.78 199.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "660"
+			(at 144.78 201.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 141.986 197.866 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 142.24 196.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 142.24 196.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c94dffd7-73dd-49f7-9ae2-81cf25ccf1cb")
+		)
+		(pin "2"
+			(uuid "6455ad8a-caff-4646-bf1c-d4deeb0c5cee")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "R20")
 					(unit 1)
 				)
 			)
@@ -7397,6 +8877,72 @@
 		)
 	)
 	(symbol
+		(lib_id "oresat-power:GND")
+		(at 152.4 31.75 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6251d6cf-a657-47e5-b931-31e44ece37bc")
+		(property "Reference" "#PWR042"
+			(at 152.4 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 152.4 34.29 0)
+			(do_not_autoplace yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 152.4 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 152.4 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 152.4 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0ad5af81-aaa6-4474-bcf7-cffa714404ae")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "#PWR042")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Sensor_Energy:INA226")
 		(at 264.16 193.04 0)
 		(unit 1)
@@ -7691,72 +9237,6 @@
 			(project "helmholtz-controller-v2"
 				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
 					(reference "#PWR036")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+12V")
-		(at 107.95 100.33 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "75caa4f1-0a70-4bef-815b-243eb92eb4a4")
-		(property "Reference" "#PWR037"
-			(at 107.95 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+5V"
-			(at 107.95 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 107.95 100.33 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 107.95 100.33 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 107.95 100.33 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "991617f7-1f3e-4921-98d3-ebc18a783399")
-		)
-		(instances
-			(project "helmholtz-controller-v2"
-				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
-					(reference "#PWR037")
 					(unit 1)
 				)
 			)
@@ -8176,6 +9656,83 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:LED")
+		(at 146.05 29.21 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9400a9d4-0358-45d1-8413-97d8ba50d9ee")
+		(property "Reference" "D1"
+			(at 147.6375 21.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LED"
+			(at 147.6375 24.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
+			(at 146.05 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 146.05 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Light emitting diode"
+			(at 146.05 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 146.05 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "357358ff-573c-4828-9601-c12df6acc44d")
+		)
+		(pin "1"
+			(uuid "7c282b45-45c7-4472-93dc-1ccf244062b3")
+		)
+		(instances
+			(project ""
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "D1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 246.38 163.83 180)
 		(unit 1)
@@ -8510,6 +10067,140 @@
 		)
 	)
 	(symbol
+		(lib_id "oresat-misc:Test-Point-0.75mm-th")
+		(at 200.66 212.09 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a7b40316-d551-496b-b7f6-2b5c980a7a2d")
+		(property "Reference" "TP2"
+			(at 203.2 212.0899 0)
+			(effects
+				(font
+					(size 1.27 1.0795)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Test-Point"
+			(at 200.66 204.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "oresat-misc:TestPoint-0.75mm-th"
+			(at 200.66 201.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 200.66 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "0.75 mm TH test point; good for scope probes and jumpers"
+			(at 200.66 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ca92d807-9181-457a-a449-af5394999bc0")
+		)
+		(instances
+			(project ""
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "TP2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "oresat-misc:Test-Point-0.75mm-th")
+		(at 184.15 62.23 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a85d1c9a-d470-4f5f-9413-5a248cea122b")
+		(property "Reference" "TP6"
+			(at 186.69 62.2299 0)
+			(effects
+				(font
+					(size 1.27 1.0795)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Test-Point"
+			(at 184.15 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "oresat-misc:TestPoint-0.75mm-th"
+			(at 184.15 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 184.15 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "0.75 mm TH test point; good for scope probes and jumpers"
+			(at 184.15 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "485acb0c-8ba2-43fc-836f-19719586accb")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "TP6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "oresat-power:GND")
 		(at 279.4 185.42 0)
 		(unit 1)
@@ -8773,6 +10464,144 @@
 			(project "helmholtz-controller-v2"
 				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
 					(reference "#PWR020")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 143.51 175.26 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b35efc10-f647-44f3-9a01-41aea26abdab")
+		(property "Reference" "R22"
+			(at 146.05 177.8 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "660"
+			(at 146.05 180.34 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 143.256 176.276 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 143.51 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 143.51 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "17ab56a5-015c-4c25-aa60-59be02e57a25")
+		)
+		(pin "2"
+			(uuid "eb0b7d03-8864-4764-a6ca-dc901b0b8a5f")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "R22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 142.24 186.69 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b4d5a3e6-b5af-4762-821a-4990dbd25f52")
+		(property "Reference" "R21"
+			(at 144.78 189.23 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "660"
+			(at 144.78 191.77 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 141.986 187.706 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 142.24 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 142.24 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "02af5023-b0e3-4a4c-827a-dd1e7d652572")
+		)
+		(pin "2"
+			(uuid "6546c2e3-f648-4a84-a8b9-b50fbec40c3a")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "R21")
 					(unit 1)
 				)
 			)
@@ -9317,73 +11146,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+12V")
-		(at 105.41 115.57 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "c7c44896-8086-483a-b7da-0336aa759d60")
-		(property "Reference" "#PWR035"
-			(at 105.41 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3.3V"
-			(at 102.87 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 105.41 115.57 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 105.41 115.57 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 105.41 115.57 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "6d3d8d72-dc08-46dc-ae14-6c7d77c6d69a")
-		)
-		(instances
-			(project "helmholtz-controller-v2"
-				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
-					(reference "#PWR035")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 196.85 67.31 90)
 		(unit 1)
@@ -9653,6 +11415,227 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:LED")
+		(at 153.67 175.26 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d0d951c9-97df-437c-9612-89ebc90ec425")
+		(property "Reference" "D6"
+			(at 153.67 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LED"
+			(at 153.67 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
+			(at 153.67 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 153.67 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Light emitting diode"
+			(at 153.67 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 153.67 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "a8a97f33-bf7a-46f0-88d3-c3464eec8787")
+		)
+		(pin "1"
+			(uuid "a70c7291-5c87-4a14-89c7-4adcc93b4104")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "D6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 104.14 115.57 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d4a050c4-33b1-40ee-a2be-7977c12c1a5b")
+		(property "Reference" "R18"
+			(at 101.6 113.03 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "660"
+			(at 101.6 110.49 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 104.394 114.554 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 104.14 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 104.14 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b3e4dd26-2c96-4a6f-b53f-6e907a942335")
+		)
+		(pin "2"
+			(uuid "352405e8-4beb-4a5d-81de-e97b635614ad")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "R18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:LED")
+		(at 93.98 115.57 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e3c0fbfc-2c3e-4cfa-9851-a4b072d5149d")
+		(property "Reference" "D2"
+			(at 93.98 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LED"
+			(at 93.98 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
+			(at 93.98 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 93.98 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Light emitting diode"
+			(at 93.98 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 93.98 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "4906e2f2-2792-496c-bafb-821e4244470f")
+		)
+		(pin "1"
+			(uuid "011ca832-a6e6-48f7-83f5-6d1557566f98")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "D2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "oresat-power:GND")
 		(at 264.16 53.34 0)
 		(unit 1)
@@ -9875,6 +11858,72 @@
 			(project ""
 				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
 					(reference "U4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "oresat-power:GND")
+		(at 85.09 118.11 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ee5185a4-8ce5-4f66-bdfd-3dbe3151c702")
+		(property "Reference" "#PWR035"
+			(at 85.09 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 85.09 120.65 0)
+			(do_not_autoplace yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 85.09 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 85.09 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 85.09 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3dd15b1c-7401-47ce-b747-2821647c89f2")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "#PWR035")
 					(unit 1)
 				)
 			)
@@ -10152,6 +12201,73 @@
 		)
 	)
 	(symbol
+		(lib_id "oresat-power:GND")
+		(at 161.29 177.8 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f85693d2-d7ab-427a-96eb-fa28de4c4b25")
+		(property "Reference" "#PWR041"
+			(at 161.29 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 161.29 180.34 0)
+			(do_not_autoplace yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 161.29 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 161.29 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 161.29 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7c40448d-0bcf-4552-abe5-c9dd583bc77d")
+		)
+		(instances
+			(project ""
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "#PWR041")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+12V")
 		(at 246.38 233.68 0)
 		(unit 1)
@@ -10219,7 +12335,7 @@
 	)
 	(symbol
 		(lib_id "power:+12V")
-		(at 129.54 35.56 0)
+		(at 129.54 24.13 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10228,7 +12344,7 @@
 		(fields_autoplaced yes)
 		(uuid "f9ac58fc-62bb-44dd-961f-b03b390b7e6c")
 		(property "Reference" "#PWR016"
-			(at 129.54 39.37 0)
+			(at 129.54 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10237,7 +12353,7 @@
 			)
 		)
 		(property "Value" "+12V"
-			(at 129.54 30.48 0)
+			(at 129.54 19.05 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10245,7 +12361,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 129.54 35.56 0)
+			(at 129.54 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10254,7 +12370,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 129.54 35.56 0)
+			(at 129.54 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10263,7 +12379,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 129.54 35.56 0)
+			(at 129.54 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10278,6 +12394,141 @@
 			(project "helmholtz-controller-v2"
 				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
 					(reference "#PWR016")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 135.89 29.21 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "fcc6a7a0-dcf2-45dc-ba8a-57d2bec1857c")
+		(property "Reference" "R19"
+			(at 133.35 26.67 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "2.4k"
+			(at 133.35 24.13 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 136.144 28.194 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 135.89 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 135.89 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "dc620278-437c-4525-aa52-a65a6a6f34c2")
+		)
+		(pin "2"
+			(uuid "9eec0c19-26f4-4685-92d3-bbd7c7297c02")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "R19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "oresat-misc:Test-Point-0.75mm-th")
+		(at 156.21 107.95 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "fd266206-40c9-46ce-a539-81dcb4921367")
+		(property "Reference" "TP7"
+			(at 154.94 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.0795)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Test-Point"
+			(at 156.21 100.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "oresat-misc:TestPoint-0.75mm-th"
+			(at 156.21 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 156.21 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "0.75 mm TH test point; good for scope probes and jumpers"
+			(at 156.21 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9bbf7f73-6394-4428-8091-6b5fb792385b")
+		)
+		(instances
+			(project "helmholtz-controller-v2"
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "TP7")
 					(unit 1)
 				)
 			)
