@@ -10,494 +10,6 @@
 		(rev "2.0")
 	)
 	(lib_symbols
-		(symbol "BDS63150AFM-E2_1"
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "U1"
-				(at 2.1941 17.78 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Value" "BDS63150AFM-E2"
-				(at 2.1941 15.24 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 20.32 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://fscdn.rohm.com/en/products/databook/datasheet/ic/motor/dc/bd63150afm-e.pdf"
-				(at 0 20.32 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "H-bridge motor driver 5A, 36-HSOP-M"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "BDS63150AFM-E2_1_1_1"
-				(rectangle
-					(start -7.62 12.7)
-					(end 7.62 -12.7)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-				(pin input line
-					(at -10.16 10.16 0)
-					(length 2.54)
-					(name "IN1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -10.16 7.62 0)
-					(length 2.54)
-					(name "IN2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -10.16 2.54 0)
-					(length 2.54)
-					(name "VREF"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "20"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -10.16 -2.54 0)
-					(length 2.54)
-					(name "~{PS}"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -10.16 -7.62 0)
-					(length 2.54)
-					(name "TEST"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "15"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -10.16 -10.16 0)
-					(length 2.54)
-					(name "TEST1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "18"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 15.24 270)
-					(length 2.54)
-					(name "VCC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "24"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 15.24 270)
-					(length 2.54)
-					(hide yes)
-					(name "VCC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "25"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 15.24 270)
-					(length 2.54)
-					(hide yes)
-					(name "VCC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "26"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 -15.24 90)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "29"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -15.24 90)
-					(length 2.54)
-					(hide yes)
-					(name "FIN"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "FIN"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -15.24 90)
-					(length 2.54)
-					(hide yes)
-					(name "FIN"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "FIN"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 10.16 10.16 180)
-					(length 2.54)
-					(name "OUT1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 10.16 10.16 180)
-					(length 2.54)
-					(hide yes)
-					(name "OUT1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 10.16 10.16 180)
-					(length 2.54)
-					(hide yes)
-					(name "OUT1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 10.16 7.62 180)
-					(length 2.54)
-					(name "OUT2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 10.16 7.62 180)
-					(length 2.54)
-					(hide yes)
-					(name "OUT2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 10.16 7.62 180)
-					(length 2.54)
-					(hide yes)
-					(name "OUT2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 10.16 2.54 180)
-					(length 2.54)
-					(name "~{FAILA}"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "16"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 10.16 -2.54 180)
-					(length 2.54)
-					(name "RNFS"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "32"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 10.16 -5.08 180)
-					(length 2.54)
-					(name "RNF"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "33"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 10.16 -5.08 180)
-					(length 2.54)
-					(hide yes)
-					(name "RNF"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "34"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 10.16 -5.08 180)
-					(length 2.54)
-					(hide yes)
-					(name "RNF"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "35"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Connector:Screw_Terminal_01x02"
 			(pin_names
 				(offset 1.016)
@@ -1383,6 +895,89 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Mechanical:MountingHole"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "H"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MountingHole"
+				(at 0 3.175 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Mounting Hole without connection"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "mounting hole"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "MountingHole*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "MountingHole_0_1"
+				(circle
+					(center 0 0)
+					(radius 1.27)
+					(stroke
+						(width 1.27)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Sensor_Energy:INA226"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -1635,6 +1230,777 @@
 						)
 					)
 					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "U-Rohm-BD63150AFM-E2-h-bridge-motor-driver:BDS63150AFM-E2"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -6.858 13.97 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "BDS63150AFM-E2"
+				(at 0 29.972 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 20.32 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://fscdn.rohm.com/en/products/databook/datasheet/ic/motor/dc/bd63150afm-e.pdf"
+				(at 0 27.686 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "H-bridge motor driver 5A, 36-HSOP-M"
+				(at 0.254 33.274 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "BDS63150AFM-E2_1_1"
+				(rectangle
+					(start -7.62 12.7)
+					(end 7.62 -12.7)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -10.16 10.16 0)
+					(length 2.54)
+					(name "IN1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 7.62 0)
+					(length 2.54)
+					(name "IN2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 2.54 0)
+					(length 2.54)
+					(name "VREF"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "20"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 -2.54 0)
+					(length 2.54)
+					(name "~{PS}"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -10.16 -7.62 0)
+					(length 2.54)
+					(name "TEST"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -10.16 -10.16 0)
+					(length 2.54)
+					(name "TEST1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -2.54 5.08 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "36"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -2.54 3.81 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "23"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -2.54 2.54 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -1.27 5.08 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "31"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -1.27 3.81 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "21"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -1.27 2.54 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 15.24 270)
+					(length 2.54)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "24"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 15.24 270)
+					(length 2.54)
+					(hide yes)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "25"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 15.24 270)
+					(length 2.54)
+					(hide yes)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "26"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 0 6.35 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 0 5.08 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "30"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 0 3.81 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 0 2.54 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -15.24 90)
+					(length 2.54)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "22"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -15.24 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "29"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -15.24 90)
+					(length 2.54)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "37"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -15.24 90)
+					(length 2.54)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "38"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 1.27 6.35 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 1.27 5.08 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "27"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 1.27 3.81 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 1.27 2.54 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "28"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 10.16 10.16 180)
+					(length 2.54)
+					(name "OUT1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 10.16 10.16 180)
+					(length 2.54)
+					(hide yes)
+					(name "OUT1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 10.16 10.16 180)
+					(length 2.54)
+					(hide yes)
+					(name "OUT1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 10.16 7.62 180)
+					(length 2.54)
+					(name "OUT2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 10.16 7.62 180)
+					(length 2.54)
+					(hide yes)
+					(name "OUT2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 10.16 7.62 180)
+					(length 2.54)
+					(hide yes)
+					(name "OUT2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 10.16 2.54 180)
+					(length 2.54)
+					(name "~{FAILA}"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 10.16 -2.54 180)
+					(length 2.54)
+					(name "RNFS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "32"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 10.16 -5.08 180)
+					(length 2.54)
+					(name "RNF"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "33"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 10.16 -5.08 180)
+					(length 2.54)
+					(hide yes)
+					(name "RNF"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "34"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 10.16 -5.08 180)
+					(length 2.54)
+					(hide yes)
+					(name "RNF"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "35"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2826,7 +3192,7 @@
 	)
 	(text "PICO-GPIO17-RX\nPICO-GPIO16-TX"
 		(exclude_from_sim no)
-		(at 87.63 152.4 0)
+		(at 74.93 152.4 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3123,6 +3489,12 @@
 		(uuid "98d1ffb9-5d99-46b1-9e18-c9afcce504d4")
 	)
 	(junction
+		(at 105.41 148.59)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "99e67f15-ca96-43f5-82dd-6100c15631da")
+	)
+	(junction
 		(at 246.38 172.72)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3261,10 +3633,6 @@
 		(uuid "9fec3a12-4a7c-4011-a0e6-0d33d2a3669a")
 	)
 	(no_connect
-		(at 110.49 137.16)
-		(uuid "a80f94a2-4a2c-4857-b6ab-a13dfb3602bf")
-	)
-	(no_connect
 		(at 110.49 128.27)
 		(uuid "aa198737-68d1-4200-95c8-fa61189765e1")
 	)
@@ -3306,13 +3674,23 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 147.32) (xy 105.41 148.59)
+			(xy 92.71 147.32) (xy 92.71 148.59)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "017466a7-ef6c-44c2-b47a-24dd95516279")
+	)
+	(wire
+		(pts
+			(xy 110.49 148.59) (xy 105.41 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0276202b-a1d4-4826-9bd2-fde575b7b0af")
 	)
 	(wire
 		(pts
@@ -3696,7 +4074,7 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 148.59) (xy 104.14 148.59)
+			(xy 92.71 148.59) (xy 91.44 148.59)
 		)
 		(stroke
 			(width 0)
@@ -4426,7 +4804,7 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 157.48) (xy 105.41 156.21)
+			(xy 92.71 157.48) (xy 92.71 156.21)
 		)
 		(stroke
 			(width 0)
@@ -4556,7 +4934,7 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 156.21) (xy 104.14 156.21)
+			(xy 92.71 156.21) (xy 91.44 156.21)
 		)
 		(stroke
 			(width 0)
@@ -4593,6 +4971,16 @@
 			(type default)
 		)
 		(uuid "89222aa9-fca4-4ba1-83f1-dfae3c063236")
+	)
+	(wire
+		(pts
+			(xy 105.41 157.48) (xy 105.41 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8a287af2-7b0b-4299-9819-ba9c4a5dac45")
 	)
 	(wire
 		(pts
@@ -5436,6 +5824,16 @@
 	)
 	(wire
 		(pts
+			(xy 105.41 148.59) (xy 105.41 135.89)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d09e518d-b878-404d-ae37-2632dc5445d1")
+	)
+	(wire
+		(pts
 			(xy 233.68 238.76) (xy 222.25 238.76)
 		)
 		(stroke
@@ -5486,7 +5884,7 @@
 	)
 	(wire
 		(pts
-			(xy 104.14 153.67) (xy 110.49 153.67)
+			(xy 91.44 153.67) (xy 110.49 153.67)
 		)
 		(stroke
 			(width 0)
@@ -5596,7 +5994,7 @@
 	)
 	(wire
 		(pts
-			(xy 104.14 151.13) (xy 110.49 151.13)
+			(xy 91.44 151.13) (xy 110.49 151.13)
 		)
 		(stroke
 			(width 0)
@@ -7166,7 +7564,6 @@
 		)
 	)
 	(symbol
-		(lib_name "BDS63150AFM-E2_1")
 		(lib_id "U-Rohm-BD63150AFM-E2-h-bridge-motor-driver:BDS63150AFM-E2")
 		(at 222.25 146.05 0)
 		(unit 1)
@@ -7177,7 +7574,7 @@
 		(fields_autoplaced yes)
 		(uuid "1d453695-44a2-417d-ad0e-ec1453be9b21")
 		(property "Reference" "U2"
-			(at 224.4441 128.27 0)
+			(at 224.3933 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7186,7 +7583,7 @@
 			)
 		)
 		(property "Value" "BDS63150AFM"
-			(at 224.4441 130.81 0)
+			(at 224.3933 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7204,7 +7601,7 @@
 			)
 		)
 		(property "Datasheet" "https://fscdn.rohm.com/en/products/databook/datasheet/ic/motor/dc/bd63150afm-e.pdf"
-			(at 222.25 125.73 0)
+			(at 222.25 118.364 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7213,7 +7610,7 @@
 			)
 		)
 		(property "Description" "H-bridge motor driver 5A, 36-HSOP-M"
-			(at 222.25 146.05 0)
+			(at 222.504 112.776 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7230,7 +7627,7 @@
 		(pin "7"
 			(uuid "968ee3fa-8f20-4bf5-89ff-ca9a15365b8d")
 		)
-		(pin "FIN"
+		(pin "36"
 			(uuid "6a8cfe3c-9104-4709-8e86-ac32f974a609")
 		)
 		(pin "12"
@@ -7287,8 +7684,53 @@
 		(pin "34"
 			(uuid "da0085db-728d-43b5-9192-0822719e15de")
 		)
-		(pin "FIN"
+		(pin "23"
 			(uuid "e0dd5c1c-8663-4b9e-ba79-fed22ee85f08")
+		)
+		(pin "10"
+			(uuid "3d1b3ca9-e359-4cb3-8915-40f3424bd622")
+		)
+		(pin "31"
+			(uuid "d1f0a835-672d-4c01-af48-bdf051bc4893")
+		)
+		(pin "21"
+			(uuid "715da021-7ee5-4ae0-a1c9-f6cbbc24dc5a")
+		)
+		(pin "14"
+			(uuid "85c0ea12-9981-431f-a4d6-a71b204f5973")
+		)
+		(pin "5"
+			(uuid "1ced66c7-6c61-4c2d-916d-ae2f14916802")
+		)
+		(pin "30"
+			(uuid "7d19ddea-7db7-4dda-917b-a49a2c5a7358")
+		)
+		(pin "19"
+			(uuid "e6d256e2-d5d9-4c75-b3a9-3ce7c8afc09e")
+		)
+		(pin "9"
+			(uuid "74254730-6de3-4939-af7f-a10acd0bd571")
+		)
+		(pin "22"
+			(uuid "71765ce2-d4ad-48f2-993f-21dafec7835e")
+		)
+		(pin "37"
+			(uuid "6466a120-9b42-4a0a-89c8-5ff3d8bfe486")
+		)
+		(pin "38"
+			(uuid "4ddc11f9-0e86-4865-aac2-48da716b2bb0")
+		)
+		(pin "4"
+			(uuid "2d1722df-90a8-436b-8f01-32a56dd7424f")
+		)
+		(pin "27"
+			(uuid "192ee548-df4b-4882-8d9b-bc1a1563ab68")
+		)
+		(pin "17"
+			(uuid "1ba768ac-782d-425c-a050-6a730f443273")
+		)
+		(pin "28"
+			(uuid "f457cd31-9de3-41f9-b6e4-3e7ea11fee2e")
 		)
 		(instances
 			(project "helmholtz-controller-v2"
@@ -7880,7 +8322,7 @@
 				)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "BLU"
 			(at 152.4 199.39 0)
 			(effects
 				(font
@@ -8073,7 +8515,6 @@
 		)
 	)
 	(symbol
-		(lib_name "BDS63150AFM-E2_1")
 		(lib_id "U-Rohm-BD63150AFM-E2-h-bridge-motor-driver:BDS63150AFM-E2")
 		(at 222.25 222.25 0)
 		(unit 1)
@@ -8084,7 +8525,7 @@
 		(fields_autoplaced yes)
 		(uuid "35f08581-463f-4e30-b35f-72c852054b4d")
 		(property "Reference" "U5"
-			(at 224.4441 204.47 0)
+			(at 224.3933 204.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8093,7 +8534,7 @@
 			)
 		)
 		(property "Value" "BDS63150AFM"
-			(at 224.4441 207.01 0)
+			(at 224.3933 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8111,7 +8552,7 @@
 			)
 		)
 		(property "Datasheet" "https://fscdn.rohm.com/en/products/databook/datasheet/ic/motor/dc/bd63150afm-e.pdf"
-			(at 222.25 201.93 0)
+			(at 222.25 194.564 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8120,7 +8561,7 @@
 			)
 		)
 		(property "Description" "H-bridge motor driver 5A, 36-HSOP-M"
-			(at 222.25 222.25 0)
+			(at 222.504 188.976 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8137,7 +8578,7 @@
 		(pin "7"
 			(uuid "71367bd5-9bce-4ada-8084-4ca939e1a9cc")
 		)
-		(pin "FIN"
+		(pin "38"
 			(uuid "9b1f83c2-c5a8-4327-8476-cf07b67d75e9")
 		)
 		(pin "12"
@@ -8194,8 +8635,53 @@
 		(pin "34"
 			(uuid "c1e42c47-513f-4388-a590-315ffeb40fa9")
 		)
-		(pin "FIN"
+		(pin "4"
 			(uuid "308cc7be-e402-4c84-9fd1-9db5252359f3")
+		)
+		(pin "27"
+			(uuid "5b5ab6b8-ad70-4d5b-ad41-042f3048fad3")
+		)
+		(pin "17"
+			(uuid "a49a3d02-6770-41f4-a88b-4187c17ceffb")
+		)
+		(pin "28"
+			(uuid "d9477342-0d27-49c2-81e2-b2253cd05c57")
+		)
+		(pin "36"
+			(uuid "b80c755b-53e8-402e-a322-a39b473b0193")
+		)
+		(pin "23"
+			(uuid "3cd73015-9310-43bf-be20-4f459d60cbbe")
+		)
+		(pin "10"
+			(uuid "c8323154-b467-4c1e-8501-b922588b8010")
+		)
+		(pin "31"
+			(uuid "03c9feac-4bd4-442a-9753-1e5e9db1b9b5")
+		)
+		(pin "21"
+			(uuid "1b861b74-8077-4cee-b156-099ee627654e")
+		)
+		(pin "14"
+			(uuid "09b8f207-4136-464b-9782-c7ac3935f767")
+		)
+		(pin "5"
+			(uuid "8798a7ac-6b56-4dd8-a4f8-a9022dfc1172")
+		)
+		(pin "30"
+			(uuid "dc1cfe73-6460-4af0-95dd-1d2b5d1df9e3")
+		)
+		(pin "19"
+			(uuid "b8944919-735d-495a-9be1-aaaef1f01cff")
+		)
+		(pin "9"
+			(uuid "f7aa4d6a-1a28-40c0-834b-24d499b32a5e")
+		)
+		(pin "22"
+			(uuid "3db1f828-8951-4c06-82d8-b03fc540abc8")
+		)
+		(pin "37"
+			(uuid "80eee3f6-a068-465f-8417-21eca6eba604")
 		)
 		(instances
 			(project "helmholtz-controller-v2"
@@ -8493,7 +8979,7 @@
 				)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "GRN"
 			(at 152.4 189.23 0)
 			(effects
 				(font
@@ -10093,7 +10579,7 @@
 				)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "GRN"
 			(at 147.6375 24.13 0)
 			(effects
 				(font
@@ -10354,6 +10840,70 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 342.9 176.53 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a2bcae5a-3270-4740-a4c7-f44dfd514863")
+		(property "Reference" "H1"
+			(at 345.44 175.2599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 345.44 177.7999 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
+			(at 342.9 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 342.9 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 342.9 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project ""
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "H1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 247.65 59.69 90)
 		(unit 1)
@@ -10487,8 +11037,72 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 342.9 196.85 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a642fdd4-0f38-49ea-81be-3da02d65f0d8")
+		(property "Reference" "H4"
+			(at 345.44 195.5799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 345.44 198.1199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
+			(at 342.9 196.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 342.9 196.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 342.9 196.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project ""
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "H4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "oresat-power:GND")
-		(at 105.41 157.48 0)
+		(at 92.71 157.48 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -10498,7 +11112,7 @@
 		(fields_autoplaced yes)
 		(uuid "a732dc96-ad6a-470d-b25a-2ab213ad65a9")
 		(property "Reference" "#PWR046"
-			(at 105.41 162.56 0)
+			(at 92.71 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10507,7 +11121,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 105.41 160.02 0)
+			(at 92.71 160.02 0)
 			(do_not_autoplace yes)
 			(effects
 				(font
@@ -10516,7 +11130,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 105.41 158.75 0)
+			(at 92.71 158.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10525,7 +11139,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 105.41 158.75 0)
+			(at 92.71 158.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10534,7 +11148,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 105.41 157.48 0)
+			(at 92.71 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10757,7 +11371,7 @@
 	)
 	(symbol
 		(lib_id "oresat-power:GND")
-		(at 105.41 135.89 0)
+		(at 105.41 157.48 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -10767,7 +11381,7 @@
 		(fields_autoplaced yes)
 		(uuid "aa09ce37-b1b6-499e-80cf-f9d8b19dad82")
 		(property "Reference" "#PWR047"
-			(at 105.41 140.97 0)
+			(at 105.41 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10776,7 +11390,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 105.41 138.43 0)
+			(at 105.41 160.02 0)
 			(do_not_autoplace yes)
 			(effects
 				(font
@@ -10785,7 +11399,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 105.41 137.16 0)
+			(at 105.41 158.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10794,7 +11408,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 105.41 137.16 0)
+			(at 105.41 158.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10803,7 +11417,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 105.41 135.89 0)
+			(at 105.41 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10884,6 +11498,70 @@
 			(project "helmholtz-controller-v2"
 				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
 					(reference "#PWR025")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 342.9 182.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ae9ced15-cd20-4dbd-9c9d-c1ee24894910")
+		(property "Reference" "H2"
+			(at 345.44 181.6099 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 345.44 184.1499 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
+			(at 342.9 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 342.9 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 342.9 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project ""
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "H2")
 					(unit 1)
 				)
 			)
@@ -11364,7 +12042,7 @@
 	)
 	(symbol
 		(lib_id "power:+12V")
-		(at 105.41 147.32 0)
+		(at 92.71 147.32 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11374,7 +12052,7 @@
 		(fields_autoplaced yes)
 		(uuid "bbd8bcfb-58be-4076-8808-f95a92ed60bd")
 		(property "Reference" "#PWR045"
-			(at 105.41 151.13 0)
+			(at 92.71 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11383,7 +12061,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 105.41 142.24 0)
+			(at 92.71 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11391,7 +12069,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 105.41 147.32 0)
+			(at 92.71 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11400,7 +12078,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 105.41 147.32 0)
+			(at 92.71 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11409,7 +12087,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 105.41 147.32 0)
+			(at 92.71 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11838,7 +12516,6 @@
 		)
 	)
 	(symbol
-		(lib_name "BDS63150AFM-E2_1")
 		(lib_id "U-Rohm-BD63150AFM-E2-h-bridge-motor-driver:BDS63150AFM-E2")
 		(at 222.25 69.85 0)
 		(unit 1)
@@ -11849,7 +12526,7 @@
 		(fields_autoplaced yes)
 		(uuid "c9ae71a5-0df7-44ad-91ec-0ae9c8c017e0")
 		(property "Reference" "U1"
-			(at 224.4441 52.07 0)
+			(at 224.3933 52.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11858,7 +12535,7 @@
 			)
 		)
 		(property "Value" "BDS63150AFM"
-			(at 224.4441 54.61 0)
+			(at 224.3933 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11876,7 +12553,7 @@
 			)
 		)
 		(property "Datasheet" "https://fscdn.rohm.com/en/products/databook/datasheet/ic/motor/dc/bd63150afm-e.pdf"
-			(at 222.25 49.53 0)
+			(at 222.25 42.164 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11885,7 +12562,7 @@
 			)
 		)
 		(property "Description" "H-bridge motor driver 5A, 36-HSOP-M"
-			(at 222.25 69.85 0)
+			(at 222.504 36.576 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11902,7 +12579,7 @@
 		(pin "7"
 			(uuid "cc892788-34e8-47da-8461-264960f112fb")
 		)
-		(pin "FIN"
+		(pin "36"
 			(uuid "abf62cc7-ef14-44de-b3fe-3518c34d066c")
 		)
 		(pin "12"
@@ -11959,8 +12636,53 @@
 		(pin "34"
 			(uuid "2db070fc-42b3-4d15-a036-ec30a7d6cd6e")
 		)
-		(pin "FIN"
+		(pin "23"
 			(uuid "68468560-e7c2-4448-bea7-18c776f0262d")
+		)
+		(pin "10"
+			(uuid "9a3d7216-28ae-464c-b6d6-ceece7ebeb24")
+		)
+		(pin "31"
+			(uuid "751d5154-f384-4afe-b949-c8ed5abd1f38")
+		)
+		(pin "21"
+			(uuid "77234569-430b-4e2a-bc12-52882ad893dd")
+		)
+		(pin "14"
+			(uuid "1c67b873-a299-4cda-8dfe-c6048e0f7d51")
+		)
+		(pin "5"
+			(uuid "432858f0-8ac1-4be1-afa6-9c3423509305")
+		)
+		(pin "30"
+			(uuid "41d2d7aa-c090-4e73-94ea-3467d9256be9")
+		)
+		(pin "19"
+			(uuid "5139b557-f8c7-4884-ac5e-25c00d20180b")
+		)
+		(pin "9"
+			(uuid "f13ff470-fcdd-4d53-96ef-63bdafa31fe6")
+		)
+		(pin "22"
+			(uuid "86ba995b-caf5-4d03-9cff-5fd5ccb485bf")
+		)
+		(pin "37"
+			(uuid "348f7acb-472d-4b30-a992-816477f51660")
+		)
+		(pin "38"
+			(uuid "59602ac8-2a46-4deb-9909-f51c86a2d974")
+		)
+		(pin "4"
+			(uuid "4c2a4eee-7929-4b72-a63f-6402f2dd446d")
+		)
+		(pin "27"
+			(uuid "e244f5ac-766f-4915-9642-29f1e52cc79c")
+		)
+		(pin "17"
+			(uuid "177ef0f1-840c-4edc-8c7f-8570b82c55e4")
+		)
+		(pin "28"
+			(uuid "95658056-a9c2-4a17-87bf-ea5692344c8f")
 		)
 		(instances
 			(project ""
@@ -12054,7 +12776,7 @@
 				)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "RED"
 			(at 153.67 177.8 0)
 			(effects
 				(font
@@ -12183,6 +12905,70 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 342.9 190.5 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "dc3ff8d9-6d25-4e66-8eb7-7c633ed3bad6")
+		(property "Reference" "H3"
+			(at 345.44 189.2299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 345.44 191.7699 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
+			(at 342.9 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 342.9 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 342.9 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project ""
+				(path "/bfab2723-d56a-4a67-8e95-4340e733d062"
+					(reference "H3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:LED")
 		(at 80.01 115.57 0)
 		(unit 1)
@@ -12199,7 +12985,7 @@
 				)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "GRN"
 			(at 80.01 113.03 0)
 			(effects
 				(font
@@ -12554,7 +13340,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
-		(at 99.06 151.13 0)
+		(at 86.36 151.13 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -12563,7 +13349,7 @@
 		(dnp no)
 		(uuid "f14cd20b-4145-46a2-bc8c-d03f6d87a5f2")
 		(property "Reference" "J5"
-			(at 99.06 165.1 0)
+			(at 86.36 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12571,7 +13357,7 @@
 			)
 		)
 		(property "Value" "Conn_01x04"
-			(at 99.06 162.56 0)
+			(at 86.36 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12579,7 +13365,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
-			(at 99.06 151.13 0)
+			(at 86.36 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12588,7 +13374,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 99.06 151.13 0)
+			(at 86.36 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12597,7 +13383,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 99.06 151.13 0)
+			(at 86.36 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
