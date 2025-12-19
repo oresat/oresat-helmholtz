@@ -6,8 +6,8 @@
 	(paper "USLedger")
 	(title_block
 		(title "Helmholtz Cage Controller")
-		(date "2025-10-20")
-		(rev "2.0")
+		(date "2025-12-18")
+		(rev "2.1")
 		(company "Portland State Aerospace Society")
 	)
 	(lib_symbols
@@ -3346,7 +3346,7 @@
 		)
 		(uuid "8674ae49-7589-43b1-b9ed-8352e904a9d6")
 	)
-	(text "addr:0x82"
+	(text "addr:0x42"
 		(exclude_from_sim no)
 		(at 289.56 195.58 0)
 		(effects
@@ -3366,7 +3366,7 @@
 		)
 		(uuid "a1b8ad45-79f7-4436-b332-3f4ebe5cbab7")
 	)
-	(text "addr: 0x80\n"
+	(text "addr: 0x40\n"
 		(exclude_from_sim no)
 		(at 283.21 40.64 0)
 		(effects
@@ -3418,7 +3418,7 @@
 		)
 		(uuid "dc0c8d4e-f8ba-46f4-98cc-8f763ab4ec91")
 	)
-	(text "addr:0x81\n"
+	(text "addr:0x41\n"
 		(exclude_from_sim no)
 		(at 339.09 109.22 0)
 		(effects

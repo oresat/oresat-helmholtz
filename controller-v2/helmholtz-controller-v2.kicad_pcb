@@ -9,8 +9,8 @@
 	(paper "B")
 	(title_block
 		(title "OreSat Helmholtz Cage Controller")
-		(date "2025-10-20")
-		(rev "2.0")
+		(date "2025-12-18")
+		(rev "2.1")
 		(company "Portland State Aerospace Society")
 	)
 	(layers
@@ -18849,6 +18849,19 @@
 			(justify left bottom)
 		)
 	)
+	(gr_text "Y"
+		(at 197.4 109.9 270)
+		(layer "F.SilkS")
+		(uuid "1e3dd93d-3c9d-46ca-aaa3-0638a0a0fd5d")
+		(effects
+			(font
+				(size 1.5 1.5)
+				(thickness 0.3)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+	)
 	(gr_text "GPIO15\n"
 		(at 235.90625 141.44375 270)
 		(layer "F.SilkS")
@@ -18857,6 +18870,19 @@
 			(font
 				(size 1 1)
 				(thickness 0.25)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "Z\n"
+		(at 197.1 129.75 270)
+		(layer "F.SilkS")
+		(uuid "299f4660-4999-4a95-8966-83673062bbb3")
+		(effects
+			(font
+				(size 1.5 1.5)
+				(thickness 0.3)
 				(bold yes)
 			)
 			(justify left bottom)
@@ -18875,6 +18901,32 @@
 			(justify left bottom)
 		)
 	)
+	(gr_text "X"
+		(at 197.3 99.65 270)
+		(layer "F.SilkS")
+		(uuid "53b45f9c-f2bd-4011-b79c-f724ebdccb8e")
+		(effects
+			(font
+				(size 1.5 1.5)
+				(thickness 0.3)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "Y"
+		(at 197.45 119.35 270)
+		(layer "F.SilkS")
+		(uuid "71fc2244-fab1-4d47-85d7-05ccfc3fc3ee")
+		(effects
+			(font
+				(size 1.5 1.5)
+				(thickness 0.3)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+	)
 	(gr_text "3v3"
 		(at 258.125 94.875 0)
 		(layer "F.SilkS")
@@ -18883,6 +18935,32 @@
 			(font
 				(size 1 1)
 				(thickness 0.25)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "X"
+		(at 197.2 90.25 270)
+		(layer "F.SilkS")
+		(uuid "7438e2ec-5c5a-44fc-816a-4b928975e563")
+		(effects
+			(font
+				(size 1.5 1.5)
+				(thickness 0.3)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "Z\n"
+		(at 197.1 139.15 270)
+		(layer "F.SilkS")
+		(uuid "b84780c4-af00-4918-8f5f-e135309aa69f")
+		(effects
+			(font
+				(size 1.5 1.5)
+				(thickness 0.3)
 				(bold yes)
 			)
 			(justify left bottom)
