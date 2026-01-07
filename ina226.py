@@ -34,6 +34,7 @@ micropython driver for the INA226 current sensor.
 # June 2020
 
 from micropython import const
+
 # from adafruit_bus_device.i2c_device import I2CDevice
 
 __version__ = "0.0.0-auto.0"
@@ -139,8 +140,7 @@ class INA226:
 
     def _read_register(self, reg):
         self.i2c_device.readfrom_mem_into(self.i2c_addr, reg & 0xFF, self.buf)
-        value = (self.buf[0] << 8) | (self.buf[1])
-        return value
+        return (self.buf[0] << 8) | (self.buf[1])
 
     @property
     def shunt_voltage(self):

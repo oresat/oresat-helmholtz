@@ -1,7 +1,6 @@
-from machine import Pin, PWM
-import time
+from machine import I2C, PWM, Pin
+
 import ina226
-from machine import Pin, I2C
 
 # Fast Decay PWM Mode
 # toggles both Pins at same time (one is inverted)

@@ -1,7 +1,8 @@
-from machine import Pin, PWM
 import time
+
+from machine import I2C, Pin
+
 import ina226
-from machine import Pin, I2C
 
 # Keep Pins static (100% duty cycle)
 p3 = Pin(3, Pin.OUT)

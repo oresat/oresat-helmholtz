@@ -1,7 +1,6 @@
-from machine import Pin, PWM
-import time
+from machine import I2C, PWM, Pin
+
 import ina226
-from machine import Pin, I2C
 
 # PWM Slow Decay mode
 pwm_a = PWM(Pin(3), freq=50000)  # initialize PWM on GPIO3
