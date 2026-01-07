@@ -1,0 +1,56 @@
+[project]
+name = "helmholtz-cage"
+requires-python = ">=3.10"
+license = {text = "GPL-3.0"}
+dynamic = ["version"]
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "mypy",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = [ "ALL" ]
+ignore = [
+    # Conflicting options
+    "COM812",  # prohibited-trailing-comma - Conflicts with formatter
+    "Q",  # flake8-quotes - Conflicts with formatter
+
+    # Deliberately off
+    "S506",  # unsafe-yaml-load - We're only using trusted YAML and we want the speed
+    "ERA001",  # commented-out-code - ostensibly a good idea but too many false positives
+    "TID252",  # relative-imports - I'm not convinced by the explanation for this one
+    "FIX",  # flake8-fixme - I understand the arguments for and I think they're wrong
+    "TD001",  # invalid-todo-tag - FIXMEs and XXX have different meanings than TODO
+    "TD002",  # missing-todo-author - Git blame does this better
+    "TD003",  # missing-todo-link - If it's important enough to get an issue it shouldn't be a todo
+    "PLW2901",  # redefined-loop-name - Too many false positives, it's a useful technique
+    "TC006",  # runtime-cast-value - Consistency is too weak an argument, prefer the actual types
+    "INP001",  # implicit-namespace-package - warns on docs/ which shouldn't be a package
+
+    # Maybe one day
+    "EM",  # flake8-errmsg - on the fence with this, maybe enable when we rethink exceptions
+    "TRY003",  # raise-vanilla-args - same as EM, maybe one day?
+    "PLR0912",  # too-many-branches - Maybe one day, will require extensive refactoring
+    "PLR0915",  # too-many-statements - Maybe one day, will require extensive refactoring
+    "PLR2004",  # magic-value-comparison - Maybe one day, CANopen really likes raw hex
+    "C901",  # complex-structure - Maybe one day, will require extensive refactoring
+
+    # Re-enable soon
+    "S101",  # assert - Should be eventually fixed but for now helps with type checking
+    "ANN401",  # any-type - Should be eventually fixed but for now helps with type checking
+    "D",  # pydocstyle - Should be turned back on but documentation is a large task
+    "ANN",
+]
+
+[tool.ruff.format]
+quote-style = "preserve"
+
+[tool.mypy]
+disable_error_code = ["import-not-found"]
