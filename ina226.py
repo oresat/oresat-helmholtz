@@ -200,13 +200,13 @@ class INA226:
     # cal_value = 0.00512 / (0.1 * 0.0001)
     # cal_value = 512
     #
-    #
+
     def set_calibration(self):
-    """
-    Configures to INA226 to be able to measure up to 36V and 2A
-    of current. Counter overflow occurs at 3.2A.
-    These calculations assume a 0.1 shunt ohm resistor
-    """
+        """
+        Configures to INA226 to be able to measure up to 36V and 2A
+        of current. Counter overflow occurs at 3.2A.
+        These calculations assume a 0.1 shunt ohm resistor
+        """
         self._current_lsb = 0.0001
         self._cal_value = 512
         self._power_lsb = 0.0025
@@ -221,31 +221,3 @@ class INA226:
         )
 
         self._write_register(_REG_CONFIG, config)
-
-    def set_calibration_custom(self, calValue=512, config=0x4127):
-        # Set the configuration register externally by using the hex value for the config register
-        # Value can be calculated with spreadsheet
-        # Calibration value needs to be calculated seperately and passed as parameter too
-        self._cal_value = calValue
-        self._write_register(_REG_CALIBRATION, self._cal_value)
-        self._write_register(_REG_CONFIG, config)
-
-    def set_calibration_custom(self):
-        # Set the configuration register externally by using the hex value for the config register
-        # Value can be calculated with spreadsheet
-        # Calibration value needs to be calculated seperately and passed as parameter too
-        self._current_lsb = 0.000153  # 5A -> 153 microA/bit
-        self._cal_value = 335
-        self._power_lsb = 0.0038  # 3.8 mW/bit
-        self._write_register(_REG_CALIBRATION, self._cal_value)
-
-        config = (
-            _CONFIG_CONST_BITS
-            | _CONFIG_AVGMODE_512SAMPLES
-            | _CONFIG_VBUSCT_588us
-            | _CONFIG_VSHUNTCT_588us
-            | _CONFIG_MODE_SANDBVOLT_CONTINUOUS
-        )
-
-        self._write_register(_REG_CONFIG, config)
-
