@@ -13,7 +13,7 @@ pwm_b = PWM(Pin(3), freq=50000, invert=True)  # On the same slice as Pin2
 i2c = I2C(scl=Pin(1), sda=Pin(0))
 
 ina = ina226.INA226(i2c, 0x40)
-ina.set_calibration_custom()
+ina.set_calibration()
 
 duty_per = 80
 duty_u16 = round(duty_per / 100 * 65536)
