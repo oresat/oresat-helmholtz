@@ -1,0 +1,49 @@
+#!/bin/bash
+
+TARGET_DIR="/run/media/$USER/CIRCUITPY"
+GREEN='\e[0;32m'
+BLUE='\e[0;34m'
+RED='\033[1;31m'
+NC='\e[0m' # No Color (reset)
+
+# Check that mpy-cross is installed
+if ! command -v mpy-cross >/dev/null 2>&1
+then
+  echo -e "${RED}Error:$NC Python package mpy-cross must be installed" >&2
+  exit 1
+fi
+
+# Create the build dir if it doesn't exist already
+if [ ! -d "./build" ]; then
+  mkdir build
+fi
+
+# Build
+for py_file in *.py; do
+  echo -e "Building ${BLUE}${py_file}${NC}"
+  base=${py_file%.*} # remove the '.py' extension
+  mpy-cross $py_file -o ./build/${base}.mpy
+done
+
+# Check if the board is plugged in
+if [ ! -d "$TARGET_DIR" ]; then
+  echo -e "${RED}Error:$NC Board not found" >&2
+  exit 1
+fi
+
+for file in "build/"*.mpy; do
+  if [ $file = "build/main.mpy" ]; then
+     # flash main to pico root
+     location="$TARGET_DIR"
+  else
+    # flash to lib dir
+    location="$TARGET_DIR/lib"
+  fi
+  echo -e "Flashing $BLUE$file$NC to $BLUE$location$NC"
+  cp $file $location
+done
+
+echo "Syncing..."
+sync # Linux must sync to actually write the files
+
+echo -e "${GREEN}Done${NC}"
