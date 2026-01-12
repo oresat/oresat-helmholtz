@@ -20,7 +20,7 @@ fi
 
 # Build
 for py_file in *.py; do
-  if [ ! py_file = "main.py" ]; then
+  if [ "$py_file" != "main.py" ]; then
     echo -e "Building ${BLUE}${py_file}${NC}"
     base=${py_file%.*} # remove the '.py' extension
     mpy-cross $py_file -o ./build/${base}.mpy
@@ -37,9 +37,10 @@ echo -e "Flashing ${BLUE}main.py$NC to $BLUE$TARGET_DIR$NC"
 cp main.py $TARGET_DIR
 
 for file in "build/"*.mpy; do
+  lib_dir=$TARGET_DIR/lib
   # flash to lib dir
-  echo -e "Flashing $BLUE$file$NC to $BLUE$location$NC"
-  cp $file $TARGET_DIR/lib
+  echo -e "Flashing $BLUE$file$NC to $BLUE$lib_dir$NC"
+  cp $file $lib_dir
 done
 
 echo "Syncing..."
