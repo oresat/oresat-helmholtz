@@ -52,7 +52,3 @@ ignore = [
 
 [tool.ruff.format]
 quote-style = "preserve"
-
-[tool.mypy]
-disable_error_code = ["import-not-found"]
-exclude = [ "./adafruit_logging.py" ]

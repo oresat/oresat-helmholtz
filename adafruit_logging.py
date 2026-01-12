@@ -1,7 +1,3 @@
-# Annoyingly, pyproject.toml exclude section for mypy doesn't work when operating
-# on a single file, like how Mason uses mypy, so this next line is to handle that.
-# type: ignore
-
 # SPDX-FileCopyrightText: 2019 Dave Astels for Adafruit Industries
 # SPDX-FileCopyrightText: 2024 Pat Satyshur
 #
