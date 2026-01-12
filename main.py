@@ -1,9 +1,16 @@
+import adafruit_logging as logging
 import board
 from digitalio import DigitalInOut, Direction
 
 from blink import blink_led
 
-print("Oresat Helmholtz Cage Firmware v2")
+logger = logging.getLogger('Helmholtz logger')
+logger.setLevel(logging.DEBUG)
+
+logger.info("Oresat Helmholtz Cage Firmware v2")
+
+LED_0 = DigitalInOut(board.LED)
+LED_0.direction = Direction.OUTPUT
 
 LED_1 = DigitalInOut(board.GP13)
 LED_1.direction = Direction.OUTPUT
@@ -33,7 +40,7 @@ Z_IN2 = DigitalInOut(board.GP11)
 Z_IN2.direction = Direction.OUTPUT
 
 while True:
-    blink_led()
+    blink_led(LED_0, 0.5)
 
 
 # Motor H-Bridge controls
