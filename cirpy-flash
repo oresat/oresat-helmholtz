@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# This script is only tested with circuitpython's custom mpy-cross compiler
+# NOT the pip package mpy-cross, which is micropython specific
+# It may work with micropython, but there is no guarantee
+
 TARGET_DIR="/run/media/$USER/CIRCUITPY"
 GREEN='\e[0;32m'
 BLUE='\e[0;34m'
@@ -9,7 +13,7 @@ NC='\e[0m' # No Color (reset)
 # Check that mpy-cross is installed
 if ! command -v mpy-cross >/dev/null 2>&1
 then
-  echo -e "${RED}Error:$NC Python package mpy-cross must be installed" >&2
+  echo -e "${RED}Error:$NC Circuitpython's mpy-cross must be installed" >&2
   exit 1
 fi
 
