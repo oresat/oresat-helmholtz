@@ -20,9 +20,11 @@ fi
 
 # Build
 for py_file in *.py; do
-  echo -e "Building ${BLUE}${py_file}${NC}"
-  base=${py_file%.*} # remove the '.py' extension
-  mpy-cross $py_file -o ./build/${base}.mpy
+  if [ ! py_file = "main.py" ]; then
+    echo -e "Building ${BLUE}${py_file}${NC}"
+    base=${py_file%.*} # remove the '.py' extension
+    mpy-cross $py_file -o ./build/${base}.mpy
+  fi
 done
 
 # Check if the board is plugged in
@@ -31,16 +33,13 @@ if [ ! -d "$TARGET_DIR" ]; then
   exit 1
 fi
 
+echo -e "Flashing ${BLUE}main.py$NC to $BLUE$TARGET_DIR$NC"
+cp main.py $TARGET_DIR
+
 for file in "build/"*.mpy; do
-  if [ $file = "build/main.mpy" ]; then
-     # flash main to pico root
-     location="$TARGET_DIR"
-  else
-    # flash to lib dir
-    location="$TARGET_DIR/lib"
-  fi
+  # flash to lib dir
   echo -e "Flashing $BLUE$file$NC to $BLUE$location$NC"
-  cp $file $location
+  cp $file $TARGET_DIR/lib
 done
 
 echo "Syncing..."
