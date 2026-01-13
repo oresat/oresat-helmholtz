@@ -1,4 +1,5 @@
 from digitalio import DigitalInOut, Direction
+from pwmio import PWMOut
 
 
 class Motor:
@@ -11,10 +12,8 @@ class Motor:
             in2: GPIO output pin for in2
             ps: GPIO output pin for power save
         """
-        self.in1 = DigitalInOut(in1)
-        self.in1.direction = Direction.OUTPUT
-        self.in2 = DigitalInOut(in2)
-        self.in2.direction = Direction.OUTPUT
+        self.in1 = PWMOut(in1, frequency=2000, duty_cycle=0)
+        self.in2 = PWMOut(in2, frequency=2000, duty_cycle=0)
         self.led = DigitalInOut(led)
         self.led.direction = Direction.OUTPUT
 
