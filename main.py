@@ -31,4 +31,8 @@ logger.info("Initialized motor drivers")
 
 logger.info("Entering main loop")
 while True:
-    logger.info(get_mag_field(uart, uart_buf, logger))
+    mag_field = get_mag_field(uart, uart_buf, logger)
+    # logger.info(mag_field)
+    # Prevent memory overflows
+    if len(uart_buf) > 256:
+        uart_buf = bytearray()

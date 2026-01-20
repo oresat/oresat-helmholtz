@@ -4,15 +4,20 @@ import json
 
 from blink import PICO_LED
 
+REQUEST_DATA_CMD = b'\x33'
+
 
 def get_mag_field(uart, uart_buf, logger):
-    PICO_LED.value = True
+    # Initiate handshake
+    logger.info("Requesting mag field")
+    uart.write(REQUEST_DATA_CMD)
 
-    mag_field = 0
-    bytes_read = uart.read(70)
+    err = 0
+    resp = uart.read(70)
 
-    if bytes_read is not None and len(bytes_read) > 0:
-        uart_buf.extend(bytes_read)
+    if resp is not None and len(resp) > 0:
+        PICO_LED.value = True
+        uart_buf.extend(resp)
 
         while b'\n' in uart_buf:
             newline_pos = uart_buf.find(b'\n')
@@ -21,22 +26,19 @@ def get_mag_field(uart, uart_buf, logger):
 
             try:
                 serialized_data = json.loads(line.decode('ascii'))
-                mag_field = {
+                PICO_LED.value = False
+                return {
                     "x": serialized_data["x"],
                     "y": serialized_data["y"],
                     "z": serialized_data["z"],
                 }
 
-            except UnicodeError:
-                return mag_field
-            except ValueError:
-                return mag_field
-            except KeyError:
-                return mag_field
-
-    # Prevent memory overflows
-    if len(uart_buf) > 256:
-        uart_buf = bytearray()
+            except UnicodeError as e:
+                logger.error("Unicode Error: %s", e)
+            except ValueError as e:
+                logger.error("Value Error: %s", e)
+            except KeyError as e:
+                logger.error("Key Error: %s", e)
 
     PICO_LED.value = False
-    return mag_field
+    return err
