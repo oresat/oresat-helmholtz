@@ -1,7 +1,6 @@
 # ruff: noqa: T201
 
 import json
-import time
 
 import constants as const
 import serial
@@ -53,8 +52,8 @@ def parse_stream(stream):
 
 
 print("Setting up serial ports...")
-mr3_ser = serial.Serial("/dev/ttyUSB0", 115200, timeout=0.1)
-pico_ser = serial.Serial("/dev/ttyAMA0", 115200, timeout=1)
+mr3_ser = serial.Serial("/dev/ttyUSB0", 115200, timeout=3)
+pico_ser = serial.Serial("/dev/ttyAMA0", 115200, timeout=3)
 
 print("Resetting MR3")
 # Tell the MR3 to stop whatever it's doing
@@ -65,18 +64,22 @@ mr3_ser.write(const.RESET_TIME_CMD)
 print("Entering main loop")
 while True:
     # Wait for pico to request mr3 data
-    while pico_ser.read_until(b'\x33') is None:
+    print("Awaiting request from Pico")
+    pico_req = pico_ser.read(1)
+
+    if len(pico_req) != const.PICO_ACKNOWLEDGE_BIT :
+        print("No response from Pico")
         continue
 
-    # Stream and parse data from the MR3
+    print("Reading mr3")
+    # Request a stream of data
+    mr3_ser.write(const.STREAM_DATA_CMD)
+
+    # Read and parse data from the MR3
     stream = mr3_ser.read_until(b"\x08")
     data = parse_stream(stream)
 
     if data is not None and len(data) > 0:
         # Send to the pico
+        print("Sending data to Pico")
         bytes_sent = pico_ser.write(data)
-        if bytes_sent > 0:
-            print(f"Sent {bytes_sent} bytes to Pico: {data}")
-
-    # Request the next stream of data
-    mr3_ser.write(const.STREAM_DATA_CMD)
