@@ -1,9 +1,10 @@
 # ruff: noqa: T201
 
-import constants as const
-import serial
 import json
 import time
+
+import constants as const
+import serial
 
 
 def parse_stream(stream):
@@ -11,7 +12,7 @@ def parse_stream(stream):
         # Sometimes we get incomplete data that we should ignore
         # 5 chunks * 6 bytes each + 1 acknowledge byte = 31 make up a valid stream
         # TODO: Handle incomplete data
-        return
+        return None
 
     chunks = [stream[i : i + 6] for i in range(0, len(stream), 6)]
 
@@ -63,6 +64,10 @@ mr3_ser.write(const.RESET_TIME_CMD)
 
 print("Entering main loop")
 while True:
+    # Wait for pico to request mr3 data
+    while pico_ser.read_until(b'\x33') is None:
+        continue
+
     # Stream and parse data from the MR3
     stream = mr3_ser.read_until(b"\x08")
     data = parse_stream(stream)
@@ -73,6 +78,5 @@ while True:
         if bytes_sent > 0:
             print(f"Sent {bytes_sent} bytes to Pico: {data}")
 
-    time.sleep(1)
     # Request the next stream of data
     mr3_ser.write(const.STREAM_DATA_CMD)
