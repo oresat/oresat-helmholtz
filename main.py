@@ -1,23 +1,24 @@
+import time
+
 import board
-from busio import I2C
-from digitalio import DigitalInOut, Direction
+from busio import I2C, UART
 
 import adafruit_logging as logging
-from blink import blink_led
 from ina226 import INA226
 from motor import Motor
+from uart import get_mag_field
 
 logger = logging.getLogger('Helmholtz logger')
 logger.setLevel(logging.DEBUG)
 
 logger.info("Oresat Helmholtz Cage Firmware v2")
 
-PICO_LED = DigitalInOut(board.LED)
-PICO_LED.direction = Direction.OUTPUT
+uart = UART(board.GP16, board.GP17, baudrate=115200)
+uart_buf = bytearray()
+logger.info("Initialized uart: %s", uart)
 
 i2c = I2C(board.GP1, board.GP0)
-
-print(dir(i2c))
+logger.info("Initialized i2c: %s", i2c)
 
 # ina226_x = INA226(i2c, 0x40)
 # ina226_y = INA226(i2c, 0x41)
@@ -26,6 +27,8 @@ print(dir(i2c))
 motor_x = Motor(in1=board.GP2, in2=board.GP3, led=board.GP13)
 motor_y = Motor(in1=board.GP6, in2=board.GP7, led=board.GP14)
 motor_z = Motor(in1=board.GP10, in2=board.GP11, led=board.GP15)
+logger.info("Initialized motor drivers")
 
+logger.info("Entering main loop")
 while True:
-    blink_led(PICO_LED, 1)
+    logger.info(get_mag_field(uart, uart_buf, logger))

@@ -2,6 +2,8 @@
 
 import constants as const
 import serial
+import json
+import time
 
 
 def parse_stream(stream):
@@ -13,6 +15,14 @@ def parse_stream(stream):
 
     chunks = [stream[i : i + 6] for i in range(0, len(stream), 6)]
 
+    ret = {
+        "time": 0,
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "mag": 0,
+    }
+
     for i, chunk in enumerate(chunks):
         if i == 5:
             # Last byte is the acknowledge byte
@@ -21,39 +31,48 @@ def parse_stream(stream):
         # First two bytes are config data
         config = chunk[:2]
 
-        data_null = config[0] & const.NULL_DATA_MSK
-        field_type = (config[0] & const.FIELD_TYPE_MSK) >> 4
-        sett_changed = config[0] & const.SETT_CHANGED_MSK
+        # data_null = config[0] & const.NULL_DATA_MSK
+        # field_type = (config[0] & const.FIELD_TYPE_MSK) >> 4
+        # sett_changed = config[0] & const.SETT_CHANGED_MSK
         sign = config[1] & const.SIGN_MSK
         decimal_place = config[1] & const.DECIMAL_PLACE_MSK
 
         # Last 3 bytes are the data
         data = int.from_bytes(chunk[2:], byteorder="big") / (10**decimal_place)
 
-        chunk_types = ["Time", "X", "Y", "Z", "Mag"]
+        chunk_types = ["time", "x", "y", "z", "mag"]
 
-        print(8 * "=" + f" {chunk_types[i]} " + 8 * "=")
-        print(f"Data null: {data_null}")
-        print(f"Field type: {field_type}")
-        print(f"Settings changed: {sett_changed}")
-        print(f"Sign: {'+' if sign == 0 else '-'}")
-        print(f"Data: {data}")
+        ret[chunk_types[i]] = -data if sign else data
+
+    # Convert the data to a json obj that the pico can read, then encode it as utf-8 bytes
+    ret = json.dumps(ret)
+    ret = ret.encode("ascii")
+    ret += b"\n"
+    return ret
 
 
-ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=0.1)
+print("Setting up serial ports...")
+mr3_ser = serial.Serial("/dev/ttyUSB0", 115200, timeout=0.1)
+pico_ser = serial.Serial("/dev/ttyAMA0", 115200, timeout=1)
 
+print("Resetting MR3")
 # Tell the MR3 to stop whatever it's doing
-ser.write(const.KILL_ALL_PROCESS_CMD)
-
+mr3_ser.write(const.KILL_ALL_PROCESS_CMD)
 # Start the session by resetting the time per prototocol
-ser.write(const.RESET_TIME_CMD)
+mr3_ser.write(const.RESET_TIME_CMD)
 
+print("Entering main loop")
 while True:
-    # Continuously stream and parse data from the MR3
-    stream = ser.read_until(b'\x08')
-    parse_stream(stream)
+    # Stream and parse data from the MR3
+    stream = mr3_ser.read_until(b"\x08")
+    data = parse_stream(stream)
 
+    if data is not None and len(data) > 0:
+        # Send to the pico
+        bytes_sent = pico_ser.write(data)
+        if bytes_sent > 0:
+            print(f"Sent {bytes_sent} bytes to Pico: {data}")
+
+    time.sleep(1)
     # Request the next stream of data
-    ser.write(const.STREAM_DATA_CMD)
-
-ser.close()
+    mr3_ser.write(const.STREAM_DATA_CMD)
