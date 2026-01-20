@@ -14,7 +14,6 @@ logger.setLevel(logging.DEBUG)
 logger.info("Oresat Helmholtz Cage Firmware v2")
 
 uart = UART(board.GP16, board.GP17, baudrate=115200)
-uart_buf = bytearray()
 logger.info("Initialized uart: %s", uart)
 
 i2c = I2C(board.GP1, board.GP0)
@@ -31,8 +30,9 @@ logger.info("Initialized motor drivers")
 
 logger.info("Entering main loop")
 while True:
-    mag_field = get_mag_field(uart, uart_buf, logger)
-    # logger.info(mag_field)
-    # Prevent memory overflows
-    if len(uart_buf) > 256:
-        uart_buf = bytearray()
+    mag_field = get_mag_field(uart, logger)
+    if mag_field != 0:
+        logger.info(mag_field)
+
+    uart.reset_input_buffer()
+    time.sleep(0.50)

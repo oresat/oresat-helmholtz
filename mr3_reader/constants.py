@@ -5,7 +5,6 @@ DONT_CARE_BITS = b"\x00\x00\x00\x00\x00"
 ALTER_METER_SETT_BIT = b"\x0e"
 ALTER_STREAM_PERIOD_BIT = b"\x0f"
 TABLE_HEADERS_COUNT = 5  # per props cmd
-PICO_ACKNOWLEDGE_BIT = b"\x33"
 
 # Identification Commands
 ID_METER_PROP_CMD = b"\x01" + DONT_CARE_BITS

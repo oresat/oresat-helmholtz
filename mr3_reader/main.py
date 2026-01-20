@@ -1,6 +1,7 @@
 # ruff: noqa: T201
 
-import json
+from struct import pack
+import time
 
 import constants as const
 import serial
@@ -11,11 +12,12 @@ def parse_stream(stream):
         # Sometimes we get incomplete data that we should ignore
         # 5 chunks * 6 bytes each + 1 acknowledge byte = 31 make up a valid stream
         # TODO: Handle incomplete data
+        # print("Data malformed: ", stream.hex(sep=" "))
         return None
 
     chunks = [stream[i : i + 6] for i in range(0, len(stream), 6)]
 
-    ret = {
+    data = {
         "time": 0,
         "x": 0,
         "y": 0,
@@ -38,22 +40,24 @@ def parse_stream(stream):
         decimal_place = config[1] & const.DECIMAL_PLACE_MSK
 
         # Last 3 bytes are the data
-        data = int.from_bytes(chunk[2:], byteorder="big") / (10**decimal_place)
+        sample = int.from_bytes(chunk[2:], byteorder="big") / (10**decimal_place)
 
         chunk_types = ["time", "x", "y", "z", "mag"]
 
-        ret[chunk_types[i]] = -data if sign else data
+        data[chunk_types[i]] = -sample if sign else sample
 
-    # Convert the data to a json obj that the pico can read, then encode it as utf-8 bytes
-    ret = json.dumps(ret)
-    ret = ret.encode("ascii")
-    ret += b"\n"
-    return ret
+    # Convert the data to a json obj that the pico can read, then encode it as ascii bytes
+    print(data)
+    struct = pack(
+        "fffff", data["time"], data["x"], data["y"], data["z"], data["mag"]
+    )
+    print(len(struct))
+    return struct
 
 
 print("Setting up serial ports...")
-mr3_ser = serial.Serial("/dev/ttyUSB0", 115200, timeout=3)
-pico_ser = serial.Serial("/dev/ttyAMA0", 115200, timeout=3)
+mr3_ser = serial.Serial("/dev/ttyUSB0", 115200, timeout=0.15)
+pico_ser = serial.Serial("/dev/ttyAMA0", 115200, timeout=5)
 
 print("Resetting MR3")
 # Tell the MR3 to stop whatever it's doing
@@ -63,23 +67,16 @@ mr3_ser.write(const.RESET_TIME_CMD)
 
 print("Entering main loop")
 while True:
-    # Wait for pico to request mr3 data
-    print("Awaiting request from Pico")
-    pico_req = pico_ser.read(1)
+    # Read data from the MR3
+    stream = mr3_ser.read_until(b"\x08")
 
-    if len(pico_req) != const.PICO_ACKNOWLEDGE_BIT :
-        print("No response from Pico")
-        continue
+    if stream is not None and len(stream) > 0:
+        # Parse and send to the pico
+        data = parse_stream(stream)
+        if data is not None:
+            print("Sending data to Pico")
+            pico_ser.write(data)
 
-    print("Reading mr3")
+    time.sleep(0.5)
     # Request a stream of data
     mr3_ser.write(const.STREAM_DATA_CMD)
-
-    # Read and parse data from the MR3
-    stream = mr3_ser.read_until(b"\x08")
-    data = parse_stream(stream)
-
-    if data is not None and len(data) > 0:
-        # Send to the pico
-        print("Sending data to Pico")
-        bytes_sent = pico_ser.write(data)

@@ -6,7 +6,7 @@ import serial
 
 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=3)
 
-freq = np.uint16(120)
+freq = np.uint16(1)
 
 # Reset device
 ser.write(const.KILL_ALL_PROCESS_CMD)
