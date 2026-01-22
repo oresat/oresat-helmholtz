@@ -9,7 +9,6 @@ dependencies = []
 [project.optional-dependencies]
 dev = [
     "ruff",
-    "mypy",
 ]
 
 [tool.ruff]
