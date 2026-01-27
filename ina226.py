@@ -107,7 +107,6 @@ _REG_CURRENT = const(0x04)
 
 # CALIBRATION REGISTER (R/W)
 _REG_CALIBRATION = const(0x05)
-# pylint: enable=bad-whitespace
 
 
 def _to_signed(num):
@@ -121,11 +120,14 @@ class INA226:
 
     def __init__(self, i2c_device, addr=0x40):
         self.i2c_device = i2c_device
-
         self.i2c_addr = addr
-        self.buf = bytearray(2)
+
+        self.write_buf = bytearray(3)
+        self.read_buf = bytearray(2)
+
         # Multiplier in mA used to determine current from raw reading
         self._current_lsb = 0
+
         # Multiplier in W used to determine power from raw reading
         self._power_lsb = 0
 
@@ -134,13 +136,20 @@ class INA226:
         self.set_calibration()
 
     def _write_register(self, reg, value):
-        self.buf[0] = (value >> 8) & 0xFF
-        self.buf[1] = value & 0xFF
-        self.i2c_device.writeto_mem(self.i2c_addr, reg, self.buf)
+        while not self.i2c_device.try_lock():
+            pass
+        self.write_buf[0] = reg & 0xFF
+        self.write_buf[1] = (value >> 8) & 0xFF
+        self.write_buf[2] = value & 0xFF
+        self.i2c_device.writeto(self.i2c_addr, self.write_buf)
+        self.i2c_device.unlock()
 
     def _read_register(self, reg):
-        self.i2c_device.readfrom_mem_into(self.i2c_addr, reg & 0xFF, self.buf)
-        return (self.buf[0] << 8) | (self.buf[1])
+        while not self.i2c_device.try_lock():
+            pass
+        self.i2c_device.writeto_then_readfrom(self.i2c_addr, bytes([reg]), self.read_buf)
+        self.i2c_device.unlock()
+        return (self.read_buf[0] << 8) | (self.read_buf[1])
 
     @property
     def shunt_voltage(self):
@@ -161,14 +170,8 @@ class INA226:
     @property
     def current(self):
         """The current through the shunt resistor in milliamps."""
-        # Sometimes a sharp load will reset the INA219, which will
-        # reset the cal register, meaning CURRENT and POWER will
-        # not be available ... athis by always setting a cal
-        # value even if it's an unfortunate extra step
-        self._write_register(_REG_CALIBRATION, self._cal_value)
-
-        # Now we can safely read the CURRENT register!
-        raw_current = _to_signed(self._read_register(_REG_CURRENT))
+        read = self._read_register(_REG_CURRENT)
+        raw_current = _to_signed(read)
         return raw_current * self._current_lsb
 
     @property
@@ -210,6 +213,7 @@ class INA226:
         self._current_lsb = 0.0001
         self._cal_value = 512
         self._power_lsb = 0.0025
+
         self._write_register(_REG_CALIBRATION, self._cal_value)
 
         config = (
