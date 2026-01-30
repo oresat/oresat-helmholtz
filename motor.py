@@ -10,7 +10,6 @@ class Motor:
         Args:
             in1: GPIO output pin for in1
             in2: GPIO output pin for in2
-            ps: GPIO output pin for power save
         """
         self.in1 = PWMOut(in1, frequency=2000, duty_cycle=0)
         self.in2 = PWMOut(in2, frequency=2000, duty_cycle=0)
@@ -19,20 +18,20 @@ class Motor:
 
     def stop(self):
         self.led.value = False
-        self.in1.value = False
-        self.in2.value = False
+        self.in1.duty_cycle = 0
+        self.in2.duty_cycle = 0
 
-    def forward(self):
+    def forward(self, percent_multiplier):
         self.led.value = True
-        self.in1.value = True
-        self.in2.value = False
+        self.in1.duty_cycle = int(2**16 * (percent_multiplier * 0.01))
+        self.in2.duty_cycle = 0
 
-    def reverse(self):
+    def reverse(self, percent_multiplier):
         self.led.value = True
-        self.in1.value = False
-        self.in2.value = True
+        self.in1.duty_cycle = 0
+        self.in2.duty_cycle = int(2**16 * (percent_multiplier * 0.01))
 
     def brake(self):
         self.led.value = False
-        self.in1.value = True
-        self.in2.value = True
+        self.in1.duty_cycle = 2**16
+        self.in2.duty_cycle = 2**16
