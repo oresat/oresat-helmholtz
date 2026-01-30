@@ -1,47 +1,12 @@
-# The MIT License (MIT)
-#
-# Copyright (c) 2017 Dean Miller for Adafruit Industries
-# Copyright (c) 2020 Christian Becker
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
 """
-`ina226`
-====================================================
-
-micropython driver for the INA226 current sensor.
-
-* Author(s): Christian Becker
-
+circuitpython driver for the INA226 current sensor.
 """
-# taken from https://github.com/robert-hh/INA219 , modified for the INA226 devices by
-# Christian Becker
-# June 2020
+
+import time
 
 from micropython import const
 
-# from adafruit_bus_device.i2c_device import I2CDevice
-
-__version__ = "0.0.0-auto.0"
-__repo__ = "https://github.com/elschopi/TI_INA226_micropython.git"
-
 # Bits
-# pylint: disable=bad-whitespace
 _READ = const(0x01)
 
 # Config Register (R/W)
@@ -108,6 +73,12 @@ _REG_CURRENT = const(0x04)
 # CALIBRATION REGISTER (R/W)
 _REG_CALIBRATION = const(0x05)
 
+# Mask Enable
+_REG_ME = const(0x06)
+
+# CVRF
+_CVRF_MASK = const(0x01 << 3)
+
 
 def _to_signed(num):
     if num > 0x7FFF:
@@ -121,6 +92,7 @@ class INA226:
     def __init__(self, i2c_device, addr=0x40):
         self.i2c_device = i2c_device
         self.i2c_addr = addr
+        self.config = 0
 
         self.write_buf = bytearray(3)
         self.read_buf = bytearray(2)
@@ -151,6 +123,17 @@ class INA226:
         self.i2c_device.unlock()
         return (self.read_buf[0] << 8) | (self.read_buf[1])
 
+    def _trigger_oneshot_conversion(self):
+        # Datasheet 6.3.1: In triggered mode, writing any of the triggered convert
+        # modes into the Configuration Register (00h) triggers a single-shot conversion
+        self._write_register(_REG_CONFIG, self.config)
+        while not self._get_conversion_status():
+            time.sleep(0.001)
+
+    def _get_conversion_status(self):
+        me = self._read_register(_REG_ME)
+        return me & _CVRF_MASK
+
     @property
     def shunt_voltage(self):
         """The shunt voltage (between V+ and V-) in Volts (so +-.327V)"""
@@ -161,6 +144,7 @@ class INA226:
     @property
     def bus_voltage(self):
         """The bus voltage (between V- and GND) in Volts"""
+        self._trigger_oneshot_conversion()
         raw_voltage = self._read_register(_REG_BUSVOLTAGE)
         # voltage in millVolt is register content multiplied with 1.25mV/bit
         voltage_mv = raw_voltage * 1.25
@@ -170,6 +154,7 @@ class INA226:
     @property
     def current(self):
         """The current through the shunt resistor in milliamps."""
+        self._trigger_oneshot_conversion()
         read = self._read_register(_REG_CURRENT)
         raw_current = _to_signed(read)
         return raw_current * self._current_lsb
@@ -218,10 +203,12 @@ class INA226:
 
         config = (
             _CONFIG_CONST_BITS
-            | _CONFIG_AVGMODE_512SAMPLES
-            | _CONFIG_VBUSCT_588us
-            | _CONFIG_VSHUNTCT_588us
-            | _CONFIG_MODE_SANDBVOLT_CONTINUOUS
+            | _CONFIG_AVGMODE_16SAMPLES
+            | _CONFIG_VBUSCT_332us
+            | _CONFIG_VSHUNTCT_332us
+            | _CONFIG_MODE_SANDBVOLT_TRIGGERED
         )
+
+        self.config = config
 
         self._write_register(_REG_CONFIG, config)
