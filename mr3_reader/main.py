@@ -12,11 +12,11 @@ def parse_stream(stream):
     Takes in a stream from the mr3 and parses from it the various magnetic field measurement data.
     Uses constants provided from the Alphalabs comms protocol, found in constants.py.
     """
-    if len(stream) != 31:
+    if len(stream) != 30:
         # Sometimes we get incomplete data that we should ignore
         # This can happen from the serial port timing out, or by requesting a stream too soon/late
         # 5 chunks * 6 bytes each + 1 acknowledge byte = 31 make up a valid stream
-        return None
+        raise ValueError(f"Invalid stream length received: {len(stream)}")
 
     chunks = [stream[i : i + 6] for i in range(0, len(stream), 6)]
 
@@ -29,10 +29,6 @@ def parse_stream(stream):
     }
 
     for i, chunk in enumerate(chunks):
-        if i == 5:
-            # Last byte is the acknowledge byte
-            continue
-
         # First two bytes are config data
         config = chunk[:2]
 
@@ -63,7 +59,7 @@ def pack_data(data):
 
 
 print("Setting up serial ports at /dev/ttyAMA0 and /dev/ttyUSB0")
-mr3_ser = serial.Serial("/dev/ttyUSB0", 115200, timeout=0.1)
+mr3_ser = serial.Serial("/dev/ttyUSB0", 115200, timeout=2)
 pico_ser = serial.Serial("/dev/ttyAMA0", 115200, timeout=5)
 
 print("Resetting MR3")
@@ -72,26 +68,39 @@ mr3_ser.write(
     const.RESET_TIME_CMD
 )  # Start the session by resetting the time per prototocol
 
+rx_buf = bytearray(64)
+
 
 print("Sending field measurements to Pico")
 try:
     while True:
-        stream = mr3_ser.read_until(b"\x08")  # Read data from the MR3
+        stream = mr3_ser.read(30)  # Read data from the MR3
 
-        if stream is not None and len(stream) > 0:
-            # Parse, pack, and send to the pico
-            data = parse_stream(stream)
+        print(stream.hex(sep=" "))
 
-            if data is not None:
-                packet = pack_data(data)
-                if b"\x00" in packet[1:]:
-                    print("WARNING: 0 found in packet contents")
-                else:
-                    pico_ser.write(packet)
+        if not stream:
+            raise ValueError("Stream came back empty")
 
-        time.sleep(0.5)  # The mr3 sends data at a rate of 2hz
+        # Parse, pack, and send to the pico
+        data = parse_stream(stream)
 
-        mr3_ser.write(const.STREAM_DATA_CMD)  # Request the next stream of data
+        if data is not None:
+            print(data)
+            packet = pack_data(data)
+            if b"\x00" in packet[1:]:
+                print("WARNING: 0 found in packet contents")
+            else:
+                pico_ser.write(packet)
+
+        framing_byte = mr3_ser.read(1)
+
+        if framing_byte == const.ACKNOWLEDGE_BIT:
+            mr3_ser.write(const.STREAM_DATA_CMD)  # Request the next stream of data
+        elif framing_byte == const.TERMINATE_BIT:
+            raise ValueError("Received Terminate byte")
+        else:
+            raise ValueError(f"Unknown byte received: {framing_byte.hex()}")
+
 except KeyboardInterrupt:
     pass
 finally:
