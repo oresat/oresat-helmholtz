@@ -34,6 +34,7 @@ ignore = [
     "TC006",  # runtime-cast-value - Consistency is too weak an argument, prefer the actual types
     "INP001",  # implicit-namespace-package - warns on docs/ which shouldn't be a package
     "TRY400", # logger.exception doesn't play nice with adafruit_logging
+    "PERF203", # We need this for retrying the serial bridge
 
     # Maybe one day
     "EM",  # flake8-errmsg - on the fence with this, maybe enable when we rethink exceptions
