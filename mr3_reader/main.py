@@ -59,14 +59,17 @@ def pack_data(data):
 
 
 print("Setting up serial ports at /dev/ttyAMA0 and /dev/ttyUSB0")
-mr3_ser = serial.Serial("/dev/ttyUSB0", 115200, timeout=2)
+mr3_ser = serial.Serial("/dev/ttyUSB0", 115200, timeout=10)
 pico_ser = serial.Serial("/dev/ttyAMA0", 115200, timeout=5)
 
 print("Resetting MR3")
-mr3_ser.write(const.KILL_ALL_PROCESS_CMD)  # Tell the MR3 to stop whatever it's doing
-mr3_ser.write(
-    const.RESET_TIME_CMD
-)  # Start the session by resetting the time per prototocol
+# Tell the MR3 to stop whatever it's doing
+mr3_ser.write(const.KILL_ALL_PROCESS_CMD)
+# Start the session by resetting the time per prototocol
+mr3_ser.write(const.RESET_TIME_CMD)
+spare = mr3_ser.read(1)
+if spare != const.ACKNOWLEDGE_BIT:
+    raise ValueError("Reset didn't acknowledge");
 
 rx_buf = bytearray(64)
 
@@ -76,25 +79,25 @@ try:
     while True:
         stream = mr3_ser.read(30)  # Read data from the MR3
 
-        print(stream.hex(sep=" "))
-
         if not stream:
             raise ValueError("Stream came back empty")
 
         # Parse, pack, and send to the pico
         data = parse_stream(stream)
+        if data is None:
+            raise ValueError("Couldn't parse packet")
 
-        if data is not None:
-            print(data)
-            packet = pack_data(data)
-            if b"\x00" in packet[1:]:
-                print("WARNING: 0 found in packet contents")
-            else:
-                pico_ser.write(packet)
+        print(data)
+        packet = pack_data(data)
+        if b"\x00" in packet[1:]:
+            print("WARNING: 0 found in packet contents")
+        else:
+            pass
+            pico_ser.write(packet)
 
-        framing_byte = mr3_ser.read(1)
-
+        framing_byte = mr3_ser.read()
         if framing_byte == const.ACKNOWLEDGE_BIT:
+            time.sleep(0.1)
             mr3_ser.write(const.STREAM_DATA_CMD)  # Request the next stream of data
         elif framing_byte == const.TERMINATE_BIT:
             raise ValueError("Received Terminate byte")
