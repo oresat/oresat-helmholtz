@@ -69,7 +69,7 @@ mr3_ser.write(const.KILL_ALL_PROCESS_CMD)
 mr3_ser.write(const.RESET_TIME_CMD)
 spare = mr3_ser.read(1)
 if spare != const.ACKNOWLEDGE_BIT:
-    raise ValueError("Reset didn't acknowledge");
+    raise ValueError("Reset didn't acknowledge")
 
 rx_buf = bytearray(64)
 
