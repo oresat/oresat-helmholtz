@@ -9,12 +9,6 @@ import adafruit_logging as logging
 from ina226 import INA226
 from motor import Motor
 
-MAG_FIELD_BUF = bytearray()
-MAG_READ_DURATION = 0.5
-LAST_MAG_READ_TIME = -1
-LAST_MOTOR_DRIVE_TIME = -1
-MAG_FIELD = None
-
 LOGGER = logging.getLogger('Helmholtz logger')
 LOGGER.setLevel(logging.DEBUG)
 
@@ -57,7 +51,7 @@ def run_calibration_sweep():
     }
 
     for plane, asmbly in MOTOR_ASSEMBLIES.items():
-        LOGGER.info(plane)
+        LOGGER.info("%s...", plane)
         for i in range(1, 100, 5):
             asmbly.motor.reverse(i)
             while True:
@@ -67,7 +61,6 @@ def run_calibration_sweep():
                 except ValueError:
                     continue
             curr = asmbly.ina226.current
-            LOGGER.info(curr)
             measurements[plane]["curr"].append(curr)
             measurements[plane]["magfield"].append(adjusted_field[plane])
             asmbly.motor.stop()
@@ -81,7 +74,6 @@ def run_calibration_sweep():
                 except ValueError:
                     continue
             curr = asmbly.ina226.current
-            LOGGER.info(curr)
             measurements[plane]["curr"].append(curr)
             measurements[plane]["magfield"].append(adjusted_field[plane])
             asmbly.motor.stop()
