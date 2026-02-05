@@ -34,3 +34,11 @@ def get_mag_field(uart):
 
     PICO_LED.value = False
     return {"time": time, "x": x, "y": y, "z": z, "mag": mag}
+
+
+def blocking_get_mag_field(uart):
+    while True:
+        try:
+            return get_mag_field(uart)
+        except ValueError:
+            continue
