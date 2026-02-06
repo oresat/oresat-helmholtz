@@ -13,10 +13,10 @@ from motor import Motor
 SPINNERS = ["\\", "|", "/", "_"]
 
 # Calibration constants
-CAL_DC_STEP = 10  # Decreasing this makes calibration take longer, but increases accuracy
+CAL_DC_STEP = 5  # Decreasing this makes calibration take longer, but increases accuracy
 
 # P-loop tuning constants
-PROP_GAIN = 365
+PROP_GAIN = 60
 
 LOGGER = logging.getLogger('Helmholtz logger')
 LOGGER.setLevel(logging.DEBUG)
@@ -65,6 +65,8 @@ def run_calibration_sweep():
         for i in range(1, 100, CAL_DC_STEP):
             print(SPINNERS[i % 4], end="\r\b")  # noqa: T201
             assembly.motor.reverse(i)
+            sleep(0.25)
+            UART.reset_input_buffer()
             adjusted_field = blocking_get_mag_field(UART)
             curr = assembly.ina226.current
             measurements[plane]["curr"].append(curr)
@@ -74,6 +76,8 @@ def run_calibration_sweep():
         for i in range(1, 100, CAL_DC_STEP):
             print(SPINNERS[i % 4], end="\r\b")  # noqa: T201
             assembly.motor.forward(i)
+            sleep(0.25)
+            UART.reset_input_buffer()
             adjusted_field = blocking_get_mag_field(UART)
             curr = assembly.ina226.current
             measurements[plane]["curr"].append(curr)
@@ -85,8 +89,8 @@ def run_calibration_sweep():
     z_currs = np.array(measurements["z"]["curr"])
 
     x_fields = np.array(measurements["x"]["magfield"])
-    y_fields = np.array(measurements["x"]["magfield"])
-    z_fields = np.array(measurements["x"]["magfield"])
+    y_fields = np.array(measurements["y"]["magfield"])
+    z_fields = np.array(measurements["z"]["magfield"])
 
     x_line = np.polyfit(x_currs, x_fields, 1)
     y_line = np.polyfit(y_currs, y_fields, 1)
@@ -108,7 +112,7 @@ def magfield_p_controller(desired_field):
     Use a p-loop to calculate the current values
     for each plane's motor driver to produce the desired field
     """
-    plane_controls = {"x": 1, "y": 1, "z": 1}
+    plane_controls = {"x": [1, 0], "y": [1, 0], "z": [1, 0]}
 
     for plane, assembly in MOTOR_ASSEMBLIES.items():
         slope = SLOPES_AND_INTERCEPTS[plane]["slope"]
@@ -116,14 +120,21 @@ def magfield_p_controller(desired_field):
         # field = slope * amps + intercept -> (field - intercept) / slope = amps
         target_curr = (desired_field[plane] - intercept) / slope
         process_curr = assembly.ina226.current
-        err = target_curr - process_curr
+        err = abs(target_curr) - abs(process_curr)
         control_output = PROP_GAIN * err
-        plane_controls[plane] = control_output
+        plane_controls[plane][0] = control_output
+        plane_controls[plane][1] = err
 
     return plane_controls
 
 
-SLOPES_AND_INTERCEPTS = run_calibration_sweep()
+# SLOPES_AND_INTERCEPTS = run_calibration_sweep()
+
+SLOPES_AND_INTERCEPTS = {
+    "x": {"slope": 1825, "intercept": 41},
+    "y": {"slope": 1793, "intercept": 18},
+    "z": {"slope": 1496, "intercept": -12},
+}
 
 
 def print_help():
@@ -144,12 +155,14 @@ while True:
         SLOPES_AND_INTERCEPTS = run_calibration_sweep()
     elif action == "field":
         LOGGER.info("Enter desired field:")
+
         # x = input("x (mG): ")
         # y = input("y (mG): ")
         # z = input("z (mG): ")
-        x = 250
-        y = -250
-        z = 100
+
+        x = 10
+        y = -10
+        z = 25
 
         try:
             LOGGER.info("Generating field")
@@ -159,21 +172,23 @@ while True:
                 "z": float(z),
             }
 
-            prev_duty_cycles = {"x": 1, "y": 1, "z": {}}
+            prev_duty_cycles = {"x": 1, "y": 1, "z": 1}
 
             while True:
                 try:
                     plane_controls = magfield_p_controller(desired_field)
 
                     for plane, assembly in MOTOR_ASSEMBLIES.items():
-                        plane_ctrl = plane_controls[plane]
-                        duty_cycle = prev_duty_cycles[plane]
-                        duty_cycle = 1 + abs(int(plane_ctrl))
+                        plane_ctrl = plane_controls[plane][0]
+                        err = plane_controls[plane][1]
+                        duty_cycle = prev_duty_cycles[plane] + int(plane_ctrl)
                         duty_cycle = max(1, min(100, duty_cycle))
 
-                        LOGGER.info("%s: ctrl :%f, dc: %f", plane, plane_ctrl, duty_cycle)
+                        LOGGER.info(
+                            "%s - err: %f, ctrl: %f, dc: %d", plane, err, plane_ctrl, duty_cycle
+                        )
 
-                        if plane_ctrl > 0:
+                        if desired_field[plane] > 0:
                             assembly.motor.forward(duty_cycle)
                         else:
                             assembly.motor.reverse(duty_cycle)
@@ -185,5 +200,6 @@ while True:
 
         except TypeError as e:
             LOGGER.error(e)
+
     else:
         LOGGER.error("Unsupported action. Please try again")
