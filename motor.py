@@ -11,8 +11,8 @@ class Motor:
             in1: GPIO output pin for in1
             in2: GPIO output pin for in2
         """
-        self.in1 = PWMOut(in1, frequency=2000, duty_cycle=0)
-        self.in2 = PWMOut(in2, frequency=2000, duty_cycle=0)
+        self.in1 = PWMOut(in1, frequency=100, duty_cycle=0)
+        self.in2 = PWMOut(in2, frequency=100, duty_cycle=0)
         self.led = DigitalInOut(led)
         self.led.direction = Direction.OUTPUT
 

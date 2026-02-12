@@ -1,5 +1,3 @@
-from time import sleep
-
 import board
 from busio import I2C, UART
 from UART import blocking_get_mag_field
@@ -13,7 +11,7 @@ from motor import Motor
 SPINNERS = ["\\", "|", "/", "_"]
 
 # Calibration constants
-CAL_DC_STEP = 5  # Decreasing this makes calibration take longer, but increases accuracy
+CAL_DC_STEP = 5
 
 # P-loop tuning constants
 PROP_GAIN = 60
@@ -29,9 +27,9 @@ LOGGER.info("Initialized UART")
 I2C = I2C(board.GP1, board.GP0)
 LOGGER.info("Initialized I2C bus")
 
-INA226_X = INA226(I2C, 0x40)
-INA226_Y = INA226(I2C, 0x41)
-INA226_Z = INA226(I2C, 0x42)
+INA226_X = INA226(I2C, 0x40, LOGGER)
+INA226_Y = INA226(I2C, 0x41, LOGGER)
+INA226_Z = INA226(I2C, 0x42, LOGGER)
 
 MOTOR_X = Motor(in1=board.GP2, in2=board.GP3, led=board.GP13)
 MOTOR_Y = Motor(in1=board.GP6, in2=board.GP7, led=board.GP14)
@@ -61,12 +59,9 @@ def run_calibration_sweep():
     }
 
     for plane, assembly in MOTOR_ASSEMBLIES.items():
-        LOGGER.info("%s", plane)
         for i in range(1, 100, CAL_DC_STEP):
-            print(SPINNERS[i % 4], end="\r\b")  # noqa: T201
+            print(f"Calibrating {plane} plane {SPINNERS[i % 4]}", end="\r\b")  # noqa: T201
             assembly.motor.reverse(i)
-            sleep(0.25)
-            UART.reset_input_buffer()
             adjusted_field = blocking_get_mag_field(UART)
             curr = assembly.ina226.current
             measurements[plane]["curr"].append(curr)
@@ -74,10 +69,8 @@ def run_calibration_sweep():
             assembly.motor.stop()
 
         for i in range(1, 100, CAL_DC_STEP):
-            print(SPINNERS[i % 4], end="\r\b")  # noqa: T201
+            print(f"Calibrating {plane} plane {SPINNERS[i % 4]}", end="\r\b")  # noqa: T201
             assembly.motor.forward(i)
-            sleep(0.25)
-            UART.reset_input_buffer()
             adjusted_field = blocking_get_mag_field(UART)
             curr = assembly.ina226.current
             measurements[plane]["curr"].append(curr)
@@ -112,11 +105,15 @@ def magfield_p_controller(desired_field):
     Use a p-loop to calculate the current values
     for each plane's motor driver to produce the desired field
     """
-    plane_controls = {"x": [1, 0], "y": [1, 0], "z": [1, 0]}
+    plane_controls = {"x": [0, 0], "y": [0, 0], "z": [0, 0]}
 
     for plane, assembly in MOTOR_ASSEMBLIES.items():
+        if desired_field[plane] == 0:
+            continue
+
         slope = SLOPES_AND_INTERCEPTS[plane]["slope"]
         intercept = SLOPES_AND_INTERCEPTS[plane]["intercept"]
+        # Invert equation:
         # field = slope * amps + intercept -> (field - intercept) / slope = amps
         target_curr = (desired_field[plane] - intercept) / slope
         process_curr = assembly.ina226.current
@@ -131,10 +128,74 @@ def magfield_p_controller(desired_field):
 # SLOPES_AND_INTERCEPTS = run_calibration_sweep()
 
 SLOPES_AND_INTERCEPTS = {
-    "x": {"slope": 1825, "intercept": 41},
-    "y": {"slope": 1793, "intercept": 18},
-    "z": {"slope": 1496, "intercept": -12},
-}
+        "x": {"slope": 2231, "intercept": 78},
+        "y": {"slope": 2073, "intercept": 39},
+        "z": {"slope": 1716, "intercept": -22},
+    }
+
+
+def generate_field():
+    LOGGER.info("Enter desired field:")
+
+    x = input("x (mG): ")
+    y = input("y (mG): ")
+    z = input("z (mG): ")
+
+    try:
+        desired_field = {
+            "x": float(x),
+            "y": float(y),
+            "z": float(z),
+        }
+
+
+        prev_duty_cycles = {"x": 0, "y": 0, "z": 0}
+
+        LOGGER.info("Generating: %s", desired_field)
+        while True:
+            try:
+                plane_controls = magfield_p_controller(desired_field)
+
+                for plane, assembly in MOTOR_ASSEMBLIES.items():
+                    plane_ctrl = plane_controls[plane][0]
+                    duty_cycle = prev_duty_cycles[plane] + int(plane_ctrl)
+                    duty_cycle = max(0, min(100, duty_cycle))
+
+                    if desired_field[plane] > 0:
+                        assembly.motor.forward(duty_cycle)
+                    elif desired_field[plane] < 0:
+                        assembly.motor.reverse(duty_cycle)
+
+                    prev_duty_cycles[plane] = duty_cycle
+
+            except KeyboardInterrupt:
+                for assembly in MOTOR_ASSEMBLIES.values():
+                    assembly.motor.stop()
+                break
+
+    except TypeError as e:
+        LOGGER.error(e)
+
+
+def print_csv():
+    for plane, assembly in MOTOR_ASSEMBLIES.items():
+        LOGGER.info("%s", plane)
+        csv = ""
+        for i in range(-100, 0):
+            csv += f"{i},"
+            assembly.motor.reverse(abs(i))
+            for _k in range(10):
+                csv += str(assembly.ina226.current) + ","
+            assembly.motor.stop()
+            csv += "\n"
+        for i in range(101):
+            csv += f"{i},"
+            assembly.motor.forward(i)
+            for _k in range(10):
+                csv += str(assembly.ina226.current) + ","
+            assembly.motor.stop()
+            csv += "\n"
+        print(csv)  # noqa: T201
 
 
 def print_help():
@@ -153,53 +214,9 @@ while True:
         print_help()
     elif action == "calibrate":
         SLOPES_AND_INTERCEPTS = run_calibration_sweep()
+    elif action == "csv":
+        print_csv()
     elif action == "field":
-        LOGGER.info("Enter desired field:")
-
-        # x = input("x (mG): ")
-        # y = input("y (mG): ")
-        # z = input("z (mG): ")
-
-        x = 10
-        y = -10
-        z = 25
-
-        try:
-            LOGGER.info("Generating field")
-            desired_field = {
-                "x": float(x),
-                "y": float(y),
-                "z": float(z),
-            }
-
-            prev_duty_cycles = {"x": 1, "y": 1, "z": 1}
-
-            while True:
-                try:
-                    plane_controls = magfield_p_controller(desired_field)
-
-                    for plane, assembly in MOTOR_ASSEMBLIES.items():
-                        plane_ctrl = plane_controls[plane][0]
-                        err = plane_controls[plane][1]
-                        duty_cycle = prev_duty_cycles[plane] + int(plane_ctrl)
-                        duty_cycle = max(1, min(100, duty_cycle))
-
-                        LOGGER.info(
-                            "%s - err: %f, ctrl: %f, dc: %d", plane, err, plane_ctrl, duty_cycle
-                        )
-
-                        if desired_field[plane] > 0:
-                            assembly.motor.forward(duty_cycle)
-                        else:
-                            assembly.motor.reverse(duty_cycle)
-
-                        prev_duty_cycles[plane] = duty_cycle
-
-                except KeyboardInterrupt:
-                    break
-
-        except TypeError as e:
-            LOGGER.error(e)
-
+        generate_field()
     else:
         LOGGER.error("Unsupported action. Please try again")

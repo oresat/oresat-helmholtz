@@ -89,10 +89,11 @@ def _to_signed(num):
 class INA226:
     """Driver for the INA226 current sensor"""
 
-    def __init__(self, i2c_device, addr=0x40):
+    def __init__(self, i2c_device, addr=0x40, logger=None):
         self.i2c_device = i2c_device
         self.i2c_addr = addr
         self.config = 0
+        self.logger = logger
 
         self.write_buf = bytearray(3)
         self.read_buf = bytearray(2)
@@ -161,6 +162,7 @@ class INA226:
 
     @property
     def power(self):
+        self._trigger_oneshot_conversion()
         # INA226 stores the calculated power in this register
         raw_power = _to_signed(self._read_register(_REG_POWER))
         # Calculated power is derived by multiplying raw power value with the power LSB

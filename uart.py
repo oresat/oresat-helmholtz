@@ -37,6 +37,7 @@ def get_mag_field(uart):
 
 
 def blocking_get_mag_field(uart):
+    uart.reset_input_buffer()
     while True:
         try:
             return get_mag_field(uart)
