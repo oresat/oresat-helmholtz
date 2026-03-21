@@ -58,20 +58,7 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [
-        [
-          "silk_over_copper|214074999|91575000|fe8aaca3-9cee-4489-8992-55da70e7c122|00000000-0000-0000-0000-000000000000",
-          ""
-        ],
-        [
-          "silk_over_copper|227739801|89550000|8fac0f74-9ff2-48c8-b089-3962ef1a3e09|00000000-0000-0000-0000-000000000000",
-          ""
-        ],
-        [
-          "silk_overlap|209387500|142400000|c6b20ea4-283e-4c2e-9beb-974d3b92c219|d4e432cd-a2d4-4cb1-bdd8-9edd84c0a148",
-          ""
-        ]
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -668,6 +655,14 @@
       "version": 1
     },
     "net_format_name": "",
+    "ngspice": {
+      "fix_include_paths": true,
+      "meta": {
+        "version": 0
+      },
+      "model_mode": 4,
+      "workbook_filename": ""
+    },
     "page_layout_descr_file": "${PSAS_ORESAT}/title-blocks/oresat-schematic-title-block.kicad_wks",
     "plot_directory": "",
     "space_save_all_events": true,
