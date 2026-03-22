@@ -137,7 +137,6 @@ dmypy.json
 # KICAD!!!! 
 # Ignore local archives and build folders
 archive
-local-archive
 build
 
 # For PCBs designed using KiCad: https://www.kicad.org/
@@ -155,6 +154,7 @@ build
 *~
 ~*
 *.lck
+*auto_saved_files*
 
 _autosave-*
 *.tmp
@@ -172,5 +172,3 @@ fp-info-cache
 # Exported BOM files
 *.xml
 *.csv
-
-
