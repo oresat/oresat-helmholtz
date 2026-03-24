@@ -272,7 +272,7 @@
           "drill": 0.254
         }
       ],
-      "zones_allow_external_fillets": true
+      "zones_allow_external_fillets": false
     },
     "ipc2581": {
       "dist": "",
@@ -616,6 +616,18 @@
         },
         {
           "group_by": false,
+          "label": "DIS",
+          "name": "DIS",
+          "show": true
+        },
+        {
+          "group_by": false,
+          "label": "DPN",
+          "name": "DPN",
+          "show": true
+        },
+        {
+          "group_by": false,
           "label": "Description",
           "name": "Description",
           "show": true
@@ -643,18 +655,6 @@
           "label": "Sim.Pins",
           "name": "Sim.Pins",
           "show": false
-        },
-        {
-          "group_by": false,
-          "label": "DIS",
-          "name": "DIS",
-          "show": true
-        },
-        {
-          "group_by": false,
-          "label": "DPN",
-          "name": "DPN",
-          "show": true
         }
       ],
       "filter_string": "",

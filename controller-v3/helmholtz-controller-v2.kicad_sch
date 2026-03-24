@@ -6,8 +6,8 @@
 	(paper "USLedger")
 	(title_block
 		(title "Helmholtz Cage Controller")
-		(date "2025-12-18")
-		(rev "2.1")
+		(date "2026-03-22")
+		(rev "3.0")
 		(company "Portland State Aerospace Society")
 	)
 	(lib_symbols
@@ -2873,16 +2873,6 @@
 			)
 		)
 		(uuid "e676721c-4bd0-49b4-affb-50af8eeaa8e3")
-	)
-	(text "kV?\n"
-		(exclude_from_sim no)
-		(at 208.28 182.88 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "ec2f4dd7-16f6-442a-bbc6-73dab549b563")
 	)
 	(junction
 		(at 181.61 68.58)
@@ -7397,7 +7387,43 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Brushed DC Motor Driver, PWM Control, 45V, 3.6A, Current limiting, HTSOP-8"
+		(property "Description" "IC MOTOR DRVR UNIPLR 8SO PWRPAD"
+			(at 251.46 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DIS" "DigiKey"
+			(at 251.46 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DPN" "296-44509-5-ND"
+			(at 251.46 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MFR" "Texas Instruments"
+			(at 251.46 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "DRV8871DDA"
 			(at 251.46 139.7 0)
 			(effects
 				(font
@@ -8854,7 +8880,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Light emitting diode, small symbol, filled shape"
+		(property "Description" "Amber 605nm LED Indication - Discrete 2V 0603 (1608 Metric) - 120 mA @ 20 mA"
 			(at 134.62 179.07 0)
 			(effects
 				(font
@@ -8872,7 +8898,7 @@
 				(hide yes)
 			)
 		)
-		(property "DIS" "Digikey"
+		(property "DIS" "DigiKey"
 			(at 134.62 179.07 0)
 			(effects
 				(font
@@ -8881,7 +8907,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "1830-1064-1-ND"
+		(property "DPN" "732-150060AS75000CT-ND"
 			(at 134.62 179.07 0)
 			(effects
 				(font
@@ -8890,7 +8916,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Inolux"
+		(property "MFR" "Wurth"
 			(at 134.62 179.07 0)
 			(effects
 				(font
@@ -8899,7 +8925,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "IN-S63AT5A"
+		(property "MPN" "150060AS75000"
 			(at 134.62 179.07 0)
 			(effects
 				(font
@@ -8942,7 +8968,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R_US"
+		(property "Value" "10k"
 			(at 184.15 77.4699 0)
 			(effects
 				(font
@@ -8969,7 +8995,43 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" "10 kOhms ±1% 0.1W, 1/10W Chip Resistor 0603 (1608 Metric) Automotive AEC-Q200 Thick Film"
+			(at 181.61 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DIS" "DigiKey"
+			(at 181.61 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DPN" "RMCF0603FT10K0CT-ND"
+			(at 181.61 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MFR" "Stackpole Electronics"
+			(at 181.61 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RMCF0603FT10K0"
 			(at 181.61 76.2 0)
 			(effects
 				(font
@@ -9274,7 +9336,43 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Brushed DC Motor Driver, PWM Control, 45V, 3.6A, Current limiting, HTSOP-8"
+		(property "Description" "IC MOTOR DRVR UNIPLR 8SO PWRPAD"
+			(at 209.55 224.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DIS" "DigiKey"
+			(at 209.55 224.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DPN" "296-44509-5-ND"
+			(at 209.55 224.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MFR" "Texas Instruments"
+			(at 209.55 224.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "DRV8871DDA"
 			(at 209.55 224.79 0)
 			(effects
 				(font
@@ -9362,7 +9460,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Light emitting diode, small symbol, filled shape"
+		(property "Description" "Amber 605nm LED Indication - Discrete 2V 0603 (1608 Metric) - 120 mA @ 20 mA"
 			(at 144.78 179.07 0)
 			(effects
 				(font
@@ -9380,7 +9478,7 @@
 				(hide yes)
 			)
 		)
-		(property "DIS" "Digikey"
+		(property "DIS" "DigiKey"
 			(at 144.78 179.07 0)
 			(effects
 				(font
@@ -9389,7 +9487,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "1830-1064-1-ND"
+		(property "DPN" "732-150060AS75000CT-ND"
 			(at 144.78 179.07 0)
 			(effects
 				(font
@@ -9398,7 +9496,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Inolux"
+		(property "MFR" "Wurth"
 			(at 144.78 179.07 0)
 			(effects
 				(font
@@ -9407,7 +9505,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "IN-S63AT5A"
+		(property "MPN" "150060AS75000"
 			(at 144.78 179.07 0)
 			(effects
 				(font
@@ -9577,7 +9675,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "1 µF ±10% 50V Ceramic Capacitor X7R 0805 (2012 Metric)"
 			(at 201.93 209.55 0)
 			(effects
 				(font
@@ -9595,7 +9693,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "1276-1066-1-ND"
+		(property "DPN" "490-10675-2-ND"
 			(at 201.93 209.55 90)
 			(effects
 				(font
@@ -9604,7 +9702,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Samsung Electro-Mechanics"
+		(property "MFR" "Murata Electronics"
 			(at 201.93 209.55 90)
 			(effects
 				(font
@@ -9613,7 +9711,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL21B105KAFNNNE"
+		(property "MPN" "GCM21BR71H105KA03L"
 			(at 201.93 209.55 90)
 			(effects
 				(font
@@ -9788,7 +9886,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R_US"
+		(property "Value" "10k"
 			(at 186.69 58.4199 0)
 			(effects
 				(font
@@ -9815,7 +9913,43 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" "10 kOhms ±1% 0.1W, 1/10W Chip Resistor 0603 (1608 Metric) Automotive AEC-Q200 Thick Film"
+			(at 184.15 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DIS" "DigiKey"
+			(at 184.15 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DPN" "RMCF0603FT10K0CT-ND"
+			(at 184.15 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MFR" "Stackpole Electronics"
+			(at 184.15 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RMCF0603FT10K0"
 			(at 184.15 57.15 0)
 			(effects
 				(font
@@ -10029,7 +10163,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R_US"
+		(property "Value" "32k"
 			(at 224.79 234.9499 0)
 			(effects
 				(font
@@ -10056,7 +10190,43 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" "32 kOhms ±0.1% 0.167W, 1/6W Chip Resistor 0603 (1608 Metric) Automotive AEC-Q200 Thin Film"
+			(at 222.25 233.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DIS" "DigiKey"
+			(at 222.25 233.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DPN" "738-RNCF0603BTE32K0TR-ND"
+			(at 222.25 233.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MFR" "Stackpole Electronics"
+			(at 222.25 233.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RNCF0603BTE32K0"
 			(at 222.25 233.68 0)
 			(effects
 				(font
@@ -10124,7 +10294,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "1 µF ±10% 50V Ceramic Capacitor X7R 0805 (2012 Metric)"
 			(at 311.15 186.69 0)
 			(effects
 				(font
@@ -10142,7 +10312,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "1276-1066-1-ND"
+		(property "DPN" "490-10675-2-ND"
 			(at 311.15 186.69 90)
 			(effects
 				(font
@@ -10151,7 +10321,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Samsung Electro-Mechanics"
+		(property "MFR" "Murata Electronics"
 			(at 311.15 186.69 90)
 			(effects
 				(font
@@ -10160,7 +10330,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL21B105KAFNNNE"
+		(property "MPN" "GCM21BR71H105KA03L"
 			(at 311.15 186.69 90)
 			(effects
 				(font
@@ -10372,7 +10542,7 @@
 				(hide yes)
 			)
 		)
-		(property "DIS" "Digikey"
+		(property "DIS" "Amazon"
 			(at 360.68 219.71 0)
 			(effects
 				(font
@@ -10381,7 +10551,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "277-5719-ND"
+		(property "DPN" "https://www.amazon.com/5Pairs-XT30PW-Connector-Horizontal-XT30PW-M/dp/B0D1QTFGBV/ref=sr_1_12?crid=1UGZHPKL4Z6FO&sprefix=xt30pw%2Caps%2C180&sr=8-12&th=1"
 			(at 360.68 219.71 0)
 			(effects
 				(font
@@ -10390,7 +10560,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Phoenix Contact"
+		(property "MFR" "Amass"
 			(at 360.68 219.71 0)
 			(effects
 				(font
@@ -10399,7 +10569,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "1751248"
+		(property "MPN" ""
 			(at 360.68 219.71 0)
 			(effects
 				(font
@@ -10508,7 +10678,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R_US"
+		(property "Value" "10k"
 			(at 186.69 212.0899 0)
 			(effects
 				(font
@@ -10535,7 +10705,43 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" "10 kOhms ±1% 0.1W, 1/10W Chip Resistor 0603 (1608 Metric) Automotive AEC-Q200 Thick Film"
+			(at 184.15 210.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DIS" "DigiKey"
+			(at 184.15 210.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DPN" "RMCF0603FT10K0CT-ND"
+			(at 184.15 210.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MFR" "Stackpole Electronics"
+			(at 184.15 210.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RMCF0603FT10K0"
 			(at 184.15 210.82 0)
 			(effects
 				(font
@@ -10810,7 +11016,7 @@
 				(hide yes)
 			)
 		)
-		(property "DIS" "Digikey"
+		(property "DIS" "Amazon"
 			(at 302.26 66.04 0)
 			(effects
 				(font
@@ -10819,7 +11025,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "277-5719-ND"
+		(property "DPN" "https://www.amazon.com/5Pairs-XT30PW-Connector-Horizontal-XT30PW-M/dp/B0D1QTFGBV/ref=sr_1_12?crid=1UGZHPKL4Z6FO&sprefix=xt30pw%2Caps%2C180&sr=8-12&th=1"
 			(at 302.26 66.04 0)
 			(effects
 				(font
@@ -10828,7 +11034,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Phoenix Contact"
+		(property "MFR" "Amass"
 			(at 302.26 66.04 0)
 			(effects
 				(font
@@ -10837,7 +11043,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "1751248"
+		(property "MPN" ""
 			(at 302.26 66.04 0)
 			(effects
 				(font
@@ -10904,7 +11110,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "1 µF ±10% 50V Ceramic Capacitor X7R 0805 (2012 Metric)"
 			(at 245.11 33.02 0)
 			(effects
 				(font
@@ -10922,7 +11128,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "1276-1066-1-ND"
+		(property "DPN" "490-10675-2-ND"
 			(at 245.11 33.02 90)
 			(effects
 				(font
@@ -10931,7 +11137,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Samsung Electro-Mechanics"
+		(property "MFR" "Murata Electronics"
 			(at 245.11 33.02 90)
 			(effects
 				(font
@@ -10940,7 +11146,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL21B105KAFNNNE"
+		(property "MPN" "GCM21BR71H105KA03L"
 			(at 245.11 33.02 90)
 			(effects
 				(font
@@ -11083,7 +11289,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R_US"
+		(property "Value" "32k"
 			(at 224.79 81.2799 0)
 			(effects
 				(font
@@ -11110,7 +11316,43 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" "32 kOhms ±0.1% 0.167W, 1/6W Chip Resistor 0603 (1608 Metric) Automotive AEC-Q200 Thin Film"
+			(at 222.25 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DIS" "DigiKey"
+			(at 222.25 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DPN" "738-RNCF0603BTE32K0TR-ND"
+			(at 222.25 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MFR" "Stackpole Electronics"
+			(at 222.25 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RNCF0603BTE32K0"
 			(at 222.25 80.01 0)
 			(effects
 				(font
@@ -11178,7 +11420,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "1 µF ±10% 50V Ceramic Capacitor X7R 0805 (2012 Metric)"
 			(at 201.93 55.88 0)
 			(effects
 				(font
@@ -11196,7 +11438,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "1276-1066-1-ND"
+		(property "DPN" "490-10675-2-ND"
 			(at 201.93 55.88 90)
 			(effects
 				(font
@@ -11205,7 +11447,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Samsung Electro-Mechanics"
+		(property "MFR" "Murata Electronics"
 			(at 201.93 55.88 90)
 			(effects
 				(font
@@ -11214,7 +11456,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL21B105KAFNNNE"
+		(property "MPN" "GCM21BR71H105KA03L"
 			(at 201.93 55.88 90)
 			(effects
 				(font
@@ -11390,7 +11632,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R_US"
+		(property "Value" "10k"
 			(at 229.87 126.9999 0)
 			(effects
 				(font
@@ -11417,7 +11659,43 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" "10 kOhms ±1% 0.1W, 1/10W Chip Resistor 0603 (1608 Metric) Automotive AEC-Q200 Thick Film"
+			(at 227.33 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DIS" "DigiKey"
+			(at 227.33 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DPN" "RMCF0603FT10K0CT-ND"
+			(at 227.33 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MFR" "Stackpole Electronics"
+			(at 227.33 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RMCF0603FT10K0"
 			(at 227.33 125.73 0)
 			(effects
 				(font
@@ -11487,7 +11765,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "10 µF ±10% 25V Ceramic Capacitor X7S 0805 (2012 Metric)"
 			(at 120.65 40.64 0)
 			(effects
 				(font
@@ -11496,7 +11774,7 @@
 				(hide yes)
 			)
 		)
-		(property "DIS" "Digikey"
+		(property "DIS" "DigiKey"
 			(at 120.65 40.64 0)
 			(effects
 				(font
@@ -11505,7 +11783,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "1276-2891-1-ND"
+		(property "DPN" "490-GRT21BC71E106KE13KCT-ND"
 			(at 120.65 40.64 0)
 			(effects
 				(font
@@ -11514,7 +11792,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Samsung Electro-Mechanics"
+		(property "MFR" "Murata Electronics"
 			(at 120.65 40.64 0)
 			(effects
 				(font
@@ -11523,7 +11801,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL21A106KAYNNNE"
+		(property "MPN" "GRT21BC71E106KE13K"
 			(at 120.65 40.64 0)
 			(effects
 				(font
@@ -11632,7 +11910,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R_US"
+		(property "Value" "32k"
 			(at 266.7 149.8599 0)
 			(effects
 				(font
@@ -11659,7 +11937,43 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" "32 kOhms ±0.1% 0.167W, 1/6W Chip Resistor 0603 (1608 Metric) Automotive AEC-Q200 Thin Film"
+			(at 264.16 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DIS" "DigiKey"
+			(at 264.16 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DPN" "738-RNCF0603BTE32K0TR-ND"
+			(at 264.16 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MFR" "Stackpole Electronics"
+			(at 264.16 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RNCF0603BTE32K0"
 			(at 264.16 148.59 0)
 			(effects
 				(font
@@ -11996,7 +12310,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Light emitting diode, small symbol, filled shape"
+		(property "Description" "Green 520nm LED Indication - Discrete 3.2V 0603 (1608 Metric) - 430 mcd @ 20 mA"
 			(at 133.35 33.02 0)
 			(effects
 				(font
@@ -12014,7 +12328,7 @@
 				(hide yes)
 			)
 		)
-		(property "DIS" "Digikey"
+		(property "DIS" "DigiKey"
 			(at 133.35 33.02 0)
 			(effects
 				(font
@@ -12023,7 +12337,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "1830-1062-1-ND"
+		(property "DPN" "732-4971-1-ND"
 			(at 133.35 33.02 0)
 			(effects
 				(font
@@ -12032,7 +12346,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Inolux"
+		(property "MFR" "Wurth"
 			(at 133.35 33.02 0)
 			(effects
 				(font
@@ -12041,7 +12355,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "IN-S63AT5G"
+		(property "MPN" "150060GS75000"
 			(at 133.35 33.02 0)
 			(effects
 				(font
@@ -12999,7 +13313,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R_US"
+		(property "Value" "10k"
 			(at 184.15 231.1399 0)
 			(effects
 				(font
@@ -13026,7 +13340,43 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" "10 kOhms ±1% 0.1W, 1/10W Chip Resistor 0603 (1608 Metric) Automotive AEC-Q200 Thick Film"
+			(at 181.61 229.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DIS" "DigiKey"
+			(at 181.61 229.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DPN" "RMCF0603FT10K0CT-ND"
+			(at 181.61 229.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MFR" "Stackpole Electronics"
+			(at 181.61 229.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RMCF0603FT10K0"
 			(at 181.61 229.87 0)
 			(effects
 				(font
@@ -13208,7 +13558,7 @@
 				(hide yes)
 			)
 		)
-		(property "DIS" "Digikey"
+		(property "DIS" "Amazon"
 			(at 316.23 134.62 0)
 			(effects
 				(font
@@ -13217,7 +13567,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "277-5719-ND"
+		(property "DPN" "https://www.amazon.com/5Pairs-XT30PW-Connector-Horizontal-XT30PW-M/dp/B0D1QTFGBV/ref=sr_1_12?crid=1UGZHPKL4Z6FO&sprefix=xt30pw%2Caps%2C180&sr=8-12&th=1"
 			(at 316.23 134.62 0)
 			(effects
 				(font
@@ -13226,7 +13576,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Phoenix Contact"
+		(property "MFR" "Amass"
 			(at 316.23 134.62 0)
 			(effects
 				(font
@@ -13235,7 +13585,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "1751248"
+		(property "MPN" ""
 			(at 316.23 134.62 0)
 			(effects
 				(font
@@ -13666,7 +14016,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Light emitting diode, small symbol, filled shape"
+		(property "Description" "Amber 605nm LED Indication - Discrete 2V 0603 (1608 Metric) - 120 mA @ 20 mA"
 			(at 154.94 179.07 0)
 			(effects
 				(font
@@ -13684,7 +14034,7 @@
 				(hide yes)
 			)
 		)
-		(property "DIS" "Digikey"
+		(property "DIS" "DigiKey"
 			(at 154.94 179.07 0)
 			(effects
 				(font
@@ -13693,7 +14043,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "1830-1064-1-ND"
+		(property "DPN" "732-150060AS75000CT-ND"
 			(at 154.94 179.07 0)
 			(effects
 				(font
@@ -13702,7 +14052,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Inolux"
+		(property "MFR" "Wurth"
 			(at 154.94 179.07 0)
 			(effects
 				(font
@@ -13711,7 +14061,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "IN-S63AT5A"
+		(property "MPN" "150060AS75000"
 			(at 154.94 179.07 0)
 			(effects
 				(font
@@ -13781,7 +14131,43 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Brushed DC Motor Driver, PWM Control, 45V, 3.6A, Current limiting, HTSOP-8"
+		(property "Description" "IC MOTOR DRVR UNIPLR 8SO PWRPAD"
+			(at 209.55 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DIS" "DigiKey"
+			(at 209.55 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DPN" "296-44509-5-ND"
+			(at 209.55 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MFR" "Texas Instruments"
+			(at 209.55 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "DRV8871DDA"
 			(at 209.55 71.12 0)
 			(effects
 				(font
@@ -13950,7 +14336,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R_US"
+		(property "Value" "10k"
 			(at 227.33 146.0499 0)
 			(effects
 				(font
@@ -13977,7 +14363,43 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" "10 kOhms ±1% 0.1W, 1/10W Chip Resistor 0603 (1608 Metric) Automotive AEC-Q200 Thick Film"
+			(at 224.79 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DIS" "DigiKey"
+			(at 224.79 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DPN" "RMCF0603FT10K0CT-ND"
+			(at 224.79 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MFR" "Stackpole Electronics"
+			(at 224.79 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RMCF0603FT10K0"
 			(at 224.79 144.78 0)
 			(effects
 				(font
@@ -14110,7 +14532,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Light emitting diode, small symbol, filled shape"
+		(property "Description" "Green 520nm LED Indication - Discrete 3.2V 0603 (1608 Metric) - 430 mcd @ 20 mA"
 			(at 67.31 114.3 0)
 			(effects
 				(font
@@ -14128,7 +14550,7 @@
 				(hide yes)
 			)
 		)
-		(property "DIS" "Digikey"
+		(property "DIS" "DigiKey"
 			(at 67.31 114.3 0)
 			(effects
 				(font
@@ -14137,7 +14559,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "1830-1062-1-ND"
+		(property "DPN" "732-4971-1-ND"
 			(at 67.31 114.3 0)
 			(effects
 				(font
@@ -14146,7 +14568,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Inolux"
+		(property "MFR" "Wurth"
 			(at 67.31 114.3 0)
 			(effects
 				(font
@@ -14155,7 +14577,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "IN-S63AT5G"
+		(property "MPN" "150060GS75000"
 			(at 67.31 114.3 0)
 			(effects
 				(font
@@ -14289,7 +14711,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "1 µF ±10% 50V Ceramic Capacitor X7R 0805 (2012 Metric)"
 			(at 287.02 101.6 0)
 			(effects
 				(font
@@ -14307,7 +14729,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "1276-1066-1-ND"
+		(property "DPN" "490-10675-2-ND"
 			(at 287.02 101.6 90)
 			(effects
 				(font
@@ -14316,7 +14738,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Samsung Electro-Mechanics"
+		(property "MFR" "Murata Electronics"
 			(at 287.02 101.6 90)
 			(effects
 				(font
@@ -14325,7 +14747,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL21B105KAFNNNE"
+		(property "MPN" "GCM21BR71H105KA03L"
 			(at 287.02 101.6 90)
 			(effects
 				(font
@@ -14654,7 +15076,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "1 µF ±10% 50V Ceramic Capacitor X7R 0805 (2012 Metric)"
 			(at 243.84 124.46 0)
 			(effects
 				(font
@@ -14672,7 +15094,7 @@
 				(hide yes)
 			)
 		)
-		(property "DPN" "1276-1066-1-ND"
+		(property "DPN" "490-10675-2-ND"
 			(at 243.84 124.46 90)
 			(effects
 				(font
@@ -14681,7 +15103,7 @@
 				(hide yes)
 			)
 		)
-		(property "MFR" "Samsung Electro-Mechanics"
+		(property "MFR" "Murata Electronics"
 			(at 243.84 124.46 90)
 			(effects
 				(font
@@ -14690,7 +15112,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL21B105KAFNNNE"
+		(property "MPN" "GCM21BR71H105KA03L"
 			(at 243.84 124.46 90)
 			(effects
 				(font
