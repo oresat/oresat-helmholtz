@@ -2794,7 +2794,7 @@
 	)
 	(text "Channel Z"
 		(exclude_from_sim no)
-		(at 322.072 226.822 0)
+		(at 266.192 226.822 0)
 		(effects
 			(font
 				(size 2 2)
@@ -3316,16 +3316,6 @@
 	)
 	(wire
 		(pts
-			(xy 242.57 66.04) (xy 297.18 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1477f966-d749-482a-8a6d-f37510a6f2d2")
-	)
-	(wire
-		(pts
 			(xy 120.65 36.83) (xy 120.65 35.56)
 		)
 		(stroke
@@ -3416,16 +3406,6 @@
 	)
 	(wire
 		(pts
-			(xy 283.21 138.43) (xy 311.15 138.43)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1d532bb4-8208-4c18-af91-d0f8689fb2a2")
-	)
-	(wire
-		(pts
 			(xy 83.82 104.14) (xy 83.82 114.3)
 		)
 		(stroke
@@ -3466,7 +3446,7 @@
 	)
 	(wire
 		(pts
-			(xy 219.71 222.25) (xy 317.5 222.25)
+			(xy 219.71 222.25) (xy 261.62 222.25)
 		)
 		(stroke
 			(width 0)
@@ -3656,7 +3636,7 @@
 	)
 	(wire
 		(pts
-			(xy 261.62 137.16) (xy 284.48 137.16)
+			(xy 261.62 137.16) (xy 311.15 137.16)
 		)
 		(stroke
 			(width 0)
@@ -3796,7 +3776,7 @@
 	)
 	(wire
 		(pts
-			(xy 219.71 68.58) (xy 242.57 68.58)
+			(xy 219.71 68.58) (xy 262.89 68.58)
 		)
 		(stroke
 			(width 0)
@@ -3983,16 +3963,6 @@
 			(type default)
 		)
 		(uuid "52d5db17-1955-4467-b009-0204034987ba")
-	)
-	(wire
-		(pts
-			(xy 297.18 69.85) (xy 297.18 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "534c37c6-ed0b-48d6-a639-94fcb6152df1")
 	)
 	(wire
 		(pts
@@ -4356,16 +4326,6 @@
 	)
 	(wire
 		(pts
-			(xy 284.48 137.16) (xy 284.48 134.62)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "846c6f06-5fbe-4fb1-849a-79e479f7f07b")
-	)
-	(wire
-		(pts
 			(xy 133.35 132.08) (xy 208.28 132.08)
 		)
 		(stroke
@@ -4486,7 +4446,7 @@
 	)
 	(wire
 		(pts
-			(xy 317.5 219.71) (xy 245.11 219.71)
+			(xy 261.62 219.71) (xy 245.11 219.71)
 		)
 		(stroke
 			(width 0)
@@ -4676,16 +4636,6 @@
 	)
 	(wire
 		(pts
-			(xy 284.48 134.62) (xy 311.15 134.62)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a12087f5-d93a-4b0b-8a12-a4a7d850271b")
-	)
-	(wire
-		(pts
 			(xy 251.46 33.02) (xy 251.46 34.29)
 		)
 		(stroke
@@ -4743,6 +4693,16 @@
 			(type default)
 		)
 		(uuid "a8c07f94-53b2-4a15-9058-f0d7f96ff829")
+	)
+	(wire
+		(pts
+			(xy 283.21 134.62) (xy 311.15 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a959ad0b-8e82-4be1-84eb-53ac2a606573")
 	)
 	(wire
 		(pts
@@ -4876,16 +4836,6 @@
 	)
 	(wire
 		(pts
-			(xy 311.15 138.43) (xy 311.15 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b8599ee2-1f2c-464a-9150-af3499a41b5d")
-	)
-	(wire
-		(pts
 			(xy 210.82 137.16) (xy 224.79 137.16)
 		)
 		(stroke
@@ -4946,7 +4896,7 @@
 	)
 	(wire
 		(pts
-			(xy 241.3 69.85) (xy 297.18 69.85)
+			(xy 241.3 66.04) (xy 262.89 66.04)
 		)
 		(stroke
 			(width 0)
@@ -5116,16 +5066,6 @@
 	)
 	(wire
 		(pts
-			(xy 242.57 68.58) (xy 242.57 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d90d7209-c53a-4127-a5dc-4ce01fc17c9c")
-	)
-	(wire
-		(pts
 			(xy 133.35 111.76) (xy 161.29 111.76)
 		)
 		(stroke
@@ -5143,16 +5083,6 @@
 			(type default)
 		)
 		(uuid "db53f6b2-c164-45ca-8ce9-5e4af3892341")
-	)
-	(wire
-		(pts
-			(xy 283.21 134.62) (xy 283.21 138.43)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "db8b338f-4c1b-472d-ac2c-145629cb31a4")
 	)
 	(wire
 		(pts
@@ -5363,16 +5293,6 @@
 			(type default)
 		)
 		(uuid "f7f7c9b3-6cac-49a9-8681-f10c092f9af8")
-	)
-	(wire
-		(pts
-			(xy 241.3 66.04) (xy 241.3 69.85)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f8094731-95cc-4df5-ba92-6c0cc4871475")
 	)
 	(wire
 		(pts
@@ -10351,7 +10271,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
-		(at 322.58 222.25 0)
+		(at 266.7 222.25 0)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -10360,7 +10280,7 @@
 		(dnp no)
 		(uuid "61e50d78-89b6-41ac-97bc-e4efd1453066")
 		(property "Reference" "J3"
-			(at 325.12 222.2501 0)
+			(at 269.24 222.2501 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10369,7 +10289,7 @@
 			)
 		)
 		(property "Value" "Screw_Terminal_01x02"
-			(at 325.12 219.7101 0)
+			(at 269.24 219.7101 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10378,7 +10298,7 @@
 			)
 		)
 		(property "Footprint" "Connector_AMASS:AMASS_XT30PW-F_1x02_P2.50mm_Horizontal"
-			(at 322.58 222.25 0)
+			(at 266.7 222.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10387,7 +10307,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 322.58 222.25 0)
+			(at 266.7 222.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10396,7 +10316,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 322.58 222.25 0)
+			(at 266.7 222.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10405,7 +10325,7 @@
 			)
 		)
 		(property "DIS" "Amazon"
-			(at 322.58 222.25 0)
+			(at 266.7 222.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10414,7 +10334,7 @@
 			)
 		)
 		(property "DPN" "https://www.amazon.com/5Pairs-XT30PW-Connector-Horizontal-XT30PW-M/dp/B0D1QTFGBV/ref=sr_1_12?crid=1UGZHPKL4Z6FO&sprefix=xt30pw%2Caps%2C180&sr=8-12&th=1"
-			(at 322.58 222.25 0)
+			(at 266.7 222.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10423,7 +10343,7 @@
 			)
 		)
 		(property "MFR" "Amass"
-			(at 322.58 222.25 0)
+			(at 266.7 222.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10432,7 +10352,7 @@
 			)
 		)
 		(property "MPN" ""
-			(at 322.58 222.25 0)
+			(at 266.7 222.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10825,16 +10745,16 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
-		(at 302.26 66.04 0)
+		(at 267.97 68.58 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "6d353dbc-47e8-4aa1-89f1-2543094a00bf")
 		(property "Reference" "J1"
-			(at 304.8 66.0399 0)
+			(at 270.51 68.5801 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10843,7 +10763,7 @@
 			)
 		)
 		(property "Value" "Screw_Terminal_01x02"
-			(at 304.8 68.5799 0)
+			(at 270.51 66.0401 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10852,7 +10772,7 @@
 			)
 		)
 		(property "Footprint" "Connector_AMASS:AMASS_XT30PW-F_1x02_P2.50mm_Horizontal"
-			(at 302.26 66.04 0)
+			(at 267.97 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10861,7 +10781,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 302.26 66.04 0)
+			(at 267.97 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10870,7 +10790,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 302.26 66.04 0)
+			(at 267.97 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10879,7 +10799,7 @@
 			)
 		)
 		(property "DIS" "Amazon"
-			(at 302.26 66.04 0)
+			(at 267.97 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10888,7 +10808,7 @@
 			)
 		)
 		(property "DPN" "https://www.amazon.com/5Pairs-XT30PW-Connector-Horizontal-XT30PW-M/dp/B0D1QTFGBV/ref=sr_1_12?crid=1UGZHPKL4Z6FO&sprefix=xt30pw%2Caps%2C180&sr=8-12&th=1"
-			(at 302.26 66.04 0)
+			(at 267.97 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10897,7 +10817,7 @@
 			)
 		)
 		(property "MFR" "Amass"
-			(at 302.26 66.04 0)
+			(at 267.97 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10906,7 +10826,7 @@
 			)
 		)
 		(property "MPN" ""
-			(at 302.26 66.04 0)
+			(at 267.97 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13367,7 +13287,8 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
-		(at 316.23 134.62 0)
+		(at 316.23 137.16 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13375,7 +13296,7 @@
 		(dnp no)
 		(uuid "b91eb30b-78de-4c88-8d23-796daba4e997")
 		(property "Reference" "J2"
-			(at 318.77 134.6199 0)
+			(at 318.77 137.1601 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13384,7 +13305,7 @@
 			)
 		)
 		(property "Value" "Screw_Terminal_01x02"
-			(at 318.77 137.1599 0)
+			(at 318.77 134.6201 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13393,7 +13314,7 @@
 			)
 		)
 		(property "Footprint" "Connector_AMASS:AMASS_XT30PW-F_1x02_P2.50mm_Horizontal"
-			(at 316.23 134.62 0)
+			(at 316.23 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13402,7 +13323,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 316.23 134.62 0)
+			(at 316.23 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13411,7 +13332,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 316.23 134.62 0)
+			(at 316.23 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13420,7 +13341,7 @@
 			)
 		)
 		(property "DIS" "Amazon"
-			(at 316.23 134.62 0)
+			(at 316.23 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13429,7 +13350,7 @@
 			)
 		)
 		(property "DPN" "https://www.amazon.com/5Pairs-XT30PW-Connector-Horizontal-XT30PW-M/dp/B0D1QTFGBV/ref=sr_1_12?crid=1UGZHPKL4Z6FO&sprefix=xt30pw%2Caps%2C180&sr=8-12&th=1"
-			(at 316.23 134.62 0)
+			(at 316.23 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13438,7 +13359,7 @@
 			)
 		)
 		(property "MFR" "Amass"
-			(at 316.23 134.62 0)
+			(at 316.23 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13447,7 +13368,7 @@
 			)
 		)
 		(property "MPN" ""
-			(at 316.23 134.62 0)
+			(at 316.23 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
