@@ -155,6 +155,7 @@ build
 ~*
 *.lck
 *auto_saved_files*
+.history
 
 _autosave-*
 *.tmp
