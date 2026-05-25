@@ -65,14 +65,13 @@ pico_ser = serial.Serial("/dev/ttyAMA0", 115200, timeout=5)
 print("Resetting MR3")
 # Tell the MR3 to stop whatever it's doing
 mr3_ser.write(const.KILL_ALL_PROCESS_CMD)
-# Start the session by resetting the time per prototocol
+
+# Start the session by resetting the time per protocol
 mr3_ser.write(const.RESET_TIME_CMD)
+
 spare = mr3_ser.read(1)
 if spare != const.ACKNOWLEDGE_BIT:
     raise ValueError("Reset didn't acknowledge")
-
-rx_buf = bytearray(64)
-
 
 print("Sending field measurements to Pico")
 try:
