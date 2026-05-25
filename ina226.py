@@ -193,21 +193,20 @@ class INA226:
 
     def set_calibration(self):
         """
-        Configures to INA226 to be able to measure up to 36V and 2A
-        of current. Counter overflow occurs at 3.2A.
-        These calculations assume a 0.1 shunt ohm resistor
+        We expect a max current of 2A
+        RSHUNT = 0.1 Ohms
         """
-        self._current_lsb = 0.0001
-        self._cal_value = 512
-        self._power_lsb = 0.0025
+        self._current_lsb = 2.0 / (2.0**15)
+        self._cal_value = int(0.00512 / (0.1 * self._current_lsb))
+        self._power_lsb = 25.0 * self._current_lsb
 
         self._write_register(_REG_CALIBRATION, self._cal_value)
 
         config = (
             _CONFIG_CONST_BITS
-            | _CONFIG_AVGMODE_16SAMPLES
-            | _CONFIG_VBUSCT_332us
-            | _CONFIG_VSHUNTCT_332us
+            | _CONFIG_AVGMODE_1SAMPLES
+            | _CONFIG_VBUSCT_588us
+            | _CONFIG_VSHUNTCT_588us
             | _CONFIG_MODE_SANDBVOLT_TRIGGERED
         )
 
