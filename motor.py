@@ -25,14 +25,16 @@ class Motor:
         self.in2.duty_cycle = 0
 
     def forward(self, duty_cycle_percent):
+        dc = 100 - duty_cycle_percent
         self.led.value = True
-        self.in1.duty_cycle = int(MAX_DC * (duty_cycle_percent * 0.01))
-        self.in2.duty_cycle = 0
+        self.in1.duty_cycle = MAX_DC
+        self.in2.duty_cycle = int(MAX_DC * (dc * 0.01))
 
     def reverse(self, duty_cycle_percent):
+        dc = 100 - duty_cycle_percent
         self.led.value = True
-        self.in1.duty_cycle = 0
-        self.in2.duty_cycle = int(MAX_DC * (duty_cycle_percent * 0.01))
+        self.in1.duty_cycle = int(MAX_DC * (dc * 0.01))
+        self.in2.duty_cycle = MAX_DC
 
     def brake(self):
         self.led.value = False
