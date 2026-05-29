@@ -27,9 +27,9 @@ LOGGER.info("Initialized UART")
 I2C = I2C(board.GP1, board.GP0)
 LOGGER.info("Initialized I2C bus")
 
-INA226_X = INA226(I2C, 0x40, LOGGER)
-INA226_Y = INA226(I2C, 0x41, LOGGER)
-INA226_Z = INA226(I2C, 0x42, LOGGER)
+INA226_X = INA226(I2C, 0x40)
+INA226_Y = INA226(I2C, 0x41)
+INA226_Z = INA226(I2C, 0x42)
 
 MOTOR_X = Motor(in1=board.GP2, in2=board.GP3, led=board.GP13)
 MOTOR_Y = Motor(in1=board.GP6, in2=board.GP7, led=board.GP14)
@@ -40,6 +40,7 @@ class MotorDriverAssembly:
     def __init__(self, motor, ina226):
         self.motor = motor
         self.ina226 = ina226
+        self.ina226.calibrate(r_shunt_ohms=0.04, max_expected_amps=2.0)
 
 
 MOTOR_ASSEMBLIES = {
