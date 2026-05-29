@@ -1,3 +1,5 @@
+from time import sleep
+
 import board
 from busio import I2C, UART
 from UART import blocking_get_mag_field
@@ -200,12 +202,50 @@ def print_csv():
 
 
 def print_help():
-    LOGGER.info(
+    print(  # noqa: T201
         "Available commands:\n\r\
         help: print this message\n\r\
         calibrate: run a calibration sweep\n\r\
-        field: create the desired field inside the cage\n\r"
+        field: create the desired field inside the cage\n\r\
+        set: pwm a motor driver with a duty cycle and read its output current\r\n"
     )
+
+
+def set_dc():
+    try:
+        field = str(input("Field (x, y, z): "))
+        dc = int(input("Duty Cycle: "))
+        direction = str(input("Direction (fwd, rev): "))
+    except TypeError:
+        LOGGER.error("Incorrect data type")
+        return 0
+
+    try:
+        motor = MOTOR_ASSEMBLIES[field].motor
+        ina226 = MOTOR_ASSEMBLIES[field].ina226
+    except KeyError:
+        LOGGER.error("Invalid field")
+        return 0
+
+    if not (0 < dc < 100):
+        LOGGER.error("Duty cycle out of bounds")
+        return 0
+
+    if direction in ["forward", "f", "fwd"]:
+        motor.forward(dc)
+    elif direction in ["reverse", "r", "rev"]:
+        motor.reverse(dc)
+    else:
+        LOGGER.error("Invalid direction")
+
+    try:
+        while True:
+            print(ina226.current, "A")  # noqa: T201
+            sleep(1)
+
+    except KeyboardInterrupt:
+        LOGGER.info("Stopping")
+        motor.stop()
 
 
 LOGGER.info("Entering main loop")
@@ -219,5 +259,7 @@ while True:
         print_csv()
     elif action == "field":
         generate_field()
+    elif action == "set":
+        set_dc()
     else:
-        LOGGER.error("Unsupported action. Please try again")
+        print("Unsupported action. Please try again")  # noqa: T201
