@@ -35,6 +35,7 @@ ignore = [
     "INP001",  # implicit-namespace-package - warns on docs/ which shouldn't be a package
     "TRY400", # logger.exception doesn't play nice with adafruit_logging
     "PERF203", # We need this for retrying the serial bridge
+    "T201", # We like prints
 
     # Maybe one day
     "EM",  # flake8-errmsg - on the fence with this, maybe enable when we rethink exceptions
