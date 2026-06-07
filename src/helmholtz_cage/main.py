@@ -1,14 +1,16 @@
+import sys
 from time import sleep
 
 import board
+import usb_cdc
 from busio import I2C, UART
+from data import print_curr_mag_csv, print_dci_csv, print_fields_csv
+from ina226 import INA226
+from motor import Motor
 from UART import blocking_get_mag_field
 from ulab import numpy as np
 
 import adafruit_logging as logging
-from data import print_curr_mag_csv, print_dci_csv, print_fields_csv
-from ina226 import INA226
-from motor import Motor
 
 # Calibration constants
 CAL_DC_STEP = 10
@@ -61,7 +63,7 @@ def run_calibration_sweep():
 
     for plane, assembly in MOTOR_ASSEMBLIES.items():
         for i in range(0, 101, CAL_DC_STEP):
-            print(f"\rCalibrating {plane} plane {int((i / 200) * 100)}%", end="")
+            print(f"\rCalibrating {plane} plane {int((i / 200) * 100)}%", end=" " * 20)
             assembly.motor.reverse(i)
             curr = assembly.ina226.current
             sleep(0.5)
@@ -72,7 +74,7 @@ def run_calibration_sweep():
         assembly.motor.stop()
 
         for i in range(0, 101, CAL_DC_STEP):
-            print(f"\rCalibrating {plane} plane {int(((100 + i) / 200) * 100)}%", end="")
+            print(f"\rCalibrating {plane} plane {int(((100 + i) / 200) * 100)}%", end=" " * 20)
             assembly.motor.forward(i)
             curr = assembly.ina226.current
             sleep(0.5)
@@ -108,7 +110,7 @@ def run_calibration_sweep():
 SLOPES_AND_INTERCEPTS = {  # Defaults are derived from previous runs. Don't rely on them.
     "x": {"slope": 1136, "intercept": -125},
     "y": {"slope": 1091, "intercept": -1},
-    "z": {"slope": 924, "intercept": 2 - 5},
+    "z": {"slope": 924, "intercept": -5},
 }
 
 

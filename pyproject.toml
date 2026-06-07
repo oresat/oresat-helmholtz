@@ -16,7 +16,6 @@ line-length = 100
 
 [tool.ruff.lint]
 select = [ "ALL" ]
-exclude = [ "adafruit_logging.py" ] # This is not created by us, so we don't care
 ignore = [
     # Conflicting options
     "COM812",  # prohibited-trailing-comma - Conflicts with formatter
