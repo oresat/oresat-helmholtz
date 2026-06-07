@@ -1,4 +1,6 @@
+import sys
 from struct import unpack
+from time import sleep
 
 from blink import PICO_LED
 from cobsr import DecodeError, decode
@@ -43,3 +45,15 @@ def blocking_get_mag_field(uart):
             return get_mag_field(uart)
         except ValueError:
             continue
+
+
+def print_bridge_vals(uart):
+    try:
+        while True:
+            try:
+                sys.stdout.write(f"\n{blocking_get_mag_field(uart)}")
+                sleep(1)
+            except KeyboardInterrupt:
+                continue
+    except KeyboardInterrupt:
+        return ""
