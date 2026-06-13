@@ -35,9 +35,9 @@ class CageState:
     def __init__(self):
         # Defaults are derived from previous runs. Don't rely on them.
         self.slopes_and_intercepts = {
-            "x": {"slope": 1136, "intercept": -125},
-            "y": {"slope": 1091, "intercept": -1},
-            "z": {"slope": 924, "intercept": -5},
+            "x": {"slope": 1136, "intercept": -110},
+            "y": {"slope": 1091, "intercept": -10},
+            "z": {"slope": 952, "intercept": -5},
         }
 
     def print_slopes_and_intercepts(self):

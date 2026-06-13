@@ -25,7 +25,7 @@ def run_calibration_sweep(state, motor_assemblies, uart):
     sys.stdout.write("\n")
     for plane, assembly in motor_assemblies.items():
         for i in range(0, 101, CAL_DC_STEP):
-            sys.stdout.write(f"\rCalibrating {plane} plane {int((i / 200) * 100)}%", end=" " * 20)
+            sys.stdout.write(f"\rCalibrating {plane} plane {int((i / 200) * 100)}%{'  '}")
             assembly.motor.reverse(i)
             curr = assembly.ina226.current
             sleep(0.5)
@@ -36,9 +36,7 @@ def run_calibration_sweep(state, motor_assemblies, uart):
         assembly.motor.stop()
 
         for i in range(0, 101, CAL_DC_STEP):
-            sys.stdout.write(
-                f"\rCalibrating {plane} plane {int(((100 + i) / 200) * 100)}%", end=" " * 20
-            )
+            sys.stdout.write(f"\rCalibrating {plane} plane {int(((100 + i) / 200) * 100)}%{'  '}")
             assembly.motor.forward(i)
             curr = assembly.ina226.current
             sleep(0.5)
@@ -87,7 +85,11 @@ def generate_field(state, motor_assemblies, x, y, z):
         multiplied by the gain value constant PROP_GAIN, and intended to be used to adjust
         the duty cycle the motor drivers are currently being PWM'd at.
         """
-        plane_controls = {"x": 0, "y": 0, "z": 0}
+        plane_controls = {
+            "x": {"ctrl": 0, "target": 0},
+            "y": {"ctrl": 0, "target": 0},
+            "z": {"ctrl": 0, "target": 0},
+        }
 
         for plane, assembly in motor_assemblies.items():
             slope = state.slopes_and_intercepts[plane]["slope"]
@@ -96,27 +98,34 @@ def generate_field(state, motor_assemblies, x, y, z):
             # field = slope * amps + intercept -> (field - intercept) / slope = amps
             target_curr = (desired_field[plane] - intercept) / slope
             process_curr = assembly.ina226.current
-            err = abs(target_curr) - abs(process_curr)
-            control_output = PROP_GAIN * err
+            err = target_curr - process_curr
+
+            if target_curr < 0:
+                control_output = -1 if process_curr < target_curr else 1
+            elif target_curr > 0:
+                control_output = 1 if process_curr < target_curr else -1
+
+            # control_output = PROP_GAIN * err
 
             sys.stdout.write(f'\ntarget: {target_curr} err: {err} control_output: {control_output}')
 
-            plane_controls[plane] = control_output
+            plane_controls[plane]["ctrl"] = int(control_output)
+            plane_controls[plane]["target"] = target_curr
 
-        return plane_controls, target_curr
+        return plane_controls
 
     try:
-        prev_duty_cycles = {"x": 0, "y": 0, "z": 0}
+        prev_duty_cycles = {"x": 50, "y": 50, "z": 50}
         while True:
             try:
-                plane_controls, target_curr = get_p_control()
+                plane_controls = get_p_control()
 
                 for plane, assembly in motor_assemblies.items():
-                    plane_ctrl = plane_controls[plane]
-                    duty_cycle = prev_duty_cycles[plane] + int(plane_ctrl)
-                    duty_cycle = max(0, min(100, duty_cycle))
+                    plane_ctrl = plane_controls[plane]["ctrl"]
+                    duty_cycle = prev_duty_cycles[plane] + plane_ctrl
+                    duty_cycle = max(0, min(100, duty_cycle))  # clamp between 0 - 100
 
-                    if target_curr > 0:
+                    if plane_controls[plane]["target"] > 0:
                         assembly.motor.forward(duty_cycle)
                     else:
                         assembly.motor.reverse(duty_cycle)
