@@ -5,13 +5,13 @@ from digitalio import DigitalInOut, Direction
 from pwmio import PWMOut
 
 MAX_DC = 65535  # 2**16 - 1
-PWM_FREQ = 12500  # min pulse width = 800ns, 0.01 [1%] * (1 / 12.5k) = 800ns
+PWM_FREQ = 12500  # min pulse width = 800ns, 0.01 [1% duty cycle] * (1 / 12.5k) = 800ns
 
 
-class Motor:
+class MotorDriver:
     def __init__(self, in1, in2, led):
         """
-        Initialize motor with GPIO pins and DAC.
+        Initialize motor driver with GPIO pins and DAC.
 
         Args:
             in1: GPIO output pin for in1
@@ -45,14 +45,25 @@ class Motor:
         self.in2.duty_cycle = MAX_DC
 
 
-def set_dc(motor_assemblies, plane, direction, duty_cycle):
+class MotorDriverAssembly:
+    """
+    Container to hold a planes's motor driver and ina226
+    """
+
+    def __init__(self, motor, ina226):
+        self.motor = motor
+        self.ina226 = ina226
+        self.ina226.calibrate(r_shunt_ohms=0.03, max_expected_amps=2.0)
+
+
+def set_dc(motor_driver_assemblies, plane, direction, duty_cycle):
     """
     CLI callback to the duty cycle on a specific motor driver
     and read the current it outputs in a loop
     """
     try:
-        motor = motor_assemblies[plane].motor
-        ina226 = motor_assemblies[plane].ina226
+        motor = motor_driver_assemblies[plane].motor
+        ina226 = motor_driver_assemblies[plane].ina226
     except KeyError:
         return "Invalid plane\r\n"
 
@@ -76,10 +87,10 @@ def set_dc(motor_assemblies, plane, direction, duty_cycle):
         motor.stop()
 
 
-def stop_all_motor_drivers(motor_assemblies):
+def stop_all_motor_drivers(motor_driver_assemblies):
     """
     CLI callback to stop all motor drivers
     """
-    for assembly in motor_assemblies.values():
+    for assembly in motor_driver_assemblies.values():
         assembly.motor.stop()
     return ""

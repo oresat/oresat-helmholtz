@@ -6,7 +6,7 @@ from cli import Cli, Command
 from data import print_curr_mag_csv, print_dci_csv, print_fields_csv
 from ina226 import INA226
 from magfield import generate_field, run_calibration_sweep
-from motor import Motor, set_dc, stop_all_motor_drivers
+from motor_driver import MotorDriver, MotorDriverAssembly, set_dc, stop_all_motor_drivers
 from uart import print_bridge_vals
 
 import adafruit_logging as logging
@@ -26,9 +26,9 @@ INA226_X = INA226(I2C, 0x40)
 INA226_Y = INA226(I2C, 0x41)
 INA226_Z = INA226(I2C, 0x42)
 
-MOTOR_X = Motor(in1=board.GP2, in2=board.GP3, led=board.GP13)
-MOTOR_Y = Motor(in1=board.GP6, in2=board.GP7, led=board.GP14)
-MOTOR_Z = Motor(in1=board.GP10, in2=board.GP11, led=board.GP15)
+MOTOR_X = MotorDriver(in1=board.GP2, in2=board.GP3, led=board.GP13)
+MOTOR_Y = MotorDriver(in1=board.GP6, in2=board.GP7, led=board.GP14)
+MOTOR_Z = MotorDriver(in1=board.GP10, in2=board.GP11, led=board.GP15)
 
 
 class CageState:
@@ -45,18 +45,7 @@ class CageState:
         sys.stdout.write(f"{self.slopes_and_intercepts}\n")
 
 
-class MotorDriverAssembly:
-    """
-    Container to hold a coil's motor driver and ina226
-    """
-
-    def __init__(self, motor, ina226):
-        self.motor = motor
-        self.ina226 = ina226
-        self.ina226.calibrate(r_shunt_ohms=0.03, max_expected_amps=2.0)
-
-
-MOTOR_ASSEMBLIES = {
+MOTOR_DRIVER_ASSEMBLIES = {
     "x": MotorDriverAssembly(MOTOR_X, INA226_X),
     "y": MotorDriverAssembly(MOTOR_Y, INA226_Y),
     "z": MotorDriverAssembly(MOTOR_Z, INA226_Z),
@@ -75,14 +64,14 @@ cli.register_commands(
         Command(
             name="calibrate",
             callback=run_calibration_sweep,
-            default_args=[STATE, MOTOR_ASSEMBLIES, UART],
+            default_args=[STATE, MOTOR_DRIVER_ASSEMBLIES, UART],
             argspec=None,
             help_text="Run a calibration sweep",
         ),
         Command(
             name="field",
             callback=generate_field,
-            default_args=[STATE, MOTOR_ASSEMBLIES],
+            default_args=[STATE, MOTOR_DRIVER_ASSEMBLIES],
             argspec=[(("-x",), float), (("-y",), float), (("-z",), float)],
             help_text=(
                 "Create the desired field inside the cage.\n"
@@ -92,7 +81,7 @@ cli.register_commands(
         Command(
             name="dcicsv",
             callback=print_dci_csv,
-            default_args=[MOTOR_ASSEMBLIES],
+            default_args=[MOTOR_DRIVER_ASSEMBLIES],
             argspec=[(("-p", "-plane"), str)],
             help_text="Generate a csv of duty cycle to current values",
         ),
@@ -106,7 +95,7 @@ cli.register_commands(
         Command(
             name="currmagcsv",
             callback=print_curr_mag_csv,
-            default_args=[MOTOR_ASSEMBLIES, UART],
+            default_args=[MOTOR_DRIVER_ASSEMBLIES, UART],
             argspec=None,
             help_text="Print a csv of current to magnetic field measurements",
         ),
@@ -127,7 +116,7 @@ cli.register_commands(
         Command(
             name="setdc",
             callback=set_dc,
-            default_args=[MOTOR_ASSEMBLIES],
+            default_args=[MOTOR_DRIVER_ASSEMBLIES],
             argspec=[
                 (("-p", "-plane"), str),
                 (("-d", "-direction"), str),
@@ -138,7 +127,7 @@ cli.register_commands(
         Command(
             name="stop",
             callback=stop_all_motor_drivers,
-            default_args=[MOTOR_ASSEMBLIES],
+            default_args=[MOTOR_DRIVER_ASSEMBLIES],
             argspec=None,
             help_text="Stop all motor drivers",
         ),
