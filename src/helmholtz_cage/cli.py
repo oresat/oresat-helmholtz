@@ -3,14 +3,15 @@ Command Line Interface module
 Handles incoming serial commands
 """
 
+import select
 import sys
-from time import monotonic
 
 from micropython import const
 
 import adafruit_logging as logging
 
-history_max_size = const(40)
+HISTORY_MAX_SIZE = const(40)
+STDIN_POLL_TIMEOUT_MS = const(100)
 
 LOGGER = logging.getLogger('Cli logger')
 LOGGER.setLevel(logging.INFO)
@@ -70,6 +71,12 @@ class Cli:
         self.history = []  # buffer to hold previous commands
         self.commands = {}  # registry of commands, key is the name, value is the Commmand object
         self.prompt = prompt
+        self.line = ''
+        self.index = 0
+        self.history_offset = -1
+        self.user_input = ''
+        self.poller = select.poll()
+        self.poller.register(sys.stdin, select.POLLIN)
 
         self.register_commands(
             [
@@ -97,12 +104,17 @@ class Cli:
             ]
         )
 
+        sys.stdout.write(self.prompt)
+
+    def redraw_prompt(self):
+        sys.stdout.write(f"\n{self.prompt}")
+
     def add_to_history(self, line):
         """
         Add a command to the history buffer
         """
         if line and (not self.history or self.history[0] != line):
-            self.history = self.history[: history_max_size - 1]
+            self.history = self.history[: HISTORY_MAX_SIZE - 1]
             self.history.insert(0, line.strip())
 
     def get_history(self, offset):
@@ -128,7 +140,6 @@ class Cli:
             if cmd.argspec:
                 for arg in cmd.argspec:  # for name, cmd in self.commands.items():
                     txts += f"{' ' * 4}{list(arg[0])!s}: {arg[1].__name__!s}\n"
-            txts += "\n"
 
         return txts
 
@@ -235,121 +246,118 @@ class Cli:
             else:
                 ret = cmd.callback()
         except TypeError as e:
-            ret = f"Error dispatching {cmd} - {e}\n"
+            ret = f"Error dispatching {cmd.name} - {e}\n"
         except KeyError as e:
             ret = f"Unexpected input provided to 'evaluate' method - {e}\n"
         return ret
 
-    def repl(self):
+    def process_incoming_bytes(self):
         """
-        A read-eval-print loop with readline-like behavior
-        Uses a lot of the code from Dave Astels' tutorial
-        https://learn.adafruit.com/a-cli-in-circuitpython/overview
+        Checks stdin for incoming bytes and processes them.
+        This works similarly to how a repl would. However, instead of using a loop
+        this will keep track of the state of the line between calls,
+        allowing main to perform other tasks while waiting for bytes to come in.
+        Returns a bool that will be true if the user enters 'exit'.
         """
-        user_input = ''
-        line = ''
-        index = 0
-        ctrl_c_seen_s = -1
-        should_exit = False
+        ch = None
 
-        while True:  # for each line
-            if should_exit:
-                return "exit"
+        # Check for bytes coming in from stdin
+        for result in self.poller.ipoll(STDIN_POLL_TIMEOUT_MS):
+            stdin = result[0]  # first entry is the object we polled
+            event = result[1]  # second entry is what happened when we polled it
+            if event & select.POLLIN:
+                # Bytes have been received
+                ch = ord(stdin.read(1))
+            elif event & (select.POLLHUP | select.POLLERR):
+                # This should never happen, but if it does somehow we should know
+                LOGGER.error("Unexpected Error from stdin: %s", str(event))
 
+        if ch is None:
+            # No bytes received. Yield to the caller
+            return False
+
+        # Bytes received. Process them
+
+        if 32 <= ch <= 126:  # printable character
+            self.line = self.line[: self.index] + chr(ch) + self.line[self.index :]
+            self.index += 1
+
+        elif ch in {10, 13}:  # EOL - try to process
+            self.user_input = (
+                self.user_input + ' ' + self.line.strip() if self.user_input else self.line.strip()
+            )
+            self.add_to_history(self.line.strip())
+            self.line = ''
             try:
-                prompt = '... ' if user_input else self.prompt
+                try:
+                    x = self.parse(self.user_input)
+                    if not x:
+                        sys.stdout.write('\n')
+                        self.user_input = ''
+                        return False
+                except ParserError as e:
+                    sys.stdout.write(f'\n{e}\n')
+                    self.user_input = ''
+                    return False
+
+                if x is eof_object:
+                    raise SyntaxError('unexpected EOF in list')  # noqa: TRY301
+
+                val = self.evaluate(x)
+
+                if val is not None:
+                    if val == "exit":
+                        return True
+                    sys.stdout.write(f'\n{val}')
+
+                self.user_input = ''
+                prompt = '... ' if self.user_input else self.prompt
                 sys.stdout.write(prompt)
-                index = 0
-                line = ''
-                history_offset = -1
+                self.index = 0
+                self.line = ''
+                self.history_offset = -1
 
-                while True:  # for each character
-                    ch = ord(sys.stdin.read(1))
+            except SyntaxError as e:
+                if str(e) != 'unexpected EOF in list':
+                    sys.stdout.write('\n')
+                    sys.stdout.write(str(e))
+                    self.user_input = ''
 
-                    if 32 <= ch <= 126:  # printable character
-                        line = line[:index] + chr(ch) + line[index:]
-                        index += 1
+        elif ch in {8, 127}:  # backspace/DEL
+            if self.index > 0:
+                self.line = self.line[: self.index - 1] + self.line[self.index :]
+                self.index -= 1
 
-                    elif ch in {10, 13}:  # EOL - try to process
-                        user_input = user_input + ' ' + line.strip() if user_input else line.strip()
-                        self.add_to_history(line.strip())
-                        line = ''
-                        try:
-                            try:
-                                x = self.parse(user_input)
-                                if not x:
-                                    sys.stdout.write('\n')
-                                    user_input = ''
-                                    break
-                            except ParserError as e:
-                                sys.stdout.write(f'\n{e}\n')
-                                user_input = ''
-                                break
+        elif ch == 27:  # ESC
+            next1, next2 = ord(sys.stdin.read(1)), ord(sys.stdin.read(1))
+            if next1 == 91:  # [
+                if next2 == 68:  # left arrow
+                    if self.index > 0:
+                        self.index -= 1
+                elif next2 == 67:  # right arrow
+                    if self.index < len(self.line):
+                        self.index += 1
+                elif next2 == 66:  # down arrow
+                    if self.history_offset > -1:
+                        self.history_offset -= 1
+                        self.line = self.get_history(self.history_offset)
+                        self.index = len(self.line)
+                elif next2 == 65 and self.history_offset < len(self.history) - 1:  # up arrow
+                    self.history_offset += 1
+                    self.line = self.get_history(self.history_offset)
+                    self.index = len(self.line)
 
-                            if x is eof_object:
-                                raise SyntaxError('unexpected EOF in list')  # noqa: TRY301
+        else:
+            sys.stdout.write(f'Unknown character: {ch}\n')
+            return False
 
-                            val = self.evaluate(x)
+        # Move all the way left, clear the line, write out the prompt,
+        # write out the line, move all the way to the left again,
+        # and move the cursor to the index.
+        # One big write prevents terminal flicker
+        sys.stdout.write(
+            f"\x1b[1000D\x1b[0K{self.prompt}{self.line}\
+            \x1b[1000D\x1b[{len(self.prompt) + self.index}C"
+        )
 
-                            if val is not None:
-                                if val == "exit":
-                                    should_exit = True
-                                    break
-                                sys.stdout.write(f'\n{val}')
-
-                            user_input = ''
-
-                        except SyntaxError as e:
-                            if str(e) != 'unexpected EOF in list':
-                                sys.stdout.write('\n')
-                                sys.stdout.write(str(e))
-                                user_input = ''
-
-                        break
-
-                    elif ch in {8, 127}:  # backspace/DEL
-                        if index > 0:
-                            line = line[: index - 1] + line[index:]
-                            index -= 1
-
-                    elif ch == 27:  # ESC
-                        next1, next2 = ord(sys.stdin.read(1)), ord(sys.stdin.read(1))
-                        if next1 == 91:  # [
-                            if next2 == 68:  # left arrow
-                                if index > 0:
-                                    index -= 1
-                            elif next2 == 67:  # right arrow
-                                if index < len(line):
-                                    index += 1
-                            elif next2 == 66:  # down arrow
-                                if history_offset > -1:
-                                    history_offset -= 1
-                                    line = self.get_history(history_offset)
-                                    index = len(line)
-                            elif next2 == 65 and history_offset < len(self.history) - 1:  # up arrow
-                                history_offset += 1
-                                line = self.get_history(history_offset)
-                                index = len(line)
-
-                    else:
-                        sys.stdout.write(f'Unknown character: {ch}\n')
-
-                    # Move all the way left, clear the line, write out the prompt,
-                    # write out the line, move all the way to the left again,
-                    # and move the cursor to the index.
-                    # One big write prevents terminal flicker
-                    sys.stdout.write(
-                        f"\x1b[1000D\x1b[0K{prompt}{line}\x1b[1000D\x1b[{len(prompt) + index}C"
-                    )
-            except KeyboardInterrupt:
-                # If the user presses ctrl-c twice in 2 seconds, exit
-                if monotonic() - ctrl_c_seen_s < 2:
-                    return "exit"
-                sys.stdout.write("Press ctrl-c again to exit")
-                ctrl_c_seen_s = monotonic()
-                user_input = ''
-                sys.stdout.write('\n')
-
-            except Exception as e:  # noqa: BLE001
-                sys.stdout.write(f'\nError: {e}\n')
-                user_input = ''
+        return False

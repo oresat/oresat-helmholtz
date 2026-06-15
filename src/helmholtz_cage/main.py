@@ -1,4 +1,5 @@
 import sys
+import time
 
 import board
 from busio import I2C, UART
@@ -57,6 +58,7 @@ STATE = CageState()
 
 # run_calibration_sweep(STATE)
 
+LOGGER.info("Initializing CLI")
 cli = Cli(prompt="> ")
 
 cli.register_commands(
@@ -133,9 +135,18 @@ cli.register_commands(
         ),
     ]
 )
-LOGGER.info("CLI Initialized")
 
-LOGGER.info("Entering main loop")
+ctrl_c_last_seen = -1
+
 while True:
-    if cli.repl() == "exit":
-        break
+    try:
+        should_exit = cli.process_incoming_bytes()
+        if should_exit:
+            break
+    except KeyboardInterrupt:
+        if time.monotonic() - ctrl_c_last_seen < 2:
+            break
+        else:
+            sys.stdout.write("\nPress ctrl-c again to exit")
+            cli.redraw_prompt()
+            ctrl_c_last_seen = time.monotonic()
