@@ -10,7 +10,7 @@ CAL_DC_STEP = const(25)
 FIELD_AVG_COUNT = const(5)
 
 # P-loop tuning constants
-PROP_GAIN = const(25)
+P_GAIN = const(25)
 
 # List to get plane names in loops from enumeration variable
 PLANES = ["x", "y", "z"]
@@ -96,66 +96,34 @@ def generate_field(state, motor_assemblies, x, y, z):
     CLI callback to generate a specified magnetic field in the cage
     """
     desired_field = (x, y, z)
+    prev_duty_cycles = [0, 0, 0]
+
     sys.stdout.write(f"\nGenerating {desired_field}")
 
-    def get_p_control():
-        """
-        Use the regression from calibration to calculate a control value.
-        This control value is the difference between the target current and the actual current
-        multiplied by the gain value constant PROP_GAIN, and intended to be used to adjust
-        the duty cycle the motor drivers are currently being PWM'd at.
-        """
-
-        plane_controls = [
-            {"ctrl": 0, "target": 0},
-            {"ctrl": 0, "target": 0},
-            {"ctrl": 0, "target": 0},
-        ]
-
-        for i, assembly in enumerate(motor_assemblies):
-            slope = state.slopes_and_intercepts[i]["slope"]
-            intercept = state.slopes_and_intercepts[i]["intercept"]
-            # Invert equation:
-            # field = slope * amps + intercept -> (field - intercept) / slope = amps
-            target_curr = (desired_field[i] - intercept) / slope
-            process_curr = assembly.ina226.current
-            # err = target_curr - process_curr
-
-            if target_curr < 0:
-                control_output = -1 if process_curr < target_curr else 1
-            elif target_curr > 0:
-                control_output = 1 if process_curr < target_curr else -1
-
-            # control_output = PROP_GAIN * err
-
-            plane_controls[i]["ctrl"] = int(control_output)
-            plane_controls[i]["target"] = target_curr
-
-        return plane_controls
-
     try:
-        prev_duty_cycles = [0, 0, 0]
         while True:
-            try:
-                plane_controls = get_p_control()
+            for i, assembly in enumerate(motor_assemblies):
+                slope = state.slopes_and_intercepts[i]["slope"]
+                intercept = state.slopes_and_intercepts[i]["intercept"]
 
-                for i, assembly in enumerate(motor_assemblies):
-                    plane_ctrl = plane_controls[i]["ctrl"]
-                    duty_cycle = prev_duty_cycles[i] + plane_ctrl
-                    duty_cycle = max(0, min(100, duty_cycle))  # clamp between 0 - 100
+                # Invert equation: field = slope * amps + int -> (field - int) / slope = amps
+                target = (desired_field[i] - intercept) / slope
+                process = assembly.ina226.current
 
-                    if plane_controls[i]["target"] > 0:
-                        assembly.motor.forward(duty_cycle)
-                    else:
-                        assembly.motor.reverse(duty_cycle)
+                err = abs(target) - abs(process)
+                ctrl = P_GAIN * err
 
-                    prev_duty_cycles[i] = duty_cycle
+                duty_cycle = prev_duty_cycles[i] + ctrl
+                duty_cycle = max(0, min(100, duty_cycle))  # clamp between 0 - 100
 
-                sleep(0.5)
+                if target > 0:
+                    assembly.motor.forward(duty_cycle)
+                else:
+                    assembly.motor.reverse(duty_cycle)
 
-            except KeyboardInterrupt:
-                return ""
-                break
+                prev_duty_cycles[i] = duty_cycle
+
+            sleep(0.5)
     except KeyboardInterrupt:
         return ""
     except TypeError as e:
