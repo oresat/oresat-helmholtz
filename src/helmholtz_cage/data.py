@@ -1,8 +1,8 @@
 import sys
 from time import sleep
 
+from magfield import perturb_and_measure_magfield
 from uart import blocking_get_mag_field
-from ulab import numpy as np
 
 
 def print_curr_mag_csv(motor_assemblies, uart):
@@ -10,62 +10,22 @@ def print_curr_mag_csv(motor_assemblies, uart):
     CLI callback to print a csv of currents and associated magnetic field measurements
     """
     sys.stdout.write("\nGenerating CSV of current and magfield measurements...\n")
-    measurements = {
-        "x": {"curr": [], "magfield": []},
-        "y": {"curr": [], "magfield": []},
-        "z": {"curr": [], "magfield": []},
-    }
 
-    stepsize = 10
-
-    for plane, assembly in motor_assemblies.items():
-        for i in range(0, 101, stepsize):
-            assembly.motor.reverse(i)
-            curr = assembly.ina226.current
-            sleep(0.5)
-            adjusted_field = blocking_get_mag_field(uart)
-            measurements[plane]["curr"].append(curr)
-            measurements[plane]["magfield"].append(adjusted_field[plane])
-            assembly.motor.stop()
-            sleep(0.5)
-
-        for i in range(0, 101, stepsize):
-            assembly.motor.forward(i)
-            curr = assembly.ina226.current
-            sleep(0.5)
-            adjusted_field = blocking_get_mag_field(uart)
-            measurements[plane]["curr"].append(curr)
-            measurements[plane]["magfield"].append(adjusted_field[plane])
-            assembly.motor.stop()
-            sleep(0.5)
+    measurements = perturb_and_measure_magfield(
+        motor_assemblies=motor_assemblies, uart=uart, silent=True
+    )
 
     sys.stdout.write("X,Current,Magfield,Y,Current,Magfield,Z,Current,Magfield\n")
-
     try:
-        for i in range(len(measurements["x"]["curr"])):
+        for i in range(len(measurements[0])):
             sys.stdout.write(
                 f'\
-            ,{measurements["x"]["curr"][i]},{measurements["x"]["magfield"][i]},\
-            ,{measurements["y"]["curr"][i]},{measurements["y"]["magfield"][i]},\
-            ,{measurements["z"]["curr"][i]},{measurements["z"]["magfield"][i]}\n'
+            ,{measurements[0][i][0]},{measurements[0][i][1]},\
+            ,{measurements[1][i][0]},{measurements[1][i][1]},\
+            ,{measurements[2][i][0]},{measurements[2][i][1]}\n'
             )
     except IndexError as e:
         sys.stdout.write(f"Error: {e}\n")
-
-    x_currs = np.array(measurements["x"]["curr"])
-    y_currs = np.array(measurements["y"]["curr"])
-    z_currs = np.array(measurements["z"]["curr"])
-
-    x_fields = np.array(measurements["x"]["magfield"])
-    y_fields = np.array(measurements["y"]["magfield"])
-    z_fields = np.array(measurements["z"]["magfield"])
-
-    x_line = np.polyfit(x_currs, x_fields, 1)
-    y_line = np.polyfit(y_currs, y_fields, 1)
-    z_line = np.polyfit(z_currs, z_fields, 1)
-
-    sys.stdout.write(f'calculated slope,,{x_line[0]},,{y_line[0]},,{z_line[0]}\n')
-    sys.stdout.write(f'calculated intercept,,{x_line[1]},,{y_line[1]},,{z_line[1]}\n')
 
 
 def print_fields_csv(uart, time):

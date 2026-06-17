@@ -29,13 +29,13 @@ def get_mag_field(uart):
         raise ValueError from e
 
     try:
-        time, x, y, z, mag = unpack('fffff', decoded_data)
+        _time, x, y, z, _mag = unpack('fffff', decoded_data)
     except (RuntimeError, TypeError) as e:
         uart.reset_input_buffer()
         raise ValueError from e
 
     PICO_LED.value = False
-    return {"time": time, "x": x, "y": y, "z": z, "mag": mag}
+    return (x, y, z)
 
 
 def blocking_get_mag_field(uart):

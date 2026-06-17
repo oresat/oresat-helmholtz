@@ -6,67 +6,87 @@ from uart import blocking_get_mag_field
 from ulab import numpy as np
 
 # Calibration constants
-CAL_DC_STEP = const(10)
+CAL_DC_STEP = const(25)
+FIELD_AVG_COUNT = const(5)
 
 # P-loop tuning constants
 PROP_GAIN = const(25)
+
+# List to get plane names in loops from enumeration variable
+PLANES = ["x", "y", "z"]
+
+
+def perturb_and_measure_magfield(motor_assemblies, uart, silent):
+    """
+    For each motor driver, set an output current and measure the
+    resultant magnetic field for the associated plane.
+    """
+    measurements = [[], [], []]
+    for i, assembly in enumerate(motor_assemblies):
+        for j in range(0, 101, CAL_DC_STEP):
+            if not silent:
+                sys.stdout.write(f"\rCalibrating {PLANES[i]} plane {int((j / 200) * 100)}%{'  '}")
+            assembly.motor.reverse(j)
+            curr = assembly.ina226.current
+
+            avg_field = 0
+            for _ in range(FIELD_AVG_COUNT):
+                adjusted_fields = blocking_get_mag_field(uart)
+                avg_field += adjusted_fields[i]
+            avg_field /= FIELD_AVG_COUNT
+
+            measurements[i].append((curr, int(avg_field)))
+
+        assembly.motor.stop()
+
+        for j in range(0, 101, CAL_DC_STEP):
+            if not silent:
+                sys.stdout.write(
+                    f"\rCalibrating {PLANES[i]} plane {int(((100 + j) / 200) * 100)}%{'  '}"
+                )
+            assembly.motor.forward(j)
+            curr = assembly.ina226.current
+
+            avg_field = 0
+            for _ in range(FIELD_AVG_COUNT):
+                adjusted_fields = blocking_get_mag_field(uart)
+                avg_field += adjusted_fields[i]
+            avg_field /= FIELD_AVG_COUNT
+
+            measurements[i].append((curr, int(avg_field)))
+
+        assembly.motor.stop()
+
+    return measurements
 
 
 def run_calibration_sweep(state, motor_assemblies, uart):
     """
     CLI callback to calibrate the controller
     """
-    measurements = {
-        "x": {"curr": [], "magfield": []},
-        "y": {"curr": [], "magfield": []},
-        "z": {"curr": [], "magfield": []},
-    }
 
     sys.stdout.write("\n")
-    for plane, assembly in motor_assemblies.items():
-        for i in range(0, 101, CAL_DC_STEP):
-            sys.stdout.write(f"\rCalibrating {plane} plane {int((i / 200) * 100)}%{'  '}")
-            assembly.motor.reverse(i)
-            curr = assembly.ina226.current
-            sleep(0.5)
-            adjusted_field = blocking_get_mag_field(uart)
-            measurements[plane]["curr"].append(curr)
-            measurements[plane]["magfield"].append(adjusted_field[plane])
 
-        assembly.motor.stop()
+    measurements = perturb_and_measure_magfield(
+        motor_assemblies=motor_assemblies, uart=uart, silent=False
+    )
 
-        for i in range(0, 101, CAL_DC_STEP):
-            sys.stdout.write(f"\rCalibrating {plane} plane {int(((100 + i) / 200) * 100)}%{'  '}")
-            assembly.motor.forward(i)
-            curr = assembly.ina226.current
-            sleep(0.5)
-            adjusted_field = blocking_get_mag_field(uart)
-            measurements[plane]["curr"].append(curr)
-            measurements[plane]["magfield"].append(adjusted_field[plane])
+    lines = []
 
-        assembly.motor.stop()
+    for plane in measurements:
+        curr = np.array([m[0] for m in plane])
+        mag = np.array([m[1] for m in plane])
+        line = np.polyfit(curr, mag, 1)
+        lines.append(line)
 
-    x_currs = np.array(measurements["x"]["curr"])
-    y_currs = np.array(measurements["y"]["curr"])
-    z_currs = np.array(measurements["z"]["curr"])
+    ret = ""
 
-    x_fields = np.array(measurements["x"]["magfield"])
-    y_fields = np.array(measurements["y"]["magfield"])
-    z_fields = np.array(measurements["z"]["magfield"])
-
-    x_line = np.polyfit(x_currs, x_fields, 1)
-    y_line = np.polyfit(y_currs, y_fields, 1)
-    z_line = np.polyfit(z_currs, z_fields, 1)
-
-    ret = f"x - Slope: {x_line[0]}, Intercept: {x_line[1]}\n"
-    ret += f"y - Slope: {y_line[0]}, Intercept: {y_line[1]}\n"
-    ret += f"z - Slope: {z_line[0]}, Intercept: {z_line[1]}\n"
-
-    state.slopes_and_intercepts = {
-        "x": {"slope": x_line[0], "intercept": x_line[1]},
-        "y": {"slope": y_line[0], "intercept": y_line[1]},
-        "z": {"slope": z_line[0], "intercept": z_line[1]},
-    }
+    for i, line in enumerate(lines):
+        slope = line[0]
+        intercept = line[1]
+        state.slopes_and_intercepts[i]["slope"] = slope
+        state.slopes_and_intercepts[i]["intercept"] = intercept
+        ret += f"{PLANES[i]} - slope: {slope} intercept: {intercept}\r\n"
 
     return ret
 
@@ -75,8 +95,8 @@ def generate_field(state, motor_assemblies, x, y, z):
     """
     CLI callback to generate a specified magnetic field in the cage
     """
-    desired_field = {"x": x, "y": y, "z": z}
-    sys.stdout.write(f"\n{desired_field}")
+    desired_field = (x, y, z)
+    sys.stdout.write(f"\nGenerating {desired_field}")
 
     def get_p_control():
         """
@@ -85,20 +105,21 @@ def generate_field(state, motor_assemblies, x, y, z):
         multiplied by the gain value constant PROP_GAIN, and intended to be used to adjust
         the duty cycle the motor drivers are currently being PWM'd at.
         """
-        plane_controls = {
-            "x": {"ctrl": 0, "target": 0},
-            "y": {"ctrl": 0, "target": 0},
-            "z": {"ctrl": 0, "target": 0},
-        }
 
-        for plane, assembly in motor_assemblies.items():
-            slope = state.slopes_and_intercepts[plane]["slope"]
-            intercept = state.slopes_and_intercepts[plane]["intercept"]
+        plane_controls = [
+            {"ctrl": 0, "target": 0},
+            {"ctrl": 0, "target": 0},
+            {"ctrl": 0, "target": 0},
+        ]
+
+        for i, assembly in enumerate(motor_assemblies):
+            slope = state.slopes_and_intercepts[i]["slope"]
+            intercept = state.slopes_and_intercepts[i]["intercept"]
             # Invert equation:
             # field = slope * amps + intercept -> (field - intercept) / slope = amps
-            target_curr = (desired_field[plane] - intercept) / slope
+            target_curr = (desired_field[i] - intercept) / slope
             process_curr = assembly.ina226.current
-            err = target_curr - process_curr
+            # err = target_curr - process_curr
 
             if target_curr < 0:
                 control_output = -1 if process_curr < target_curr else 1
@@ -107,30 +128,28 @@ def generate_field(state, motor_assemblies, x, y, z):
 
             # control_output = PROP_GAIN * err
 
-            sys.stdout.write(f'\ntarget: {target_curr} err: {err} control_output: {control_output}')
-
-            plane_controls[plane]["ctrl"] = int(control_output)
-            plane_controls[plane]["target"] = target_curr
+            plane_controls[i]["ctrl"] = int(control_output)
+            plane_controls[i]["target"] = target_curr
 
         return plane_controls
 
     try:
-        prev_duty_cycles = {"x": 50, "y": 50, "z": 50}
+        prev_duty_cycles = [0, 0, 0]
         while True:
             try:
                 plane_controls = get_p_control()
 
-                for plane, assembly in motor_assemblies.items():
-                    plane_ctrl = plane_controls[plane]["ctrl"]
-                    duty_cycle = prev_duty_cycles[plane] + plane_ctrl
+                for i, assembly in enumerate(motor_assemblies):
+                    plane_ctrl = plane_controls[i]["ctrl"]
+                    duty_cycle = prev_duty_cycles[i] + plane_ctrl
                     duty_cycle = max(0, min(100, duty_cycle))  # clamp between 0 - 100
 
-                    if plane_controls[plane]["target"] > 0:
+                    if plane_controls[i]["target"] > 0:
                         assembly.motor.forward(duty_cycle)
                     else:
                         assembly.motor.reverse(duty_cycle)
 
-                    prev_duty_cycles[plane] = duty_cycle
+                    prev_duty_cycles[i] = duty_cycle
 
                 sleep(0.5)
 
@@ -142,5 +161,5 @@ def generate_field(state, motor_assemblies, x, y, z):
     except TypeError as e:
         return f"Error generating field: {e}\n"
     finally:
-        for assembly in motor_assemblies.values():
+        for assembly in motor_assemblies:
             assembly.motor.stop()

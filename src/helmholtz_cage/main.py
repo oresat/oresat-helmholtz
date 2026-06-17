@@ -35,22 +35,25 @@ MOTOR_Z = MotorDriver(in1=board.GP10, in2=board.GP11, led=board.GP15)
 class CageState:
     def __init__(self):
         # Defaults are derived from previous runs. Don't rely on them.
-        self.slopes_and_intercepts = {
-            "x": {"slope": 1136, "intercept": -110},
-            "y": {"slope": 1091, "intercept": -10},
-            "z": {"slope": 952, "intercept": -5},
-        }
+        self.slopes_and_intercepts = [
+            {"name": "x", "slope": 1191, "intercept": -108},
+            {"name": "y", "slope": 1134, "intercept": -10},
+            {"name": "z", "slope": 984, "intercept": 209},
+        ]
 
     def print_slopes_and_intercepts(self):
         "CLI callback to print the current calibration values"
-        sys.stdout.write(f"{self.slopes_and_intercepts}\n")
+        s = ""
+        for val in self.slopes_and_intercepts:
+            s += f"{val['name']} - slope: {val['slope']} intercept: {val['intercept']}\r\n"
+        return s
 
 
-MOTOR_DRIVER_ASSEMBLIES = {
-    "x": MotorDriverAssembly(MOTOR_X, INA226_X),
-    "y": MotorDriverAssembly(MOTOR_Y, INA226_Y),
-    "z": MotorDriverAssembly(MOTOR_Z, INA226_Z),
-}
+MOTOR_DRIVER_ASSEMBLIES = [
+    MotorDriverAssembly(MOTOR_X, INA226_X),
+    MotorDriverAssembly(MOTOR_Y, INA226_Y),
+    MotorDriverAssembly(MOTOR_Z, INA226_Z),
+]
 LOGGER.info("Initialized motor driver assemblies")
 
 
