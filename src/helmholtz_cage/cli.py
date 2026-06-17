@@ -8,13 +8,8 @@ import sys
 
 from micropython import const
 
-import adafruit_logging as logging
-
 HISTORY_MAX_SIZE = const(40)
 STDIN_POLL_TIMEOUT_MS = const(100)
-
-LOGGER = logging.getLogger('Cli logger')
-LOGGER.setLevel(logging.INFO)
 
 
 class Symbol(str):  # noqa: SLOT000
