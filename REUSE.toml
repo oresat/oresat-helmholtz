@@ -1,0 +1,47 @@
+# See https://reuse.software for more info on this file
+version = 1
+
+# By default all files should be GPLv3, but
+[[annotations]]
+path = "**"
+SPDX-FileCopyrightText = "2026 Portland State Aerospace Society <aerospace@pdx.edu>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# the hardware files should be CERN OHL, and
+[[annotations]]
+path = [
+    "controller-v2/**",
+    "controller-v3/**",
+    "distribution-pcb/**",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Portland State Aerospace Society <aerospace@pdx.edu>"
+SPDX-License-Identifier = "CERN-OHL-S-2.0"
+
+# the Adafruit logging library is MIT, and
+[[annotations]]
+path = "src/adafruit_logging/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Dave Astels for Adafruit Industries"
+SPDX-License-Identifier = "MIT"
+
+# the ina226.py driver is MIT from Adafruit, Christian Becker, and modified by us, and
+[[annotations]]
+path = "src/helmholtz_cage/ina226.py"
+precedence = "aggregate"
+SPDX-FileCopyrightText = [
+    "2017 Dean Miller for Adafruit Industries",
+    "2020 Christian Becker",
+    "2026 Portland State Aerospace Society <aerospace@pdx.edu>",
+]
+SPDX-License-Identifier = "MIT"
+
+# the cobsr.py implementation is MIT from Craig McQueen and modified by us.
+[[annotations]]
+path = "src/helmholtz_cage/cobsr.py"
+precedence = "aggregate"
+SPDX-FileCopyrightText = [
+    "2010 Craig McQueen",
+    "2026 Portland State Aerospace Society <aerospace@pdx.edu>",
+]
+SPDX-License-Identifier = "MIT"
