@@ -1,0 +1,11 @@
+[project]
+dependencies = [
+  "pyserial",
+  "numpy",
+]
+
+[tool.ruff.lint]
+ignore = [
+  "TRY201"
+]
+
